@@ -187,6 +187,7 @@ QList<QString> Shortcuts::globalShortcuts()
 bool Shortcuts::isGlobalShortcutActive(const QString &AId)
 {
 #ifdef Q_OS_ANDROID
+	Q_UNUSED(AId)
 	return false;
 #else
 	QxtGlobalShortcut *shortcut = instance()->d->globalShortcutsId.key(AId);

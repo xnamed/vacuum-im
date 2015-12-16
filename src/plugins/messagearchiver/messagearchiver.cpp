@@ -31,10 +31,6 @@
 #define SESSIONS_FILE_NAME         "sessions.xml"
 #define ARCHIVE_REQUEST_TIMEOUT    30000
 
-#define SHC_MESSAGE_BODY           "/message/body"
-#define SHC_PREFS                  "/iq[@type='set']/pref[@xmlns="NS_ARCHIVE"]"
-#define SHC_PREFS_OLD              "/iq[@type='set']/pref[@xmlns="NS_ARCHIVE_OLD"]"
-
 #define ADR_STREAM_JID             Action::DR_StreamJid
 #define ADR_CONTACT_JID            Action::DR_Parametr1
 #define ADR_ITEM_SAVE              Action::DR_Parametr2
@@ -58,6 +54,10 @@
 #define NS_ARCHIVE_OLD_MANAGE      "http://www.xmpp.org/extensions/xep-0136.html#ns-manage"
 #define NS_ARCHIVE_OLD_MANUAL      "http://www.xmpp.org/extensions/xep-0136.html#ns-manual"
 #define NS_ARCHIVE_OLD_PREF        "http://www.xmpp.org/extensions/xep-0136.html#ns-pref"
+
+#define SHC_MESSAGE_BODY           "/message/body"
+#define SHC_PREFS                  "/iq[@type='set']/pref[@xmlns="NS_ARCHIVE"]"
+#define SHC_PREFS_OLD              "/iq[@type='set']/pref[@xmlns="NS_ARCHIVE_OLD"]"
 
 MessageArchiver::MessageArchiver()
 {
