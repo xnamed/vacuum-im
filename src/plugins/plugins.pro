@@ -133,15 +133,19 @@ SUBDIRS += boburlhandler
 SUBDIRS += clienticons
 SUBDIRS += emoji
 SUBDIRS += abbreviations
-contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): SUBDIRS += mmplayer
-contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jingle
-contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jinglertp
-contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jingletransporticeudp
-contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jingletransportrawudp
+!android {
+    contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): SUBDIRS += mmplayer
+    contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jingle
+    contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jinglertp
+    contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jingletransporticeudp
+    contains(QT_CONFIG, multimedia)|contains(QT_CONFIG, mobility):exists($(FFMPEGDIR)): CONFIG(debug, debug|release): SUBDIRS += jingletransportrawudp
+}
 SUBDIRS += streetview 
 SUBDIRS += streetviewprovidergoogle
-SUBDIRS += placeview 
-SUBDIRS += placeviewprovidergoogle 
+contains(QT_CONFIG, webkit) {
+    SUBDIRS += placeview
+    SUBDIRS += placeviewprovidergoogle
+}
 CONFIG(debug, debug|release): SUBDIRS += weather
 CONFIG(debug, debug|release): SUBDIRS += weatherprovideropenweather
 SUBDIRS += wizardaccount

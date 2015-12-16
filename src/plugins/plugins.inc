@@ -16,8 +16,10 @@ win32|os2 {
 unix:DESTDIR        = ../../../plugins
 
 #Install
+!android {
 target.path         = $$INSTALL_PLUGINS
 INSTALLS           += target
+}
 
 #Translation
 TRANS_BUILD_ROOT   = $${OUT_PWD}/../../..

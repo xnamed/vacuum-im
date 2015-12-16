@@ -40,7 +40,7 @@
         #endif
 
  // OS/2 (eComStation) do not support 64 bit file API
-	#ifdef __OS2__
+	#if defined(__OS2__)|defined(__ANDROID__)
 		#define USE_FILE32API
 	#endif
 

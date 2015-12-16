@@ -1,7 +1,7 @@
 include(../../make/config.inc)
 
 TARGET     = idn
-TEMPLATE   = lib
+TEMPLATE = lib
 CONFIG    -= qt
 CONFIG    += staticlib warn_off
 DESTDIR    = ../../libs 

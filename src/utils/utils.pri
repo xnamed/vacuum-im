@@ -74,7 +74,7 @@ SOURCES  = jid.cpp \
            volumecontrol.cpp \
 		   microtime.cpp
 
-greaterThan(QT_MAJOR_VERSION, 4):unix:!mac:!haiku {
+greaterThan(QT_MAJOR_VERSION, 4):unix:!mac:!haiku:!android {
 HEADERS += x11info.h
 SOURCES += x11info.cpp
 }

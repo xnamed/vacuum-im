@@ -5,7 +5,9 @@
 #include <QVariant>
 #include <QApplication>
 #include <QDesktopWidget>
+#ifndef Q_OS_ANDROID
 #include <thirdparty/qxtglobalshortcut/qxtglobalshortcut.h>
+#endif
 
 QKeySequence correctKeySequence(const QKeySequence &AKey)
 {
@@ -184,12 +186,17 @@ QList<QString> Shortcuts::globalShortcuts()
 
 bool Shortcuts::isGlobalShortcutActive(const QString &AId)
 {
+#ifdef Q_OS_ANDROID
+	return false;
+#else
 	QxtGlobalShortcut *shortcut = instance()->d->globalShortcutsId.key(AId);
 	return shortcut!=NULL ? shortcut->isEnabled() : false;
+#endif
 }
 
 void Shortcuts::setGlobalShortcut(const QString &AId, bool AEnabled)
 {
+#ifndef Q_OS_ANDROID
 	ShortcutsData *q = instance()->d;
 	QxtGlobalShortcut *shortcut = q->globalShortcutsId.key(AId);
 	if (AEnabled && shortcut==NULL)
@@ -206,6 +213,7 @@ void Shortcuts::setGlobalShortcut(const QString &AId, bool AEnabled)
 		delete shortcut;
 		emit instance()->shortcutEnabled(AId, AEnabled);
 	}
+#endif
 }
 
 void Shortcuts::activateShortcut(const QString &AId, QWidget *AWidget)
@@ -252,6 +260,7 @@ void Shortcuts::updateWidget(QShortcut *AShortcut)
 
 void Shortcuts::updateGlobal(QxtGlobalShortcut *AShortcut)
 {
+#ifndef Q_OS_ANDROID
 	Descriptor descriptor = instance()->d->shortcuts.value(instance()->d->globalShortcutsId.value(AShortcut));
 	if (!descriptor.activeKey.isEmpty())
 	{
@@ -263,6 +272,9 @@ void Shortcuts::updateGlobal(QxtGlobalShortcut *AShortcut)
 		AShortcut->setShortcut(QKeySequence());
 		AShortcut->setEnabled(false);
 	}
+#else
+	Q_UNUSED(AShortcut)
+#endif
 }
 
 Qt::ShortcutContext Shortcuts::convertContext(Context AContext)
@@ -294,9 +306,11 @@ void Shortcuts::onShortcutActivated()
 
 void Shortcuts::onGlobalShortcutActivated()
 {
+#ifndef Q_OS_ANDROID
 	QxtGlobalShortcut *shortcut = qobject_cast<QxtGlobalShortcut *>(sender());
 	if (shortcut)
 		emit instance()->shortcutActivated(d->globalShortcutsId.value(shortcut),NULL);
+#endif
 }
 
 void Shortcuts::onWidgetDestroyed(QObject *AObject)

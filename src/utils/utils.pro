@@ -21,10 +21,11 @@ win32|os2 {
 }
 
 LIBS              += -L../libs
-LIBS              += -lqxtglobalshortcut -lidle -lidn -lminizip -lzlib
+LIBS              += -lidle -lidn -lminizip -lzlib
+!android: LIBS    += -lqxtglobalshortcut
 macx {
   QMAKE_LFLAGS    += -framework Carbon -framework IOKit -framework Cocoa
-} else:unix:!haiku {
+} else:unix:!haiku:!android {
   LIBS            += -lXss
   CONFIG          += x11
 } else:win32 {
@@ -36,7 +37,7 @@ macx {
 include(utils.pri)
 
 #Install (for MacOS in loader.pro because instalation directory will be removed in loader installer)
-!macx:{
+!macx:!android {
   target.path      = $$INSTALL_LIBS
   INSTALLS        += target
 

@@ -10,9 +10,8 @@ DEPENDPATH        += ..
 INCLUDEPATH       += ..
 DESTDIR            = ../..
 
-unix:!macx: MAYBE_QUOTE=
-else: MAYBE_QUOTE=\\\"
-
+equals(QMAKE_HOST.os, Windows)|equals(QMAKE_HOST.os, os2): MAYBE_QUOTE=\\\"
+else: MAYBE_QUOTE=
 DEFINES           += EXTRA_TRANSLATORS=\"$${MAYBE_QUOTE}$$EYECU_LOADER_NAME;$$EYECU_UTILS_NAME;qtgeo;$${MAYBE_QUOTE}\"
 
 include(loader.pri)
@@ -49,12 +48,14 @@ GIT_DATE = $$find(GIT_DATE,^\\d*)
 }
 
 #Install
+!android {
 target.path        = $$INSTALL_BINS
 resources.path     = $$INSTALL_RESOURCES
 resources.files    = ../../resources/*
 documents.path     = $$INSTALL_DOCUMENTS
 documents.files    = ../../AUTHORS ../../CHANGELOG ../../README ../../COPYING ../../TRANSLATORS
 INSTALLS           += target resources documents
+}
 
 #Translation
 TRANS_BUILD_ROOT   = $${OUT_PWD}/../..
@@ -62,7 +63,7 @@ TRANS_SOURCE_ROOT  = ..
 include(../translations/languages.inc)
 
 #Linux desktop install
-unix:!macx {
+unix:!macx:!android {
   icons.path       = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/pixmaps
   icons.files      = ../../resources/menuicons/shared/eyecu.png
   INSTALLS        += icons
