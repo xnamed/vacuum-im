@@ -23,6 +23,7 @@ win32|os2 {
 LIBS              += -L../libs
 LIBS              += -lidle -lidn -lminizip -lzlib
 !android: LIBS    += -lqxtglobalshortcut
+
 macx {
   QMAKE_LFLAGS    += -framework Carbon -framework IOKit -framework Cocoa
 } else:unix:!haiku:!android {

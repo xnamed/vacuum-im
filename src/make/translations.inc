@@ -43,5 +43,5 @@ for(LANG, TRANS_LANGS) {
    !exists($${INST_FILE}): eval(qm_$${TRANS_TARGET}_inst_$${LANG}.extra = "-$(INSTALL_FILE)" \\\"$${INST_FILE}\\\" \\\"$(INSTALL_ROOT)$${INST_DIR}\\\")
 
   INSTALLS += qm_$${TRANS_TARGET}_inst_$${LANG}
-}
+  }
 }

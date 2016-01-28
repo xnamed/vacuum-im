@@ -20,7 +20,8 @@ isEmpty(INSTALL_PREFIX) {
   win32:INSTALL_PREFIX   = "c:"
   os2:	INSTALL_PREFIX   = "c:"
   symbian: INSTALL_PREFIX  = "c:"
-  unix:!symbian: INSTALL_PREFIX   = /usr/local
+  unix:!symbian:!android: INSTALL_PREFIX   = /usr/local
+  android:armeabi-v7a: INSTALL_PREFIX   = /lib
   macx: INSTALL_PREFIX   = /Applications
   haiku:INSTALL_PREFIX   = /boot/apps
 }
@@ -28,7 +29,8 @@ isEmpty(INSTALL_PREFIX) {
 isEmpty(INSTALL_APP_DIR) {
   os2:		INSTALL_APP_DIR  = eyecu
   win32:	INSTALL_APP_DIR  = eyecu  
-  unix:		INSTALL_APP_DIR  = eyecu
+  unix:!android: INSTALL_APP_DIR  = eyecu
+  android:	INSTALL_APP_DIR  = eyecu
   macx:		INSTALL_APP_DIR  = eyecu.app
   symbian:	INSTALL_APP_DIR  = /private/0xe3837d66
   haiku:	INSTALL_APP_DIR  = eyeCU
@@ -37,7 +39,8 @@ isEmpty(INSTALL_APP_DIR) {
 isEmpty(INSTALL_LIB_DIR) {
   os2:		INSTALL_LIB_DIR  =
   win32:	INSTALL_LIB_DIR  = .
-  unix:		INSTALL_LIB_DIR  = lib
+  unix:!android: INSTALL_LIB_DIR  = lib
+  android:      INSTALL_LIB_DIR  = lib
   macx:		INSTALL_LIB_DIR  = Frameworks
   symbian:	INSTALL_LIB_DIR  =
   haiku:	INSTALL_LIB_DIR  = .
@@ -46,7 +49,8 @@ isEmpty(INSTALL_LIB_DIR) {
 isEmpty(INSTALL_RES_DIR) {
   os2:		INSTALL_RES_DIR  =
   win32:	INSTALL_RES_DIR  = .
-  unix:		INSTALL_RES_DIR  = share
+  unix:!android: INSTALL_RES_DIR  = share
+  android:	INSTALL_RES_DIR  = /assets
   macx:		INSTALL_RES_DIR  = Resources
   symbian:	INSTALL_RES_DIR  = resource/eyeCU
   haiku:	INSTALL_RES_DIR  = .
@@ -55,7 +59,8 @@ isEmpty(INSTALL_RES_DIR) {
 isEmpty(INSTALL_SDK_DIR) {
   os2:  INSTALL_SDK_DIR  = sdk
   win32:INSTALL_SDK_DIR  = sdk
-  unix: INSTALL_SDK_DIR  = include
+  unix:!android: INSTALL_SDK_DIR  = include
+  android: INSTALL_SDK_DIR  = include
   macx: INSTALL_SDK_DIR  = include
   haiku:INSTALL_SDK_DIR  = sdk
 }
@@ -86,9 +91,13 @@ isEmpty(INSTALL_SDK_DIR) {
   DEFINES               += PLUGINS_DIR='\\\"$${INSTALL_LIB_DIR}plugins\\\"'
   DEFINES               += RESOURCES_DIR='\\\"$${INSTALL_PREFIX}/$${INSTALL_RES_DIR}/resources\\\"'
   DEFINES               += TRANSLATIONS_DIR='\\\"$${INSTALL_PREFIX}/$${INSTALL_RES_DIR}/translations\\\"'
-} else:unix {
+} else:unix:!android {
   DEFINES               += PLUGINS_DIR='\\\"../$${INSTALL_LIB_DIR}/$${INSTALL_APP_DIR}/plugins\\\"'
   DEFINES               += RESOURCES_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/resources\\\"'
+  DEFINES               += TRANSLATIONS_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/translations\\\"'
+} else:android {
+  DEFINES               += PLUGINS_DIR='\\\"\\\"'
+  DEFINES               += RESOURCES_DIR='\\\"assets:/resources\\\"'
   DEFINES               += TRANSLATIONS_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/translations\\\"'
 }
 
@@ -118,7 +127,7 @@ win32|os2 {
   INSTALL_RESOURCES      = $$INSTALL_PREFIX/$$INSTALL_APP_DIR/Contents/$$INSTALL_RES_DIR
   INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_APP_DIR/Contents/$$INSTALL_RES_DIR
   INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_APP_DIR/Contents/$$INSTALL_RES_DIR/translations
-} else:unix {
+} else:unix:!android {
   INSTALL_BINS           = $$INSTALL_PREFIX/bin
   INSTALL_LIBS           = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR
   INSTALL_INCLUDES       = $$INSTALL_PREFIX/$$INSTALL_SDK_DIR/$$INSTALL_APP_DIR
@@ -126,4 +135,15 @@ win32|os2 {
   INSTALL_RESOURCES      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/resources
   INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc/$$INSTALL_APP_DIR
   INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations
+} else:android { ################  ?????  ######################
+  INSTALL_BINS           = $$INSTALL_PREFIX/armeabi-v7a
+  INSTALL_LIBS           = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR                           #/lib/lib
+  INSTALL_INCLUDES       = $$INSTALL_PREFIX/$$INSTALL_SDK_DIR/$$INSTALL_APP_DIR         #/lib/include/eyecu
+  INSTALL_PLUGINS        = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR/$$INSTALL_APP_DIR         #/lib/lib/eyecu
+  INSTALL_RESOURCES      = $$INSTALL_RES_DIR/resources                              #/assets/resources
+  INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc/$$INSTALL_APP_DIR     #/lib/assets/doc/eyecu
+  INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations
 }
+
+#You will find the application folder at: /data/data/"your package name" # for android
+#The APK itself is placed in the /data/app/ folder.

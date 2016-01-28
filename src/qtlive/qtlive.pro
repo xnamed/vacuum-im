@@ -30,7 +30,7 @@ win32: LIBS       += -lws2_32
 
 macx {
   QMAKE_LFLAGS    += -framework Carbon -framework IOKit -framework Cocoa
-} else:unix:!haiku {
+} else:unix:!haiku!:android {
   LIBS            += -lXss
   CONFIG          += x11
 } else:win32 {

@@ -1,4 +1,5 @@
 include(../make/config.inc)
+
 TARGET             = $$EYECU_LOADER_NAME
 TEMPLATE           = app
 QT                += xml svg
@@ -6,25 +7,29 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 LIBS              += -L../libs
 LIBS              += -l$$EYECU_UTILS_NAME
+
 DEPENDPATH        += ..
 INCLUDEPATH       += ..
 DESTDIR            = ../..
 
 equals(QMAKE_HOST.os, Windows)|equals(QMAKE_HOST.os, os2): MAYBE_QUOTE=\\\"
 else: MAYBE_QUOTE=
-DEFINES           += EXTRA_TRANSLATORS=\"$${MAYBE_QUOTE}$$EYECU_LOADER_NAME;$$EYECU_UTILS_NAME;qtgeo;$${MAYBE_QUOTE}\"
+
+DEFINES  += EXTRA_TRANSLATORS=\"$${MAYBE_QUOTE}$$EYECU_LOADER_NAME;$$EYECU_UTILS_NAME;qtgeo;$${MAYBE_QUOTE}\"
 
 include(loader.pri)
 #Appication icon
 win32:RC_FILE      = loader.rc
 os2:  RC_FILE      = loader2.rc
 
+#symbian
 symbian {
     TARGET.UID3 = 0xe3837d66
     # TARGET.CAPABILITY +=
     TARGET.EPOCSTACKSIZE = 0x14000
     TARGET.EPOCHEAPSIZE = 0x020000 0x800000
 }
+
 
 #GIT Info
 GIT_HASH = $$system(git log -n 1 --format=%H)
@@ -47,27 +52,26 @@ GIT_DATE = $$find(GIT_DATE,^\\d*)
   }
 }
 
+
 #Install
-!android {
-target.path        = $$INSTALL_BINS
-resources.path     = $$INSTALL_RESOURCES
-resources.files    = ../../resources/*
-documents.path     = $$INSTALL_DOCUMENTS
-documents.files    = ../../AUTHORS ../../CHANGELOG ../../README ../../COPYING ../../TRANSLATORS
-INSTALLS           += target resources documents
-}
+target.path = $$INSTALL_BINS #/lib/armeabi-v7a
+resources.path = $$INSTALL_RESOURCES #/assets/resources
+resources.files = ../../resources/*
+documents.path = $$INSTALL_DOCUMENTS
+documents.files = ../../AUTHORS ../../CHANGELOG ../../README ../../COPYING ../../TRANSLATORS
+INSTALLS += target resources documents
 
 #Translation
 TRANS_BUILD_ROOT   = $${OUT_PWD}/../..
 TRANS_SOURCE_ROOT  = ..
 include(../translations/languages.inc)
 
+
 #Linux desktop install
 unix:!macx:!android {
   icons.path       = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/pixmaps
   icons.files      = ../../resources/menuicons/shared/eyecu.png
   INSTALLS        += icons
-
   desktop.path     = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/applications
   desktop.files    = ../../src/packages/linux/*.desktop
   INSTALLS        += desktop
@@ -103,3 +107,39 @@ macx {
   en_lproj.files    = ../packages/macosx/InfoPlist.strings
   INSTALLS         += en_lproj
 }
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    ANDROID_EXTRA_LIBS = \
+    C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Multimedia.so \
+    C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Network.so \
+    C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Script.so \
+    C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Sql.so \
+    C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Util.so \
+    C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Geo.so \
+    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/sqldrivers/libqsqlite.so
+
+#### compiler add automat   ############
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/platforms/android/libqtforandroid.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/iconengines/libqsvgicon.so
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqdds.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqgif.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqicns.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqico.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqjp2.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqjpeg.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqmng.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqsvg.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqtga.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqtiff.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqwbmp.so \
+#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqwebp.so
+
+}
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml \
+    android/build.gradle
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
