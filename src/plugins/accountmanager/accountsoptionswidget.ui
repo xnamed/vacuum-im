@@ -11,7 +11,16 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -36,9 +45,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="lblHideShowInactive">
+      <widget class="QLabel" name="lblAddAccount">
        <property name="text">
-        <string notr="true">Hide/Show inactive accounts</string>
+        <string notr="true">Add Account...</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
@@ -59,9 +68,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="lblAddAccount">
+      <widget class="QLabel" name="lblHideShowInactive">
        <property name="text">
-        <string notr="true">Add Account...</string>
+        <string notr="true">Hide/Show inactive accounts</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>

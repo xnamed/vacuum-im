@@ -28,7 +28,7 @@ QMAKE_EXTRA_TARGETS  += qm_build_all
 POST_TARGETDEPS += $${qm_build_all.target}
 
 #Install Translations
-!android {
+#!android {
 for(LANG, TRANS_LANGS) {
    INST_DIR  = $${INSTALL_TRANSLATIONS}
    win32|os2: INST_DIR = $$replace(INST_DIR, /, \\\\)
@@ -44,4 +44,4 @@ for(LANG, TRANS_LANGS) {
 
   INSTALLS += qm_$${TRANS_TARGET}_inst_$${LANG}
   }
-}
+#}

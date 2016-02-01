@@ -17,9 +17,7 @@ int main(int argc, char *argv[])
 	app.setApplicationName("eyeCU");
 	QLibrary utils(app.applicationDirPath()+"/utils",&app);
 	utils.load();
-
 	PluginManager pm(&app);
 	pm.restart();
-
 	return app.exec();
 }

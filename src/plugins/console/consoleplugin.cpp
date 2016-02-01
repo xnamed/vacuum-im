@@ -59,7 +59,7 @@ bool ConsolePlugin::initObjects()
 		action->setIcon(RSR_STORAGE_MENUICONS,MNI_CONSOLE);
 		connect(action,SIGNAL(triggered(bool)),SLOT(onShowXMLConsole(bool)));
 		FMainWindowPlugin->mainWindow()->mainMenu()->addAction(action,AG_MMENU_CONSOLE,true);
-	}
+    }
 	return true;
 }
 

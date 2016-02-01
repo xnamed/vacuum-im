@@ -91,8 +91,13 @@
 #define MNI_MAINWINDOW_LOGO96           "mainwindowLogo96"
 #define MNI_MAINWINDOW_LOGO128          "mainwindowLogo128"
 #define MNI_MAINWINDOW_QUIT             "mainwindowQuit"
-#define MNI_MAINWINDOW_MENU             "mainwindowMenu"
 // <<< eyeCU <<<
+#if defined(Q_OS_ANDROID)
+#define MNI_MAINWINDOW_MENU             "mainwindowMenuAn"
+#else
+#define MNI_MAINWINDOW_MENU             "mainwindowMenu"
+#endif
+#define MNI_MAINWINDOW_MENU_RIGHT       "mainwindowMenuRight"
 #define MNI_MAINWINDOW_LOGO20           "mainwindowLogo20"
 #define MNI_MAINWINDOW_LOGO40           "mainwindowLogo40"
 #define MNI_MAINWINDOW_SHOW_ROSTER      "mainwindowShowRoster"

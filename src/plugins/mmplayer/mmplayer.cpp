@@ -80,7 +80,13 @@ bool MmPlayer::initObjects()
 		FAction->setCheckable(true);
 		FAction->setShortcutId(SCT_MMPLAYER_SHOW);
 		connect(FAction,SIGNAL(triggered(bool)),SLOT(onStartPlayer(bool)));
+
+#if defined(Q_OS_ANDROID)
+        FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FAction,AG_MMENU_RI_MMPLAYER,true);
+#else
 		FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FAction, TBG_MWTTB_MMPLAYER);
+#endif
+
 	}
     return true;
 }

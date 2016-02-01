@@ -98,7 +98,9 @@ isEmpty(INSTALL_SDK_DIR) {
 } else:android {
   DEFINES               += PLUGINS_DIR='\\\"\\\"'
   DEFINES               += RESOURCES_DIR='\\\"assets:/resources\\\"'
-  DEFINES               += TRANSLATIONS_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/translations\\\"'
+  DEFINES               += TRANSLATIONS_DIR='\\\"assets:/translations\\\"'
+#  DEFINES               += TRANSLATIONS_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/translations\\\"'
+
 }
 
 
@@ -140,9 +142,10 @@ win32|os2 {
   INSTALL_LIBS           = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR                           #/lib/lib
   INSTALL_INCLUDES       = $$INSTALL_PREFIX/$$INSTALL_SDK_DIR/$$INSTALL_APP_DIR         #/lib/include/eyecu
   INSTALL_PLUGINS        = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR/$$INSTALL_APP_DIR         #/lib/lib/eyecu
-  INSTALL_RESOURCES      = $$INSTALL_RES_DIR/resources                              #/assets/resources
-  INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc/$$INSTALL_APP_DIR     #/lib/assets/doc/eyecu
-  INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations
+  INSTALL_RESOURCES      = $$INSTALL_RES_DIR/resources                                  #/assets/resources
+  INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc                       #/assets/doc
+  INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/translations              #/assets/translations
+# INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations #OLD
 }
 
 #You will find the application folder at: /data/data/"your package name" # for android

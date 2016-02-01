@@ -117,23 +117,6 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Util.so \
     C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Geo.so \
     C:/QT/Qt5.5.0/5.5/android_armv7/plugins/sqldrivers/libqsqlite.so
-
-#### compiler add automat   ############
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/platforms/android/libqtforandroid.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/iconengines/libqsvgicon.so
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqdds.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqgif.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqicns.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqico.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqjp2.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqjpeg.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqmng.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqsvg.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqtga.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqtiff.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqwbmp.so \
-#    C:/QT/Qt5.5.0/5.5/android_armv7/plugins/imageformats/libqwebp.so
-
 }
 
 DISTFILES += \

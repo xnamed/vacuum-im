@@ -156,6 +156,7 @@ bool Notifications::initObjects()
 
 	FSoundOnOff = new Action(this);
 	FSoundOnOff->setToolTip(tr("Enable/Disable notifications sound"));
+    FSoundOnOff->setText(tr("Notifications sound"));
 	FSoundOnOff->setIcon(RSR_STORAGE_MENUICONS, MNI_NOTIFICATIONS_SOUND_ON);
 	FSoundOnOff->setShortcutId(SCT_GLOBAL_TOGGLESOUND);
 	connect(FSoundOnOff,SIGNAL(triggered(bool)),SLOT(onSoundOnOffActionTriggered(bool)));
@@ -186,9 +187,14 @@ bool Notifications::initObjects()
 
 	if (FMainWindowPlugin)
 	{
+// *** <<< eyeCU <<< ***
+#if defined(Q_OS_ANDROID)
+        FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FSoundOnOff,AG_MMENU_RI_SOUND,true);
+#else
 		FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FSoundOnOff,TBG_MWTTB_NOTIFICATIONS_SOUND);
+#endif
+// *** >>> eyeCU >>> ***
 	}
-
 	FNetworkAccessManager = FUrlProcessor!=NULL ? FUrlProcessor->networkAccessManager() : new QNetworkAccessManager(this);
 	
 	NotifyWidget::setNetworkManager(FNetworkAccessManager);

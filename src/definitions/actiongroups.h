@@ -14,6 +14,17 @@
 #define AG_MMENU_PLUGINMANAGER_SETUP                            500
 #define AG_MMENU_PLUGINMANAGER_ABOUT                            900
 #define AG_MMENU_MAINWINDOW                                     1000
+// <<< eyeCU <<<
+//MainWindow  - MainMenuRight
+#define AG_MMENU_RI_ROSTERSEARCH                                500
+#define AG_MMENU_RI_MAPS                                        550
+#define AG_MMENU_RI_MAPS_MENU                                   550
+#define AG_MMENU_RI_POI                                         600
+#define AG_MMENU_RI_POI_LIST                                    600
+#define AG_MMENU_RI_MMPLAYER                                    650
+#define AG_MMENU_RI_ACTIVE                                      700
+#define AG_MMENU_RI_SOUND                                       700
+// >>> eyeCU >>>
 
 //MessageWidgets - InfoWidgetAddressMenu
 #define AG_MWIWAM_CHATMHANDLER_ADDRESSES                        500

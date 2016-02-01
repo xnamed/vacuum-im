@@ -32,6 +32,7 @@ RosterSearch::RosterSearch()
 	FEnableAction = new Action(this);
 	FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
 	FEnableAction->setToolTip(tr("Show search toolbar"));
+    FEnableAction->setText(tr("Show search toolbar"));
 	FEnableAction->setCheckable(true);
 	FEnableAction->setChecked(false);
 	connect(FEnableAction,SIGNAL(triggered(bool)),SLOT(onEnableActionTriggered(bool)));
@@ -99,8 +100,14 @@ bool RosterSearch::initObjects()
 {
 	if (FMainWindow)
 	{
-		FMainWindow->topToolBarChanger()->insertAction(FEnableAction,TBG_MWTTB_ROSTERSEARCH);
-		FMainWindow->insertToolBarChanger(MWW_SEARCH_TOOLBAR,FSearchToolBarChanger);
+// *** <<< eyeCU <<< ***
+#if defined(Q_OS_ANDROID)
+        FMainWindow->mainMenuRight()->addAction(FEnableAction,AG_MMENU_RI_ROSTERSEARCH,true);
+#else
+        FMainWindow->topToolBarChanger()->insertAction(FEnableAction,TBG_MWTTB_ROSTERSEARCH);
+#endif
+// *** >>> eyeCU >>> ***
+        FMainWindow->insertToolBarChanger(MWW_SEARCH_TOOLBAR,FSearchToolBarChanger);
 	}
 
 	if (FRostersViewPlugin)

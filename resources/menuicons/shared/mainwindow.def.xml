@@ -45,6 +45,14 @@
     <object mime="image/png">mainwindowmenu.png</object>
   </icon>
   <icon>
+    <key>mainwindowMenuAn</key>
+    <object mime="image/png">mainwindowmenuAn.png</object>
+  </icon>
+   <icon>
+    <key>mainwindowMenuRight</key>
+    <object mime="image/png">mainwindowmenuright.png</object>
+  </icon>
+  <icon>
     <key>mainwindowShowRoster</key>
     <object mime="image/png">mainwindowshowroster.png</object>
   </icon>

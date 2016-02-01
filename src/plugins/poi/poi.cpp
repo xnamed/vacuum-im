@@ -695,37 +695,48 @@ bool Poi::initObjects()
     if (FMapMessage)
         FMapMessage->insertUrlHandler(MVUHO_POI, this);
 
-    if (FMainWindowPlugin)
-    {
-        FMenuToolbar = new Menu();
-        FMenuToolbar->setTitle(tr("POI"));
+
+	if (FMainWindowPlugin)
+	{
+		FMenuToolbar = new Menu();
+		FMenuToolbar->setTitle(tr("POI"));
 		FMenuToolbar->setIcon(RSR_STORAGE_MENUICONS, MNI_POI_TLB);
-        FMenuToolbar->menuAction()->setEnabled(true);
+		FMenuToolbar->menuAction()->setEnabled(true);
 
-        IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
-        mainWindow ->topToolBarChanger()    // Get toolbar changer
-                   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_POI) // Add action as a button
-                   ->setPopupMode(QToolButton::InstantPopup);
+#if defined(Q_OS_WIN)
+		IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
+		mainWindow ->topToolBarChanger()									 // Get toolbar changer
+				   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_POI) // Add action as a button
+				   ->setPopupMode(QToolButton::InstantPopup);
+#endif
 
-        Action *action = new Action();
-        action->setText(tr("POI list"));
+		Action *action = new Action();
+		action->setText(tr("POI list"));
 		action->setIcon(RSR_STORAGE_MENUICONS, MNI_POI_VIEW);
-        action->setShortcutId(SCT_POI_LIST);
-        connect(action, SIGNAL(triggered(bool)), SLOT(onPoiList(bool)));
+		action->setShortcutId(SCT_POI_LIST);
+		connect(action, SIGNAL(triggered(bool)), SLOT(onPoiList(bool)));
 
-        FMenuToolbar->addAction(action, AG_POI_MENU_COMMON, false);
-        FMenuToolbar->addSeparator();
+#if defined(Q_OS_ANDROID)
+		FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(action,AG_MMENU_RI_POI_LIST,true);
+#endif
 
-        action = new Action();
-        action->setCheckable(true);
-        action->setText(tr("Show POI"));
+		FMenuToolbar->addAction(action, AG_POI_MENU_COMMON, false);
+		FMenuToolbar->addSeparator();
+
+		action = new Action();
+		action->setCheckable(true);
+		action->setText(tr("Show POI"));
 		action->setIcon(RSR_STORAGE_MENUICONS, MNI_POI);
-        action->setData(Action::DR_UserDefined, MNO_SHOW_POI);
-        action->setShortcutId(SCT_POI_VIEW);
+		action->setData(Action::DR_UserDefined, MNO_SHOW_POI);
+		action->setShortcutId(SCT_POI_VIEW);
 		connect(action, SIGNAL(triggered()), SLOT(onPoiShow()));
 
-        FMenuToolbar->addAction(action, AG_POI_MENU_COMMON, false);
-    }
+#if defined(Q_OS_ANDROID)
+		FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(action,AG_MMENU_RI_POI,true);
+#endif
+
+		FMenuToolbar->addAction(action, AG_POI_MENU_COMMON, false);
+	}
 
     if (FRostersViewPlugin)
         Shortcuts::insertWidgetShortcut(SCT_POI_LISTACCOUNT, FRostersViewPlugin->rostersView()->instance());

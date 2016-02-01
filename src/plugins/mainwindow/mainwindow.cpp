@@ -4,6 +4,7 @@
 #include <QResizeEvent>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QLabel>
 #include <definitions/version.h>
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
@@ -11,6 +12,7 @@
 #include <definitions/mainwindowwidgets.h>
 #include <utils/widgetmanager.h>
 #include <utils/options.h>
+#include <definitions/toolbargroups.h>		// *** <<< eyeCU >>> ***
 
 #define ONE_WINDOW_MODE_OPTIONS_NS "one-window-mode"
 
@@ -83,8 +85,22 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
 	FMainMenu = new Menu(this);
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
-	QToolButton *button = topToolBarChanger()->insertAction(FMainMenu->menuAction()); // *** <<< eyeCU >>> ***
+    FMainMenu->setTitle(tr("Main menu"));                                               // *** <<< eyeCU >>> ***
+	QToolButton *button =
+		topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);	// *** <<< eyeCU >>> ***
 	button->setPopupMode(QToolButton::InstantPopup);
+
+// *** <<< eyeCU <<< ***
+#if defined(Q_OS_ANDROID)
+    FMainMenuRight = new Menu(this);
+    FMainMenuRight->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU_RIGHT);
+    FMainMenuRight->setTitle(tr("Right menu"));
+	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
+    button->setPopupMode(QToolButton::InstantPopup);
+	QLabel *title = new QLabel("<b>  eyeCU</b>");
+	topToolBarChanger()->insertWidget(title,TBG_MWTTB_TITLE);
+#endif
+// *** >>> eyeCU >>>***
 
 	FMainMenuBar = new MenuBarChanger(new QMenuBar());
 	setMenuBar(FMainMenuBar->menuBar());
@@ -132,6 +148,12 @@ Menu *MainWindow::mainMenu() const
 	return FMainMenu;
 }
 
+// *** <<< eyeCU <<< ***
+Menu *MainWindow::mainMenuRight() const
+{
+    return FMainMenuRight;
+}
+// *** >>> eyeCU >>>***
 MenuBarChanger *MainWindow::mainMenuBar() const
 {
 	return FMainMenuBar;

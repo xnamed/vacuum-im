@@ -9,7 +9,16 @@
 #define TBG_MWTTB_ROSTERSVIEW                                   10200
 #define TBG_MWTTB_NOTIFICATIONS_SOUND                           10500
 // *** <<< eyeCU <<< ***
+#define TBG_MWTTB_MAINMENU                                      100
+#define TBG_MWTTB_TITLE                                         2000
+#define TBG_MWTTB_RIGHTMENU                                     15000
+
+#if defined(Q_OS_ANDROID)
+#define TBG_MWTTB_MAPS                                          14000
+#else
 #define TBG_MWTTB_MAPS                                          1100
+#endif
+
 #define TBG_MWTTB_POI                                           1700
 #define TBG_MWTTB_MMPLAYER                                      1800
 // *** >>> eyeCU >>> ***

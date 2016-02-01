@@ -141,13 +141,12 @@ bool Map::initObjects()
 	FMenuMap->menuAction()->setEnabled(true);
 
 	FMenuToolbar = new Menu;
-	FMenuToolbar->setTitle(tr("Map"));
+    FMenuToolbar->setTitle(tr("Map menu"));
 	FMenuToolbar->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
 	FMenuToolbar->menuAction()->setEnabled(true);
 	FMenuToolbar->menuAction()->setCheckable(true);
 
 	FMenuObject = new Menu;
-
 	FMapForm = new MapForm(this, createScene(this, this));
 	Shortcuts::insertWidgetShortcut(SCT_MAP_ZOOM_IN, FMapForm);
 	Shortcuts::insertWidgetShortcut(SCT_MAP_ZOOM_OUT, FMapForm);
@@ -155,10 +154,10 @@ bool Map::initObjects()
 
 	FMainWindow = FMainWindowPlugin->mainWindow();
 
-	QToolButton *action = FMainWindow ->topToolBarChanger()    // Get toolbar changer
-			   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_MAPS); // Add action as a button
+    QToolButton *action = FMainWindow ->topToolBarChanger()    // Get toolbar changer
+               ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_MAPS); // Add action as a button
+    action->setPopupMode(QToolButton::MenuButtonPopup);
 
-	action->setPopupMode(QToolButton::MenuButtonPopup);
 	FMenuToolbar->menuAction()->setShortcutId(SCT_MAP_SHOW);
 	connect(FMenuToolbar->menuAction(), SIGNAL(toggled(bool)), SLOT(showMap(bool)));
 	fillMenu();

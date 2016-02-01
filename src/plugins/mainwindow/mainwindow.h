@@ -22,6 +22,7 @@ public:
 	virtual void closeWindow();
 	// Menu Management
 	virtual Menu *mainMenu() const;
+	virtual Menu *mainMenuRight() const;		// <<< eyeCU <<<
 	virtual MenuBarChanger *mainMenuBar() const;
 	// Widgets Management
 	virtual BoxWidget *mainLeftWidget() const;
@@ -62,6 +63,7 @@ private:
 	IMainCentralWidget *FCentralWidget;
 private:
 	Menu *FMainMenu;
+	Menu *FMainMenuRight;		// *** <<< eyeCU <<< ***
 	QSplitter *FSplitter;
 	BoxWidget *FLeftWidget;
 	MenuBarChanger *FMainMenuBar;

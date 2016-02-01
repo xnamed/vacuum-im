@@ -79,6 +79,7 @@ public:
 	virtual void closeWindow() =0;
 	// Menu Management
 	virtual Menu *mainMenu() const =0;
+        virtual Menu *mainMenuRight() const =0;     // <<< eyeCU <<<
 	virtual MenuBarChanger *mainMenuBar() const =0;
 	// Widgets Management
 	virtual BoxWidget *mainLeftWidget() const =0;

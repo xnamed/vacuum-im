@@ -38,7 +38,7 @@ macx {
 include(utils.pri)
 
 #Install (for MacOS in loader.pro because instalation directory will be removed in loader installer)
-!macx:!android {
+!macx: { #!android
   target.path      = $$INSTALL_LIBS
   INSTALLS        += target
 

@@ -1,5 +1,5 @@
 #include "pluginmanager.h"
-
+#include <QDebug>	//-------------------------
 #include <QTimer>
 #include <QStack>
 #include <QThread>
@@ -89,7 +89,6 @@ PluginManager::PluginManager(QApplication *AParent) : QObject(AParent)
 
 	FShutdownTimer.setSingleShot(true);
 	connect(&FShutdownTimer,SIGNAL(timeout()),SLOT(onShutdownTimerTimeout()));
-
 	connect(AParent,SIGNAL(aboutToQuit()),SLOT(onApplicationAboutToQuit()));
 	connect(AParent,SIGNAL(commitDataRequest(QSessionManager &)),SLOT(onApplicationCommitDataRequested(QSessionManager &)));
 
@@ -306,11 +305,9 @@ void PluginManager::loadSettings()
 		if (dir.exists() && (dir.exists(DIR_APP_DATA) || dir.mkpath(DIR_APP_DATA)) && dir.cd(DIR_APP_DATA))
 			FDataPath = dir.absolutePath();
 	}
-
 	FileStorage::setResourcesDirs(FileStorage::resourcesDirs()
 		<< (QDir::isAbsolutePath(RESOURCES_DIR) ? RESOURCES_DIR : qApp->applicationDirPath()+"/"+RESOURCES_DIR)
 		<< FDataPath+"/resources");
-
 	QDir logDir(FDataPath);
 	if (logDir.exists() && (logDir.exists(DIR_LOGS) || logDir.mkpath(DIR_LOGS)) && logDir.cd(DIR_LOGS))
 	{
@@ -321,15 +318,14 @@ void PluginManager::loadSettings()
 #endif
 		if (args.contains(CLO_LOG_TYPES))
 			logTypes = args.value(args.indexOf(CLO_LOG_TYPES)+1).toUInt();
-
 		if (logTypes > 0)
 		{
-			Logger::setEnabledTypes(logTypes);
-			Logger::openLog(logDir.absolutePath());
+//			Logger::setEnabledTypes(logTypes);
+//			Logger::openLog(logDir.absolutePath());
 		}
 	}
+qDebug()<< "PluginManager/loadSettings--5----------------------";
 	LOG_INFO(QString("%1: %2.%3, Qt: %4/%5, OS: %6, Locale: %7").arg(CLIENT_NAME,CLIENT_VERSION,revision(),QT_VERSION_STR,qVersion(),SystemManager::osVersion(),QLocale().name()));
-
 	FPluginsSetup.clear();
 	QDir homeDir(FDataPath);
 	QFile file(homeDir.absoluteFilePath(FILE_PLUGINS_SETTINGS));
@@ -346,7 +342,6 @@ void PluginManager::loadSettings()
 	{
 		REPORT_ERROR(QString("Failed to load plugin settings from file: %1").arg(file.errorString()));
 	}
-
 	if (FPluginsSetup.documentElement().tagName() != "plugins")
 	{
 		FPluginsSetup.clear();
@@ -375,7 +370,6 @@ void PluginManager::saveSettings()
 bool PluginManager::loadPlugins()
 {
 	LOG_INFO("Loading plugins");
-
 	QDir pluginsDir(QApplication::applicationDirPath());
 	if (pluginsDir.cd(PLUGINS_DIR))
 	{
@@ -421,6 +415,7 @@ bool PluginManager::loadPlugins()
 					{
 						plugin->instance()->setParent(loader);
 						QUuid uid = plugin->pluginUuid();
+
 						if (!FPluginItems.contains(uid))
 						{
 							PluginItem pluginItem;
@@ -428,7 +423,6 @@ bool PluginManager::loadPlugins()
 							pluginItem.loader = loader;
 							pluginItem.info = new IPluginInfo;
 							pluginItem.translator =  translator;
-
 							plugin->pluginInfo(pluginItem.info);
 							savePluginInfo(file, pluginItem.info).setAttribute("uuid", uid.toString());
 
@@ -490,8 +484,9 @@ bool PluginManager::loadPlugins()
 
 bool PluginManager::initPlugins()
 {
-	LOG_INFO("Initializing plugins");
+qDebug()<<"PluginManager::initPlugins()####################################";
 
+	LOG_INFO("Initializing plugins");
 	bool initOk = true;
 	QMultiMap<int,IPlugin *> pluginOrder;
 	QHash<QUuid, PluginItem>::const_iterator it = FPluginItems.constBegin();
@@ -499,10 +494,12 @@ bool PluginManager::initPlugins()
 	{
 		int initOrder = PIO_DEFAULT;
 		IPlugin *plugin = it.value().plugin;
+		IPluginInfo info;
+		plugin->pluginInfo(&info);
 		if (plugin->initConnections(this,initOrder))
 		{
 			pluginOrder.insertMulti(initOrder,plugin);
-			++it;
+			++it;			
 		}
 		else
 		{
@@ -521,7 +518,6 @@ bool PluginManager::initPlugins()
 		foreach(IPlugin *plugin, pluginOrder)
 			plugin->initSettings();
 	}
-
 	return initOk;
 }
 
@@ -596,15 +592,12 @@ void PluginManager::finishQuit()
 	if (FQuitStarted)
 	{
 		LOG_INFO(QString("Finished quit stage 2, delay: %1").arg(FShutdownDelayCount));
-
 		FQuitStarted = false;
 		unloadPlugins();
-		
 		if (FShutdownKind == SK_RESTART)
 		{
 			FShutdownKind = SK_WORK;
 			FShutdownDelayCount = 0;
-
 			loadSettings();
 			if (!loadPlugins())
 			{
@@ -640,12 +633,10 @@ void PluginManager::closeAndQuit()
 	{
 		FShutdownKind = SK_QUIT;
 		startClose();
-
 		QDateTime closeTimeout = QDateTime::currentDateTime().addMSecs(DELAYED_SHUTDOWN_TIMEOUT);
 		while (closeTimeout>QDateTime::currentDateTime() && FShutdownDelayCount>0)
 			QApplication::processEvents();
 		finishClose();
-
 		QDateTime quitTimeout = QDateTime::currentDateTime().addMSecs(DELAYED_SHUTDOWN_TIMEOUT);
 		while (quitTimeout>QDateTime::currentDateTime() && FShutdownDelayCount>0)
 			QApplication::processEvents();
@@ -967,8 +958,10 @@ void PluginManager::onShowAboutBoxDialog()
 
 void PluginManager::onShutdownTimerTimeout()
 {
-	if (FCloseStarted)
+	if (FCloseStarted){
 		finishClose();
-	else if (FQuitStarted)
+	}
+	else if (FQuitStarted){
 		finishQuit();
+	}
 }
