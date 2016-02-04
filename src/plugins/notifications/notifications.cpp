@@ -158,7 +158,9 @@ bool Notifications::initObjects()
 	FSoundOnOff->setToolTip(tr("Enable/Disable notifications sound"));
     FSoundOnOff->setText(tr("Notifications sound"));
 	FSoundOnOff->setIcon(RSR_STORAGE_MENUICONS, MNI_NOTIFICATIONS_SOUND_ON);
+#if !defined (Q_OS_ANDROID) // *** <<< eyeCU <<< ***
 	FSoundOnOff->setShortcutId(SCT_GLOBAL_TOGGLESOUND);
+#endif
 	connect(FSoundOnOff,SIGNAL(triggered(bool)),SLOT(onSoundOnOffActionTriggered(bool)));
 
 	FActivateLast = new Action(this);

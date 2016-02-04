@@ -6,6 +6,12 @@
 #include <QKeySequence>
 #include "utilsexport.h"
 
+#ifdef Q_OS_ANDROID
+#define SWITCH   0
+#else   // Q_OS_WIN
+#define SWITCH   1
+#endif
+
 class QxtGlobalShortcut;
 
 class UTILS_EXPORT Shortcuts : 
@@ -50,6 +56,7 @@ public:
 	static void setGlobalShortcut(const QString &AId, bool AEnabled);
 	static void activateShortcut(const QString &AId, QWidget *AWidget);
 signals:
+	void shortcutActivated(const QString &AId, QWidget *AWidget);
 	void groupDeclared(const QString &AId);
 	void shortcutDeclared(const QString &AId);
 	void shortcutUpdated(const QString &AId);
@@ -57,7 +64,7 @@ signals:
 	void shortcutInserted(const QString &AId, QWidget *AWidget);
 	void shortcutRemoved(const QString &AId, QWidget *AWidget);
 	void shortcutEnabled(const QString &AId, bool AEnabled);
-	void shortcutActivated(const QString &AId, QWidget *AWidget);
+#if SWITCH
 protected:
 	static void updateObject(QObject *AObject);
 	static void updateWidget(QShortcut *AShortcut);
@@ -71,6 +78,8 @@ protected slots:
 private:
 	Shortcuts();
 	~Shortcuts();
+#endif
+private:
 	ShortcutsData *d;
 };
 

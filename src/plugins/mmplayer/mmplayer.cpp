@@ -78,7 +78,9 @@ bool MmPlayer::initObjects()
 		FAction->setText(tr("Multimedia player"));
 		FAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MMPLAYER);
 		FAction->setCheckable(true);
+#if !defined (Q_OS_ANDROID) // *** <<< eyeCU <<< ***
 		FAction->setShortcutId(SCT_MMPLAYER_SHOW);
+#endif
 		connect(FAction,SIGNAL(triggered(bool)),SLOT(onStartPlayer(bool)));
 
 #if defined(Q_OS_ANDROID)

@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
 	topChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
-
+//topToolbar->setPalette(QPalette);
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     FMainMenuRight->setTitle(tr("Right menu"));
 	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
     button->setPopupMode(QToolButton::InstantPopup);
-	QLabel *title = new QLabel("<b>  eyeCU</b>");
+	QLabel *title = new QLabel("  eyeCU");
 	topToolBarChanger()->insertWidget(title,TBG_MWTTB_TITLE);
 #endif
 // *** >>> eyeCU >>>***
