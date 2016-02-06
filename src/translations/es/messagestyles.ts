@@ -236,29 +236,39 @@
    <translation>Mensaje entrante</translation>
   </message>
   <message>
-   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="189"/>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="188"/>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="216"/>
+   <source>speaks of himself in the third person</source>
+   <translation type="unfinished"/>
+  </message>
+  <message>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="192"/>
    <source>Incoming event</source>
    <translation>Evento entrante</translation>
   </message>
   <message>
-   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="192"/>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="195"/>
    <source>Incoming notification</source>
    <translation>Notificación entrante</translation>
   </message>
   <message>
-   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="198"/>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="201"/>
    <source>Incoming mention message</source>
    <translation>Mensaje de mención entrante</translation>
   </message>
   <message>
-   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="208"/>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="211"/>
    <source>Outgoing message</source>
    <translation>Mensaje saliente</translation>
   </message>
   <message>
-   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="211"/>
+   <location filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp" line="213"/>
    <source>Outgoing consecutive message</source>
    <translation>Mensaje consecutivo de salida</translation>
+  </message>
+  <message>
+   <source>speaks of himself in the third person</source>
+   <translation type="unfinished"/>
   </message>
  </context>
  <context>

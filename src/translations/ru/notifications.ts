@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE TS>
-<TS version="2.0" sourcelanguage="en" language="ru">
+<TS version="2.1" sourcelanguage="en" language="ru">
   <context>
     <name>Notifications</name>
     <message>
@@ -82,7 +82,7 @@
     <message numerus="yes">
       <source>second(s)</source>
       <translation>
-        <numerusform>секунда</numerusform>
+        <numerusform> секунда</numerusform>
         <numerusform>секунды</numerusform>
         <numerusform>секунд</numerusform>
         <numerusform>секунд</numerusform>
@@ -106,6 +106,10 @@
     <message>
       <source>Show the corresponding window minimized in the taskbar</source>
       <translation>Показывать соответствующее окно свернутым в панели задач</translation>
+    </message>
+    <message>
+      <source>Display a notification icon in the system tray</source>
+      <translation>Показывать иконку уведомления в системном трее</translation>
     </message>
   </context>
 </TS>

@@ -128,10 +128,12 @@
 #define OPV_MESSAGES_EMOTICONS_RECENT_SET               "messages.emoticons.recent.set"
 #define OPV_MESSAGES_EMOTICONS_INSERTIMAGE              "messages.emoticons.insert-image"
 // Emoji
-#define OPV_MESSAGES_EMOJI_ICONSETS                     "messages.emoji.iconsets"
+#define OPV_MESSAGES_EMOJI_ICONSET                      "messages.emoji.iconset"
 #define OPV_MESSAGES_EMOJI_SKINCOLOR                    "messages.emoji.skin-color"
+#define OPV_MESSAGES_EMOJI_SIZE_MENU                    "messages.emoji.size.menu"
+#define OPV_MESSAGES_EMOJI_SIZE_CHAT                    "messages.emoji.size.chat"
 #define OPV_MESSAGES_EMOJI_RECENT                       "messages.emoji.recent"
-#define OPV_MESSAGES_EMOJI_RECENT_SET                   "messages.emoji.recent.set"
+#define OPV_MESSAGES_EMOJI_CATEGORY                     "messages.emoji.category"
 // *** >>> eyeCU >>> ***
 // ChatStates
 #define OPV_MESSAGES_CHATSTATESENABLED                  "messages.chatstates-enabled"

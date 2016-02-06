@@ -14,24 +14,32 @@ class SelectIconWidget :
 {
 	Q_OBJECT
 public:
-	SelectIconWidget(IconStorage *AStorage, const QString &AColor, IEmoji *AEmoji, QWidget *AParent = NULL);
+	SelectIconWidget(IEmoji::Category ACategory, uint AColumns, uint ARows, IEmoji *AEmoji, QWidget *AParent = NULL);
 	~SelectIconWidget();
-	void updateLabels(const QString &AColor);
-	QLabel *getIconLabel(const QString &AKey, const QString &AColor);
+	void updateLabels(const QString &AColor, bool AForce=false);
 	bool hasColored() const {return FHasColored;}
+	void invalidate() {FNotReady = true;}
 signals:
-	void iconSelected(const QString &ASubStorage, const QString &AIconKey);
+	void iconSelected(const QString &AIconKey, const QString &AIconText);
+	void hasColoredChanged(bool AHasColored);
 protected:
 	void createLabels(const QString &AColor);
 protected:
+// QObject interface
 	virtual bool eventFilter(QObject *AWatched, QEvent *AEvent);
+// QWidget interface
+	virtual void showEvent(QShowEvent *AShowEvent);
 private:
 	IEmoji *FEmoji;
 	QLabel *FPressed;
 	QGridLayout *FLayout;
-	IconStorage *FStorage;
+	const QMap<uint, EmojiData> FEmojiMap;
 	QMap<QLabel *, QString> FKeyByLabel;
+	QString FColor;
 	bool FHasColored;
+	bool FNotReady;
+	uint FColumns;
+	uint FRows;
 };
 
 #endif // SELECTICONWIDGET_H

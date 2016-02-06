@@ -3,8 +3,10 @@
 
 #include <QVBoxLayout>
 #include <QPointer>
+#include <QTabWidget>
 #include <utils/menu.h>
 #include <utils/options.h>
+#include <utils/toolbarchanger.h>
 
 #include "selecticonwidget.h"
 
@@ -13,13 +15,13 @@ class SelectIconMenu :
 {
 	Q_OBJECT
 public:
-	SelectIconMenu(const QString &AIconset, IEmoji *AEmoji, QWidget *AParent = NULL);
+	SelectIconMenu(const QString &AIconSet, IEmoji *AEmoji, QWidget *AParent = NULL);
 	~SelectIconMenu();
 	QWidget *instance() { return this; }
-	QString iconset() const;
-	void setIconset(const QString &ASubStorage);
+	QString iconSet() const;
+	void setIconSet(const QString &AIconSet);
 signals:
-	void iconSelected(const QString &ASubStorage, const QString &AIconKey);
+	void iconSelected(const QString &AIconKey, const QString &AIconText);
 public:
 	virtual QSize sizeHint() const;
 protected slots:
@@ -27,11 +29,18 @@ protected slots:
 	void onSkinColorSelected();
 	void onOptionsChanged(const OptionsNode &ANode);
 	void onRecentIconTriggered();
+	void onHasColoredChanged(bool AHasColored);
+	void onCategorySwitched(int ACategory);
+protected:
+	void updateRecentActions(const QString &AColor);
+	static QString typeUcs4(const QString &AText);
 private:
 	IEmoji *FEmoji;
 	QVBoxLayout *FLayout;
-	IconStorage *FStorage;
+	QTabWidget	*FTabWidget;
 	QPointer<Menu> FMenu;
+	ToolBarChanger *FToolBarChanger;
+	QIcon		FEmptyIcon;
 };
 
 #endif // SELECTICONMENU_H

@@ -46,8 +46,8 @@
   </message>
   <message>
    <location filename="../../plugins/statuschanger/statuschanger.cpp" line="238"/>
-   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="1152"/>
-   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="1162"/>
+   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="1157"/>
+   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="1167"/>
    <source>Status</source>
    <translation>Статус</translation>
   </message>
@@ -145,12 +145,12 @@
    <translation>%1 - %2</translation>
   </message>
   <message>
-   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="987"/>
+   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="992"/>
    <source>Connection error</source>
    <translation>Помилка підключення</translation>
   </message>
   <message>
-   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="1283"/>
+   <location filename="../../plugins/statuschanger/statuschanger.cpp" line="1288"/>
    <source>Left %1</source>
    <translation>Вийшов з %1</translation>
   </message>
@@ -160,17 +160,17 @@
   <message>
    <location filename="../../plugins/statuschanger/statusoptionswidget.cpp" line="158"/>
    <source>Add</source>
-   <translation type="unfinished"/>
+   <translation>Додати</translation>
   </message>
   <message>
    <location filename="../../plugins/statuschanger/statusoptionswidget.cpp" line="162"/>
    <source>Delete</source>
-   <translation type="unfinished"/>
+   <translation>Видалити</translation>
   </message>
   <message>
    <location filename="../../plugins/statuschanger/statusoptionswidget.cpp" line="176"/>
    <source>Status</source>
-   <translation type="unfinished"/>
+   <translation>Статус</translation>
   </message>
   <message>
    <location filename="../../plugins/statuschanger/statusoptionswidget.cpp" line="176"/>
@@ -187,7 +187,7 @@
   <message>
    <location filename="../../plugins/statuschanger/statusoptionswidget.cpp" line="176"/>
    <source>Priority</source>
-   <translation type="unfinished"/>
+   <translation>Пріоритет</translation>
   </message>
   <message>
    <location filename="../../plugins/statuschanger/statusoptionswidget.cpp" line="360"/>

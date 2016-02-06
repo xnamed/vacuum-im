@@ -238,29 +238,39 @@
    <translation>Incoming message</translation>
   </message>
   <message>
-   <location line="189" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <location line="188" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <location line="216" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <source>speaks of himself in the third person</source>
+   <translation>speaks of himself in the third person</translation>
+  </message>
+  <message>
+   <location line="192" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
    <source>Incoming event</source>
    <translation>Incoming event</translation>
   </message>
   <message>
-   <location line="192" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <location line="195" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
    <source>Incoming notification</source>
    <translation>Incoming notification</translation>
   </message>
   <message>
-   <location line="198" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <location line="201" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
    <source>Incoming mention message</source>
    <translation>Incoming mention message</translation>
   </message>
   <message>
-   <location line="208" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <location line="211" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
    <source>Outgoing message</source>
    <translation>Outgoing message</translation>
   </message>
   <message>
-   <location line="211" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
+   <location line="213" filename="../../plugins/messagestyles/styleeditoptionsdialog.cpp"/>
    <source>Outgoing consecutive message</source>
    <translation>Outgoing consecutive message</translation>
+  </message>
+  <message>
+   <source>speaks of himself in the third person</source>
+   <translation>speaks of himself in the third person</translation>
   </message>
  </context>
  <context>

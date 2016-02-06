@@ -3,6 +3,7 @@
 
 #include <QHash>
 #include <QStringList>
+#include <QDir>
 #include <interfaces/ipluginmanager.h>
 #include <interfaces/iemoji.h>
 #include <interfaces/imessageprocessor.h>
@@ -10,9 +11,9 @@
 #include <interfaces/ioptionsmanager.h>
 #include "selecticonmenu.h"
 
-struct EmoticonTreeItem {
+struct EmojiTreeItem {
 	QUrl url;
-	QMap<QChar, EmoticonTreeItem *> childs;
+	QMap<QChar, EmojiTreeItem *> childs;
 };
 
 class Emoji :
@@ -55,25 +56,35 @@ public:
 	virtual QString keyByUrl(const QUrl &AUrl) const;
 	virtual QMap<int, QString> findTextEmoticons(const QTextDocument *ADocument, int AStartPos=0, int ALength=-1) const;
 	virtual QMap<int, QString> findImageEmoticons(const QTextDocument *ADocument, int AStartPos=0, int ALength=-1) const;
-	virtual QStringList recentIcons(const QString &ASetName) const {return FRecent.value(ASetName);}
+	virtual QStringList recentIcons(const QString &ASetName) const {Q_UNUSED(ASetName) return FRecent;}
+	virtual QMap<uint, QString> setEmoji(const QString &AEmojiSet) const;
 	//IEmoji
-	virtual bool isColored(const QString &AEmojiText) const;
-	virtual const QStringList &colorSuffixes() const {return FColorSuffixes;}	
+	virtual QString categoryName(Category ACategory) const {return FCategoryNames.value(ACategory);}
+	virtual QIcon categoryIcon(Category ACategory) const {return FCategoryIcons.value(ACategory);}
+	virtual QIcon getIcon(const QString &AEmojiCode, const QSize &ASize=QSize()) const;
+	virtual QIcon getIconForSet(const QString &AEmojiSet, const QString &AEmojiText, const QSize &ASize=QSize()) const;
+	virtual QMap<uint, EmojiData> emojiData(Category ACategory) const;
+	virtual EmojiData findData(const QString &AEmojiCode) const;
+	virtual bool isColored(const QString &AEmojiCode) const;
+	virtual const QStringList &colorSuffixes() const {return FColorSuffixes;}
+	virtual int categoryCount(Category ACategory) const {return FCategoryCount[ACategory];}
+	virtual QStringList emojiSets() const {return FEmojiSets.keys();}
+	virtual QList<int> availableSizes(const QString &ASetName) const {return FAvailableSizes.value(ASetName);}
 protected:
-	void createIconsetUrls();
+	void findEmojiSets();
+	void loadEmojiSet(const QString &AEmojiSet);
 	void createTreeItem(const QString &AKey, const QUrl &AUrl);
-	void clearTreeItem(EmoticonTreeItem *AItem) const;
+	void clearTreeItem(EmojiTreeItem *AItem) const;
 	bool isWordBoundary(const QString &AText) const;
 	int replaceTextToImage(QTextDocument *ADocument, int AStartPos=0, int ALength=-1) const;
 	int replaceImageToText(QTextDocument *ADocument, int AStartPos=0, int ALength=-1) const;
-	SelectIconMenu *createSelectIconMenu(const QString &ASubStorage, QWidget *AParent);
-	void insertSelectIconMenu(const QString &ASubStorage);
-	void removeSelectIconMenu(const QString &ASubStorage);
+	SelectIconMenu *createSelectIconMenu(const QString &AIconSet, QWidget *AParent);
+	void updateSelectIconMenu(const QString &AIconSet);
 protected slots:
 	void onToolBarWindowLayoutChanged();
 	void onToolBarWidgetCreated(IMessageToolBarWidget *AWidget);
 	void onToolBarWidgetDestroyed(QObject *AObject);
-	void onSelectIconMenuSelected(const QString &ASubStorage, QString AIconKey);
+	void onSelectIconMenuSelected(QString AIconKey, const QString &AIconText);
 	void onSelectIconMenuDestroyed(QObject *AObject);
 	void onOptionsOpened();
 	void onOptionsChanged(const OptionsNode &ANode);
@@ -82,15 +93,25 @@ private:
 	IMessageProcessor *FMessageProcessor;
 	IOptionsManager *FOptionsManager;
 private:
-	EmoticonTreeItem FRootTreeItem;
-	QHash<QString, QUrl> FUrlByKey;
+	EmojiTreeItem FRootTreeItem;
+	QMap<int, QHash<QString, QUrl> > FUrlByKey;
 	QHash<QString, QString> FKeyByUrl;
-	QMap<QString, IconStorage *> FStorages;
+	QHash<Category, QMap<uint, EmojiData> > FCategories;
+	QHash<QString, EmojiData> FEmojiData;
 	QList<IMessageToolBarWidget *> FToolBarsWidgets;
 	QMap<SelectIconMenu *, IMessageToolBarWidget *> FToolBarWidgetByMenu;
+
 	QStringList FColorSuffixes;
-	QHash<QString, QStringList> FRecent;
-	const QChar FFirst;
+	QStringList FRecent;
+//	QStringList FEmojiSets;
+	QHash<QString, QMap<uint, QString> > FEmojiSets;
+	QHash<QString, QList<int> >	FAvailableSizes;
+	mutable QHash<QString, QIcon> FIconHash;
+	QMap<int, QString> FCategoryNames;
+	QMap<int, QString> FCategoryIDs;
+	QMap<int, QIcon> FCategoryIcons;	
+	int FCategoryCount[8];
+	QDir		FResourceDir;
 };
 
 #endif // EMOJI_H

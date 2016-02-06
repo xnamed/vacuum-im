@@ -39,7 +39,7 @@
   <message>
    <location filename="../../plugins/xhtmlim/addlink.ui" line="205"/>
    <source>Add</source>
-   <translation type="unfinished"/>
+   <translation>Додати</translation>
   </message>
   <message>
    <location filename="../../plugins/xhtmlim/addlink.cpp" line="25"/>
@@ -587,7 +587,7 @@
    <location filename="../../plugins/xhtmlim/xhtmlim.cpp" line="173"/>
    <source>Ctrl+S</source>
    <comment>Strikeout</comment>
-   <translation type="unfinished"/>
+   <translation>Ctrl+S</translation>
   </message>
   <message>
    <location filename="../../plugins/xhtmlim/xhtmlim.cpp" line="175"/>
@@ -760,7 +760,7 @@
   <message>
    <location filename="../../plugins/xhtmlim/xhtmlim.cpp" line="196"/>
    <source>Ok</source>
-   <translation type="unfinished"/>
+   <translation>Ок</translation>
   </message>
   <message>
    <location filename="../../plugins/xhtmlim/xhtmlim.cpp" line="196"/>
@@ -859,7 +859,7 @@
   <message>
    <location filename="../../plugins/xhtmlim/xhtmlim.cpp" line="602"/>
    <source>Background</source>
-   <translation type="unfinished"/>
+   <translation>Тло</translation>
   </message>
   <message>
    <location filename="../../plugins/xhtmlim/xhtmlim.cpp" line="644"/>
