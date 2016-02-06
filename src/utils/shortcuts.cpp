@@ -35,12 +35,12 @@ Shortcuts *Shortcuts::instance()
     return inst;
 }
 
+#if SWITCH
 Shortcuts::Descriptor Shortcuts::shortcutDescriptor(const QString &AId)
 {
-    return instance()->d->shortcuts.value(AId);
+	return instance()->d->shortcuts.value(AId);
 }
 
-#if SWITCH
 Shortcuts::Shortcuts()
 {
 	d = new ShortcutsData;
@@ -324,6 +324,12 @@ void Shortcuts::onObjectDestroyed(QObject *AObject)
 }
 
 #else
+
+Shortcuts::Descriptor Shortcuts::shortcutDescriptor(const QString &AId)
+{
+	return Descriptor();
+}
+
 QList<QString> Shortcuts::groups()
 {
     QList<QString> lst;
@@ -395,12 +401,6 @@ void Shortcuts::removeWidgetShortcut(const QString &AId, QWidget *AWidget)
     Q_UNUSED(AWidget)
 }
 
-QList<QString> Shortcuts::globalShortcuts()
-{
-    QList<QString> lst;
-    return lst;
-}
-
 QString Shortcuts::objectShortcut(QObject *AObject)
 {
     Q_UNUSED(AObject)
@@ -424,6 +424,24 @@ void Shortcuts::activateShortcut(const QString &AId, QWidget *AWidget)
 {
     Q_UNUSED(AId)
     Q_UNUSED(AWidget)
+}
+
+void Shortcuts::onShortcutActivated()
+{
+}
+
+void Shortcuts::onGlobalShortcutActivated()
+{
+}
+
+void Shortcuts::onWidgetDestroyed(QObject *AObject)
+{
+	Q_UNUSED(AObject)
+}
+
+void Shortcuts::onObjectDestroyed(QObject *AObject)
+{
+	Q_UNUSED(AObject)
 }
 
 #endif

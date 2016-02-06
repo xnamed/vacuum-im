@@ -64,17 +64,17 @@ signals:
 	void shortcutInserted(const QString &AId, QWidget *AWidget);
 	void shortcutRemoved(const QString &AId, QWidget *AWidget);
 	void shortcutEnabled(const QString &AId, bool AEnabled);
+protected slots:
+	void onShortcutActivated();
+	void onGlobalShortcutActivated();
+	void onWidgetDestroyed(QObject *AObject);
+	void onObjectDestroyed(QObject *AObject);
 #if SWITCH
 protected:
 	static void updateObject(QObject *AObject);
 	static void updateWidget(QShortcut *AShortcut);
 	static void updateGlobal(QxtGlobalShortcut *AShortcut);
 	static Qt::ShortcutContext convertContext(Context AContext);
-protected slots:
-	void onShortcutActivated();
-	void onGlobalShortcutActivated();
-	void onWidgetDestroyed(QObject *AObject);
-	void onObjectDestroyed(QObject *AObject);
 private:
 	Shortcuts();
 	~Shortcuts();
