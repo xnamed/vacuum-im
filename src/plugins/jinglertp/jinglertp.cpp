@@ -48,7 +48,7 @@ void JingleCallTimer::timerEvent(QTimerEvent *e)
 	if (QSound::isAvailable())
 #endif
 		FSound.play();
-#ifdef Q_WS_X11
+#ifdef Q_OS_X11
     else
         QProcess::startDetached(Options::node(OPV_NOTIFICATIONS_SOUNDCOMMAND).value().toString(),QStringList()<<soundFile);
 #endif

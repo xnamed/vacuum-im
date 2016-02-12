@@ -93,7 +93,7 @@ TransportWizard::TransportWizard(const Jid &AStreamJid, const Jid &ATransportJid
 	}
 	setOptions(NoBackButtonOnLastPage|NoBackButtonOnStartPage|NoCancelButton);
 
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 	setWizardStyle(ModernStyle);
 #endif
 

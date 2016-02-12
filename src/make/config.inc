@@ -21,7 +21,7 @@ isEmpty(INSTALL_PREFIX) {
   os2:	INSTALL_PREFIX   = "c:"
   symbian: INSTALL_PREFIX  = "c:"
   unix:!symbian:!android: INSTALL_PREFIX   = /usr/local
-  android:armeabi-v7a: INSTALL_PREFIX   = /lib
+  android: INSTALL_PREFIX   = /lib
   macx: INSTALL_PREFIX   = /Applications
   haiku:INSTALL_PREFIX   = /boot/apps
 }
@@ -99,8 +99,6 @@ isEmpty(INSTALL_SDK_DIR) {
   DEFINES               += PLUGINS_DIR='\\\"\\\"'
   DEFINES               += RESOURCES_DIR='\\\"assets:/resources\\\"'
   DEFINES               += TRANSLATIONS_DIR='\\\"assets:/translations\\\"'
-#  DEFINES               += TRANSLATIONS_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/translations\\\"'
-
 }
 
 
@@ -138,7 +136,8 @@ win32|os2 {
   INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc/$$INSTALL_APP_DIR
   INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations
 } else:android { ################  ?????  ######################
-  INSTALL_BINS           = $$INSTALL_PREFIX/armeabi-v7a
+  armeabi-v7a:INSTALL_BINS = $$INSTALL_PREFIX/armeabi-v7a
+  armeabi-v5: INSTALL_BINS = $$INSTALL_PREFIX/armeabi-v5
   INSTALL_LIBS           = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR                           #/lib/lib
   INSTALL_INCLUDES       = $$INSTALL_PREFIX/$$INSTALL_SDK_DIR/$$INSTALL_APP_DIR         #/lib/include/eyecu
   INSTALL_PLUGINS        = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR/$$INSTALL_APP_DIR         #/lib/lib/eyecu

@@ -30,7 +30,6 @@ symbian {
     TARGET.EPOCHEAPSIZE = 0x020000 0x800000
 }
 
-
 #GIT Info
 GIT_HASH = $$system(git log -n 1 --format=%H)
 GIT_DATE = $$system(git log -n 1 --format=%ct)
@@ -52,7 +51,6 @@ GIT_DATE = $$find(GIT_DATE,^\\d*)
   }
 }
 
-
 #Install
 target.path = $$INSTALL_BINS #/lib/armeabi-v7a
 resources.path = $$INSTALL_RESOURCES #/assets/resources
@@ -65,7 +63,6 @@ INSTALLS += target resources documents
 TRANS_BUILD_ROOT   = $${OUT_PWD}/../..
 TRANS_SOURCE_ROOT  = ..
 include(../translations/languages.inc)
-
 
 #Linux desktop install
 unix:!macx:!android {
@@ -117,6 +114,26 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Util.so \
     C:/QT/Qt5.5.0/5.5/android_armv7/lib/libQt5Geo.so \
     C:/QT/Qt5.5.0/5.5/android_armv7/plugins/sqldrivers/libqsqlite.so
+}
+contains(ANDROID_TARGET_ARCH,android-armv5) {
+    ANDROID_EXTRA_LIBS = \
+    C:/QT/Qt5.5.0/5.5/android_armv5/lib/libQt5Multimedia.so \
+    C:/QT/Qt5.5.0/5.5/android_armv5/lib/libQt5Network.so \
+    C:/QT/Qt5.5.0/5.5/android_armv5/lib/libQt5Script.so \
+    C:/QT/Qt5.5.0/5.5/android_armv5/lib/libQt5Sql.so \
+    C:/QT/Qt5.5.0/5.5/android_armv5/lib/libQt5Util.so \
+    C:/QT/Qt5.5.0/5.5/android_armv5/lib/libQt5Geo.so \
+    C:/QT/Qt5.5.0/5.5/android_armv5/plugins/sqldrivers/libqsqlite.so
+}
+contains(ANDROID_TARGET_ARCH,android-x86) {
+    ANDROID_EXTRA_LIBS = \
+    C:/QT/Qt5.5.0/5.5/android_x86/lib/libQt5Multimedia.so \
+    C:/QT/Qt5.5.0/5.5/android_x86/lib/libQt5Network.so \
+    C:/QT/Qt5.5.0/5.5/android_x86/lib/libQt5Script.so \
+    C:/QT/Qt5.5.0/5.5/android_x86/lib/libQt5Sql.so \
+    C:/QT/Qt5.5.0/5.5/android_x86/lib/libQt5Util.so \
+    C:/QT/Qt5.5.0/5.5/android_x86/lib/libQt5Geo.so \
+    C:/QT/Qt5.5.0/5.5/android_x86/plugins/sqldrivers/libqsqlite.so
 }
 
 DISTFILES += \

@@ -72,7 +72,7 @@ ConnectionWizard::ConnectionWizard(QWidget *AParent):
 	setStartId(Page_Intro);
 	setOptions(NoBackButtonOnLastPage|NoBackButtonOnStartPage|NoCancelButton);
 
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 	setWizardStyle(ModernStyle);
 #endif
 

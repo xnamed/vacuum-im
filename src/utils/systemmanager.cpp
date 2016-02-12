@@ -11,7 +11,7 @@
 
 #if defined(Q_OS_UNIX)
 #	include <sys/utsname.h>
-#elif defined(Q_WS_HAIKU)
+#elif defined(Q_OS_HAIKU)
 #	include <Path.h>
 #	include <AppFileInfo.h>
 #	include <FindDirectory.h>
@@ -76,10 +76,10 @@ QString SystemManager::osVersion()
 	static QString osver;
 	if (osver.isEmpty())
 	{
-#if defined(Q_WS_WIN) || defined(Q_OS_CYGWIN)
+#if defined(Q_OS_WIN) || defined(Q_OS_CYGWIN)
 		QSettings settings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", QSettings::NativeFormat);
 		osver = settings.value("ProductName").toString();
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
 		switch (QSysInfo::MacintoshVersion)
 		{
 # if QT_VERSION >= 0x040807
@@ -127,7 +127,7 @@ QString SystemManager::osVersion()
 			osver = "MacOS (unknown)";
 			break;
 		}
-#elif defined(Q_WS_X11)
+#elif defined(Q_OS_X11)
 		if (QFile::exists(QLatin1String("/etc/os-release")))
 		{
 			QSettings s(QLatin1String("/etc/os-release"), QSettings::IniFormat);
@@ -186,7 +186,7 @@ QString SystemManager::osVersion()
 				}
 			}
 		}
-#elif defined(Q_WS_HAIKU)
+#elif defined(Q_OS_HAIKU)
 		BPath path;
 		QString strVersion("Haiku");
 		if (find_directory(B_BEOS_LIB_DIRECTORY, &path) == B_OK) 

@@ -363,20 +363,20 @@ QString Statistics::userAgent() const
 
 		firstPartTemp += QString::fromLatin1(" ("
 			// Platform
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 			"Macintosh; "
-#elif defined Q_WS_QWS
+#elif defined Q_OS_QWS
 			"QtEmbedded; "
-#elif defined Q_WS_MAEMO_5
+#elif defined Q_OS_MAEMO_5
 			"Maemo"
-#elif defined Q_WS_MAEMO_6
+#elif defined Q_OS_MAEMO_6
 			"MeeGo"
-#elif defined Q_WS_WIN
+#elif defined Q_OS_WIN
 			// Nothing
-#elif defined Q_WS_X11
+#elif defined Q_OS_X11
 			"X11; "
 // *** <<< eyeCU <<< ***
-#elif defined Q_WS_PM
+#elif defined Q_OS_PM
 			"OS/2; "
 // *** >>> eyeCU >>> ***
 #else
@@ -420,7 +420,7 @@ QString Statistics::userAgent() const
 #elif defined Q_OS_IRIX
 		firstPartTemp += QString::fromLatin1("SGI Irix");
 #elif defined Q_OS_LINUX
-#if !defined(Q_WS_MAEMO_5) && !defined(Q_WS_MAEMO_6)
+#if !defined(Q_OS_MAEMO_5) && !defined(Q_OS_MAEMO_6)
 #if defined(__x86_64__)
 		firstPartTemp += QString::fromLatin1("Linux x86_64");
 #elif defined(__i386__)
@@ -468,7 +468,7 @@ QString Statistics::userAgent() const
 
 		QString thirdPartTemp;
 		thirdPartTemp.reserve(150);
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_MAEMO_6)
+#if defined(Q_OS_SYMBIAN) || defined(Q_OS_MAEMO_5) || defined(Q_OS_MAEMO_6)
 		thirdPartTemp += QString::fromLatin1("Mobile Safari/");
 #else
 		thirdPartTemp += QString::fromLatin1("Safari/");
