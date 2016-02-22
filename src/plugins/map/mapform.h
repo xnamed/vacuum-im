@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QUuid>
 #include <GeolocElement>
+#include <QGestureEvent>
+#include <QTapAndHoldGesture>
 
 #include <interfaces/imap.h>
 #include <interfaces/imainwindow.h>
@@ -93,7 +95,13 @@ protected:
 	static QString getLonString(qreal ALongitude);
 	static QString getLatString(const QString &ALatitude);
 	static QString getLonString(const QString &ALongitude);
-
+    //! Gesture Handler
+    bool gestureEvent(QGestureEvent *AEvent);
+    void tapGesture(QTapGesture *AGesture);
+    void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
+    void swipeTriggered(QSwipeGesture *AGesture);
+    void panTriggered(QPanGesture *AGesture);
+    void pinchTriggered(QPinchGesture *AGesture);
 public slots:
 	void showWindow();
 	void hideWindow();

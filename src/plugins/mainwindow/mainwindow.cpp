@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QLabel>
+#include <QGestureEvent>
 #include <definitions/version.h>
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
@@ -75,7 +76,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
 	topChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
-//topToolbar->setPalette(QPalette);
+//topToolbar->setPalette(QPalette);  // for android
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
@@ -106,6 +107,14 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setMenuBar(FMainMenuBar->menuBar());
 
 	updateWindow();
+
+// *** <<< eyeCU <<< ***
+	grabGesture(Qt::TapGesture);
+	grabGesture(Qt::TapAndHoldGesture);
+	grabGesture(Qt::PanGesture);
+	grabGesture(Qt::PinchGesture);
+	grabGesture(Qt::SwipeGesture);
+// *** >>> eyeCU >>>***
 }
 
 MainWindow::~MainWindow()
@@ -391,6 +400,48 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 	}
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
+// *** <<< eyeCU <<< ***
+bool MainWindow::event(QEvent *AEvent)
+{
+	if (AEvent->type() == QEvent::Gesture)
+		return gestureEvent(static_cast<QGestureEvent*>(AEvent));
+	return QMainWindow::event(AEvent);
+}
+
+bool MainWindow::gestureEvent(QGestureEvent *AEvent)
+{
+/*! Reserve for other gestures
+	if (QGesture *swipe = AEvent->gesture(Qt::SwipeGesture))
+		swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+	else if (QGesture *pan = AEvent->gesture(Qt::PanGesture))
+		panTriggered(static_cast<QPanGesture *>(pan));
+	if (QGesture *pinch = AEvent->gesture(Qt::PinchGesture))
+		pinchTriggered(static_cast<QPinchGesture *>(pinch));
+	if (QGesture *tap = AEvent->gesture(Qt::TapGesture))
+		tapTriggered(static_cast<QPinchGesture *>(tap));
+*/
+	if(QGesture *gesture = AEvent->gesture(Qt::TapAndHoldGesture))
+		tapAndHoldGesture(static_cast<QTapAndHoldGesture *>(gesture));
+	AEvent->accept();
+	return true;
+}
+
+void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
+{
+	if (AGesture)
+	{
+		if (AGesture->state()==Qt::GestureFinished)
+		{
+			QPoint hotSpot(AGesture->hotSpot().toPoint());
+			QWidget *child = childAt(mapFromGlobal(hotSpot));
+			if (child)
+				QCoreApplication::postEvent(child,
+				   new QContextMenuEvent(QContextMenuEvent::Other,child->mapFromGlobal(hotSpot),hotSpot,Qt::NoModifier));
+		}
+	}
+}
+
+// *** >>> eyeCU >>>***
 
 void MainWindow::onUpdateCentralWidgetVisible()
 {

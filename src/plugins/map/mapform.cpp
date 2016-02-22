@@ -1,6 +1,8 @@
+#include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QToolTip>
 #include <MapObject>
+#include <QGestureEvent>
 
 #include <utils/menu.h>
 #include <utils/options.h>
@@ -44,8 +46,14 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->frmSelection->raise();
 	ui->frmScale->raise();
 	ui->frmMapType->raise();
-	ui->frmJoystick->raise();
+    ui->frmJoystick->raise();
 	ui->mapScale->raise();
+
+#ifdef Q_OS_ANDROID     // OR OTHER MOBILE OS's
+    ui->frmJoystick->setVisible(false);
+    ui->frmScale->setVisible(false);
+    ui->mapScale->setVisible(false);
+#endif
 
 	QStyle *style = QApplication::style();
 	ui->btnDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
@@ -162,6 +170,19 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FLineY2 = scene->addLine(-4, 0, +4, 0, pen);    FLineY2->setZValue(ZVLine);
 
 	FMapScene->instance()->setSceneRect(0, 0, width(), height());
+
+//! temp -----
+	ui->lblType1->text().clear(); ui->lblType2->text().clear();
+	ui->lblType3->text().clear(); ui->lblType4->text().clear();
+//! temp -----
+
+//! [enable gestures]
+    grabGesture(Qt::PanGesture);
+    grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::TapGesture);
+    grabGesture(Qt::TapAndHoldGesture);
+//! [enable gestures]
 }
 //--------------------------------------------
 MapForm::~MapForm()
@@ -275,6 +296,9 @@ bool MapForm::event(QEvent *AEvent)
 			QToolTip::showText(helpEvent->globalPos(), toolTipText);
 		return true;
 	}
+    else if (AEvent->type() == QEvent::Gesture)
+            return gestureEvent(static_cast<QGestureEvent*>(AEvent));
+
 	return QScrollArea::event(AEvent); // Invoke parent event handler
 }
 
@@ -662,8 +686,107 @@ QString MapForm::getLatString(const QString &ALatitude)
 
 QString MapForm::getLonString(const QString &ALongitude)
 {
-	return (ALongitude[0]=='-')?tr("%1W").arg(ALongitude.mid(1, 8)):tr("%1E").arg(ALongitude.mid(0, 8));
+    return (ALongitude[0]=='-')?tr("%1W").arg(ALongitude.mid(1, 8)):tr("%1E").arg(ALongitude.mid(0, 8));
 }
+
+//! [gesture event handler]
+bool MapForm::gestureEvent(QGestureEvent *AEvent)
+{
+    if (QGesture *swipe = AEvent->gesture(Qt::SwipeGesture))
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+    else if (QGesture *pan = AEvent->gesture(Qt::PanGesture))
+        panTriggered(static_cast<QPanGesture *>(pan));
+    if (QGesture *tap = AEvent->gesture(Qt::TapGesture))
+        tapGesture(static_cast<QTapGesture *>(tap));
+    if(QGesture *pinch = AEvent->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    else if(QGesture *gesture = AEvent->gesture(Qt::TapAndHoldGesture))
+        tapAndHoldGesture(static_cast<QTapAndHoldGesture *>(gesture));
+    AEvent->accept();
+    return true;
+}
+//! [gesture event handler]
+
+void MapForm::tapGesture(QTapGesture *AGesture)
+{
+    if (AGesture->state()==Qt::GestureFinished) {
+
+        update();
+    }
+}
+
+void MapForm::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
+{
+    if (AGesture->state()==Qt::GestureFinished) {
+        QPoint hotSpot(AGesture->hotSpot().toPoint());
+        QWidget *child = childAt(mapFromGlobal(hotSpot));
+        if (child)
+            QCoreApplication::postEvent(child,
+               new QContextMenuEvent(QContextMenuEvent::Other,child->mapFromGlobal(hotSpot),hotSpot,Qt::NoModifier));
+        update();
+    }
+}
+
+//! [swipe function]
+void MapForm::swipeTriggered(QSwipeGesture *AGesture)
+{
+qDebug()<<" MapForm::swipeTriggered/objectName="<<AGesture->objectName();
+    if (AGesture->state() == Qt::GestureFinished) {
+        if (AGesture->horizontalDirection() == QSwipeGesture::Left
+            || AGesture->verticalDirection() == QSwipeGesture::Up)
+            ; //goPrevImage();
+        else
+            ; //goNextImage();
+        update();
+    }
+}
+
+void MapForm::panTriggered(QPanGesture *AGesture)
+{
+qDebug()<<" MapForm::panTriggered/objectName="<<AGesture->objectName();
+#ifndef QT_NO_CURSOR
+    switch (AGesture->state()) {
+        case Qt::GestureStarted:
+        case Qt::GestureUpdated:
+            setCursor(Qt::SizeAllCursor);
+            break;
+        default:
+            setCursor(Qt::ArrowCursor);
+    }
+#endif
+    QPointF delta = AGesture->delta();
+//    horizontalOffset += delta.x();
+//    verticalOffset += delta.y();
+    update();
+}
+
+void MapForm::pinchTriggered(QPinchGesture *AGesture)
+{
+qDebug()<<" MapForm::pinchTriggered/objectName="<<AGesture->objectName();
+    QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
+    //! QPinchGesture::ScaleFactorChanged, RotationAngleChanged, CenterPointChanged
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        qreal value = AGesture->property("rotationAngle").toReal();
+        qreal lastValue = AGesture->property("lastRotationAngle").toReal();
+        //!action   rotationAngle += value - lastValue;
+    }
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+        qreal value = AGesture->property("scaleFactor").toReal();
+        //!action  currentStepScaleFactor = value;
+    }
+    if (changeFlags & QPinchGesture::CenterPointChanged) {
+        qreal center = AGesture->property("centerPoint").toReal();
+        //!action  currentStepScaleFactor = value;
+    }
+
+    if (AGesture->state() == Qt::GestureFinished) {
+        //!action  scaleFactor *= currentStepScaleFactor;
+        //!action  currentStepScaleFactor = 1;
+    }
+
+    update();
+}
+//-->>> Gesture -->>> ///
 
 int MapForm::chooseMapSource(IMapSource *ASource)
 {

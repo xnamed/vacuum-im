@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QSplitter>
+#include <QGestureEvent>				// <<< eyeCU <<<
+#include <QTapAndHoldGesture>			// <<< eyeCU <<<
 #include <interfaces/imainwindow.h>
 #include "maintabwidget.h"
 #include "maincentralwidget.h"
@@ -37,6 +39,7 @@ public:
 	virtual ToolBarChanger *toolBarChangerByOrder(int AOrderId) const;
 	virtual void insertToolBarChanger(int AOrderId, ToolBarChanger *AChanger);
 	virtual void removeToolBarChanger(ToolBarChanger *AChanger);
+	virtual bool event(QEvent *AEvent);
 signals:
 	void toolBarChangerInserted(int AOrderId, ToolBarChanger *AChanger);
 	void toolBarChangerRemoved(ToolBarChanger *AChanger);
@@ -53,6 +56,9 @@ protected:
 protected:
 	void showEvent(QShowEvent *AEvent);
 	bool eventFilter(QObject *AObject, QEvent *AEvent);
+	// Gesture Handler
+	bool gestureEvent(QGestureEvent *AEvent);				// <<< eyeCU <<<
+	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);	// <<< eyeCU <<<
 protected slots:
 	void onUpdateCentralWidgetVisible();
 	void onCurrentCentralPageChanged();

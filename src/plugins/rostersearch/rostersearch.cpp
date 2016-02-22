@@ -126,7 +126,11 @@ bool RosterSearch::initObjects()
 
 bool RosterSearch::initSettings()
 {
-	Options::setDefaultValue(OPV_ROSTER_SEARCH_ENABLED,true);
+#if defined(Q_OS_ANDROID)       // *** <<< eyeCU <<< ***
+    Options::setDefaultValue(OPV_ROSTER_SEARCH_ENABLED,false);
+#else                           // *** >>> eyeCU >>> ***
+    Options::setDefaultValue(OPV_ROSTER_SEARCH_ENABLED,true);
+#endif
 	Options::setDefaultValue(OPV_ROSTER_SEARCH_FIELDEBANLED,true);
 	return true;
 }

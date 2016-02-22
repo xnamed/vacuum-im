@@ -21,7 +21,7 @@ isEmpty(INSTALL_PREFIX) {
   os2:	INSTALL_PREFIX   = "c:"
   symbian: INSTALL_PREFIX  = "c:"
   unix:!symbian:!android: INSTALL_PREFIX   = /usr/local
-  android: INSTALL_PREFIX   = /lib
+  android: INSTALL_PREFIX = /lib
   macx: INSTALL_PREFIX   = /Applications
   haiku:INSTALL_PREFIX   = /boot/apps
 }
@@ -135,17 +135,18 @@ win32|os2 {
   INSTALL_RESOURCES      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/resources
   INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc/$$INSTALL_APP_DIR
   INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations
-} else:android { ################  ?????  ######################
-  armeabi-v7a:INSTALL_BINS = $$INSTALL_PREFIX/armeabi-v7a
-  armeabi-v5: INSTALL_BINS = $$INSTALL_PREFIX/armeabi-v5
+} else:android {
+  contains(ANDROID_TARGET_ARCH,armeabi-v7a):INSTALL_BINS = $$INSTALL_PREFIX/armeabi-v7a #/lib/armeabi-v7a
+  contains(ANDROID_TARGET_ARCH,armeabi):    INSTALL_BINS = $$INSTALL_PREFIX/armeabi     #/lib/armeabi
+  contains(ANDROID_TARGET_ARCH,x86):        INSTALL_BINS = $$INSTALL_PREFIX/x86         #/lib/x86
+
   INSTALL_LIBS           = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR                           #/lib/lib
   INSTALL_INCLUDES       = $$INSTALL_PREFIX/$$INSTALL_SDK_DIR/$$INSTALL_APP_DIR         #/lib/include/eyecu
   INSTALL_PLUGINS        = $$INSTALL_PREFIX/$$INSTALL_LIB_DIR/$$INSTALL_APP_DIR         #/lib/lib/eyecu
   INSTALL_RESOURCES      = $$INSTALL_RES_DIR/resources                                  #/assets/resources
   INSTALL_DOCUMENTS      = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/doc                       #/assets/doc
   INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/translations              #/assets/translations
-# INSTALL_TRANSLATIONS   = $$INSTALL_PREFIX/$$INSTALL_RES_DIR/$$INSTALL_APP_DIR/translations #OLD
 }
-
+message("config/INSTALL_BINS=" $$INSTALL_BINS )
 #You will find the application folder at: /data/data/"your package name" # for android
 #The APK itself is placed in the /data/app/ folder.
