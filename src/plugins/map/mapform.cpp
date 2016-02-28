@@ -20,6 +20,7 @@
 
 #include "ui_mapform.h"
 
+#define SCALE_DELTA	2
 //-----------------
 
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
@@ -29,7 +30,9 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FMapScene(AMapScene),
 	FMapSource(NULL),
 	FOldType(TYPE_NONE),
-	FHideEventEnabled(false)
+	FHideEventEnabled(false),
+	FScaleFactor(1.0),
+	FRotationAngle(0.0)
 {
 	FTypes[0]=-1;
 	FTypes[1]=-1;
@@ -51,7 +54,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 
 #ifdef Q_OS_ANDROID     // OR OTHER MOBILE OS's
     ui->frmJoystick->setVisible(false);
-    ui->frmScale->setVisible(false);
+//    ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
 #endif
 
@@ -142,10 +145,10 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
 	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 
-	connect(ui->rbtMode1, SIGNAL(clicked()), SLOT(onTypeSelected()));
-	connect(ui->rbtMode2, SIGNAL(clicked()), SLOT(onTypeSelected()));
-	connect(ui->rbtMode3, SIGNAL(clicked()), SLOT(onTypeSelected()));
-	connect(ui->rbtMode4, SIGNAL(clicked()), SLOT(onTypeSelected()));
+	connect(ui->rbtMode1, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode2, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode3, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode4, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
 	connect(ui->cmbMapSource, SIGNAL(currentIndexChanged(int)),SLOT(onSourceSelected(int)));
 
 	connect(FMapScene->instance(), SIGNAL(mppChanged(double)),SLOT(onMppChanged(double)));
@@ -177,10 +180,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 //! temp -----
 
 //! [enable gestures]
-    grabGesture(Qt::PanGesture);
     grabGesture(Qt::PinchGesture);
-    grabGesture(Qt::SwipeGesture);
-    grabGesture(Qt::TapGesture);
     grabGesture(Qt::TapAndHoldGesture);
 //! [enable gestures]
 }
@@ -296,7 +296,7 @@ bool MapForm::event(QEvent *AEvent)
 			QToolTip::showText(helpEvent->globalPos(), toolTipText);
 		return true;
 	}
-    else if (AEvent->type() == QEvent::Gesture)
+	else if (AEvent->type() == QEvent::Gesture)				//! [gesture event handler]
             return gestureEvent(static_cast<QGestureEvent*>(AEvent));
 
 	return QScrollArea::event(AEvent); // Invoke parent event handler
@@ -692,28 +692,14 @@ QString MapForm::getLonString(const QString &ALongitude)
 //! [gesture event handler]
 bool MapForm::gestureEvent(QGestureEvent *AEvent)
 {
-    if (QGesture *swipe = AEvent->gesture(Qt::SwipeGesture))
-        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-    else if (QGesture *pan = AEvent->gesture(Qt::PanGesture))
-        panTriggered(static_cast<QPanGesture *>(pan));
-    if (QGesture *tap = AEvent->gesture(Qt::TapGesture))
-        tapGesture(static_cast<QTapGesture *>(tap));
     if(QGesture *pinch = AEvent->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
-    else if(QGesture *gesture = AEvent->gesture(Qt::TapAndHoldGesture))
+	if(QGesture *gesture = AEvent->gesture(Qt::TapAndHoldGesture))
         tapAndHoldGesture(static_cast<QTapAndHoldGesture *>(gesture));
     AEvent->accept();
     return true;
 }
 //! [gesture event handler]
-
-void MapForm::tapGesture(QTapGesture *AGesture)
-{
-    if (AGesture->state()==Qt::GestureFinished) {
-
-        update();
-    }
-}
 
 void MapForm::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 {
@@ -727,66 +713,70 @@ void MapForm::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
     }
 }
 
-//! [swipe function]
-void MapForm::swipeTriggered(QSwipeGesture *AGesture)
-{
-qDebug()<<" MapForm::swipeTriggered/objectName="<<AGesture->objectName();
-    if (AGesture->state() == Qt::GestureFinished) {
-        if (AGesture->horizontalDirection() == QSwipeGesture::Left
-            || AGesture->verticalDirection() == QSwipeGesture::Up)
-            ; //goPrevImage();
-        else
-            ; //goNextImage();
-        update();
-    }
-}
-
-void MapForm::panTriggered(QPanGesture *AGesture)
-{
-qDebug()<<" MapForm::panTriggered/objectName="<<AGesture->objectName();
-#ifndef QT_NO_CURSOR
-    switch (AGesture->state()) {
-        case Qt::GestureStarted:
-        case Qt::GestureUpdated:
-            setCursor(Qt::SizeAllCursor);
-            break;
-        default:
-            setCursor(Qt::ArrowCursor);
-    }
-#endif
-    QPointF delta = AGesture->delta();
-//    horizontalOffset += delta.x();
-//    verticalOffset += delta.y();
-    update();
-}
-
 void MapForm::pinchTriggered(QPinchGesture *AGesture)
 {
-qDebug()<<" MapForm::pinchTriggered/objectName="<<AGesture->objectName();
     QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
-    //! QPinchGesture::ScaleFactorChanged, RotationAngleChanged, CenterPointChanged
-    if (changeFlags & QPinchGesture::RotationAngleChanged) {
-        qreal value = AGesture->property("rotationAngle").toReal();
-        qreal lastValue = AGesture->property("lastRotationAngle").toReal();
-        //!action   rotationAngle += value - lastValue;
-    }
-    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
-        qreal value = AGesture->property("scaleFactor").toReal();
-        //!action  currentStepScaleFactor = value;
-    }
-    if (changeFlags & QPinchGesture::CenterPointChanged) {
-        qreal center = AGesture->property("centerPoint").toReal();
-        //!action  currentStepScaleFactor = value;
-    }
+//	float scaleDelta=ui->cmBoxSlader->currentText().toFloat();	//-> extern comboBox
+	float scaleDelta=SCALE_DELTA;
+	float totalScale;
+	if (changeFlags & QPinchGesture::ScaleFactorChanged)
+	{
+		float direct=AGesture->property("scaleFactor").toFloat()-AGesture->property("lastScaleFactor").toFloat();
+		totalScale =AGesture->property("totalScaleFactor").toFloat();
+		int step=0;
+		if(totalScale>=1.0){
+			if(direct>=0){ //! zoom in++
+				if((totalScale-FScaleFactor)>=scaleDelta) {
+					FScaleFactor+=scaleDelta;
+					step=1;
+				}
+			}else{	//! zoom out--
+				if((FScaleFactor-totalScale)>=scaleDelta) {
+					FScaleFactor-=scaleDelta;
+					step=-1;
+				}
+			}
+		}else{	//! totalScale<1.0---------------
+			if(direct<0){ //!
+				if((totalScale-FScaleFactor)>=scaleDelta/10.0) {
+					FScaleFactor+=scaleDelta/10.0;
+					step=1;
+				}
+			}else{	//!
+				if((FScaleFactor-totalScale)>=scaleDelta/10.0) {
+					FScaleFactor-=scaleDelta/10.0;
+					step=-1;
+				}
+			}
+		}
+		ui->sldScale->setValue(ui->sldScale->value()+step);//-???--
+	}
+	//!-------------------
+	QPointF centerPoint;
+	if (changeFlags & QPinchGesture::CenterPointChanged)
+	{
+		centerPoint=AGesture->property("centerPoint").toPointF();
 
-    if (AGesture->state() == Qt::GestureFinished) {
-        //!action  scaleFactor *= currentStepScaleFactor;
-        //!action  currentStepScaleFactor = 1;
-    }
+	}
+	//!-------------------
+	qreal rotationAngle=0;
+	if (changeFlags & QPinchGesture::RotationAngleChanged)
+	{
+		rotationAngle =AGesture->property("totalRotationAngle").toReal();
+
+	}
+
+	if (AGesture->state() == Qt::GestureFinished)
+	{
+		FScaleFactor	= 1.0;
+		FRotationAngle	= 0.0;
+		FCurPoint.setX(0.0);
+		FCurPoint.setY(0.0);
+	}
 
     update();
 }
-//-->>> Gesture -->>> ///
+//!-->>> Gesture -->>> ///
 
 int MapForm::chooseMapSource(IMapSource *ASource)
 {
@@ -955,8 +945,9 @@ void MapForm::onSourceSelected(int AIndex)
 }
 
 /*************************************/
-void MapForm::onTypeSelected()
+void MapForm::onTypeSelected(bool AState)
 {
+qDebug()<<"MapForm::onTypeSelected/sender="<<sender()->objectName()<<AState;
 	if (sender()==ui->rbtMode1)
 		selectMapMode(0);
 	else if (sender()==ui->rbtMode2)

@@ -97,10 +97,7 @@ protected:
 	static QString getLonString(const QString &ALongitude);
     //! Gesture Handler
     bool gestureEvent(QGestureEvent *AEvent);
-    void tapGesture(QTapGesture *AGesture);
     void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
-    void swipeTriggered(QSwipeGesture *AGesture);
-    void panTriggered(QPanGesture *AGesture);
     void pinchTriggered(QPinchGesture *AGesture);
 public slots:
 	void showWindow();
@@ -110,7 +107,7 @@ public slots:
 protected slots:
 	void onSetNewCenter();
 	void onSourceSelected(int AIndex);
-	void onTypeSelected();
+	void onTypeSelected(bool AState);
 	void onMppChanged(double mpp);
 	void onSceneRectChanged(QRectF rect);
 
@@ -147,6 +144,10 @@ private:
 	QGraphicsLineItem * FLineY1;
 	QGraphicsLineItem * FLine2Y;
 	QGraphicsLineItem * FLineY2;
+	//--Gesture pinch
+	float				FScaleFactor;
+	float				FRotationAngle;
+	QPointF				FCurPoint;
 
 	QPalette            FControlPalette;
 	QPalette            FBoxPalette;
