@@ -145,7 +145,7 @@ private:
 	QGraphicsLineItem * FLine2Y;
 	QGraphicsLineItem * FLineY2;
 	//--Gesture pinch
-	float				FScaleFactor;
+	float				FWorkScaleFactor;
 	float				FRotationAngle;
 	QPointF				FCurPoint;
 

@@ -31,7 +31,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FMapSource(NULL),
 	FOldType(TYPE_NONE),
 	FHideEventEnabled(false),
-	FScaleFactor(1.0),
+	FWorkScaleFactor(1.0),
 	FRotationAngle(0.0)
 {
 	FTypes[0]=-1;
@@ -715,60 +715,66 @@ void MapForm::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 
 void MapForm::pinchTriggered(QPinchGesture *AGesture)
 {
-    QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
-//	float scaleDelta=ui->cmBoxSlader->currentText().toFloat();	//-> extern comboBox
-	float scaleDelta=SCALE_DELTA;
-	float totalScale;
-	if (changeFlags & QPinchGesture::ScaleFactorChanged)
+	if (AGesture->state() == Qt::GestureStarted)
 	{
-		float direct=AGesture->property("scaleFactor").toFloat()-AGesture->property("lastScaleFactor").toFloat();
-		totalScale =AGesture->property("totalScaleFactor").toFloat();
-		int step=0;
-		if(totalScale>=1.0){
-			if(direct>=0){ //! zoom in++
-				if((totalScale-FScaleFactor)>=scaleDelta) {
-					FScaleFactor+=scaleDelta;
-					step=1;
-				}
-			}else{	//! zoom out--
-				if((FScaleFactor-totalScale)>=scaleDelta) {
-					FScaleFactor-=scaleDelta;
-					step=-1;
+		FCurPoint=AGesture->property("centerPoint").toPointF();
+	}
+	//!-------------------
+	if (AGesture->state() == Qt::GestureUpdated)
+	{
+		QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
+		if (changeFlags & QPinchGesture::ScaleFactorChanged)
+		{
+			float scaleDelta=SCALE_DELTA;
+			float curScaleFactor =AGesture->property("totalScaleFactor").toFloat();
+			float direct=curScaleFactor-FWorkScaleFactor;
+			if(direct>=0)   //! zoom in++
+			{
+				if(curScaleFactor>=1.0){
+					if((curScaleFactor-FWorkScaleFactor)>scaleDelta) {
+						FWorkScaleFactor+=scaleDelta;
+						ui->sldScale->setValue(ui->sldScale->value()+1);//slader moove
+					}
+				}else{
+					if((curScaleFactor-FWorkScaleFactor)>scaleDelta/10.0) {
+						FWorkScaleFactor+=scaleDelta/10.0;
+						ui->sldScale->setValue(ui->sldScale->value()+1);
+					}
 				}
 			}
-		}else{	//! totalScale<1.0---------------
-			if(direct<0){ //!
-				if((totalScale-FScaleFactor)>=scaleDelta/10.0) {
-					FScaleFactor+=scaleDelta/10.0;
-					step=1;
-				}
-			}else{	//!
-				if((FScaleFactor-totalScale)>=scaleDelta/10.0) {
-					FScaleFactor-=scaleDelta/10.0;
-					step=-1;
+			else            //! zoom out--
+			{
+				if(curScaleFactor>=1.0){
+					if((FWorkScaleFactor-curScaleFactor)>scaleDelta) {
+						FWorkScaleFactor-=scaleDelta;
+						ui->sldScale->setValue(ui->sldScale->value()-1);//slader moove
+					}
+				}else{
+					if((FWorkScaleFactor-curScaleFactor)>scaleDelta/10.0) {
+						FWorkScaleFactor-=scaleDelta/10.0;
+						ui->sldScale->setValue(ui->sldScale->value()-1);
+					}
 				}
 			}
 		}
-		ui->sldScale->setValue(ui->sldScale->value()+step);//-???--
-	}
-	//!-------------------
-	QPointF centerPoint;
-	if (changeFlags & QPinchGesture::CenterPointChanged)
-	{
-		centerPoint=AGesture->property("centerPoint").toPointF();
+		//!-------------------
+		QPointF centerPoint;
+		if (changeFlags & QPinchGesture::CenterPointChanged)
+		{
+			centerPoint=AGesture->property("centerPoint").toPointF();
 
-	}
-	//!-------------------
-	qreal rotationAngle=0;
-	if (changeFlags & QPinchGesture::RotationAngleChanged)
-	{
-		rotationAngle =AGesture->property("totalRotationAngle").toReal();
+		}
+		//!-------------------
+		qreal rotationAngle=0;
+		if (changeFlags & QPinchGesture::RotationAngleChanged)
+		{
+			rotationAngle =AGesture->property("totalRotationAngle").toReal();
 
+		}
 	}
-
 	if (AGesture->state() == Qt::GestureFinished)
 	{
-		FScaleFactor	= 1.0;
+		FWorkScaleFactor	= 1.0;
 		FRotationAngle	= 0.0;
 		FCurPoint.setX(0.0);
 		FCurPoint.setY(0.0);
