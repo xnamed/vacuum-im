@@ -35,6 +35,7 @@ class Map:  public GeoMap,
 #if QT_VERSION >= 0x050000
 	Q_PLUGIN_METADATA(IID "ru.rwsoftware.eyecu.IMap")
 #endif
+	Q_PROPERTY(bool getFlagGesture READ getFlagGesture WRITE setFlagGesture)
 public:
 	Map();
 	~Map();
@@ -99,6 +100,10 @@ public:
 
 	void zoomIn();
 	void zoomOut();
+	// For Gestures
+	bool getFlagGesture() const {return FGestureActive;}
+	void setFlagGesture(bool AState){FGestureActive=AState;}
+	void setPinchGesturePosit(QPointF APosition);
 
 public slots:
 	void onSliderValueChanged(int APosition);
@@ -177,6 +182,8 @@ private:
 	MercatorCoordinates	FMenuPopupPosition;
 
 	QHash<int, MapObjectHandlerRecord *> FObjectHandlers;
+	bool				FGestureActive;
+
 };
 
 #endif // MAP_H

@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QApplication>
 #include <QGraphicsView>
 #include <QPushButton>
@@ -42,7 +43,8 @@ Map::Map():
 	FMapsWidget(NULL),
 	FMouseGrabber(NULL),
 	FMyLocation(NULL),
-	FFollowMyLocation(false)
+	FFollowMyLocation(false),
+	FGestureActive(false)
 {}
 
 Map::~Map()
@@ -681,6 +683,12 @@ void Map::mapSceneMouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 //---- IMapSceneListener ----
 void Map::mapSceneMouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+	if(FGestureActive)
+	{
+		event->accept();
+		return;
+	}
+
 	event->lastPos();
 	if (FMouseGrabber)
 	{
@@ -755,6 +763,10 @@ void Map::mapSceneKeyPressEvent(QKeyEvent *keyEvent)
 
 void Map::mapSceneWheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
 {
+	if(FGestureActive) {
+		wheelEvent->accept();
+		return;
+	}
 	if (FMouseGrabber)
 		if (FMouseGrabber->mapMouseWheelMoved(wheelEvent->scenePos(), wheelEvent->delta()))
 			return;
@@ -784,6 +796,12 @@ void Map::zoomOut()
 		zoom--;
 		Options::node(OPV_MAP_ZOOM).setValue(zoom);
 	}
+}
+
+void Map::setPinchGesturePosit(QPointF APosition)
+{
+	FMouseWheelPosition=APosition;
+qDebug()<<"Map::setPinchGesturePosit/FMouseWheelPosition="<<FMouseWheelPosition;
 }
 
 QMultiMap<int, IOptionsDialogWidget *> Map::optionsDialogWidgets(const QString &ANodeId, QWidget *AParent)

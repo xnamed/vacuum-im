@@ -20,7 +20,7 @@
 
 #include "ui_mapform.h"
 
-#define SCALE_DELTA	2
+#define SENSITIVTY	2.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
 //-----------------
 
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
@@ -31,8 +31,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FMapSource(NULL),
 	FOldType(TYPE_NONE),
 	FHideEventEnabled(false),
-	FWorkScaleFactor(1.0),
-	FRotationAngle(0.0)
+	FWorkScaleFactor(1.0)
 {
 	FTypes[0]=-1;
 	FTypes[1]=-1;
@@ -54,7 +53,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 
 #ifdef Q_OS_ANDROID     // OR OTHER MOBILE OS's
     ui->frmJoystick->setVisible(false);
-//    ui->frmScale->setVisible(false);
+	//ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
 #endif
 
@@ -145,10 +144,10 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
 	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 
-	connect(ui->rbtMode1, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
-	connect(ui->rbtMode2, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
-	connect(ui->rbtMode3, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
-	connect(ui->rbtMode4, SIGNAL(clicked(bool)), SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode1, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode2, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode3, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
+	connect(ui->rbtMode4, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
 	connect(ui->cmbMapSource, SIGNAL(currentIndexChanged(int)),SLOT(onSourceSelected(int)));
 
 	connect(FMapScene->instance(), SIGNAL(mppChanged(double)),SLOT(onMppChanged(double)));
@@ -296,9 +295,10 @@ bool MapForm::event(QEvent *AEvent)
 			QToolTip::showText(helpEvent->globalPos(), toolTipText);
 		return true;
 	}
+#ifdef Q_OS_ANDROID		//OR Other mobile OS
 	else if (AEvent->type() == QEvent::Gesture)				//! [gesture event handler]
-            return gestureEvent(static_cast<QGestureEvent*>(AEvent));
-
+			return gestureEvent(static_cast<QGestureEvent*>(AEvent));
+#endif
 	return QScrollArea::event(AEvent); // Invoke parent event handler
 }
 
@@ -717,7 +717,10 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 {
 	if (AGesture->state() == Qt::GestureStarted)
 	{
-		FCurPoint=AGesture->property("centerPoint").toPointF();
+		FMap->setFlagGesture(true);
+qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted";
+		//FCurPoint=AGesture->property("centerPoint").toPointF();
+		FMap->setPinchGesturePosit(AGesture->property("centerPoint").toPointF());
 	}
 	//!-------------------
 	if (AGesture->state() == Qt::GestureUpdated)
@@ -725,59 +728,51 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 		QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
 		if (changeFlags & QPinchGesture::ScaleFactorChanged)
 		{
-			float scaleDelta=SCALE_DELTA;
+			float scaleDelta=SENSITIVTY;
 			float curScaleFactor =AGesture->property("totalScaleFactor").toFloat();
 			float direct=curScaleFactor-FWorkScaleFactor;
-			if(direct>=0)   //! zoom in++
+			if(curScaleFactor>=1.0)
 			{
-				if(curScaleFactor>=1.0){
-					if((curScaleFactor-FWorkScaleFactor)>scaleDelta) {
-						FWorkScaleFactor+=scaleDelta;
-						ui->sldScale->setValue(ui->sldScale->value()+1);//slader moove
-					}
-				}else{
-					if((curScaleFactor-FWorkScaleFactor)>scaleDelta/10.0) {
-						FWorkScaleFactor+=scaleDelta/10.0;
-						ui->sldScale->setValue(ui->sldScale->value()+1);
-					}
+				if((direct)>=scaleDelta)
+				{
+					FWorkScaleFactor+=scaleDelta;
+					FMap->zoomIn();						//! zoom in++
+				}
+				else if(direct<-scaleDelta)
+				{
+					FWorkScaleFactor-=scaleDelta;
+					FMap->zoomOut();					//! zoom out--
 				}
 			}
-			else            //! zoom out--
+			else
 			{
-				if(curScaleFactor>=1.0){
-					if((FWorkScaleFactor-curScaleFactor)>scaleDelta) {
-						FWorkScaleFactor-=scaleDelta;
-						ui->sldScale->setValue(ui->sldScale->value()-1);//slader moove
-					}
-				}else{
-					if((FWorkScaleFactor-curScaleFactor)>scaleDelta/10.0) {
-						FWorkScaleFactor-=scaleDelta/10.0;
-						ui->sldScale->setValue(ui->sldScale->value()-1);
-					}
+				if((direct)>=scaleDelta/10.0)
+				{
+					FWorkScaleFactor+=scaleDelta/10.0;
+					FMap->zoomIn();
+				}
+				else if(direct<-scaleDelta/10.0)
+				{
+					FWorkScaleFactor-=scaleDelta/10.0;
+					FMap->zoomOut();
 				}
 			}
 		}
-		//!-------------------
+		//!---RESERVE----------------
 		QPointF centerPoint;
 		if (changeFlags & QPinchGesture::CenterPointChanged)
 		{
 			centerPoint=AGesture->property("centerPoint").toPointF();
-
-		}
-		//!-------------------
-		qreal rotationAngle=0;
-		if (changeFlags & QPinchGesture::RotationAngleChanged)
-		{
-			rotationAngle =AGesture->property("totalRotationAngle").toReal();
-
 		}
 	}
 	if (AGesture->state() == Qt::GestureFinished)
 	{
-		FWorkScaleFactor	= 1.0;
-		FRotationAngle	= 0.0;
-		FCurPoint.setX(0.0);
-		FCurPoint.setY(0.0);
+		FWorkScaleFactor= 1.0;
+		//FCurPoint.setX(0.0);
+		//FCurPoint.setY(0.0);
+		//FMap->setPinchGesturePosit(FCurPoint);
+		FMap->setFlagGesture(false);
+qDebug()<<"MapForm::pinchTriggered/Qt::GestureFinished="<<AGesture->property("centerPoint").toPointF();
 	}
 
     update();
