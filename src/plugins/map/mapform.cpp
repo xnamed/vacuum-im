@@ -20,7 +20,7 @@
 
 #include "ui_mapform.h"
 
-#define SENSITIVTY	2.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
+#define SENSITIVITY	2.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
 //-----------------
 
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
@@ -53,8 +53,13 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 
 #ifdef Q_OS_ANDROID     // OR OTHER MOBILE OS's
     ui->frmJoystick->setVisible(false);
-	//ui->frmScale->setVisible(false);
+//	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
+	ui->btnReload2->setIconSize(QSize(32,32));
+	ui->lblType1->setBaseSize(QSize(32,32));
+	ui->rbtMode1->setIconSize(QSize(32,32));
+#else
+	ui->btnReload2->setVisible(false);
 #endif
 
 	QStyle *style = QApplication::style();
@@ -62,6 +67,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->btnLeft->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
 	ui->btnUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
+	ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 	ui->btnRight->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
 
 	Shortcuts::bindObjectShortcut(SCT_MAP_REFRESH, ui->btnReload);
@@ -143,6 +149,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
 	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
 	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
+	connect(ui->btnReload2, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 
 	connect(ui->rbtMode1, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
 	connect(ui->rbtMode2, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
@@ -718,9 +725,9 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 	if (AGesture->state() == Qt::GestureStarted)
 	{
 		FMap->setFlagGesture(true);
-qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted";
-		//FCurPoint=AGesture->property("centerPoint").toPointF();
-		FMap->setPinchGesturePosit(AGesture->property("centerPoint").toPointF());
+		QPointF centerPoint=AGesture->property("centerPoint").toPointF();
+//		FMap->setPinchGesturePosit(centerPoint);
+qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted="<<centerPoint;
 	}
 	//!-------------------
 	if (AGesture->state() == Qt::GestureUpdated)
@@ -728,7 +735,7 @@ qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted";
 		QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
 		if (changeFlags & QPinchGesture::ScaleFactorChanged)
 		{
-			float scaleDelta=SENSITIVTY;
+			float scaleDelta=SENSITIVITY;
 			float curScaleFactor =AGesture->property("totalScaleFactor").toFloat();
 			float direct=curScaleFactor-FWorkScaleFactor;
 			if(curScaleFactor>=1.0)
@@ -759,18 +766,15 @@ qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted";
 			}
 		}
 		//!---RESERVE----------------
-		QPointF centerPoint;
 		if (changeFlags & QPinchGesture::CenterPointChanged)
 		{
+			QPointF centerPoint;
 			centerPoint=AGesture->property("centerPoint").toPointF();
 		}
 	}
 	if (AGesture->state() == Qt::GestureFinished)
 	{
 		FWorkScaleFactor= 1.0;
-		//FCurPoint.setX(0.0);
-		//FCurPoint.setY(0.0);
-		//FMap->setPinchGesturePosit(FCurPoint);
 		FMap->setFlagGesture(false);
 qDebug()<<"MapForm::pinchTriggered/Qt::GestureFinished="<<AGesture->property("centerPoint").toPointF();
 	}
@@ -896,14 +900,6 @@ int MapForm::chooseMapSource(IMapSource *ASource)
 	return index;
 }
 
-void MapForm::selectMapMode(qint8 AMode)
-{
-	if (Options::node(OPV_MAP_MODE).value().toInt() == AMode)
-		setMapMode(AMode);
-	else
-		Options::node(OPV_MAP_MODE).setValue(AMode);
-}
-
 void MapForm::setOwnLocation(const QString &ALatitude, const QString &ALongitude, GeolocElement::Reliability AReliable)//data from "Geoloc"
 {
 	QString css = QString("QLabel {background-color: rgba(0, 0, 0, 0); color: %1; }")
@@ -957,6 +953,14 @@ qDebug()<<"MapForm::onTypeSelected/sender="<<sender()->objectName()<<AState;
 		selectMapMode(2);
 	else if (sender()==ui->rbtMode4)
 		selectMapMode(3);
+}
+
+void MapForm::selectMapMode(qint8 AMode)
+{
+	if (Options::node(OPV_MAP_MODE).value().toInt() == AMode)
+		setMapMode(AMode);
+	else
+		Options::node(OPV_MAP_MODE).setValue(AMode);
 }
 
 void MapForm::onMppChanged(double mpp)

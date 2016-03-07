@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include <QDebug>
 #include <QTimer>
 #include <QResizeEvent>
 #include <QApplication>
@@ -22,7 +22,11 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowFlags(Qt::WindowCloseButtonHint); // *** <<< eyeCU >>> ***
 	setWindowRole("MainWindow");
 	setAttribute(Qt::WA_DeleteOnClose,false);
-	setIconSize(QSize(16,16));
+#ifdef Q_OS_WIN         // *** <<< eyeCU <<< ***
+//    setIconSize(QSize(16,16));
+#else   // Q_OS_ANDROID
+    setIconSize(QSize(32,32));  //--TEMPORARY, Need calculate for DPI----
+#endif
 
 	FAligned = false;
 	FLeftWidgetWidth = 0;
@@ -71,12 +75,20 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FTabWidget->instance(),100);
 
 	QToolBar *topToolbar = new QToolBar(this);
-	topToolbar->setFloatable(false);
-	topToolbar->setMovable(false);
+    topToolbar->setFloatable(false);
+    topToolbar->setMovable(false);
+// *** <<< eyeCU <<< ***
+#ifdef Q_OS_ANDROID     // ne obyasatelno
+    QPalette plt;
+    plt.setColor(QPalette::Button,QColor(0,0,0,255));
+    plt.setColor(QPalette::ButtonText,QColor(255,255,255,255));
+    topToolbar->setPalette(plt);
+#endif
+// *** >>> eyeCU >>> ***
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
 	topChanger->setSeparatorsVisible(false);
-	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
-//topToolbar->setPalette(QPalette);  // for android
+    insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
+
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
@@ -84,12 +96,12 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	bottomChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_BOTTOM_TOOLBAR,bottomChanger);
 
-	FMainMenu = new Menu(this);
+    FMainMenu = new Menu(this);
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
     FMainMenu->setTitle(tr("Main menu"));                                               // *** <<< eyeCU >>> ***
 	QToolButton *button =
 		topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);	// *** <<< eyeCU >>> ***
-	button->setPopupMode(QToolButton::InstantPopup);
+    button->setPopupMode(QToolButton::InstantPopup);
 
 // *** <<< eyeCU <<< ***
 #if defined(Q_OS_ANDROID)
@@ -105,15 +117,14 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
 	FMainMenuBar = new MenuBarChanger(new QMenuBar());
 	setMenuBar(FMainMenuBar->menuBar());
-
 	updateWindow();
 
 // *** <<< eyeCU <<< ***
-	grabGesture(Qt::TapGesture);
+//	grabGesture(Qt::TapGesture);
 	grabGesture(Qt::TapAndHoldGesture);
-	grabGesture(Qt::PanGesture);
-	grabGesture(Qt::PinchGesture);
-	grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::PinchGesture);
+//	grabGesture(Qt::PanGesture);
+//	grabGesture(Qt::SwipeGesture);
 // *** >>> eyeCU >>>***
 }
 
@@ -411,10 +422,6 @@ bool MainWindow::event(QEvent *AEvent)
 bool MainWindow::gestureEvent(QGestureEvent *AEvent)
 {
 /*! Reserve for other gestures
-	if (QGesture *swipe = AEvent->gesture(Qt::SwipeGesture))
-		swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-	else if (QGesture *pan = AEvent->gesture(Qt::PanGesture))
-		panTriggered(static_cast<QPanGesture *>(pan));
 	if (QGesture *pinch = AEvent->gesture(Qt::PinchGesture))
 		pinchTriggered(static_cast<QPinchGesture *>(pinch));
 	if (QGesture *tap = AEvent->gesture(Qt::TapGesture))

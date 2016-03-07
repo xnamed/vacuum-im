@@ -654,12 +654,14 @@ void Map::insertOptionsDialogNode(const IOptionsDialogNode &ANode)
 
 void Map::mapSceneMousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+	if(FGestureActive){	event->accept();return;	}
 	FPressedPosition = event->scenePos();
 	FPressedButton   = event->button();
 }
 
 void Map::mapSceneMouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+	if(FGestureActive){	event->accept();return;	}
 	if (FPressedButton == event->button())
 	{
 		if (FPressedPosition == event->scenePos())   // Click!
@@ -683,13 +685,9 @@ void Map::mapSceneMouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 //---- IMapSceneListener ----
 void Map::mapSceneMouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-	if(FGestureActive)
-	{
-		event->accept();
-		return;
-	}
-
 	event->lastPos();
+	if(FGestureActive){	event->accept();return;	}
+
 	if (FMouseGrabber)
 	{
 		QPointF newPosition=FMapForm->mapScene()->translatePos(event->scenePos(), true);
@@ -763,10 +761,7 @@ void Map::mapSceneKeyPressEvent(QKeyEvent *keyEvent)
 
 void Map::mapSceneWheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
 {
-	if(FGestureActive) {
-		wheelEvent->accept();
-		return;
-	}
+	if(FGestureActive) { wheelEvent->accept(); return;}
 	if (FMouseGrabber)
 		if (FMouseGrabber->mapMouseWheelMoved(wheelEvent->scenePos(), wheelEvent->delta()))
 			return;
@@ -801,6 +796,7 @@ void Map::zoomOut()
 void Map::setPinchGesturePosit(QPointF APosition)
 {
 	FMouseWheelPosition=APosition;
+//	onOptionsChanged(Options::node(OPV_MAP_ZOOM));
 qDebug()<<"Map::setPinchGesturePosit/FMouseWheelPosition="<<FMouseWheelPosition;
 }
 
