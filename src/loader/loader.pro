@@ -139,7 +139,7 @@ contains(ANDROID_TARGET_ARCH,armeabi) {
 #    C:/QT/Qt5.5.1/5.5/android_x86/plugins/sqldrivers/libqsqlite.so
 #}
 
-message("LOADER/ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
+#message("LOADER/ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
 
 DISTFILES += \
     android/AndroidManifest.xml \

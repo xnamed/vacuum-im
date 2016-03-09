@@ -1,5 +1,5 @@
 #include "optionsdialog.h"
-
+#include <QDebug>
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -58,8 +58,11 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->setRootIsDecorated(false);
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
+#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+	connect(ui.trvNodes,SIGNAL(doubleClicked(QModelIndex)),SLOT(onDoubleClicked(QModelIndex)));
+#else
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
-
+#endif
 	ui.dbbButtons->button(QDialogButtonBox::Apply)->setEnabled(false);
 	ui.dbbButtons->button(QDialogButtonBox::Reset)->setEnabled(false);
 	connect(ui.dbbButtons,SIGNAL(clicked(QAbstractButton *)),SLOT(onDialogButtonClicked(QAbstractButton *)));
@@ -226,7 +229,9 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 {
 	Q_UNUSED(APrevious);
 	ui.scaScroll->takeWidget();
-
+#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+	ui.scaScroll->setVisible(true);
+#endif
 	QStandardItem *curItem = FItemsModel->itemFromIndex(FProxyModel->mapToSource(ACurrent));
 
 	QString nodeId = FNodeItems.key(curItem);
@@ -240,6 +245,11 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		ui.scaScroll->setWidget(curWidget);
 
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);
+}
+
+void OptionsDialog::onDoubleClicked(const QModelIndex &ACurrent)
+{
+	onCurrentItemChanged(ACurrent, ACurrent);
 }
 
 void OptionsDialog::onDialogButtonClicked(QAbstractButton *AButton)

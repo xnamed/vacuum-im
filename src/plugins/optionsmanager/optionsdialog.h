@@ -5,7 +5,8 @@
 #include <QSortFilterProxyModel>
 #include <QObjectCleanupHandler>
 #include <interfaces/ioptionsmanager.h>
-#include "ui_optionsdialog.h"
+//#include "ui_optionsdialog.h"
+#include "newoptionsdialogclass.h"
 
 class SortFilterProxyModel :
 	public QSortFilterProxyModel
@@ -39,8 +40,10 @@ protected slots:
 	void onOptionsDialogNodeRemoved(const IOptionsDialogNode &ANode);
 	void onCurrentItemChanged(const QModelIndex &ACurrent, const QModelIndex &APrevious);
 	void onDialogButtonClicked(QAbstractButton *AButton);
+	void onDoubleClicked(const QModelIndex &ACurrent);
 private:
-	Ui::OptionsDialogClass ui;
+//	Ui::OptionsDialogClass ui;
+	Ui::OptionsDialogClass2 ui;
 private:
 	IOptionsManager *FOptionsManager;
 private:

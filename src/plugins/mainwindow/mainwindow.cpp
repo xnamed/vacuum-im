@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowRole("MainWindow");
 	setAttribute(Qt::WA_DeleteOnClose,false);
 #ifdef Q_OS_WIN         // *** <<< eyeCU <<< ***
-//    setIconSize(QSize(16,16));
+	setIconSize(QSize(16,16));
 #else   // Q_OS_ANDROID
     setIconSize(QSize(32,32));  //--TEMPORARY, Need calculate for DPI----
 #endif

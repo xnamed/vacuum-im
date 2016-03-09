@@ -32,7 +32,9 @@ InfoWidget::InfoWidget(IMessageWidgets *AMessageWidgets, IMessageWindow *AWindow
 	QToolBar *toolBar = new QToolBar;
 	toolBar->setMovable(false);
 	toolBar->setFloatable(false);
+#ifdef Q_OS_WIN		// *** <<< eyeCU <<< ***
 	toolBar->setIconSize(QSize(16,16));
+#endif
 	toolBar->layout()->setMargin(0);
 	toolBar->setStyleSheet("QToolBar { border: none; }");
 	toolBar->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
