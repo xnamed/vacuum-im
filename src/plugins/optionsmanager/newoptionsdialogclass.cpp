@@ -12,9 +12,6 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	verticalLayout->setContentsMargins(5, 5, 5, 5);
 	verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
 
-	sprSplitter = new QSplitter(OptionsDialogClass);
-	sprSplitter->setObjectName(QStringLiteral("sprSplitter"));
-
 	trvNodes = new QTreeView;
 	trvNodes->setObjectName(QStringLiteral("trvNodes"));
 	trvNodes->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -22,13 +19,15 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	trvNodes->setIndentation(12);
 	trvNodes->setSortingEnabled(true);
 	trvNodes->header()->setVisible(false);
+	trvNodes->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+
 	verticalLayout->addWidget(trvNodes);
 
 	scaScroll = new QScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
 	scaScroll->setWidgetResizable(true);
 	scaScroll->resize(540,400);
-	scaScroll->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Maximum);
+	scaScroll->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
 
 	scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
@@ -38,6 +37,7 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
 	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
 	verticalLayout->addWidget(dbbButtons);
+
 	QWidget::setTabOrder(trvNodes, dbbButtons);
 	retranslateUi(OptionsDialogClass);
 	QMetaObject::connectSlotsByName(OptionsDialogClass);
@@ -99,4 +99,3 @@ void Ui_NewOptionsDialogClass::retranslateUi(QDialog *OptionsDialogClass)
 {
 	Q_UNUSED(OptionsDialogClass);
 } // retranslateUi
-

@@ -40,9 +40,8 @@ protected slots:
 	void onOptionsDialogNodeRemoved(const IOptionsDialogNode &ANode);
 	void onCurrentItemChanged(const QModelIndex &ACurrent, const QModelIndex &APrevious);
 	void onDialogButtonClicked(QAbstractButton *AButton);
-	void onDoubleClicked(const QModelIndex &ACurrent);
+	void onClicked(const QModelIndex &ACurrent);		// *** <<< eyeCU <<< ***
 private:
-//	Ui::OptionsDialogClass ui;
 	Ui::OptionsDialogClass2 ui;
 private:
 	IOptionsManager *FOptionsManager;

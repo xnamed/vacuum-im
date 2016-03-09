@@ -59,7 +59,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
-	connect(ui.trvNodes,SIGNAL(doubleClicked(QModelIndex)),SLOT(onDoubleClicked(QModelIndex)));
+	connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
 #endif
@@ -73,15 +73,18 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 
 	if (!restoreGeometry(Options::fileValue("optionsmanager.optionsdialog.geometry",FRootNodeId).toByteArray()))
 		setGeometry(WidgetManager::alignGeometry(FItemsModel->rowCount()>0 ? QSize(750,560) : QSize(570,560),this));
+#ifndef Q_OS_ANDROID	// *** <<< eyeCU <<< ***
 	if (!ui.sprSplitter->restoreState(Options::fileValue("optionsmanager.optionsdialog.splitter.state",FRootNodeId).toByteArray()))
 		ui.sprSplitter->setSizes(QList<int>() << 180 << 620);
+#endif
 }
 
 OptionsDialog::~OptionsDialog()
 {
 	Options::setFileValue(saveGeometry(),"optionsmanager.optionsdialog.geometry",FRootNodeId);
+#ifndef Q_OS_ANDROID	// *** <<< eyeCU <<< ***
 	Options::setFileValue(ui.sprSplitter->saveState(),"optionsmanager.optionsdialog.splitter.state",FRootNodeId);
-
+#endif
 	FCleanupHandler.clear();
 }
 
@@ -246,11 +249,12 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);
 }
-
-void OptionsDialog::onDoubleClicked(const QModelIndex &ACurrent)
+// *** <<< eyeCU <<< ***
+void OptionsDialog::onClicked(const QModelIndex &ACurrent)
 {
 	onCurrentItemChanged(ACurrent, ACurrent);
 }
+// *** >>> eyeCU >>> ***
 
 void OptionsDialog::onDialogButtonClicked(QAbstractButton *AButton)
 {
