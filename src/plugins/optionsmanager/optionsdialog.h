@@ -5,15 +5,15 @@
 #include <QSortFilterProxyModel>
 #include <QObjectCleanupHandler>
 #include <interfaces/ioptionsmanager.h>
-//#include "ui_optionsdialog.h"
+
 #include "newoptionsdialogclass.h"
 
 class SortFilterProxyModel :
 	public QSortFilterProxyModel
 {
-	Q_OBJECT;
+	Q_OBJECT
 public:
-	SortFilterProxyModel(QObject *AParent) : QSortFilterProxyModel(AParent) {};
+	SortFilterProxyModel(QObject *AParent) : QSortFilterProxyModel(AParent) {}
 protected:
 	virtual bool lessThan(const QModelIndex &ALeft, const QModelIndex &ARight) const;
 };
@@ -21,7 +21,7 @@ protected:
 class OptionsDialog :
 	public QDialog
 {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	OptionsDialog(IOptionsManager *AOptionsManager, const QString &ARootId = QString::null, QWidget *AParent = NULL);
 	~OptionsDialog();
@@ -42,7 +42,7 @@ protected slots:
 	void onDialogButtonClicked(QAbstractButton *AButton);
 	void onClicked(const QModelIndex &ACurrent);		// *** <<< eyeCU <<< ***
 private:
-	Ui::OptionsDialogClass2 ui;
+    Ui::OptionsDialogClass ui;
 private:
 	IOptionsManager *FOptionsManager;
 private:

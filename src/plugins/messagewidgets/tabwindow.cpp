@@ -49,7 +49,12 @@ TabWindow::TabWindow(IMessageWidgets *AMessageWidgets, const QUuid &AWindowId)
 	connect(FMessageWidgets->instance(),SIGNAL(tabWindowNameChanged(const QUuid &, const QString &)),SLOT(onTabWindowNameChanged(const QUuid &, const QString &)));
 
 	FCornerBar = new QToolBar(ui.twtTabs);
-	FCornerBar->setIconSize(QSize(16, 16));
+#ifdef Q_OS_ANDROID
+		FCornerBar->setIconSize(QSize(32, 32));
+#else
+		FCornerBar->setIconSize(QSize(16, 16));
+#endif
+
 	FCornerBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 #if !defined(Q_OS_MAC)
 	FCornerBar->setStyleSheet(QLatin1String("QToolBar {margin: 0px; border: 0px;}"));

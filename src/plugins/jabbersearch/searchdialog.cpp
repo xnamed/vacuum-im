@@ -38,7 +38,11 @@ SearchDialog::SearchDialog(IJabberSearch *ASearch, const Jid &AStreamJid, const 
 	FVCardManager = PluginHelper::pluginInstance<IVCardManager>();
 
 	QToolBar *toolBar = new QToolBar(this);
-	toolBar->setIconSize(QSize(16,16));
+#ifdef Q_OS_ANDROID
+		toolBar->setIconSize(QSize(32,32));
+#else
+		toolBar->setIconSize(QSize(16,16));
+#endif
 	FToolBarChanger = new ToolBarChanger(toolBar);
 	FToolBarChanger->setSeparatorsVisible(false);
 	layout()->setMenuBar(toolBar);

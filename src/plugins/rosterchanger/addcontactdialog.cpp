@@ -25,7 +25,11 @@ AddContactDialog::AddContactDialog(IRosterChanger *ARosterChanger, const Jid &AS
 	FRosterChanger = ARosterChanger;
 
 	QToolBar *toolBar = new QToolBar(this);
+#ifdef Q_OS_ANDROID
+	toolBar->setIconSize(QSize(32,32));
+#else
 	toolBar->setIconSize(QSize(16,16));
+#endif
 	ui.lytMainLayout->setMenuBar(toolBar);
 	FToolBarChanger = new ToolBarChanger(toolBar);
 

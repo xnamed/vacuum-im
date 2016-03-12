@@ -1,5 +1,5 @@
 #include "optionsdialog.h"
-#include <QDebug>
+
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -16,8 +16,20 @@
 
 #define IDR_ORDER  Qt::UserRole + 1
 
-#define NODE_ITEM_ICONSIZE   QSize(16,16)
-#define NODE_ITEM_SIZEHINT   QSize(24,24)
+#ifdef Q_OS_ANDROID     // *** <<< eyeCU <<< ***
+    #define OS_NODE     1       // NODE FOR ANDROID
+#else
+    #define OS_NODE     0       // NODE FOR WINDOWS
+#endif
+
+//#ifdef Q_OS_ANDROID	// *** <<< eyeCU <<< ***
+#if OS_NODE          // *** <<< eyeCU <<< ***
+	#define NODE_ITEM_ICONSIZE   QSize(32,32)
+	#define NODE_ITEM_SIZEHINT   QSize(32,32)
+#else
+	#define NODE_ITEM_ICONSIZE   QSize(16,16)
+	#define NODE_ITEM_SIZEHINT   QSize(24,24)
+#endif
 
 static const QString NodeDelimiter = ".";
 
@@ -36,7 +48,9 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
-
+#if OS_NODE
+	this->showFullScreen();
+#endif
 	FRootNodeId = ARootId;
 	delete ui.scaScroll->takeWidget();
 
@@ -58,8 +72,9 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->setRootIsDecorated(false);
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
-#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
-	connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
+#if OS_NODE         // *** <<< eyeCU <<< ***
+	ui.trvNodes->setAlternatingRowColors(true);
+    connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
 #endif
@@ -70,10 +85,9 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	foreach (const IOptionsDialogNode &node, FOptionsManager->optionsDialogNodes())
 		onOptionsDialogNodeInserted(node);
 	ui.trvNodes->setVisible(FItemsModel->rowCount() > 0);
-
-	if (!restoreGeometry(Options::fileValue("optionsmanager.optionsdialog.geometry",FRootNodeId).toByteArray()))
-		setGeometry(WidgetManager::alignGeometry(FItemsModel->rowCount()>0 ? QSize(750,560) : QSize(570,560),this));
-#ifndef Q_OS_ANDROID	// *** <<< eyeCU <<< ***
+#if !OS_NODE         // *** <<< eyeCU <<< ***
+    if (!restoreGeometry(Options::fileValue("optionsmanager.optionsdialog.geometry",FRootNodeId).toByteArray()))
+        setGeometry(WidgetManager::alignGeometry(FItemsModel->rowCount()>0 ? QSize(750,560) : QSize(570,560),this));
 	if (!ui.sprSplitter->restoreState(Options::fileValue("optionsmanager.optionsdialog.splitter.state",FRootNodeId).toByteArray()))
 		ui.sprSplitter->setSizes(QList<int>() << 180 << 620);
 #endif
@@ -81,8 +95,8 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 
 OptionsDialog::~OptionsDialog()
 {
+#if !OS_NODE         // *** <<< eyeCU <<< ***
 	Options::setFileValue(saveGeometry(),"optionsmanager.optionsdialog.geometry",FRootNodeId);
-#ifndef Q_OS_ANDROID	// *** <<< eyeCU <<< ***
 	Options::setFileValue(ui.sprSplitter->saveState(),"optionsmanager.optionsdialog.splitter.state",FRootNodeId);
 #endif
 	FCleanupHandler.clear();
@@ -99,10 +113,12 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 {
 	LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
 
-	QWidget *nodeWidget = new QWidget(ui.scaScroll);
+    QWidget *nodeWidget = new QWidget(ui.scaScroll);
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
-	nodeLayout->setMargin(5);
-
+    nodeLayout->setMargin(5);
+#if OS_NODE         // *** <<< eyeCU <<< ***
+    ui.scaScroll->showFullScreen();
+#endif
 	QMultiMap<int, IOptionsDialogWidget *> orderedWidgets;
 	foreach(IOptionsDialogHolder *optionsHolder, FOptionsManager->optionsDialogHolders())
 		orderedWidgets += optionsHolder->optionsDialogWidgets(ANodeId,nodeWidget);
@@ -228,12 +244,19 @@ void OptionsDialog::onOptionsDialogNodeRemoved(const IOptionsDialogNode &ANode)
 	}
 }
 
+// *** <<< eyeCU <<< ***
+void OptionsDialog::onClicked(const QModelIndex &ACurrent)
+{
+    onCurrentItemChanged(ACurrent, ACurrent);
+}
+// *** >>> eyeCU >>> ***
+
 void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QModelIndex &APrevious)
 {
 	Q_UNUSED(APrevious);
 	ui.scaScroll->takeWidget();
-#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
-	ui.scaScroll->setVisible(true);
+#if OS_NODE         // *** <<< eyeCU <<< ***
+    ui.scaScroll->setVisible(true);
 #endif
 	QStandardItem *curItem = FItemsModel->itemFromIndex(FProxyModel->mapToSource(ACurrent));
 
@@ -249,12 +272,6 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);
 }
-// *** <<< eyeCU <<< ***
-void OptionsDialog::onClicked(const QModelIndex &ACurrent)
-{
-	onCurrentItemChanged(ACurrent, ACurrent);
-}
-// *** >>> eyeCU >>> ***
 
 void OptionsDialog::onDialogButtonClicked(QAbstractButton *AButton)
 {

@@ -1,5 +1,5 @@
 #include "pluginmanager.h"
-#include <QDebug>	//-------------------------
+
 #include <QTimer>
 #include <QStack>
 #include <QThread>
@@ -320,11 +320,12 @@ void PluginManager::loadSettings()
 			logTypes = args.value(args.indexOf(CLO_LOG_TYPES)+1).toUInt();
 		if (logTypes > 0)
 		{
-//			Logger::setEnabledTypes(logTypes);
-//			Logger::openLog(logDir.absolutePath());
+#ifndef Q_OS_ANDROID    //! TEMP *******************************eyeCU************
+            Logger::setEnabledTypes(logTypes);
+            Logger::openLog(logDir.absolutePath());
+#endif                  //! TEMP *******************************eyeCU************
 		}
 	}
-qDebug()<< "PluginManager/loadSettings--5----------------------";
 	LOG_INFO(QString("%1: %2.%3, Qt: %4/%5, OS: %6, Locale: %7").arg(CLIENT_NAME,CLIENT_VERSION,revision(),QT_VERSION_STR,qVersion(),SystemManager::osVersion(),QLocale().name()));
 	FPluginsSetup.clear();
 	QDir homeDir(FDataPath);
@@ -484,8 +485,6 @@ bool PluginManager::loadPlugins()
 
 bool PluginManager::initPlugins()
 {
-qDebug()<<"PluginManager::initPlugins()####################################";
-
 	LOG_INFO("Initializing plugins");
 	bool initOk = true;
 	QMultiMap<int,IPlugin *> pluginOrder;

@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "newoptionsdialogclass.h"
 
 #ifdef Q_OS_ANDROID
@@ -5,8 +7,7 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 {
 	if (OptionsDialogClass->objectName().isEmpty())
 		OptionsDialogClass->setObjectName(QStringLiteral("OptionsDialogClass"));
-	OptionsDialogClass->resize(360,400);
-//------------
+
 	verticalLayout = new QVBoxLayout(OptionsDialogClass);
 	verticalLayout->setSpacing(6);
 	verticalLayout->setContentsMargins(5, 5, 5, 5);
@@ -19,17 +20,14 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	trvNodes->setIndentation(12);
 	trvNodes->setSortingEnabled(true);
 	trvNodes->header()->setVisible(false);
-	trvNodes->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
 
 	verticalLayout->addWidget(trvNodes);
 
-	scaScroll = new QScrollArea;
+    scaScroll = new QScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
 	scaScroll->setWidgetResizable(true);
-	scaScroll->resize(540,400);
-	scaScroll->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
 
-	scrollAreaWidgetContents = new QWidget();
+    scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
 	scaScroll->setWidget(scrollAreaWidgetContents);
 
@@ -41,13 +39,7 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	QWidget::setTabOrder(trvNodes, dbbButtons);
 	retranslateUi(OptionsDialogClass);
 	QMetaObject::connectSlotsByName(OptionsDialogClass);
-} // setupUi
-
-Ui_NewOptionsDialogClass::~Ui_NewOptionsDialogClass()
-{
-	delete scaScroll;
-}
-
+} // setupUi For Android
 #else
 void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 {
@@ -92,10 +84,17 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 
 	QMetaObject::connectSlotsByName(OptionsDialogClass);
 
-} // setupUi
+} // setupUi for Wndows
 #endif
 
 void Ui_NewOptionsDialogClass::retranslateUi(QDialog *OptionsDialogClass)
 {
 	Q_UNUSED(OptionsDialogClass);
 } // retranslateUi
+
+Ui_NewOptionsDialogClass::~Ui_NewOptionsDialogClass()
+{
+#ifdef Q_OS_ANDROID
+    delete scaScroll;
+#endif
+}

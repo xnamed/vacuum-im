@@ -21,6 +21,11 @@
 #include "ui_mapform.h"
 
 #define SENSITIVITY	2.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
+#ifdef Q_OS_ANDROID
+	#define SIZEPIXMAP 16
+#else
+	#define SIZEPIXMAP 16
+#endif
 //-----------------
 
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
@@ -53,7 +58,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 
 #ifdef Q_OS_ANDROID     // OR OTHER MOBILE OS's
     ui->frmJoystick->setVisible(false);
-//	ui->frmScale->setVisible(false);
+	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
 	ui->btnReload2->setIconSize(QSize(32,32));
 	ui->lblType1->setBaseSize(QSize(32,32));
@@ -148,8 +153,11 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->btnRight, SIGNAL(clicked()), SLOT(onStepRight()));
 	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
 	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
-	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
+#ifdef Q_OS_ANDROID
 	connect(ui->btnReload2, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
+#else
+	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
+#endif
 
 	connect(ui->rbtMode1, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
 	connect(ui->rbtMode2, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
@@ -646,22 +654,22 @@ void MapForm::setImage(QLabel *ALabel, int AType)
 	switch (AType)
 	{
 		case ICON_MAP:
-			ALabel->setPixmap(FMap->getIcon(MPI_MAP).pixmap(16));
+			ALabel->setPixmap(FMap->getIcon(MPI_MAP).pixmap(SIZEPIXMAP));
 			break;
 		case ICON_MAP1:
-			ALabel->setPixmap(FMap->getIcon(MPI_MAP1).pixmap(16));
+			ALabel->setPixmap(FMap->getIcon(MPI_MAP1).pixmap(SIZEPIXMAP));
 			break;
 		case ICON_MAP2:
-			ALabel->setPixmap(FMap->getIcon(MPI_MAP2).pixmap(16));
+			ALabel->setPixmap(FMap->getIcon(MPI_MAP2).pixmap(SIZEPIXMAP));
 			break;
 		case ICON_SATELLITE:
-			ALabel->setPixmap(FMap->getIcon(MPI_SATELLITE).pixmap(16));
+			ALabel->setPixmap(FMap->getIcon(MPI_SATELLITE).pixmap(SIZEPIXMAP));
 			break;
 		case ICON_HYBRID:
-			ALabel->setPixmap(FMap->getIcon(MPI_HYBRID).pixmap(16));
+			ALabel->setPixmap(FMap->getIcon(MPI_HYBRID).pixmap(SIZEPIXMAP));
 			break;
 		case ICON_TERRAIN:
-			ALabel->setPixmap(FMap->getIcon(MPI_TERRAIN).pixmap(16));
+			ALabel->setPixmap(FMap->getIcon(MPI_TERRAIN).pixmap(SIZEPIXMAP));
 			break;
 	}
 }

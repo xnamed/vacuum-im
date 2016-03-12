@@ -1,5 +1,6 @@
 #include <QLibrary>
 #include <QApplication>
+#include <QStyleFactory>		// *** <<< eyeCU <<< ***
 #include "pluginmanager.h"
 
 int main(int argc, char *argv[])
@@ -15,6 +16,12 @@ int main(int argc, char *argv[])
 	app.setQuitOnLastWindowClosed(false);
 	app.addLibraryPath(app.applicationDirPath());
 	app.setApplicationName("eyeCU");
+
+#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+	if (QStyleFactory::keys().contains("Fusion"))
+		app.setStyle(QStyleFactory::create("Fusion"));
+#endif					// *** >>> eyeCU >>> ***
+
 	QLibrary utils(app.applicationDirPath()+"/utils",&app);
 	utils.load();
 	PluginManager pm(&app);

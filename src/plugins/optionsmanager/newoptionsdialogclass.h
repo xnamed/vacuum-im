@@ -14,29 +14,25 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
-
-
 QT_BEGIN_NAMESPACE
 
 class Ui_NewOptionsDialogClass
 {
 public:
-#ifdef Q_OS_ANDROID
 	~Ui_NewOptionsDialogClass();
-#endif
-	QVBoxLayout *verticalLayout;
+    QVBoxLayout *verticalLayout;
 	QSplitter *sprSplitter;
 	QTreeView *trvNodes;
 	QScrollArea *scaScroll;
-	QWidget *scrollAreaWidgetContents;
+    QWidget *scrollAreaWidgetContents;
 	QDialogButtonBox *dbbButtons;
 
 	void setupUi(QDialog *OptionsDialogClass);
-	void retranslateUi(QDialog *OptionsDialogClass);
+    void retranslateUi(QDialog *OptionsDialogClass);
 };
 
 namespace Ui {
-	class OptionsDialogClass2: public Ui_NewOptionsDialogClass {};
+    class OptionsDialogClass: public Ui_NewOptionsDialogClass {};
 } // namespace Ui
 
 QT_END_NAMESPACE

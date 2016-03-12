@@ -56,7 +56,11 @@ void SelectIconMenu::onAboutToShow()
 	if (!recent.isEmpty())
 	{
 		QToolBar *toolBar = new QToolBar(this);
-//		toolBar->setIconSize(QSize(16,16));
+#ifdef Q_OS_ANDROID
+		toolBar->setIconSize(QSize(32,32));
+#else
+		toolBar->setIconSize(QSize(16,16));
+#endif
 		FLayout->addWidget(toolBar);
 		ToolBarChanger changer(toolBar);
 		for (QStringList::ConstIterator it=recent.constBegin(); it!=recent.constEnd(); ++it)

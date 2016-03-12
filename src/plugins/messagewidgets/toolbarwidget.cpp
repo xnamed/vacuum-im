@@ -4,7 +4,9 @@ ToolBarWidget::ToolBarWidget(IMessageWindow *AWindow, QWidget *AParent) : QToolB
 {
 	FWindow = AWindow;
 	FToolBarChanger = new ToolBarChanger(this);
-#ifdef Q_OS_WIN		// *** <<< eyeCU <<< ***
+#ifdef Q_OS_ANDROID
+	setIconSize(QSize(32,32));
+#else
 	setIconSize(QSize(16,16));
 #endif
 }

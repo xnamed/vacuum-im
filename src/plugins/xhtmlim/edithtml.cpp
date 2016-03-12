@@ -69,7 +69,11 @@ EditHtml::EditHtml(IMessageEditWidget *AEditWidget, bool AEnableFormatAutoReset,
 	FTextChangedProcessing(false),
 	FNewListItemCreated(false)
 {
+#ifdef Q_OS_ANDROID
+	setIconSize(QSize(32,32));
+#else
 	setIconSize(QSize(16,16));
+#endif
 	FIconStorage = IconStorage::staticStorage(RSR_STORAGE_HTML);
 	setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 

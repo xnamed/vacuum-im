@@ -6,6 +6,12 @@
 #include <utils/iconstorage.h>
 #include <utils/qt4qt5compat.h>
 
+#ifdef Q_OS_ANDROID
+	#define SIZEPIXMAP 32
+#else
+	#define SIZEPIXMAP 16
+#endif
+
 AccountItemWidget::AccountItemWidget(const QUuid &AAccountId, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
@@ -46,7 +52,7 @@ void AccountItemWidget::setActive(bool AActive)
 void AccountItemWidget::setIcon(const QIcon &AIcon)
 {
 	if (!AIcon.isNull())
-		ui.lblIcon->setPixmap(AIcon.pixmap(QSize(16,16)));
+		ui.lblIcon->setPixmap(AIcon.pixmap(QSize(SIZEPIXMAP,SIZEPIXMAP)));
 	else
 		ui.lblIcon->setVisible(false);
 }
