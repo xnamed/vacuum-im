@@ -15,6 +15,14 @@ CONFIG(debug, debug|release) {
   DEFINES               += DEBUG_MODE
 }
 
+isEmpty(EYECU_MOBILE)
+{
+    android|ios|winrt|winphone:EYECU_MOBILE = true
+    else:EYECU_MOBILE = false
+}
+
+isEqual(EYECU_MOBILE,true):DEFINES *= EYECU_MOBILE
+
 #Configurable values
 isEmpty(INSTALL_PREFIX) {
   win32:INSTALL_PREFIX   = "c:"

@@ -24,9 +24,10 @@ SUBDIRS += stanzaprocessor
 SUBDIRS += starttls
 SUBDIRS += statuschanger
 SUBDIRS += statusicons
-!symbian: SUBDIRS += traymanager
+!symbian:!android: SUBDIRS += traymanager
 SUBDIRS += xmppstreams
 #############################################
+#!android { ##########################
 SUBDIRS += iqauth
 SUBDIRS += privatestorage
 SUBDIRS += compress
@@ -47,7 +48,7 @@ SUBDIRS += sessionnegotiation
 SUBDIRS += avatars
 SUBDIRS += autostatus
 SUBDIRS += rostersearch
-SUBDIRS += console
+!android: SUBDIRS += console
 SUBDIRS += annotations
 SUBDIRS += chatstates
 SUBDIRS += datastreamsmanager
@@ -151,3 +152,4 @@ CONFIG(debug, debug|release): SUBDIRS += weather
 CONFIG(debug, debug|release): SUBDIRS += weatherprovideropenweather
 SUBDIRS += wizardaccount
 SUBDIRS += wizardtransport
+#}###########################

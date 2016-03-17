@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QToolTip>
 #include <MapObject>
@@ -21,8 +20,8 @@
 #include "ui_mapform.h"
 
 #define SENSITIVITY	2.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
-#ifdef Q_OS_ANDROID
-	#define SIZEPIXMAP 16
+#ifdef EYECU_MOBILE
+	#define SIZEPIXMAP 32
 #else
 	#define SIZEPIXMAP 16
 #endif
@@ -56,7 +55,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
     ui->frmJoystick->raise();
 	ui->mapScale->raise();
 
-#ifdef Q_OS_ANDROID     // OR OTHER MOBILE OS's
+#ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
     ui->frmJoystick->setVisible(false);
 	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
@@ -153,7 +152,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->btnRight, SIGNAL(clicked()), SLOT(onStepRight()));
 	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
 	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
-#ifdef Q_OS_ANDROID
+#ifdef EYECU_MOBILE
 	connect(ui->btnReload2, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 #else
 	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
@@ -310,7 +309,7 @@ bool MapForm::event(QEvent *AEvent)
 			QToolTip::showText(helpEvent->globalPos(), toolTipText);
 		return true;
 	}
-#ifdef Q_OS_ANDROID		//OR Other mobile OS
+#ifdef EYECU_MOBILE		//OR Other mobile OS
 	else if (AEvent->type() == QEvent::Gesture)				//! [gesture event handler]
 			return gestureEvent(static_cast<QGestureEvent*>(AEvent));
 #endif
@@ -735,7 +734,6 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 		FMap->setFlagGesture(true);
 		QPointF centerPoint=AGesture->property("centerPoint").toPointF();
 //		FMap->setPinchGesturePosit(centerPoint);
-qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted="<<centerPoint;
 	}
 	//!-------------------
 	if (AGesture->state() == Qt::GestureUpdated)
@@ -784,7 +782,6 @@ qDebug()<<"MapForm::pinchTriggered/Qt::GestureStarted="<<centerPoint;
 	{
 		FWorkScaleFactor= 1.0;
 		FMap->setFlagGesture(false);
-qDebug()<<"MapForm::pinchTriggered/Qt::GestureFinished="<<AGesture->property("centerPoint").toPointF();
 	}
 
     update();
@@ -952,7 +949,6 @@ void MapForm::onSourceSelected(int AIndex)
 /*************************************/
 void MapForm::onTypeSelected(bool AState)
 {
-qDebug()<<"MapForm::onTypeSelected/sender="<<sender()->objectName()<<AState;
 	if (sender()==ui->rbtMode1)
 		selectMapMode(0);
 	else if (sender()==ui->rbtMode2)

@@ -24,7 +24,7 @@ public:
 	OptionsDialogWidget(const OptionsNode &ANode, const QString &ACaption, QWidget *AParent);
 	OptionsDialogWidget(const OptionsNode &ANode, const QString &ACaption, QWidget *AControl, QWidget *AParent);
 	virtual ~OptionsDialogWidget();
-	virtual QWidget* instance() { return this; }
+    virtual QWidget* instance() { return this; }
 public slots:
 	virtual void apply();
 	virtual void reset();
@@ -36,6 +36,7 @@ protected:
 	bool eventFilter(QObject *AWatched, QEvent *AEvent);
 protected:
 	void insertEditor(const QString &ACaption, QWidget *AEditor, QHBoxLayout *ALayout);
+    void insertEditor2(const QString &ACaption, QWidget *AEditor, QHBoxLayout *ALayout);  // *** <<< eyeCU >>> ***
 	void rigisterEditor(const OptionsNode &ANode, const QString &ACaption, QWidget *AEditor);
 private:
 	QLabel *FCaption;

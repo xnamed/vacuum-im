@@ -48,6 +48,8 @@ struct IconStorage::IconUpdateParams {
 	IconAnimateParams *animation;
 };
 
+int IconStorage::FScale(1);
+
 IconStorage::IconStorage(const QString &AStorage, const QString &ASubStorage, QObject *AParent) : FileStorage(AStorage,ASubStorage,AParent)
 {
 	connect(this,SIGNAL(storageChanged()),SLOT(onStorageChanged()));
@@ -69,7 +71,10 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 		icon = FIconCache[storage()].value(key);
 		if (icon.isNull())
 		{
-			icon.addFile(fileFullName(AKey,AIndex));
+			// Scale icon according to FScale
+//			icon.addFile(fileFullName(AKey,AIndex));
+			QPixmap pixmap = QPixmap::fromImage(QImageReader(fileFullName(AKey,AIndex)).read());
+			icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16):pixmap);
 			FIconCache[storage()].insert(key,icon);
 		}
 	}

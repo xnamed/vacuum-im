@@ -306,10 +306,11 @@
         </item>
         <item row="6" column="0">
          <widget class="QPushButton" name="pbShadowColor">
-          <property name="font">
-           <font>
-            <pointsize>8</pointsize>
-           </font>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
           <property name="text">
            <string>Shadow Color</string>
@@ -342,10 +343,11 @@
         </item>
         <item row="4" column="0">
          <widget class="QPushButton" name="pbColor">
-          <property name="font">
-           <font>
-            <pointsize>8</pointsize>
-           </font>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
           <property name="text">
            <string>Label Color</string>
@@ -354,6 +356,12 @@
         </item>
         <item row="5" column="0">
          <widget class="QPushButton" name="pbTempColor">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>Temporary Label Color</string>
           </property>
@@ -361,10 +369,11 @@
         </item>
         <item row="3" column="0">
          <widget class="QPushButton" name="pbFont">
-          <property name="font">
-           <font>
-            <pointsize>8</pointsize>
-           </font>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
           <property name="text">
            <string>Font</string>

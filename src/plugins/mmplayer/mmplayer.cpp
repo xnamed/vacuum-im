@@ -78,12 +78,12 @@ bool MmPlayer::initObjects()
 		FAction->setText(tr("Multimedia player"));
 		FAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MMPLAYER);
 		FAction->setCheckable(true);
-#if !defined (Q_OS_ANDROID) // *** <<< eyeCU <<< ***
+#if !defined (EYECU_MOBILE) // *** <<< eyeCU <<< ***
 		FAction->setShortcutId(SCT_MMPLAYER_SHOW);
 #endif
 		connect(FAction,SIGNAL(triggered(bool)),SLOT(onStartPlayer(bool)));
 
-#if defined(Q_OS_ANDROID)
+#if defined(EYECU_MOBILE)
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FAction,AG_MMENU_RI_MMPLAYER,true);
 #else
 		FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FAction, TBG_MWTTB_MMPLAYER);

@@ -1,5 +1,5 @@
 #include "optionsdialog.h"
-
+#include <QDebug>
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -16,13 +16,12 @@
 
 #define IDR_ORDER  Qt::UserRole + 1
 
-#ifdef Q_OS_ANDROID     // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
     #define OS_NODE     1       // NODE FOR ANDROID
 #else
     #define OS_NODE     0       // NODE FOR WINDOWS
-#endif
+#endif					// *** <<< eyeCU <<< ***
 
-//#ifdef Q_OS_ANDROID	// *** <<< eyeCU <<< ***
 #if OS_NODE          // *** <<< eyeCU <<< ***
 	#define NODE_ITEM_ICONSIZE   QSize(32,32)
 	#define NODE_ITEM_SIZEHINT   QSize(32,32)
@@ -51,6 +50,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 #if OS_NODE
 	this->showFullScreen();
 #endif
+
 	FRootNodeId = ARootId;
 	delete ui.scaScroll->takeWidget();
 
@@ -74,8 +74,15 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
 #if OS_NODE         // *** <<< eyeCU <<< ***
 	ui.trvNodes->setAlternatingRowColors(true);
+//! -----kostili----
+	QFont fnt=ui.trvNodes->font();
+	float poinSise=fnt.pointSize()*1.3;
+	fnt.setPointSize((int)poinSise);
+	fnt.setFamily("MS Shell Dlg 2");
+	ui.trvNodes->setFont(fnt);
+//! -----kostili-----
     connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
-#else
+#else				// *** >>> eyeCU >>> ***
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
 #endif
 	ui.dbbButtons->button(QDialogButtonBox::Apply)->setEnabled(false);

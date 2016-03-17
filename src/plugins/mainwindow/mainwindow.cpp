@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowRole("MainWindow");
 	setAttribute(Qt::WA_DeleteOnClose,false);
 #ifdef Q_OS_WIN         // *** <<< eyeCU <<< ***
-	setIconSize(QSize(16,16));
+    setIconSize(QSize(16,16));
 #else   // Q_OS_ANDROID
-    setIconSize(QSize(32,32));  //--TEMPORARY, Need calculate for DPI----
+	setIconSize(QSize(48,48));  //--TEMPORARY, Need calculate for DPI----
 #endif
 
 	FAligned = false;
@@ -77,14 +77,16 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	QToolBar *topToolbar = new QToolBar(this);
     topToolbar->setFloatable(false);
     topToolbar->setMovable(false);
+
 // *** <<< eyeCU <<< ***
-#ifdef Q_OS_ANDROID     // ne obyasatelno
+#ifdef EYECU_MOBILE     // ne obyasatelno
     QPalette plt;
     plt.setColor(QPalette::Button,QColor(0,0,0,255));
-    plt.setColor(QPalette::ButtonText,QColor(255,255,255,255));
+	plt.setColor(QPalette::ButtonText,QColor(255,0,0,255));
     topToolbar->setPalette(plt);
 #endif
 // *** >>> eyeCU >>> ***
+
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
 	topChanger->setSeparatorsVisible(false);
     insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
@@ -104,13 +106,14 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     button->setPopupMode(QToolButton::InstantPopup);
 
 // *** <<< eyeCU <<< ***
-#if defined(Q_OS_ANDROID)
+#ifdef EYECU_MOBILE
     FMainMenuRight = new Menu(this);
     FMainMenuRight->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU_RIGHT);
     FMainMenuRight->setTitle(tr("Right menu"));
 	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
     button->setPopupMode(QToolButton::InstantPopup);
 	QLabel *title = new QLabel("  eyeCU");
+	title->setObjectName("eyeCU");
 	topToolBarChanger()->insertWidget(title,TBG_MWTTB_TITLE);
 #endif
 // *** >>> eyeCU >>>***

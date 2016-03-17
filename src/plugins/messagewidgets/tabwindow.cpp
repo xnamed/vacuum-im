@@ -49,8 +49,8 @@ TabWindow::TabWindow(IMessageWidgets *AMessageWidgets, const QUuid &AWindowId)
 	connect(FMessageWidgets->instance(),SIGNAL(tabWindowNameChanged(const QUuid &, const QString &)),SLOT(onTabWindowNameChanged(const QUuid &, const QString &)));
 
 	FCornerBar = new QToolBar(ui.twtTabs);
-#ifdef Q_OS_ANDROID
-		FCornerBar->setIconSize(QSize(32, 32));
+#ifdef EYECU_MOBILE
+		FCornerBar->setIconSize(QSize(48, 48));
 #else
 		FCornerBar->setIconSize(QSize(16, 16));
 #endif

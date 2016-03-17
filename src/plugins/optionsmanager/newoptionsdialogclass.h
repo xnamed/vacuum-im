@@ -21,7 +21,6 @@ class Ui_NewOptionsDialogClass
 public:
 	~Ui_NewOptionsDialogClass();
     QVBoxLayout *verticalLayout;
-	QSplitter *sprSplitter;
 	QTreeView *trvNodes;
 	QScrollArea *scaScroll;
     QWidget *scrollAreaWidgetContents;

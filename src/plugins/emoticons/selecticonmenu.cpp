@@ -56,8 +56,8 @@ void SelectIconMenu::onAboutToShow()
 	if (!recent.isEmpty())
 	{
 		QToolBar *toolBar = new QToolBar(this);
-#ifdef Q_OS_ANDROID
-		toolBar->setIconSize(QSize(32,32));
+#ifdef EYECU_MOBILE
+		toolBar->setIconSize(QSize(48,48));
 #else
 		toolBar->setIconSize(QSize(16,16));
 #endif

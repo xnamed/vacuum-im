@@ -716,7 +716,7 @@ bool Poi::initObjects()
 		action->setShortcutId(SCT_POI_LIST);
 		connect(action, SIGNAL(triggered(bool)), SLOT(onPoiList(bool)));
 
-#if defined(Q_OS_ANDROID)
+#if defined(EYECU_MOBILE)
 		FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(action,AG_MMENU_RI_POI_LIST,true);
 #endif
 
@@ -731,7 +731,7 @@ bool Poi::initObjects()
 		action->setShortcutId(SCT_POI_VIEW);
 		connect(action, SIGNAL(triggered()), SLOT(onPoiShow()));
 
-#if defined(Q_OS_ANDROID)
+#if defined(EYECU_MOBILE)
 		FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(action,AG_MMENU_RI_POI,true);
 #endif
 

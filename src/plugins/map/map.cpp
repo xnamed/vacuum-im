@@ -216,7 +216,7 @@ bool Map::initSettings()
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_ALPHA, 127);
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_VISIBLE, true);
 	Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
-#ifdef Q_OS_ANDROID
+#ifdef EYECU_MOBILE
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, false);
 #else
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);

@@ -5,12 +5,19 @@
 #include <utils/options.h>
 #include <utils/logger.h>
 
+#ifdef EYECU_MOBILE     // *** <<< eyeCU >>> ***
+    #define NODE 1
+#else
+    #define NODE 0
+#endif
+
+
 OptionsDialogWidget::OptionsDialogWidget(const OptionsNode &ANode, const QString &ACaption, QWidget *AParent) : QWidget(AParent)
 {
 	QVariant::Type valueType = ANode.value().type();
 	if (valueType == QVariant::Bool)
 	{
-		QCheckBox *editor = new QCheckBox(ACaption,this);
+        QCheckBox *editor = new QCheckBox(ACaption,this);
 		rigisterEditor(ANode,ACaption,editor);
 	}
 	else if (valueType==QVariant::Time || valueType==QVariant::Date || valueType==QVariant::DateTime)
@@ -212,12 +219,29 @@ void OptionsDialogWidget::insertEditor(const QString &ACaption, QWidget *AEditor
 	{
 		FCaption = new QLabel(this);
 		FCaption->setTextFormat(Qt::PlainText);
-		FCaption->setText(ACaption);
+        FCaption->setText(ACaption);
+        FCaption->setWordWrap(true);
 		FCaption->setBuddy(AEditor);
-		ALayout->addWidget(FCaption,0);
+        ALayout->addWidget(FCaption,0);
 	}
-	ALayout->addWidget(AEditor,1);
+    ALayout->addWidget(AEditor,1);
 }
+
+// *** <<< eyeCU >>> ***
+void OptionsDialogWidget::insertEditor2(const QString &ACaption, QWidget *AEditor, QHBoxLayout *ALayout)
+{
+    ALayout->addWidget(AEditor,0);
+    if (!ACaption.isEmpty())
+    {
+        FCaption = new QLabel(this);
+        FCaption->setTextFormat(Qt::PlainText);
+        FCaption->setText(ACaption);
+        FCaption->setWordWrap(true);
+        FCaption->setBuddy(AEditor);
+        ALayout->addWidget(FCaption,1);
+    }
+}
+// *** <<< eyeCU >>> ***
 
 void OptionsDialogWidget::rigisterEditor(const OptionsNode &ANode, const QString &ACaption, QWidget *AEditor)
 {
@@ -244,7 +268,12 @@ void OptionsDialogWidget::rigisterEditor(const OptionsNode &ANode, const QString
 	{
 		FCheckBox->setChecked(FValue.toBool());
 		connect(FCheckBox,SIGNAL(stateChanged(int)),SIGNAL(modified()));
-		insertEditor(QString::null,FCheckBox,hlayout);
+#if NODE
+        FCheckBox->setText("");
+        insertEditor2(ACaption,FCheckBox,hlayout);
+#else
+        insertEditor(QString::null,FCheckBox,hlayout);
+#endif
 	}
 	else if (FLineEdit != NULL)
 	{

@@ -4,4 +4,8 @@
     <key>rostersearchMenu</key>
     <object mime="image/png">rostersearch.png</object>
   </icon>
+   <icon>
+    <key>rostersearchMenu32</key>
+    <object mime="image/png">rostersearch32.png</object>
+  </icon>
 </icondef>

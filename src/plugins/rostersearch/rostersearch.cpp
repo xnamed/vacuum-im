@@ -1,5 +1,5 @@
 #include "rostersearch.h"
-
+#include <QDebug>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <definitions/actiongroups.h>
@@ -17,6 +17,12 @@
 #include <utils/action.h>
 #include <utils/logger.h>
 
+#ifdef EYECU_MOBILE
+    #define NODE 1
+#else
+    #define NODE 0
+#endif
+
 RosterSearch::RosterSearch()
 {
 	FRostersViewPlugin = NULL;
@@ -30,7 +36,11 @@ RosterSearch::RosterSearch()
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 
 	FEnableAction = new Action(this);
-	FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
+#if NODE        // *** <<< eyeCU <<< ***
+    FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU32);
+#else			 // *** <<< eyeCU <<< ***
+    FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
+#endif
 	FEnableAction->setToolTip(tr("Show search toolbar"));
     FEnableAction->setText(tr("Show search toolbar"));
 	FEnableAction->setCheckable(true);
@@ -40,21 +50,32 @@ RosterSearch::RosterSearch()
 	QToolBar *searchToolBar = new QToolBar(tr("Search toolbar"));
 	searchToolBar->setAllowedAreas(Qt::TopToolBarArea);
 	searchToolBar->setMovable(false);
-	FSearchToolBarChanger = new ToolBarChanger(searchToolBar);
-	FSearchToolBarChanger->setAutoHideEmptyToolbar(false);
-	FSearchToolBarChanger->setSeparatorsVisible(false);
-	FSearchToolBarChanger->toolBar()->setVisible(false);
 
-	FSearchEdit = new SearchLineEdit(searchToolBar);
+#if NODE        // *** <<< eyeCU >>> ***
+    FSearchEdit = new SearchLineEdit;
+#else			 // *** <<< eyeCU <<< ***
+    FSearchToolBarChanger = new ToolBarChanger(searchToolBar);
+    FSearchToolBarChanger->setAutoHideEmptyToolbar(false);
+    FSearchToolBarChanger->setSeparatorsVisible(false);
+    FSearchToolBarChanger->toolBar()->setVisible(false);
+    FSearchEdit = new SearchLineEdit(searchToolBar);
+#endif
+
 	FSearchEdit->installEventFilter(this);
 	FSearchEdit->setSearchMenuVisible(true);
 	FSearchEdit->setSelectTextOnFocusEnabled(false);
-	FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
+#if NODE       // *** <<< eyeCU >>> ***
+    FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
+#else
+    FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
+#endif
 #if QT_VERSION >= 0x040700	// *** <<< eyeCU >>> ***
 	FSearchEdit->setPlaceholderText(tr("Search for Contacts"));
 #endif						// *** <<< eyeCU >>> ***
 	connect(FSearchEdit,SIGNAL(searchStart()),SLOT(onSearchEditStart()));
-	FSearchToolBarChanger->insertWidget(FSearchEdit);
+#if !NODE		 // *** <<< eyeCU <<< ***
+    FSearchToolBarChanger->insertWidget(FSearchEdit);
+#endif
 }
 
 RosterSearch::~RosterSearch()
@@ -100,14 +121,14 @@ bool RosterSearch::initObjects()
 {
 	if (FMainWindow)
 	{
-// *** <<< eyeCU <<< ***
-#if defined(Q_OS_ANDROID)
-        FMainWindow->mainMenuRight()->addAction(FEnableAction,AG_MMENU_RI_ROSTERSEARCH,true);
-#else
+        // *** <<< eyeCU <<< ***
+#if NODE
+		FMainWindow->topToolBarChanger()->insertAction(FEnableAction,TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT);
+        FMainWindow->topToolBarChanger()->insertWidget(FSearchEdit,TBG_MWTTB_ROSTERSEARCH_ANDROID);
+#else   // *** >>> eyeCU >>> ***
         FMainWindow->topToolBarChanger()->insertAction(FEnableAction,TBG_MWTTB_ROSTERSEARCH);
-#endif
-// *** >>> eyeCU >>> ***
         FMainWindow->insertToolBarChanger(MWW_SEARCH_TOOLBAR,FSearchToolBarChanger);
+#endif
 	}
 
 	if (FRostersViewPlugin)
@@ -126,9 +147,9 @@ bool RosterSearch::initObjects()
 
 bool RosterSearch::initSettings()
 {
-#if defined(Q_OS_ANDROID)       // *** <<< eyeCU <<< ***
+#if NODE   // *** <<< eyeCU <<< ***
     Options::setDefaultValue(OPV_ROSTER_SEARCH_ENABLED,false);
-#else                           // *** >>> eyeCU >>> ***
+#else      // *** >>> eyeCU >>> ***
     Options::setDefaultValue(OPV_ROSTER_SEARCH_ENABLED,true);
 #endif
 	Options::setDefaultValue(OPV_ROSTER_SEARCH_FIELDEBANLED,true);
@@ -291,7 +312,15 @@ void RosterSearch::setSearchEnabled(bool AEnabled)
 		else
 			FRostersViewPlugin->rostersView()->removeProxyModel(this);
 	}
-	FSearchToolBarChanger->toolBar()->setVisible(AEnabled);
+#if NODE	// *** <<< eyeCU >>> ***
+	if (FMainWindow)
+	{
+		FMainWindow->topToolBarChanger()->widgetHandle(FSearchEdit)->setVisible(AEnabled);
+		FMainWindow->topToolBarChanger()->handleWidget(FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first())->setVisible(!AEnabled);
+	}
+#else		// *** <<< eyeCU >>> ***
+    FSearchToolBarChanger->toolBar()->setVisible(AEnabled);
+#endif
 	emit searchStateChanged(AEnabled);
 }
 
@@ -410,9 +439,8 @@ void RosterSearch::onFieldActionTriggered(bool)
 
 void RosterSearch::onEnableActionTriggered(bool AChecked)
 {
-	setSearchEnabled(AChecked);
-	startSearch();
-
+    setSearchEnabled(AChecked);
+    startSearch();
 	if (AChecked)
 	{
 		FSearchEdit->setFocus();

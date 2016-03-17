@@ -5,12 +5,7 @@
 #include <QWidget>
 #include <utils/jid.h>
 
-#ifdef Q_OS_ANDROID
-	#include "ui_accountitemwidget2.h"
-#else
-	#include "ui_accountitemwidget.h"
-#endif
-
+#include "ui_accountitemwidget.h"
 
 class AccountItemWidget :
 	public QWidget

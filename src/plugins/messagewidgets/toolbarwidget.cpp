@@ -4,8 +4,8 @@ ToolBarWidget::ToolBarWidget(IMessageWindow *AWindow, QWidget *AParent) : QToolB
 {
 	FWindow = AWindow;
 	FToolBarChanger = new ToolBarChanger(this);
-#ifdef Q_OS_ANDROID
-	setIconSize(QSize(32,32));
+#ifdef EYECU_MOBILE
+	setIconSize(QSize(48,48));
 #else
 	setIconSize(QSize(16,16));
 #endif

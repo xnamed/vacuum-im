@@ -11,9 +11,11 @@
 // *** <<< eyeCU <<< ***
 #define TBG_MWTTB_MAINMENU                                      100
 #define TBG_MWTTB_TITLE                                         2000
+#define TBG_MWTTB_ROSTERSEARCH_ANDROID                          2000
+#define TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT                      10000
 #define TBG_MWTTB_RIGHTMENU                                     15000
 
-#if defined(Q_OS_ANDROID)
+#ifdef Q_OS_ANDROID
 #define TBG_MWTTB_MAPS                                          14000
 #else
 #define TBG_MWTTB_MAPS                                          1100

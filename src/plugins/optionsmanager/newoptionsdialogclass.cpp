@@ -1,8 +1,5 @@
-#include <QDebug>
-
 #include "newoptionsdialogclass.h"
 
-#ifdef Q_OS_ANDROID
 void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 {
 	if (OptionsDialogClass->objectName().isEmpty())
@@ -40,52 +37,6 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	retranslateUi(OptionsDialogClass);
 	QMetaObject::connectSlotsByName(OptionsDialogClass);
 } // setupUi For Android
-#else
-void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
-{
-	if (OptionsDialogClass->objectName().isEmpty())
-		OptionsDialogClass->setObjectName(QStringLiteral("OptionsDialogClass"));
-	OptionsDialogClass->resize(508, 498);
-	verticalLayout = new QVBoxLayout(OptionsDialogClass);
-	verticalLayout->setSpacing(6);
-	verticalLayout->setContentsMargins(5, 5, 5, 5);
-	verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-	sprSplitter = new QSplitter(OptionsDialogClass);
-	sprSplitter->setObjectName(QStringLiteral("sprSplitter"));
-	sprSplitter->setOrientation(Qt::Horizontal);
-	trvNodes = new QTreeView(sprSplitter);
-	trvNodes->setObjectName(QStringLiteral("trvNodes"));
-	trvNodes->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	trvNodes->setTextElideMode(Qt::ElideNone);
-	trvNodes->setIndentation(12);
-	trvNodes->setSortingEnabled(true);
-	sprSplitter->addWidget(trvNodes);
-	trvNodes->header()->setVisible(false);
-	scaScroll = new QScrollArea(sprSplitter);
-	scaScroll->setObjectName(QStringLiteral("scaScroll"));
-	scaScroll->setWidgetResizable(true);
-	scrollAreaWidgetContents = new QWidget();
-	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-	scrollAreaWidgetContents->setGeometry(QRect(0, 0, 70, 453));
-	scaScroll->setWidget(scrollAreaWidgetContents);
-	sprSplitter->addWidget(scaScroll);
-
-	verticalLayout->addWidget(sprSplitter);
-
-	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
-	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
-	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
-
-	verticalLayout->addWidget(dbbButtons);
-
-	QWidget::setTabOrder(trvNodes, dbbButtons);
-
-	retranslateUi(OptionsDialogClass);
-
-	QMetaObject::connectSlotsByName(OptionsDialogClass);
-
-} // setupUi for Wndows
-#endif
 
 void Ui_NewOptionsDialogClass::retranslateUi(QDialog *OptionsDialogClass)
 {
@@ -94,7 +45,5 @@ void Ui_NewOptionsDialogClass::retranslateUi(QDialog *OptionsDialogClass)
 
 Ui_NewOptionsDialogClass::~Ui_NewOptionsDialogClass()
 {
-#ifdef Q_OS_ANDROID
     delete scaScroll;
-#endif
 }

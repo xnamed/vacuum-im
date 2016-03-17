@@ -6,7 +6,7 @@
 #include <utils/iconstorage.h>
 #include <utils/qt4qt5compat.h>
 
-#ifdef Q_OS_ANDROID
+#ifdef EYECU_MOBILE
 	#define SIZEPIXMAP 32
 #else
 	#define SIZEPIXMAP 16
@@ -15,7 +15,7 @@
 AccountItemWidget::AccountItemWidget(const QUuid &AAccountId, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
-
+//ui.setupUi
 	FAccountId = AAccountId;
 
 	ui.lblMove->setVisible(false);

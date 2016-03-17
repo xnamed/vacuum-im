@@ -147,13 +147,13 @@ bool RostersViewPlugin::initObjects()
 		FShowOfflineAction->setIcon(RSR_STORAGE_MENUICONS, MNI_ROSTERVIEW_HIDE_OFFLINE);
 		FShowOfflineAction->setToolTip(tr("Show/Hide disconnected contacts"));
         FShowOfflineAction->setText(tr("Show/Hide disconnected contacts")); // *** <<< eyeCU >>> ***
-#if !defined (Q_OS_ANDROID) // *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE // *** <<< eyeCU <<< ***
 		FShowOfflineAction->setShortcutId(SCT_ROSTERVIEW_TOGGLESHOWOFFLINE);
 #endif
 		connect(FShowOfflineAction,SIGNAL(triggered(bool)),SLOT(onShowOfflineContactsAction(bool)));
 
 // *** <<< eyeCU <<< ***
-#if defined(Q_OS_ANDROID)
+#ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
 #else
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);

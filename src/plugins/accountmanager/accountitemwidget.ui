@@ -6,12 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>412</width>
+    <width>286</width>
     <height>33</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -62,7 +71,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>197</width>
+         <width>5</width>
          <height>20</height>
         </size>
        </property>

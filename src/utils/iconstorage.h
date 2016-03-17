@@ -25,6 +25,8 @@ public:
 public:
 	static void clearIconCache();
 	static IconStorage *staticStorage(const QString &AStorage);
+	static void setScale(int AValue) {FScale = AValue;}
+	static int scale() {return FScale;}
 protected:
 	void initAnimation(QObject *AObject, IconUpdateParams *AParams);
 	void removeAnimation(IconUpdateParams *AParams);
@@ -42,6 +44,7 @@ private:
 	static QHash<QObject *, IconStorage *> FObjectStorage;
 	static QHash<QString, QHash<QString, QIcon> > FIconCache;
 	static QHash<QString, QHash<QString, QList<IconAnimateFrame> > > FAnimateCache;
+	static int FScale;
 };
 
 #endif // ICONSTORAGE_H

@@ -69,8 +69,8 @@ EditHtml::EditHtml(IMessageEditWidget *AEditWidget, bool AEnableFormatAutoReset,
 	FTextChangedProcessing(false),
 	FNewListItemCreated(false)
 {
-#ifdef Q_OS_ANDROID
-	setIconSize(QSize(32,32));
+#ifdef EYECU_MOBILE
+	setIconSize(QSize(48,48));
 #else
 	setIconSize(QSize(16,16));
 #endif

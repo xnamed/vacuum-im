@@ -92,12 +92,14 @@
 #define MNI_MAINWINDOW_LOGO128          "mainwindowLogo128"
 #define MNI_MAINWINDOW_QUIT             "mainwindowQuit"
 // <<< eyeCU <<<
-#if defined(Q_OS_ANDROID)
-#define MNI_MAINWINDOW_MENU             "mainwindowMenuAn"
+#ifdef Q_OS_ANDROID
+//#define MNI_MAINWINDOW_MENU             "mainwindowMenuAn"
+#define MNI_MAINWINDOW_MENU             "mainwindowMenuAn48"
 #else
 #define MNI_MAINWINDOW_MENU             "mainwindowMenu"
 #endif
-#define MNI_MAINWINDOW_MENU_RIGHT       "mainwindowMenuRight"
+//#define MNI_MAINWINDOW_MENU_RIGHT       "mainwindowMenuRight"
+#define MNI_MAINWINDOW_MENU_RIGHT       "mainwindowMenuRight48"
 #define MNI_MAINWINDOW_LOGO20           "mainwindowLogo20"
 #define MNI_MAINWINDOW_LOGO40           "mainwindowLogo40"
 #define MNI_MAINWINDOW_SHOW_ROSTER      "mainwindowShowRoster"
@@ -221,6 +223,8 @@
 
 //RosterSearch
 #define MNI_ROSTERSEARCH_MENU           "rostersearchMenu"
+// <<< *** eyeCU *** >>>
+#define MNI_ROSTERSEARCH_MENU32         "rostersearchMenu32"
 
 //RosterView
 #define MNI_ROSTERVIEW_CONTACTS         "rosterviewContacts"
