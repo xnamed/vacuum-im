@@ -15,13 +15,13 @@ CONFIG(debug, debug|release) {
   DEFINES               += DEBUG_MODE
 }
 
-isEmpty(EYECU_MOBILE)
-{
+isEmpty(EYECU_MOBILE) {
     android|ios|winrt|winphone:EYECU_MOBILE = true
     else:EYECU_MOBILE = false
 }
 
 isEqual(EYECU_MOBILE,true):DEFINES *= EYECU_MOBILE
+message(DEFINES=$$DEFINES)
 
 #Configurable values
 isEmpty(INSTALL_PREFIX) {

@@ -3,10 +3,10 @@ FORMS = \
         logindialog.ui
 
 isEqual(EYECU_MOBILE,true){
-    message(Mobile!= EYECU_MOBILE)
+	message(Mobile!)
     FORMS += optionsdialogmobile.ui
 } else {
-    message(Not Mobile!= EYECU_MOBILE)
+	message(Not Mobile!)
     FORMS += optionsdialog.ui
 }
 
