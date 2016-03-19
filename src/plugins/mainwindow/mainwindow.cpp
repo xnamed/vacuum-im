@@ -22,8 +22,12 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowFlags(Qt::WindowCloseButtonHint); // *** <<< eyeCU >>> ***
 	setWindowRole("MainWindow");
 	setAttribute(Qt::WA_DeleteOnClose,false);
-	int size=16*IconStorage::scale();	// *** <<< eyeCU <<< ***
-	setIconSize(QSize(size,size));		// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE						// *** <<< eyeCU <<< ***
+	int size=16*IconStorage::scale();
+	setIconSize(QSize(size,size));
+#else									// *** <<< eyeCU <<< ***
+	setIconSize(QSize(16,16));
+#endif
 
 	FAligned = false;
 	FLeftWidgetWidth = 0;
@@ -110,6 +114,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
     button->setPopupMode(QToolButton::InstantPopup);
 	QLabel *title = new QLabel("  eyeCU");
+//	title->font().setPointSize(17);
 	title->setObjectName("eyeCU");
 	topToolBarChanger()->insertWidget(title,TBG_MWTTB_TITLE);
 #endif
@@ -313,7 +318,7 @@ void MainWindow::correctWindowPosition()
 
 void MainWindow::restoreAcceptDrops(QWidget *AParent)
 {
-#ifdef Q_OS_WIN
+#ifndef EYECU_MOBILE //  Q_OS_WIN
 	foreach(QObject *object, AParent->children())
 	{
 		if (object->isWidgetType())

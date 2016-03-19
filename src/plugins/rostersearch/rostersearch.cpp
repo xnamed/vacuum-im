@@ -54,6 +54,7 @@ RosterSearch::RosterSearch()
 
 #if NODE        // *** <<< eyeCU >>> ***
     FSearchEdit = new SearchLineEdit;
+	FSearchEdit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 #else			 // *** <<< eyeCU <<< ***
     FSearchToolBarChanger = new ToolBarChanger(searchToolBar);
     FSearchToolBarChanger->setAutoHideEmptyToolbar(false);
@@ -61,19 +62,16 @@ RosterSearch::RosterSearch()
     FSearchToolBarChanger->toolBar()->setVisible(false);
     FSearchEdit = new SearchLineEdit(searchToolBar);
 #endif
-
 	FSearchEdit->installEventFilter(this);
 	FSearchEdit->setSearchMenuVisible(true);
 	FSearchEdit->setSelectTextOnFocusEnabled(false);
-#if NODE       // *** <<< eyeCU >>> ***
     FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
-#else
-    FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
-#endif
+
 #if QT_VERSION >= 0x040700	// *** <<< eyeCU >>> ***
 	FSearchEdit->setPlaceholderText(tr("Search for Contacts"));
 #endif						// *** <<< eyeCU >>> ***
 	connect(FSearchEdit,SIGNAL(searchStart()),SLOT(onSearchEditStart()));
+
 #if !NODE		 // *** <<< eyeCU <<< ***
     FSearchToolBarChanger->insertWidget(FSearchEdit);
 #endif

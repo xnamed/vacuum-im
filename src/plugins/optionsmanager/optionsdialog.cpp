@@ -43,13 +43,15 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 {
 	REPORT_VIEW;
 	ui.setupUi(this);
+#if OS_NODE
+	showMaximized();
+	updateGeometry();
+#endif
+
 	setWindowTitle(tr("Options"));
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
-#if OS_NODE
-	showMaximized();
-#endif
 
 	FRootNodeId = ARootId;
 	delete ui.scaScroll->takeWidget();

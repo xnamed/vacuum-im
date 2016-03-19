@@ -330,7 +330,9 @@ void PositioningMethodSerialPortOptions::setupControls()
     // fill stop bits
     ui->cmbStopBits->addItem(QStringLiteral("1"), QSerialPort::OneStop);
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#if !EYECU_MOBILE
     ui->cmbStopBits->addItem(QStringLiteral("1.5"), QSerialPort::OneAndHalfStop);
+#endif
 #endif
     ui->cmbStopBits->addItem(QStringLiteral("2"), QSerialPort::TwoStop);
 

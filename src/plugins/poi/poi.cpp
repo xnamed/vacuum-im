@@ -703,7 +703,7 @@ bool Poi::initObjects()
 		FMenuToolbar->setIcon(RSR_STORAGE_MENUICONS, MNI_POI_TLB);
 		FMenuToolbar->menuAction()->setEnabled(true);
 
-#ifdef Q_OS_WIN
+#ifndef EYECU_MOBILE
 		IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
 		mainWindow ->topToolBarChanger()									 // Get toolbar changer
 				   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_POI) // Add action as a button

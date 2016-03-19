@@ -16,7 +16,9 @@
 HunspellChecker::HunspellChecker() : FHunSpell(NULL), FDictCodec(NULL)
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_PM) // *** <<< eyeCU >>> ***
+#if !EYECU_MOBILE
 	FDictsPaths.append(QString("%1/hunspell").arg(QCoreApplication::applicationDirPath()));
+#endif
 #elif defined (Q_OS_X11)
 	FDictsPaths.append("/usr/share/hunspell");
 	FDictsPaths.append("/usr/share/myspell");

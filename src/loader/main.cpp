@@ -15,38 +15,35 @@ int main(int argc, char *argv[])
 		QFont::insertSubstitution(".Helvetica Neue DeskInterface", "Helvetica Neue");
 	}
 #endif
+
 	QApplication app(argc, argv);
 	app.setQuitOnLastWindowClosed(false);
 	app.addLibraryPath(app.applicationDirPath());
 	app.setApplicationName("eyeCU");
 
 //! *** <<< eyeCU <<< *********************
-	int dipNorm = 96; // desktop norm
-#ifdef Q_OS_IOS
-	dipNorm = 160; // TODO test different sizes
-#endif
+	QScreen *screen = qApp->primaryScreen();
+	QFont font = app.font();
+	int curFontPointSize=font.pointSize();
+	if(curFontPointSize<0)
+		curFontPointSize=8;
+	qreal dipScaleFactor;
 
 #ifdef EYECU_MOBILE
-	dipNorm = 160;
-    QScreen *screen = qApp->primaryScreen();
-    qreal	dipScaleFactor = screen->physicalDotsPerInch() / screen->devicePixelRatio() / dipNorm;
-	if(screen->logicalDotsPerInch()>96)
-	{
-		QFont font = app.font();
-		int curFontPointSize=font.pointSize();
-		if(curFontPointSize<0)
-			curFontPointSize=8;
-		float newPointSize =  curFontPointSize*dipScaleFactor;
-newPointSize =  17.0;//!--TEMP--
-		font.setPointSizeF(newPointSize);
-		app.setFont(font);
-		int toSize=ceil(screen->devicePixelRatio()/96.0);
-		IconStorage::setScale(3);
-qDebug()<<"************************-main/newPointSize="<<newPointSize<<toSize;
-	}
+	int dipNorm = 160;
+	dipScaleFactor = screen->physicalDotsPerInch() / screen->devicePixelRatio() / dipNorm;
+	float newPointSize = 17.0; // curFontPointSize*dipScaleFactor;
+	font.setPointSizeF(newPointSize);
+	app.setFont(font);
+	//!---------
+	IconStorage::setScale(3);
 #else
+	int dipNorm = 96; // desktop norm
+	dipScaleFactor = 1;
 	IconStorage::setScale(1);		//!---For Q_OS_WIN---
 #endif
+	//qreal dipScaleFactor = screen->physicalDotsPerInch() / screen->devicePixelRatio() / dipNorm;
+
 //! *** >>> eyeCU >>> ********************
 
 	QLibrary utils(app.applicationDirPath()+"/utils",&app);

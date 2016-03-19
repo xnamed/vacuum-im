@@ -15,7 +15,7 @@
 #define TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT                      10000
 #define TBG_MWTTB_RIGHTMENU                                     15000
 
-#ifdef Q_OS_ANDROID
+#ifdef EYECU_MOBILE
 #define TBG_MWTTB_MAPS                                          14000
 #else
 #define TBG_MWTTB_MAPS                                          1100

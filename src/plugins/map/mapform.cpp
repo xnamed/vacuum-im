@@ -58,7 +58,9 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
 	int size=16*IconStorage::scale();
     ui->frmJoystick->setVisible(false);
+#ifndef Q_OS_WIN		// For DEBUG ---
 	ui->frmScale->setVisible(false);
+#endif
     ui->mapScale->setVisible(false);
 	ui->btnReload2->setIconSize(QSize(32,32));
 	ui->lblType1->setBaseSize(QSize(32,32));

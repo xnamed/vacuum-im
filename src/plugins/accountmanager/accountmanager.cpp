@@ -326,7 +326,11 @@ void AccountManager::showAccountOptionsDialog(const QUuid &AAccountId, QWidget *
 QComboBox *AccountManager::newResourceComboBox(const QUuid &AAccountId, QWidget *AParent) const
 {
 	QComboBox *combox = new QComboBox(AParent);
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<<
+	combox->addItem(CLIENT_NAME_MOBILE, QString(CLIENT_NAME_MOBILE));
+#else					// *** <<< eyeCU <<<
 	combox->addItem(CLIENT_NAME, QString(CLIENT_NAME));
+#endif
 	combox->addItem(tr("Home"), tr("Home"));
 	combox->addItem(tr("Work"), tr("Work"));
 	combox->addItem(tr("Notebook"), tr("Notebook"));
