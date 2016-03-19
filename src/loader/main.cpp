@@ -3,7 +3,7 @@
 #include <QLibrary>
 #include <QApplication>
 #include <QStyleFactory>		// *** <<< eyeCU <<< ***
-#include <utils/iconstorage.h>
+#include <utils/iconstorage.h>	// *** <<< eyeCU <<< ***
 #include "pluginmanager.h"
 
 int main(int argc, char *argv[])
@@ -21,19 +21,13 @@ int main(int argc, char *argv[])
 	app.setApplicationName("eyeCU");
 
 //! *** <<< eyeCU <<< *********************
-    //int dipNorm = 96; // desktop norm
+	int dipNorm = 96; // desktop norm
 #ifdef Q_OS_IOS
-	int dipNorm = 160; // TODO test different sizes
+	dipNorm = 160; // TODO test different sizes
 #endif
 
-qDebug()<<"*****************screen/physicalDotsPerInch="<< qApp->primaryScreen()->physicalDotsPerInch();
-qDebug()<<"*****************screen/logicalDotsPerInch="<< qApp->primaryScreen()->logicalDotsPerInch();
-qDebug()<<"*****************qApp->font/pointSizeF="<<qApp->font().pointSizeF()<<qApp->font().pixelSize();
-
 #ifdef EYECU_MOBILE
-//	if (QStyleFactory::keys().contains("fusion"))
-//		app.setStyle(QStyleFactory::create("Fusion"));
-    int dipNorm = 160;
+	dipNorm = 160;
     QScreen *screen = qApp->primaryScreen();
     qreal	dipScaleFactor = screen->physicalDotsPerInch() / screen->devicePixelRatio() / dipNorm;
 	if(screen->logicalDotsPerInch()>96)
@@ -43,17 +37,17 @@ qDebug()<<"*****************qApp->font/pointSizeF="<<qApp->font().pointSizeF()<<
 		if(curFontPointSize<0)
 			curFontPointSize=8;
 		float newPointSize =  curFontPointSize*dipScaleFactor;
-newPointSize =  18.0;//!--TEMP--
+newPointSize =  17.0;//!--TEMP--
 		font.setPointSizeF(newPointSize);
 		app.setFont(font);
+		int toSize=ceil(screen->devicePixelRatio()/96.0);
 		IconStorage::setScale(3);
+qDebug()<<"************************-main/newPointSize="<<newPointSize<<toSize;
 	}
+#else
+	IconStorage::setScale(1);		//!---For Q_OS_WIN---
 #endif
-qDebug()<<"*****************New-font.PointSize="<< app.font().pointSize();
-qDebug()<<"*****************New-App Style="<< app.style();
-qDebug()<<"*****************Screen/physicalSize="<< app.primaryScreen()->physicalSize();
 //! *** >>> eyeCU >>> ********************
-
 
 	QLibrary utils(app.applicationDirPath()+"/utils",&app);
 	utils.load();

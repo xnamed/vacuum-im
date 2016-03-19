@@ -56,6 +56,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->mapScale->raise();
 
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
+	int size=16*IconStorage::scale();
     ui->frmJoystick->setVisible(false);
 	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);

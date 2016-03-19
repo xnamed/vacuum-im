@@ -20,7 +20,12 @@ isEmpty(EYECU_MOBILE) {
     else:EYECU_MOBILE = false
 }
 
-isEqual(EYECU_MOBILE,true):DEFINES *= EYECU_MOBILE
+isEqual(EYECU_MOBILE,true) {
+    DEFINES *= EYECU_MOBILE
+} else {
+
+}
+
 message(DEFINES=$$DEFINES)
 
 #Configurable values

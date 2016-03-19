@@ -12,7 +12,13 @@ ActivitySelect::ActivitySelect(Activity *AActivity, const QHash<QString, QString
 {
     ui->setupUi(this);
     ui->lstActivity->sortItems(0,Qt::AscendingOrder);
-
+#ifdef EYECU_MOBILE
+	int size=16*IconStorage::scale();
+	ui->lstActivity->setIconSize(QSize(size,size));
+	showMaximized();
+#else
+	ui->lstActivity->setIconSize(QSize(16,16));
+#endif
 	setWindowIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(QString(MNI_ACTIVITY)));
     fillActivityTree();    
     fillTextList(AActivityData.iconFileName());
@@ -76,7 +82,7 @@ void ActivitySelect::fillActivityTree()
 {
     QTreeWidgetItem* pItem;
     QTreeWidgetItem* pItemDir;
-    ui->lstActivity->sortItems(0, Qt::AscendingOrder);
+	ui->lstActivity->sortItems(0, Qt::AscendingOrder);
     for (QHash<QString, QStringList>::const_iterator it=FActivityNames.constBegin(); it!=FActivityNames.constEnd(); it++)
     {
         ActivityData data(it.key());

@@ -1,5 +1,5 @@
-#ifndef UI_NEWOPTIONSDIALOGCLASS_H
-#define UI_NEWOPTIONSDIALOGCLASS_H
+#ifndef OPTIONSDIALOGMOBILE_H
+#define OPTIONSDIALOGMOBILE_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
@@ -16,10 +16,10 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_NewOptionsDialogClass
+class OptionsDialogMobile
 {
 public:
-	~Ui_NewOptionsDialogClass();
+	~OptionsDialogMobile();
     QVBoxLayout *verticalLayout;
 	QTreeView *trvNodes;
 	QScrollArea *scaScroll;
@@ -31,9 +31,9 @@ public:
 };
 
 namespace Ui {
-    class OptionsDialogClass: public Ui_NewOptionsDialogClass {};
+    class OptionsDialogClass: public OptionsDialogMobile {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_NEWOPTIONSDIALOGCLASS_H
+#endif // OPTIONSDIALOGMOBILE_H

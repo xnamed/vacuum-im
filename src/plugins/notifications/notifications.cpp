@@ -158,7 +158,7 @@ bool Notifications::initObjects()
 	FSoundOnOff->setToolTip(tr("Enable/Disable notifications sound"));
     FSoundOnOff->setText(tr("Notifications sound"));
 	FSoundOnOff->setIcon(RSR_STORAGE_MENUICONS, MNI_NOTIFICATIONS_SOUND_ON);
-#if !defined (EYECU_MOBILE) // *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE // *** <<< eyeCU <<< ***
 	FSoundOnOff->setShortcutId(SCT_GLOBAL_TOGGLESOUND);
 #endif
 	connect(FSoundOnOff,SIGNAL(triggered(bool)),SLOT(onSoundOnOffActionTriggered(bool)));
@@ -190,7 +190,7 @@ bool Notifications::initObjects()
 	if (FMainWindowPlugin)
 	{
 // *** <<< eyeCU <<< ***
-#if defined(EYECU_MOBILE)
+#ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FSoundOnOff,AG_MMENU_RI_SOUND,true);
 #else
 		FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FSoundOnOff,TBG_MWTTB_NOTIFICATIONS_SOUND);

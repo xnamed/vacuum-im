@@ -12,6 +12,10 @@ PoiOptions::PoiOptions(Poi *APoi,QWidget *parent) :
     FPoi(APoi)
 {
     ui->setupUi(this);
+
+#if EYECU_MOBILE
+	showMaximized();
+#endif
     createTypeWidget();
 
     connect(ui->pbFont, SIGNAL(clicked()), SLOT(modifyFont()));
@@ -22,9 +26,6 @@ PoiOptions::PoiOptions(Poi *APoi,QWidget *parent) :
     connect(ui->rbSatellite, SIGNAL(clicked()), SLOT(onBackgroundSelected()));
     connect(ui->pbCheckAll, SIGNAL(clicked()), SLOT(onCheckAll()));
     connect(ui->pbUncheckAll, SIGNAL(clicked()), SLOT(onUncheckAll()));
-
-
-
     connect(ui->treeWidget,SIGNAL(itemClicked(QTreeWidgetItem*,int)), SLOT(onItemChanged(QTreeWidgetItem*,int)));
 
     ui->rbMap->click();
@@ -44,20 +45,23 @@ void PoiOptions::createTypeWidget()
     FRootTypes.removeDuplicates();
 
     ui->treeWidget->sortItems(0,Qt::AscendingOrder);
-    ui->treeWidget->setHeaderLabel(tr("POI filter"));
-
+	ui->treeWidget->setHeaderLabel(tr("POI filter"));
+#ifdef EYECU_MOBILE
+	int size=16*IconStorage::scale();
+	ui->treeWidget->setIconSize(QSize(size,size));
+#endif
     // Add "None" item
     QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
     item->setText(0, QString("<%1>").arg(FTranslatedTypes.value("none")));//Qt::DisplayRole
     item->setData(0, Qt::UserRole, "none");
-    item->setIcon(0, FPoi->getIcon(MNI_POI_NONE));
+	item->setIcon(0, FPoi->getIcon(MNI_POI_NONE));
 
     for (QStringList::const_iterator it=FRootTypes.constBegin(); it!=FRootTypes.constEnd(); it++)
     {
         item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0, FTranslatedTypes.value(*it));//Qt::DisplayRole
         item->setData(0, Qt::UserRole, *it);
-        item->setIcon(0, FPoi->getTypeIcon(*it));
+		item->setIcon(0, FPoi->getTypeIcon(*it));
         item->setExpanded(false);
         QStringList subTypes=FSubTypes.values(*it);
         for (QStringList::const_iterator itp=subTypes.constBegin(); itp!=subTypes.constEnd(); itp++)

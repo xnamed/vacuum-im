@@ -703,7 +703,7 @@ bool Poi::initObjects()
 		FMenuToolbar->setIcon(RSR_STORAGE_MENUICONS, MNI_POI_TLB);
 		FMenuToolbar->menuAction()->setEnabled(true);
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
 		IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
 		mainWindow ->topToolBarChanger()									 // Get toolbar changer
 				   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_POI) // Add action as a button
@@ -716,7 +716,7 @@ bool Poi::initObjects()
 		action->setShortcutId(SCT_POI_LIST);
 		connect(action, SIGNAL(triggered(bool)), SLOT(onPoiList(bool)));
 
-#if defined(EYECU_MOBILE)
+#ifdef EYECU_MOBILE
 		FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(action,AG_MMENU_RI_POI_LIST,true);
 #endif
 
@@ -731,7 +731,7 @@ bool Poi::initObjects()
 		action->setShortcutId(SCT_POI_VIEW);
 		connect(action, SIGNAL(triggered()), SLOT(onPoiShow()));
 
-#if defined(EYECU_MOBILE)
+#ifdef EYECU_MOBILE
 		FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(action,AG_MMENU_RI_POI,true);
 #endif
 

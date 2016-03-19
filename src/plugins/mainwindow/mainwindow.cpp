@@ -22,11 +22,8 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowFlags(Qt::WindowCloseButtonHint); // *** <<< eyeCU >>> ***
 	setWindowRole("MainWindow");
 	setAttribute(Qt::WA_DeleteOnClose,false);
-#ifdef Q_OS_WIN         // *** <<< eyeCU <<< ***
-    setIconSize(QSize(16,16));
-#else   // Q_OS_ANDROID
-	setIconSize(QSize(48,48));  //--TEMPORARY, Need calculate for DPI----
-#endif
+	int size=16*IconStorage::scale();	// *** <<< eyeCU <<< ***
+	setIconSize(QSize(size,size));		// *** <<< eyeCU <<< ***
 
 	FAligned = false;
 	FLeftWidgetWidth = 0;

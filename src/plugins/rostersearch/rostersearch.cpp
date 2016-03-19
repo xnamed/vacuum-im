@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QLabel>
 #include <definitions/actiongroups.h>
 #include <definitions/toolbargroups.h>
 #include <definitions/mainwindowwidgets.h>

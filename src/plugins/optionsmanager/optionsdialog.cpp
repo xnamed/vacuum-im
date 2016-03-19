@@ -22,10 +22,10 @@
     #define OS_NODE     0       // NODE FOR WINDOWS
 #endif					// *** <<< eyeCU <<< ***
 
-#if OS_NODE          // *** <<< eyeCU <<< ***
+#if OS_NODE				// *** <<< eyeCU <<< ***
 	#define NODE_ITEM_ICONSIZE   QSize(32,32)
-	#define NODE_ITEM_SIZEHINT   QSize(32,32)
-#else
+	#define NODE_ITEM_SIZEHINT   QSize(48,48)
+#else					// *** <<< eyeCU <<< ***
 	#define NODE_ITEM_ICONSIZE   QSize(16,16)
 	#define NODE_ITEM_SIZEHINT   QSize(24,24)
 #endif
@@ -48,7 +48,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
 #if OS_NODE
-	this->showFullScreen();
+	showMaximized();
 #endif
 
 	FRootNodeId = ARootId;
@@ -74,13 +74,6 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
 #if OS_NODE         // *** <<< eyeCU <<< ***
 	ui.trvNodes->setAlternatingRowColors(true);
-//! -----kostili----
-	QFont fnt=ui.trvNodes->font();
-	float poinSise=fnt.pointSize()*1.3;
-	fnt.setPointSize((int)poinSise);
-	fnt.setFamily("MS Shell Dlg 2");
-	ui.trvNodes->setFont(fnt);
-//! -----kostili-----
     connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else				// *** >>> eyeCU >>> ***
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
@@ -124,7 +117,7 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
     nodeLayout->setMargin(5);
 #if OS_NODE         // *** <<< eyeCU <<< ***
-    ui.scaScroll->showFullScreen();
+	ui.scaScroll->showMaximized();
 #endif
 	QMultiMap<int, IOptionsDialogWidget *> orderedWidgets;
 	foreach(IOptionsDialogHolder *optionsHolder, FOptionsManager->optionsDialogHolders())

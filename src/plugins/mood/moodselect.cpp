@@ -13,12 +13,16 @@ MoodSelect::MoodSelect(Mood *AMood, const QStringList &AMoodList, const QHash<QS
 {
     ui->setupUi(this);	
     ui->listActiv->sortItems(0,Qt::AscendingOrder);
-
+#ifdef EYECU_MOBILE
+	int size=16*IconStorage::scale();
+	ui->listActiv->setIconSize(QSize(size,size));
+	showMaximized();
+#else
+	ui->listActiv->setIconSize(QSize(16,16));
+#endif
     connect(ui->listActiv,SIGNAL(itemActivated(QTreeWidgetItem*,int)),SLOT(accept()));
     connect(ui->listActiv,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),SLOT(onCurItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     connect(ui->comboBox,SIGNAL(editTextChanged(QString)),SLOT(onEditTextChanged(QString)));
-
-
 
 	setWindowIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MOOD));
     fillMoodList();
@@ -90,7 +94,6 @@ void MoodSelect::onCurItemChanged(QTreeWidgetItem *ANewItem, QTreeWidgetItem *AO
 void MoodSelect::fillMoodList()
 {
     ui->listActiv->setSortingEnabled(true);
-    ui->listActiv->setIconSize(QSize(16,16));
     ui->listActiv->setAlternatingRowColors(true);
 
     for (QHash<QString, QString>::const_iterator it = FMoodKeys.constBegin(); it!=FMoodKeys.constEnd(); it++)

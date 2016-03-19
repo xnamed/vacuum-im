@@ -1,6 +1,6 @@
-#include "newoptionsdialogclass.h"
+#include "optionsdialogmobile.h"
 
-void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
+void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 {
 	if (OptionsDialogClass->objectName().isEmpty())
 		OptionsDialogClass->setObjectName(QStringLiteral("OptionsDialogClass"));
@@ -38,12 +38,12 @@ void Ui_NewOptionsDialogClass::setupUi(QDialog *OptionsDialogClass)
 	QMetaObject::connectSlotsByName(OptionsDialogClass);
 } // setupUi For Android
 
-void Ui_NewOptionsDialogClass::retranslateUi(QDialog *OptionsDialogClass)
+void OptionsDialogMobile::retranslateUi(QDialog *OptionsDialogClass)
 {
 	Q_UNUSED(OptionsDialogClass);
 } // retranslateUi
 
-Ui_NewOptionsDialogClass::~Ui_NewOptionsDialogClass()
+OptionsDialogMobile::~OptionsDialogMobile()
 {
     delete scaScroll;
 }

@@ -56,11 +56,7 @@ void SelectIconMenu::onAboutToShow()
 	if (!recent.isEmpty())
 	{
 		QToolBar *toolBar = new QToolBar(this);
-#ifdef EYECU_MOBILE
-		toolBar->setIconSize(QSize(48,48));
-#else
-		toolBar->setIconSize(QSize(16,16));
-#endif
+		toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 		FLayout->addWidget(toolBar);
 		ToolBarChanger changer(toolBar);
 		for (QStringList::ConstIterator it=recent.constBegin(); it!=recent.constEnd(); ++it)

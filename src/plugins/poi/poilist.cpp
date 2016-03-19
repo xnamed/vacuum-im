@@ -9,7 +9,7 @@ PoiList::PoiList(IPoi *APoi, QWidget *parent) :
 {
     ui->setupUi(this);
 #ifdef EYECU_MOBILE
-	this->showFullScreen();
+	this->showMaximized();
 #endif
     ui->poiList->setColumnWidth(0, 28);
 	ui->poiList->header()->SETRESIZEMODE(0, QHeaderView::Fixed);

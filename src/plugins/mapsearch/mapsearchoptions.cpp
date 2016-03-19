@@ -31,7 +31,7 @@ void MapSearchOptions::changeEvent(QEvent *e)
 
 void MapSearchOptions::onTextColorDialog()
 {
-    QColor color = QColorDialog::getColor(FCurrentColor, this, tr("Select label color"));
+/*    QColor color = QColorDialog::getColor(FCurrentColor, this, tr("Select label color"));
     if(color.isValid())
         if (FCurrentColor!=color)
         {
@@ -39,6 +39,19 @@ void MapSearchOptions::onTextColorDialog()
             setWidgetColor(ui->pbTextColor, FCurrentColor);
             emit modified();
         }
+*/
+	QColorDialog dlg(this);
+#ifdef EYECU_MOBILE
+	dlg.showMaximized();
+#endif
+	QColor color = dlg.getColor(FCurrentColor, this, tr("Select label color"));
+	if(color.isValid())
+		if (FCurrentColor!=color)
+		{
+			FCurrentColor = color;
+			setWidgetColor(ui->pbTextColor, FCurrentColor);
+			emit modified();
+		}
 }
 
 void MapSearchOptions::apply()
@@ -58,5 +71,5 @@ void MapSearchOptions::setWidgetColor(QWidget *AWidget, const QColor &AColor)
     QPalette palette=AWidget->palette();
     palette.setColor(QPalette::Button, AColor);
     palette.setColor(QPalette::ButtonText, contrast);
-    AWidget->setPalette(palette);
+	AWidget->setPalette(palette);
 }

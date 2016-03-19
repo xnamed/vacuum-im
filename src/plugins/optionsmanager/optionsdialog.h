@@ -7,7 +7,7 @@
 #include <interfaces/ioptionsmanager.h>
 
 #ifdef EYECU_MOBILE
-	#include "ui_optionsdialogmobile.h"
+	#include "optionsdialogmobile.h"
 #else
 	#include "ui_optionsdialog.h"
 #endif
