@@ -8,13 +8,19 @@ ActivitySelect::ActivitySelect(Activity *AActivity, const QHash<QString, QString
     FActivityData(AActivityData),
     FActivityNames(AActivityList),
     FActivityTexts(AActivityTexts),
+    FCurScale(1),
 	ui(new Ui::ActivitySelect)
 {
     ui->setupUi(this);
     ui->lstActivity->sortItems(0,Qt::AscendingOrder);
 #ifdef EYECU_MOBILE
-	int size=16*IconStorage::scale();
-	ui->lstActivity->setIconSize(QSize(size,size));
+    FCurScale=IconStorage::scale();
+    ui->lstActivity->setIconSize(QSize(16*FCurScale,16*FCurScale));
+    ui->lblIcon->setScaledContents(true);
+    QFont fnt=ui->lstActivity->font();
+    fnt.setPointSizeF(FCurScale*fnt.pointSizeF());
+    ui->lstActivity->setFont(fnt);
+    ui->cmbText->setFont(fnt);
 	showMaximized();
 #else
 	ui->lstActivity->setIconSize(QSize(16,16));
@@ -59,7 +65,7 @@ void ActivitySelect::changeEvent(QEvent *e)
 void ActivitySelect::onCurItemChanged(QTreeWidgetItem *AItemNew, QTreeWidgetItem *AItemOld)
 {
     Q_UNUSED(AItemOld);    
-    ui->lblIcon->setPixmap(AItemNew->icon(0).pixmap(16));    
+    ui->lblIcon->setPixmap(AItemNew->icon(0).pixmap(16*FCurScale));
     FActivityData.nameBasic = AItemNew->text(1);
     FActivityData.nameDetailed = AItemNew->data(0, Qt::UserRole).toString();
     fillTextList(FActivityData.iconFileName());

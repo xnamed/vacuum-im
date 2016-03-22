@@ -1,7 +1,6 @@
 #include <QGraphicsDropShadowEffect>
 #include <QToolTip>
 #include <MapObject>
-#include <QGestureEvent>
 
 #include <utils/menu.h>
 #include <utils/options.h>
@@ -56,15 +55,26 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->mapScale->raise();
 
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
-	int size=16*IconStorage::scale();
     ui->frmJoystick->setVisible(false);
-#ifndef Q_OS_WIN		// For DEBUG ---
 	ui->frmScale->setVisible(false);
-#endif
     ui->mapScale->setVisible(false);
-	ui->btnReload2->setIconSize(QSize(32,32));
-	ui->lblType1->setBaseSize(QSize(32,32));
-	ui->rbtMode1->setIconSize(QSize(32,32));
+	int scale=16*IconStorage::scale();
+	QSize size(16*scale,16*scale);
+	//size.setHeight(16*scale);
+	//size.setWidth(16*scale);
+	ui->btnReload2->setIconSize(size);
+	ui->lblType1->setBaseSize(size);
+	ui->rbtMode1->setIconSize(size);
+	ui->lblType2->setBaseSize(size);
+	ui->rbtMode2->setIconSize(size);
+	ui->lblType3->setBaseSize(size);
+	ui->rbtMode3->setIconSize(size);
+	ui->rbtMode4->setIconSize(size);
+	ui->lblType4->setBaseSize(size);
+	//cmbMapSource font change
+	QFont font=ui->cmbMapSource->font();
+	font.setPointSizeF(font.pointSizeF()*scale);
+	ui->cmbMapSource->setFont(font);
 #else
 	ui->btnReload2->setVisible(false);
 #endif

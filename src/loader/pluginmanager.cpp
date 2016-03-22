@@ -952,7 +952,7 @@ void PluginManager::onShowAboutBoxDialog()
 {
 	if (FAboutDialog.isNull())
 		FAboutDialog = new AboutBox(this);
-	WidgetManager::showActivateRaiseWindow(FAboutDialog);
+    WidgetManager::showActivateRaiseWindow(FAboutDialog);
 }
 
 void PluginManager::onShutdownTimerTimeout()

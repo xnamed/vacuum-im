@@ -16,6 +16,7 @@
 #define AG_MMENU_MAINWINDOW                                     1000
 // <<< eyeCU <<<
 //MainWindow  - MainMenuRight
+#define AG_MMENU_RI_MAP                                         450
 #define AG_MMENU_RI_ROSTERSEARCH                                500
 #define AG_MMENU_RI_MAPS                                        550
 #define AG_MMENU_RI_MAPS_MENU                                   550

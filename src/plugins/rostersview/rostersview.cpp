@@ -1,5 +1,5 @@
 #include "rostersview.h"
-
+#include <QDebug>
 #include <QDrag>
 #include <QCursor>
 #include <QToolTip>
@@ -15,6 +15,7 @@
 #include <QDragEnterEvent>
 #include <QDragLeaveEvent>
 #include <QContextMenuEvent>
+#include <QScrollBar>
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
 #include <definitions/actiongroups.h>
@@ -71,6 +72,17 @@ RostersView::RostersView(QWidget *AParent) : QTreeView(AParent)
 	FDragExpandTimer.setSingleShot(true);
 	FDragExpandTimer.setInterval(500);
 	connect(&FDragExpandTimer,SIGNAL(timeout()),SLOT(onDragExpandTimer()));
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+//! [enable gestures]
+////    grabGesture(Qt::TapGesture);
+////    grabGesture(Qt::PinchGesture);
+	grabGesture(Qt::TapAndHoldGesture);
+//    grabGesture(Qt::PanGesture);
+//    grabGesture(Qt::SwipeGesture);
+//! [enable gestures]
+#endif
+// *** <<< eyeCU <<< ***
 }
 
 RostersView::~RostersView()
@@ -1188,6 +1200,12 @@ void RostersView::mouseDoubleClickEvent(QMouseEvent *AEvent)
 
 void RostersView::mousePressEvent(QMouseEvent *AEvent)
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	FPressedPos=AEvent->pos();
+	FScrollBarValue=verticalScrollBar()->value();
+#else
+// *** >>> eyeCU >>> ***
 	FStartDragFailed = false;
 	FPressedPos = AEvent->pos();
 	if (viewport()->rect().contains(FPressedPos))
@@ -1200,11 +1218,18 @@ void RostersView::mousePressEvent(QMouseEvent *AEvent)
 				setExpanded(FPressedIndex,!isExpanded(FPressedIndex));
 		}
 	}
+#endif // *** <<< eyeCU >>> ***
 	QTreeView::mousePressEvent(AEvent);
 }
 
 void RostersView::mouseMoveEvent(QMouseEvent *AEvent)
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	if (!FPressedPos.isNull())
+		verticalScrollBar()->setValue(FScrollBarValue+FPressedPos.ry()-AEvent->pos().ry());
+#else
+// *** >>> eyeCU >>> ***
 	if (FRostersModel && !FStartDragFailed && FPressedIndex.isValid() && AEvent->buttons()!=Qt::NoButton &&
 		 (AEvent->pos()-FPressedPos).manhattanLength()>QApplication::startDragDistance() && selectedIndexes().count()==1)
 	{
@@ -1252,6 +1277,7 @@ void RostersView::mouseMoveEvent(QMouseEvent *AEvent)
 			FStartDragFailed = true;
 		}
 	}
+#endif	// *** <<< eyeCU >>> ***
 	else
 	{
 		QTreeView::mouseMoveEvent(AEvent);
@@ -1260,6 +1286,7 @@ void RostersView::mouseMoveEvent(QMouseEvent *AEvent)
 
 void RostersView::mouseReleaseEvent(QMouseEvent *AEvent)
 {
+#ifndef EYECU_MOBILE // *** <<< eyeCU >>> ***
 	bool isClick = (FPressedPos-AEvent->pos()).manhattanLength() < QApplication::startDragDistance();
 	if (isClick && AEvent->button()==Qt::LeftButton && viewport()->rect().contains(AEvent->pos()))
 	{
@@ -1273,10 +1300,10 @@ void RostersView::mouseReleaseEvent(QMouseEvent *AEvent)
 		}
 	}
 
-	FPressedPos = QPoint();
 	FPressedIndex = QModelIndex();
 	FPressedLabel = AdvancedDelegateItem::NullId;
-
+#endif // *** <<< eyeCU >>> ***
+	FPressedPos = QPoint();
 	QTreeView::mouseReleaseEvent(AEvent);
 }
 
@@ -1379,8 +1406,9 @@ void RostersView::dragLeaveEvent(QDragLeaveEvent *AEvent)
 	foreach(IRostersDragDropHandler *handler, FEnteredDragHandlers)
 		handler->rosterDragLeave(AEvent);
 	stopAutoScroll();
-	setDropIndicatorRect(QRect());
+    setDropIndicatorRect(QRect());
 }
+
 
 void RostersView::closeEditor(QWidget *AEditor, QAbstractItemDelegate::EndEditHint AHint)
 {
@@ -1471,3 +1499,59 @@ void RostersView::onDragExpandTimer()
 	QModelIndex index = indexAt(FDropIndicatorRect.center());
 	setExpanded(index,true);
 }
+
+//! ****  <<<  eyeCU  <<<  ****  --------------------
+#ifdef EYECU_MOBILE
+
+bool RostersView::event(QEvent *AEvent)
+{
+    if (AEvent->type() == QEvent::MouseButtonPress){
+        return QTreeView::event(AEvent);
+    }
+    else if (AEvent->type() == QEvent::Gesture)				//! [gesture event handler]
+        return gestureEvent(static_cast<QGestureEvent*>(AEvent));
+
+    return QTreeView::event(AEvent);
+}
+
+//! [gesture event handler]
+bool RostersView::gestureEvent(QGestureEvent *AEvent)
+{
+    if(QGesture *swip = AEvent->gesture(Qt::SwipeGesture))
+        swipeGesture(static_cast<QSwipeGesture *>(swip));
+    if(QGesture *pan = AEvent->gesture(Qt::PanGesture))
+        panGesture(static_cast<QPanGesture *>(pan));
+    if(QGesture *gesture = AEvent->gesture(Qt::TapAndHoldGesture))
+        tapAndHoldGesture(static_cast<QTapAndHoldGesture *>(gesture));
+    AEvent->accept();
+    return true;
+}
+
+void RostersView::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
+{
+    if (AGesture->state()==Qt::GestureFinished) {
+        QPoint hotSpot(AGesture->hotSpot().toPoint());
+        QWidget *child = childAt(mapFromGlobal(hotSpot));
+        if (child)
+            QCoreApplication::postEvent(child,
+               new QContextMenuEvent(QContextMenuEvent::Other,child->mapFromGlobal(hotSpot),hotSpot,Qt::NoModifier));
+        update();
+    }
+}
+
+void RostersView::swipeGesture(QSwipeGesture *AGesture)
+{
+    if (AGesture->state()==Qt::GestureFinished) {
+//qDebug()<<"*********** RostersView/swipeGesture/Finished";
+    }
+}
+
+void RostersView::panGesture(QPanGesture *AGesture)
+{
+    if (AGesture->state()==Qt::GestureFinished) {
+//qDebug()<<"*********** RostersView/panGesture/Finished";
+    }
+}
+//! [gesture event handler]
+
+#endif

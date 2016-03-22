@@ -48,7 +48,7 @@ struct IconStorage::IconUpdateParams {
 	IconAnimateParams *animation;
 };
 
-int IconStorage::FScale(1);		 // *** <<< eyeCU <<< ***
+qreal IconStorage::FScale(1.0);		 // *** <<< eyeCU <<< ***
 
 IconStorage::IconStorage(const QString &AStorage, const QString &ASubStorage, QObject *AParent) : FileStorage(AStorage,ASubStorage,AParent)
 {
@@ -72,7 +72,6 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 		if (icon.isNull())
 		{
 			// Scale icon according to FScale
-//			icon.addFile(fileFullName(AKey,AIndex));
 // *** <<< eyeCU <<< ***
 			QPixmap pixmap = QPixmap::fromImage(QImageReader(fileFullName(AKey,AIndex)).read());
 			icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16):pixmap);

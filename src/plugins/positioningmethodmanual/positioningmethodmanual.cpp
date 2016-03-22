@@ -133,11 +133,19 @@ void PositioningMethodManual::addMenu()
     {
         if(!FActionHereIAm)
         {
-			FActionHereIAm = FMap->addMenuAction(tr("Here I am!"), RSR_STORAGE_MENUICONS, MNI_GEOLOC, 0);
+#ifdef EYECU_MOBILE
+            FActionHereIAm = FMap->addMenuAction(tr("Here I am!"), RSR_STORAGE_MENUICONS, MNI_GEOLOC, 0);
+            FActionStopPublish = FMap->addMenuAction(tr("Stop publication"),QString(RSR_STORAGE_MENUICONS),QString(MNI_GEOLOC_OFF),0);
             connect(FActionHereIAm,SIGNAL(triggered(bool)),SLOT(hereIam()));
-			FActionStopPublish = FMap->addMenuAction(tr("Stop publication"),QString(RSR_STORAGE_MENUICONS),QString(MNI_GEOLOC_OFF),1);
             FActionStopPublish->setShortcutId(SCT_MAP_STOPLOCATIONPUBLICATION);
             connect(FActionStopPublish,SIGNAL(triggered(bool)),SLOT(retractGeoloc()));
+#else
+            FActionHereIAm = FMap->addMenuAction(tr("Here I am!"), RSR_STORAGE_MENUICONS, MNI_GEOLOC, 0);
+            FActionStopPublish = FMap->addMenuAction(tr("Stop publication"),QString(RSR_STORAGE_MENUICONS),QString(MNI_GEOLOC_OFF),1);
+            connect(FActionHereIAm,SIGNAL(triggered(bool)),SLOT(hereIam()));
+            FActionStopPublish->setShortcutId(SCT_MAP_STOPLOCATIONPUBLICATION);
+            connect(FActionStopPublish,SIGNAL(triggered(bool)),SLOT(retractGeoloc()));
+#endif
         }
     }
 	else if (FMainWindowPlugin)

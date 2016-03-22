@@ -93,8 +93,12 @@ bool MapMagnifier::initObjects()
 	FMap->geoMap()->setObjectHandler(MOT_MAGNIFIER, this);
 	FMap->geoMap()->registerDataType(MDR_MAGNIFIER, MOT_MAGNIFIER, 100, MOP_NONE, MOP_CENTER);
 	FMap->geoMap()->addDataHolder(MOT_MAGNIFIER, this);
+#ifdef EYECU_MOBILE
+    Action *action = FMap->addMenuAction(tr("Magnifier"), QString(RSR_STORAGE_MENUICONS),QString(MNI_MAPMAGNFIER), 0);
+#else
+    Action *action = FMap->addMenuAction(tr("Magnifier"), QString(RSR_STORAGE_MENUICONS),QString(MNI_MAPMAGNFIER), 1);
+#endif
 
-	Action *action = FMap->addMenuAction(tr("Magnifier"), QString(RSR_STORAGE_MENUICONS),QString(MNI_MAPMAGNFIER), 1);
     action->setCheckable(true);
     action->setShortcutId(SCT_MAP_MAGNIFIER_TOGGLE);
     connect(action, SIGNAL(triggered(bool)), SLOT(onMaginifier()));

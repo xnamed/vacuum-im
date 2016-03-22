@@ -43,15 +43,14 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 {
 	REPORT_VIEW;
 	ui.setupUi(this);
-#if OS_NODE
-	showMaximized();
-	updateGeometry();
-#endif
-
 	setWindowTitle(tr("Options"));
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
+
+#if OS_NODE
+    showMaximized();
+#endif
 
 	FRootNodeId = ARootId;
 	delete ui.scaScroll->takeWidget();
@@ -117,10 +116,8 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 
     QWidget *nodeWidget = new QWidget(ui.scaScroll);
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
-    nodeLayout->setMargin(5);
-#if OS_NODE         // *** <<< eyeCU <<< ***
-	ui.scaScroll->showMaximized();
-#endif
+	nodeLayout->setMargin(5);
+
 	QMultiMap<int, IOptionsDialogWidget *> orderedWidgets;
 	foreach(IOptionsDialogHolder *optionsHolder, FOptionsManager->optionsDialogHolders())
 		orderedWidgets += optionsHolder->optionsDialogWidgets(ANodeId,nodeWidget);
@@ -256,12 +253,9 @@ void OptionsDialog::onClicked(const QModelIndex &ACurrent)
 void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QModelIndex &APrevious)
 {
 	Q_UNUSED(APrevious);
-	ui.scaScroll->takeWidget();
-#if OS_NODE         // *** <<< eyeCU <<< ***
-    ui.scaScroll->setVisible(true);
-#endif
-	QStandardItem *curItem = FItemsModel->itemFromIndex(FProxyModel->mapToSource(ACurrent));
+    ui.scaScroll->takeWidget();
 
+	QStandardItem *curItem = FItemsModel->itemFromIndex(FProxyModel->mapToSource(ACurrent));
 	QString nodeId = FNodeItems.key(curItem);
 	LOG_DEBUG(QString("Changing current options dialog node to %1").arg(nodeId));
 
@@ -269,9 +263,13 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		FItemWidgets.insert(curItem,createNodeWidget(nodeId));
 
 	QWidget *curWidget = FItemWidgets.value(curItem);
-	if (curWidget)
+    if (curWidget){
 		ui.scaScroll->setWidget(curWidget);
-
+#if OS_NODE         // *** <<< eyeCU <<< ***
+        ui.scaScroll->showMaximized();
+        ui.scaScroll->setVisible(true);
+#endif              // *** <<< eyeCU <<< ***
+    }
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);
 }
 

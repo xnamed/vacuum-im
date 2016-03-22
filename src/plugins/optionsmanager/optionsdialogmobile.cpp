@@ -45,5 +45,5 @@ void OptionsDialogMobile::retranslateUi(QDialog *OptionsDialogClass)
 
 OptionsDialogMobile::~OptionsDialogMobile()
 {
-    delete scaScroll;
+	delete scaScroll;
 }

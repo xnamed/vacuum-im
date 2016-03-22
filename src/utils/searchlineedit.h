@@ -7,7 +7,7 @@
 #include "utilsexport.h"
 #include "menu.h"
 #include "closebutton.h"
-
+#include "iconstorage.h"
 class UTILS_EXPORT SearchLineEdit : 
 	public QLineEdit
 {

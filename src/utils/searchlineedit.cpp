@@ -20,10 +20,13 @@ SearchLineEdit::SearchLineEdit(QWidget *AParent) : QLineEdit(AParent)
 	FMenuButton->setCursor(Qt::ArrowCursor);
 	FMenuButton->setDefaultAction(FSearchMenu->menuAction());
 	FMenuButton->setPopupMode(QToolButton::InstantPopup);
-
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    int size=16*IconStorage::scale();
+    FMenuButton->setIconSize(QSize(size,size));
+#endif                  // *** <<< eyeCU <<< ***
 	FClearButton = new CloseButton(this);
 	FClearButton->setVisible(false);
-	FClearButton->setToolTip(tr("Clear text"));
+    FClearButton->setToolTip(tr("Clear text"));
 	FClearButton->setIcon(QIcon::fromTheme(layoutDirection()==Qt::LeftToRight ? "edit-clear-locationbar-rtl" :"edit-clear-locationbar-ltr", QIcon::fromTheme("edit-clear")));
 	connect(FClearButton,SIGNAL(clicked()),SLOT(onClearButtonClicked()));
 

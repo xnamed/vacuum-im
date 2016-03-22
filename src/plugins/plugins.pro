@@ -61,7 +61,11 @@ SUBDIRS += bitsofbinary
 SUBDIRS += xmppuriqueries
 SUBDIRS += remotecontrol
 SUBDIRS += pepmanager
-!android: SUBDIRS += shortcutmanager
+#!equals(EYECU_MOBILE,true): SUBDIRS += shortcutmanager
+!android {
+    !equals(EYECU_MOBILE,true): SUBDIRS += shortcutmanager
+}
+#!android: SUBDIRS += shortcutmanager
 SUBDIRS += birthdayreminder
 SUBDIRS += urlprocessor
 SUBDIRS += filemessagearchive

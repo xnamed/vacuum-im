@@ -34,6 +34,7 @@ private:
     QHash<QString, QStringList> FTextList;
     QHash<QString,QString>  FMoodKeys;
     MoodData        FMoodData;
+    int             FCurScale;
 };
 
 #endif // MOODSELECT_H

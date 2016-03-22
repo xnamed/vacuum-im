@@ -26,7 +26,7 @@ isEqual(EYECU_MOBILE,true) {
 
 }
 
-message(DEFINES=$$DEFINES)
+#message(DEFINES=$$DEFINES)
 
 #Configurable values
 isEmpty(INSTALL_PREFIX) {

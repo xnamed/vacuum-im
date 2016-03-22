@@ -29,6 +29,7 @@ private:
     ActivityData    FActivityData;
     QHash<QString, QStringList> FActivityNames;
     QHash<QString, QStringList> FActivityTexts;
+    int              FCurScale;
 	Ui::ActivitySelect  *ui;
 };
 

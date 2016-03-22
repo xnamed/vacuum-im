@@ -164,6 +164,7 @@ private:
 	Menu				*FMenuObject;
 	Menu				*FMenuMap;
 	Menu				*FMenuToolbar;
+	Action				*FMapAction;
 	MapObject			*FFollowedObject;
 	QActionGroup		*FSourceGroup;
 	QStackedWidget		*FMapsWidget;

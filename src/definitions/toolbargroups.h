@@ -11,8 +11,8 @@
 // *** <<< eyeCU <<< ***
 #define TBG_MWTTB_MAINMENU                                      100
 #define TBG_MWTTB_TITLE                                         2000
-#define TBG_MWTTB_ROSTERSEARCH_ANDROID                          2100
-#define TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT                      10000
+#define TBG_MWTTB_ROSTERSEARCH_ANDROID                          10000
+#define TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT                      10100
 #define TBG_MWTTB_RIGHTMENU                                     15000
 
 #ifdef EYECU_MOBILE

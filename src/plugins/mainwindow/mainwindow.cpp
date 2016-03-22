@@ -23,8 +23,9 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowRole("MainWindow");
 	setAttribute(Qt::WA_DeleteOnClose,false);
 #ifdef EYECU_MOBILE						// *** <<< eyeCU <<< ***
-	int size=16*IconStorage::scale();
-	setIconSize(QSize(size,size));
+    int size=16*(IconStorage::scale()+1);
+    setIconSize(QSize(size,size));
+qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
 #else									// *** <<< eyeCU <<< ***
 	setIconSize(QSize(16,16));
 #endif
@@ -77,44 +78,48 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
 	QToolBar *topToolbar = new QToolBar(this);
     topToolbar->setFloatable(false);
-    topToolbar->setMovable(false);
+	topToolbar->setMovable(false);
 
 // *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE     // ne obyasatelno
+#ifdef EYECU_MOBILE     // for mobile
     QPalette plt;
-    plt.setColor(QPalette::Button,QColor(0,0,0,255));
+	plt.setColor(QPalette::Button,QColor(0,0,0,20));
 	plt.setColor(QPalette::ButtonText,QColor(255,0,0,255));
+//	topToolbar->setAutoFillBackground(true);
     topToolbar->setPalette(plt);
 #endif
 // *** >>> eyeCU >>> ***
 
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
 	topChanger->setSeparatorsVisible(false);
-    insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
+	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
 
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
+
+//	bottomToolbar->setAutoFillBackground(true);	// *** <<< eyeCU <<< ***
+//	bottomToolbar->setPalette(plt);				// *** <<< eyeCU <<< ***
+
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
 	bottomChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_BOTTOM_TOOLBAR,bottomChanger);
 
     FMainMenu = new Menu(this);
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
-    FMainMenu->setTitle(tr("Main menu"));                                               // *** <<< eyeCU >>> ***
+    FMainMenu->setTitle(tr("Main menu"));                                         // *** <<< eyeCU >>> ***
 	QToolButton *button =
 		topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);	// *** <<< eyeCU >>> ***
     button->setPopupMode(QToolButton::InstantPopup);
-
-// *** <<< eyeCU <<< ***
+ // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     FMainMenuRight = new Menu(this);
     FMainMenuRight->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU_RIGHT);
     FMainMenuRight->setTitle(tr("Right menu"));
 	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
     button->setPopupMode(QToolButton::InstantPopup);
-	QLabel *title = new QLabel("  eyeCU");
-//	title->font().setPointSize(17);
+
+	QLabel *title = new QLabel(" eyeCU");
 	title->setObjectName("eyeCU");
 	topToolBarChanger()->insertWidget(title,TBG_MWTTB_TITLE);
 #endif
@@ -126,8 +131,8 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
 // *** <<< eyeCU <<< ***
 //	grabGesture(Qt::TapGesture);
-	grabGesture(Qt::TapAndHoldGesture);
-    grabGesture(Qt::PinchGesture);
+////	grabGesture(Qt::TapAndHoldGesture);
+////    grabGesture(Qt::PinchGesture);
 //	grabGesture(Qt::PanGesture);
 //	grabGesture(Qt::SwipeGesture);
 // *** >>> eyeCU >>>***

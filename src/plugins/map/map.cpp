@@ -38,6 +38,7 @@ Map::Map():
 	FMapForm(NULL),
 	FMenuMap(NULL),
 	FMenuToolbar(NULL),
+	FMapAction(NULL),
 	FFollowedObject(NULL),
 	FSourceGroup(NULL),
 	FMapsWidget(NULL),
@@ -136,7 +137,7 @@ bool Map::initObjects()
 	FIconStorage = IconStorage::staticStorage(RSR_STORAGE_MAPICONS);
 	MapTile::setLoading(FIconStorage->getIcon(MPI_HOURGLASS).pixmap(256, 256));
 	MapHttpQuery::setNetworkAccessManager(FNetworkAccessManager);	
-
+//!------------
 	FMenuMap = new Menu;
 	FMenuMap->setTitle(tr("Map"));
 	FMenuMap->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
@@ -152,25 +153,36 @@ bool Map::initObjects()
 	FMapForm = new MapForm(this, createScene(this, this));
 	Shortcuts::insertWidgetShortcut(SCT_MAP_ZOOM_IN, FMapForm);
 	Shortcuts::insertWidgetShortcut(SCT_MAP_ZOOM_OUT, FMapForm);
-	connect(Shortcuts::instance(), SIGNAL(shortcutActivated(QString,QWidget*)), SLOT(onShortcutActivated(QString,QWidget*)));
+	connect(Shortcuts::instance(),SIGNAL(shortcutActivated(QString,QWidget*)),SLOT(onShortcutActivated(QString,QWidget*)));
 
-	FMainWindow = FMainWindowPlugin->mainWindow();
+    FMainWindow = FMainWindowPlugin->mainWindow();
 
-    QToolButton *action = FMainWindow ->topToolBarChanger()    // Get toolbar changer
-               ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_MAPS); // Add action as a button
+#ifndef EYECU_MOBILE
+	QToolButton *action = FMainWindow ->topToolBarChanger()					// Get toolbar changer
+			   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_MAPS);	// Add action as a button
     action->setPopupMode(QToolButton::MenuButtonPopup);
-
 	FMenuToolbar->menuAction()->setShortcutId(SCT_MAP_SHOW);
-	connect(FMenuToolbar->menuAction(), SIGNAL(toggled(bool)), SLOT(showMap(bool)));
+	connect(FMenuToolbar->menuAction(),SIGNAL(toggled(bool)),SLOT(showMap(bool)));
+#else
+	FMapAction = new Action(this);
+	FMapAction->setText(tr("Map"));
+	FMapAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
+	FMapAction->setCheckable(true);
+	FMapAction->setEnabled(true);
+	connect(FMapAction,SIGNAL(toggled(bool)),SLOT(showMap(bool)));
+	FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
+#endif
+
 	fillMenu();
 	fillSources();
-
+//!------------
 	if (FPositioning)
 		showMyLocation();
 
 	connect(FMainWindow->instance(), SIGNAL(centralWidgetVisibleChanged(bool)), SLOT(onCentralWidgetVisibleChanged(bool)));
 	connect(FMainWindow->mainCentralWidget()->instance(), SIGNAL(currentCentralPageChanged(IMainCentralPage*)), SLOT(onCurrentCentralPageChanged(IMainCentralPage*)));
-	connect(FMapForm->mapScene()->instance(), SIGNAL(sceneRectChanged(QRectF)), SIGNAL(sceneRectChanged(QRectF)));
+
+    connect(FMapForm->mapScene()->instance(), SIGNAL(sceneRectChanged(QRectF)), SIGNAL(sceneRectChanged(QRectF)));
 	connect(FMapForm->mapScene()->instance(), SIGNAL(mapCenterChanged(double,double,bool)), SLOT(onMapCenterChanged(double,double,bool)));
 
 	connect(Options::instance(),SIGNAL(optionsOpened()),SLOT(onOptionsOpened()));
@@ -292,17 +304,27 @@ void Map::onShutdownStarted()
 void Map::fillMenu()
 {
 	Action *action;
-	FMyLocation = addMenuAction(tr("My location"), RSR_STORAGE_MAPICONS, MPI_MYLOCATION, 1);
+#ifdef EYECU_MOBILE
+    FMyLocation = addMenuAction(tr("My location"), RSR_STORAGE_MAPICONS, MPI_MYLOCATION, 0);
+#else
+    FMyLocation = addMenuAction(tr("My location"), RSR_STORAGE_MAPICONS, MPI_MYLOCATION, 1);
+#endif
 	FMyLocation->setShortcutId(SCT_MAP_MYLOCATION);
 	FMyLocation->setDisabled(FFollowMyLocation);
 	FMapForm->showMapCenter(!FFollowMyLocation);
 	connect(FMyLocation, SIGNAL(triggered(bool)), SLOT(showMyLocation()));
-
-	action = addMenuAction(tr("New center"), RSR_STORAGE_MAPICONS, MPI_NEWCENTER, 1);
+#ifdef EYECU_MOBILE
+    action = addMenuAction(tr("New center"), RSR_STORAGE_MAPICONS, MPI_NEWCENTER, 0);
+#else
+    action = addMenuAction(tr("New center"), RSR_STORAGE_MAPICONS, MPI_NEWCENTER, 1);
+#endif
 	action->setShortcutId(SCT_MAP_NEWCENTER);
 	connect(action, SIGNAL(triggered(bool)), FMapForm, SLOT(onSetNewCenter()));
-
-	action = addMenuAction(tr("Options"), RSR_STORAGE_MENUICONS, MNI_OPTIONS_DIALOG, 1);
+#ifdef EYECU_MOBILE
+    action = addMenuAction(tr("Options"), RSR_STORAGE_MENUICONS, MNI_OPTIONS_DIALOG, 0);
+#else
+    action = addMenuAction(tr("Options"), RSR_STORAGE_MENUICONS, MNI_OPTIONS_DIALOG, 1);
+#endif
 	action->setShortcutId(SCT_MAP_OPTIONS);
 	connect(action, SIGNAL(triggered(bool)), SLOT(showOptions()));
 }
@@ -530,9 +552,15 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 	}
 	else if (ANode.path()==OPV_MAP_SHOWING)
 	{
+#ifdef EYECU_MOBILE
+		FMapAction->blockSignals(true);
+		FMapAction->setChecked(ANode.value().toBool());
+		FMapAction->blockSignals(false);
+#else
 		FMenuToolbar->menuAction()->blockSignals(true);
 		FMenuToolbar->menuAction()->setChecked(ANode.value().toBool());
 		FMenuToolbar->menuAction()->blockSignals(false);
+#endif
 	}
 	else if(ANode.path()==OPV_MAP_PROXY) // Proxy
 		FNetworkAccessManager->setProxy(FConnectionManager->proxyById(ANode.value().toString()).proxy);
@@ -540,14 +568,14 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 		MapTile::setDisplayLoading(ANode.value().toBool());
 }
 
-//----- 0-all, 1-toolbar, 2-menu -----
+//----- 0-FMenuMap, 1-FMenuMap & FMenuToolbar, 2-FMenuToolbar -----
 Action *Map::addMenuAction(const QString &AText, const QString &AIcon, const QString &AKeyIcon, int AMenuTypes)
 {
 	Action * action = new Action(AMenuTypes==2?FMenuToolbar:FMenuMap);
 	action->setText(AText);
 	action->setIcon(AIcon, AKeyIcon);
 	if(AMenuTypes==0)
-		FMenuMap->addAction(action, AG_MAPS_MENU_COMMON, false);
+        FMenuMap->addAction(action, AG_MAPS_MENU_COMMON, false);
 	if(AMenuTypes==1){
 		FMenuToolbar->addAction(action, AG_MAPS_MENU_COMMON, false);
 		FMenuMap->addAction(action, AG_MAPS_MENU_COMMON, false);

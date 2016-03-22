@@ -31,20 +31,12 @@ void MapSearchOptions::changeEvent(QEvent *e)
 
 void MapSearchOptions::onTextColorDialog()
 {
-/*    QColor color = QColorDialog::getColor(FCurrentColor, this, tr("Select label color"));
-    if(color.isValid())
-        if (FCurrentColor!=color)
-        {
-            FCurrentColor = color;
-            setWidgetColor(ui->pbTextColor, FCurrentColor);
-            emit modified();
-        }
-*/
-	QColorDialog dlg(this);
+/*	QColor color = QColorDialog::getColor(FCurrentColor,this,tr("Select label color"));*/
+	QColorDialog dlg;
 #ifdef EYECU_MOBILE
 	dlg.showMaximized();
 #endif
-	QColor color = dlg.getColor(FCurrentColor, this, tr("Select label color"));
+	QColor color = dlg.getColor(FCurrentColor,this,tr("Select label color"));
 	if(color.isValid())
 		if (FCurrentColor!=color)
 		{

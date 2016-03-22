@@ -22,28 +22,56 @@ int main(int argc, char *argv[])
 	app.setApplicationName("eyeCU");
 
 //! *** <<< eyeCU <<< *********************
-	QScreen *screen = qApp->primaryScreen();
-	QFont font = app.font();
-	int curFontPointSize=font.pointSize();
-	if(curFontPointSize<0)
-		curFontPointSize=8;
-	qreal dipScaleFactor;
-
 #ifdef EYECU_MOBILE
-	int dipNorm = 160;
-	dipScaleFactor = screen->physicalDotsPerInch() / screen->devicePixelRatio() / dipNorm;
-	float newPointSize = 17.0; // curFontPointSize*dipScaleFactor;
-	font.setPointSizeF(newPointSize);
-	app.setFont(font);
-	//!---------
-	IconStorage::setScale(3);
-#else
-	int dipNorm = 96; // desktop norm
-	dipScaleFactor = 1;
-	IconStorage::setScale(1);		//!---For Q_OS_WIN---
-#endif
-	//qreal dipScaleFactor = screen->physicalDotsPerInch() / screen->devicePixelRatio() / dipNorm;
 
+qDebug()<<"*****Main/devicePixelRatio="		<<qApp->primaryScreen()->devicePixelRatio();
+qDebug()<<"*****Main/logicalDotsPerInch="	<<qApp->primaryScreen()->logicalDotsPerInch();
+qDebug()<<"*****Main/physicalDotsPerInch="	<<qApp->primaryScreen()->physicalDotsPerInch();
+qDebug()<<"*****Main/physicalSize="			<<qApp->primaryScreen()->physicalSize();
+qDebug()<<"*****Main/screen/depth="			<<qApp->primaryScreen()->depth();
+
+/*!
+densities:--dpi--icon--koef--font-comments--------------------------
+desktop  : [96]  [16]  1.0   8	  (base)					~96dpi
+ldpi	 : [120] [24]  1,5   12   (low)						~120dpi
+mdpi	 : [160] [32]  2.0   16   (medium)(standard size)	~160dpi
+hdpi	 : [240] [40]  2.5   20   (high)					~240dpi
+xhdpi	 : [320] [48]  3.0   24   (extra-high)				~320dpi
+xxhdpi	 : [480] [56]  3.5   28   (extra-extra-high)		~480dpi
+xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
+--------------------------------------------------------------------
+1. xlarge screens are at least [960dp x 720dp]
+2. large  screens are at least [640dp x 480dp]
+3. normal screens are at least [470dp x 320dp]
+4. small  screens are at least [426dp x 320dp]
+--------------------------------------------------------------------
+*/
+    QScreen *screen = qApp->primaryScreen();
+	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
+	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
+	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
+
+	qreal scale=1.0;
+	float newPointSizeF=8;
+	if(midleDotsPerInch>110 && midleDotsPerInch<=160)		{scale=1.5; newPointSizeF=12;}
+	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{scale=2.0; newPointSizeF=16;}
+	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{scale=2.5; newPointSizeF=20;}
+	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{scale=3.0; newPointSizeF=24;}
+	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{scale=3.5; newPointSizeF=28;}
+	else if(midleDotsPerInch>640)							{scale=4.5;	newPointSizeF=36;}
+
+#ifdef Q_OS_WIN		//! *** To DEBUG ****
+	scale=2.0;
+	newPointSizeF=16;
+#endif
+
+	QFont font = app.font();
+	font.setPointSizeF(newPointSizeF);
+	app.setFont(font);
+	IconStorage::setScale(scale);
+#else
+	IconStorage::setScale(1.0);		//!---For Q_OS_WIN---
+#endif
 //! *** >>> eyeCU >>> ********************
 
 	QLibrary utils(app.applicationDirPath()+"/utils",&app);

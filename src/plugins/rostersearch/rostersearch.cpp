@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QLabel>
+#include <QApplication>
 #include <definitions/actiongroups.h>
 #include <definitions/toolbargroups.h>
 #include <definitions/mainwindowwidgets.h>
@@ -39,7 +40,7 @@ RosterSearch::RosterSearch()
 	FEnableAction = new Action(this);
 #if NODE        // *** <<< eyeCU <<< ***
     FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU32);
-#else			 // *** <<< eyeCU <<< ***
+#else			// *** <<< eyeCU <<< ***
     FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
 #endif
 	FEnableAction->setToolTip(tr("Show search toolbar"));
@@ -48,14 +49,17 @@ RosterSearch::RosterSearch()
 	FEnableAction->setChecked(false);
 	connect(FEnableAction,SIGNAL(triggered(bool)),SLOT(onEnableActionTriggered(bool)));
 
+#if !NODE        // *** <<< eyeCU >>> ***
 	QToolBar *searchToolBar = new QToolBar(tr("Search toolbar"));
 	searchToolBar->setAllowedAreas(Qt::TopToolBarArea);
 	searchToolBar->setMovable(false);
+#endif
 
 #if NODE        // *** <<< eyeCU >>> ***
-    FSearchEdit = new SearchLineEdit;
-	FSearchEdit->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-#else			 // *** <<< eyeCU <<< ***
+	FSearchEdit = new SearchLineEdit;
+	FSearchEdit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding);
+	//(QSizePolicy::LineEdit);
+#else			// *** <<< eyeCU <<< ***
     FSearchToolBarChanger = new ToolBarChanger(searchToolBar);
     FSearchToolBarChanger->setAutoHideEmptyToolbar(false);
     FSearchToolBarChanger->setSeparatorsVisible(false);
@@ -315,7 +319,7 @@ void RosterSearch::setSearchEnabled(bool AEnabled)
 	if (FMainWindow)
 	{
 		FMainWindow->topToolBarChanger()->widgetHandle(FSearchEdit)->setVisible(AEnabled);
-		FMainWindow->topToolBarChanger()->handleWidget(FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first())->setVisible(!AEnabled);
+        FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first()->setVisible(!AEnabled);
 	}
 #else		// *** <<< eyeCU >>> ***
     FSearchToolBarChanger->toolBar()->setVisible(AEnabled);
@@ -444,6 +448,15 @@ void RosterSearch::onEnableActionTriggered(bool AChecked)
 	{
 		FSearchEdit->setFocus();
 		FSearchEdit->selectAll();
+// *** <<< eyeCU <<< ***
+#if NODE
+		QStyle *style = QApplication::style();
+		FEnableAction->setIcon(style->standardIcon(QStyle::SP_TitleBarCloseButton));
+	}
+	else{
+		FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU32);
+#endif
+// *** >>> eyeCU >>> ***
 	}
 }
 

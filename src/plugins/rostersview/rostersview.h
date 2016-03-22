@@ -2,6 +2,8 @@
 #define ROSTERSVIEW_H
 
 #include <QTimer>
+#include <QScrollEvent>
+#include <QGestureEvent>
 #include <interfaces/irostersview.h>
 #include <interfaces/irostersmodel.h>
 #include <interfaces/imainwindow.h>
@@ -144,6 +146,16 @@ protected:
 	void dragEnterEvent(QDragEnterEvent *AEvent);
 	void dragMoveEvent(QDragMoveEvent *AEvent);
 	void dragLeaveEvent(QDragLeaveEvent *AEvent);
+//! ****  <<<  eyeCU  <<<  ****
+#ifdef EYECU_MOBILE
+    //-----event----
+    bool event(QEvent *AEvent);
+    bool gestureEvent(QGestureEvent *AEvent);       //! Gesture Handler
+    void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
+    void swipeGesture(QSwipeGesture *AGesture);
+    void panGesture(QPanGesture *AGesture);
+#endif
+//! ****  >>>  eyeCU  >>>  ****
 protected slots:
 	//QAbstractItemView
 	void closeEditor(QWidget *AEditor, QAbstractItemDelegate::EndEditHint AHint);
@@ -159,6 +171,7 @@ private:
 	IRostersModel *FRostersModel;
 private:
 	QPoint FPressedPos;
+	int	   FScrollBarValue;
 	quint32 FPressedLabel;
 	QModelIndex FPressedIndex;
 private:

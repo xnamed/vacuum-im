@@ -6,7 +6,7 @@
 #include <QKeySequence>
 #include "utilsexport.h"
 
-#ifdef Q_OS_ANDROID
+#ifdef EYECU_MOBILE
 #define SWITCH   0
 #else   // Q_OS_WIN
 #define SWITCH   1
