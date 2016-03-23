@@ -74,8 +74,8 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 			// Scale icon according to FScale
 // *** <<< eyeCU <<< ***
 			QPixmap pixmap = QPixmap::fromImage(QImageReader(fileFullName(AKey,AIndex)).read());
-			icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16):pixmap);
-// *** <<< eyeCU <<< ***
+			icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap);
+// *** >>> eyeCU >>> ***
 			FIconCache[storage()].insert(key,icon);
 		}
 	}

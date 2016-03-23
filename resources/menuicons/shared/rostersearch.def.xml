@@ -5,7 +5,23 @@
     <object mime="image/png">rostersearch.png</object>
   </icon>
    <icon>
-    <key>rostersearchMenu32</key>
-    <object mime="image/png">rostersearch32.png</object>
+    <key>rostersearchMenuMobile</key>
+    <object mime="image/png">rostersearchmobile16.png</object>
+  </icon>
+  <icon>
+    <key>rostersearchMenuMobile32</key>
+    <object mime="image/png">rostersearchmobile32.png</object>
+  </icon>
+  <icon>
+    <key>rostersearchMenuMobile64</key>
+    <object mime="image/png">rostersearchmobile64.png</object>
+  </icon>
+  <icon>
+    <key>rostersearchMenuMobile128</key>
+    <object mime="image/png">rostersearchmobile128.png</object>
+  </icon>
+  <icon>
+    <key>rostersearchMenuMobile256</key>
+    <object mime="image/png">rostersearchmobile256.png</object>
   </icon>
 </icondef>

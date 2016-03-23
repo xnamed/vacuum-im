@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	app.setQuitOnLastWindowClosed(false);
 	app.addLibraryPath(app.applicationDirPath());
-	app.setApplicationName("eyeCU");
+	app.setApplicationName(CLIENT_NAME);
 
 //! *** <<< eyeCU <<< *********************
 #ifdef EYECU_MOBILE

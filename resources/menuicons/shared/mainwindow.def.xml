@@ -45,23 +45,59 @@
     <object mime="image/png">mainwindowmenu.png</object>
   </icon>
   <icon>
-    <key>mainwindowMenuAn</key>
-    <object mime="image/png">mainwindowmenuAn.png</object>
+    <key>mainwindowMenuMobile</key>
+    <object mime="image/png">mainwindowmenuMobile16.png</object>
   </icon>
   <icon>
-    <key>mainwindowMenuAn48</key>
-    <object mime="image/png">mainwindowmenuAn48.png</object>
+    <key>mainwindowmenuMobile32</key>
+    <object mime="image/png">mainwindowmenuMobile32.png</object>
   </icon>
   <icon>
-    <key>mainwindowMenuRight</key>
-    <object mime="image/png">mainwindowmenuright.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowMenuRight48</key>
-    <object mime="image/png">mainwindowmenuright48.png</object>
+    <key>mainwindowmenuMobile40</key>
+    <object mime="image/png">mainwindowmenuMobile40.png</object>
   </icon>  
   <icon>
-    <key>mainwindowShowRoster</key>
-    <object mime="image/png">mainwindowshowroster.png</object>
+    <key>mainwindowmenuMobile48</key>
+    <object mime="image/png">mainwindowmenuMobile48.png</object>
   </icon>
+  <icon>
+    <key>mainwindowmenuMobile64</key>
+    <object mime="image/png">mainwindowmenuMobile64.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowmenuMobile128</key>
+    <object mime="image/png">mainwindowmenuMobile128.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowmenuMobile256</key>
+    <object mime="image/png">mainwindowmenuMobile256.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowRightMenu</key>
+    <object mime="image/png">mainwindowrightmenu16.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowRightMenu32</key>
+    <object mime="image/png">mainwindowrightmenu32.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowRightMenu40</key>
+    <object mime="image/png">mainwindowrightmenu40.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowRightMenu48</key>
+    <object mime="image/png">mainwindowrightmenu48.png</object>
+  </icon>
+    <icon>
+    <key>mainwindowRightMenu64</key>
+    <object mime="image/png">mainwindowrightmenu64.png</object>
+  </icon>
+    <icon>
+    <key>mainwindowRightMenu128</key>
+    <object mime="image/png">mainwindowrightmenu128.png</object>
+  </icon>
+  <icon>
+    <key>mainwindowRightMenu256</key>
+    <object mime="image/png">mainwindowrightmenu256.png</object>
+  </icon>  
 </icondef>

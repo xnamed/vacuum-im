@@ -25,7 +25,7 @@ AddContactDialog::AddContactDialog(IRosterChanger *ARosterChanger, const Jid &AS
 	FRosterChanger = ARosterChanger;
 
 	QToolBar *toolBar = new QToolBar(this);
-#ifdef Q_OS_ANDROID
+#ifdef EYECU_MOBILE
 	toolBar->setIconSize(QSize(32,32));
 #else
 	toolBar->setIconSize(QSize(16,16));

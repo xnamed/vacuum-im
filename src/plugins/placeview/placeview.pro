@@ -6,7 +6,7 @@ include(../plugins.inc)
 !android: QT += webkit
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    !android: QT += webkitwidgets
+    QT += webkitwidgets
     QT += geo util
 }
 else: CONFIG += geo util

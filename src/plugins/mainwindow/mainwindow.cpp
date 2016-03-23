@@ -79,14 +79,9 @@ qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
 	QToolBar *topToolbar = new QToolBar(this);
     topToolbar->setFloatable(false);
 	topToolbar->setMovable(false);
-
 // *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE     // for mobile
-    QPalette plt;
-	plt.setColor(QPalette::Button,QColor(0,0,0,20));
-	plt.setColor(QPalette::ButtonText,QColor(255,0,0,255));
-//	topToolbar->setAutoFillBackground(true);
-    topToolbar->setPalette(plt);
+#ifdef EYECU_MOBILE
+	topToolbar->setStyleSheet(QString("border:0; background-color:red; color:white;"));
 #endif
 // *** >>> eyeCU >>> ***
 
@@ -97,9 +92,6 @@ qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
-
-//	bottomToolbar->setAutoFillBackground(true);	// *** <<< eyeCU <<< ***
-//	bottomToolbar->setPalette(plt);				// *** <<< eyeCU <<< ***
 
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
 	bottomChanger->setSeparatorsVisible(false);
@@ -119,9 +111,9 @@ qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
 	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
     button->setPopupMode(QToolButton::InstantPopup);
 
-	QLabel *title = new QLabel(" eyeCU");
-	title->setObjectName("eyeCU");
-	topToolBarChanger()->insertWidget(title,TBG_MWTTB_TITLE);
+	QLabel *title = new QLabel(CLIENT_NAME);
+//	title->setObjectName("eyeCU");
+	topToolBarChanger()->insertWidget(title, TBG_MWTTB_TITLE);
 #endif
 // *** >>> eyeCU >>>***
 
