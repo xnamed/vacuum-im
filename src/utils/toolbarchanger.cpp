@@ -50,6 +50,7 @@ ToolBarChanger::ToolBarChanger(QToolBar *AToolBar) : QObject(AToolBar)
 	FSeparatorsVisible = true;
 	FAutoHideIfEmpty = true;
 	FMinimizeWidth = false;
+    FGroupAlignEnabled = true; // *** <<< eyeCU >>> ***
 
 	FToolBar = AToolBar;
 	FToolBar->clear();
@@ -216,9 +217,15 @@ void ToolBarChanger::clear()
 {
 	foreach(QAction *handle, FHandles.values())
 		removeItem(handle);
-	FToolBar->clear();
+    FToolBar->clear();
 }
-
+// *** <<< eyeCU <<< ***
+void ToolBarChanger::setGroupAlignEnabled(bool AEnable)
+{
+    FGroupAlignEnabled=AEnable;
+    FAllignChange->setVisible(FGroupAlignEnabled && (FWidgets.keys().last()>TBG_ALLIGN_CHANGE));
+}
+// *** >>> eyeCU >>> ***
 bool ToolBarChanger::eventFilter(QObject *AWatched, QEvent *AEvent)
 {
 	if (AWatched == FToolBar)
@@ -249,7 +256,7 @@ QAction *ToolBarChanger::findGroupSeparator(int AGroup) const
 
 void ToolBarChanger::insertGroupSeparator(int AGroup, QAction *ABefore)
 {
-	if (AGroup > TBG_ALLIGN_CHANGE)
+    if (AGroup > TBG_ALLIGN_CHANGE && FGroupAlignEnabled)
 	{
 		FAllignChange->setVisible(true);
 	}

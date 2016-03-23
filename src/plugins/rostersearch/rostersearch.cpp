@@ -315,6 +315,7 @@ void RosterSearch::setSearchEnabled(bool AEnabled)
 	{
 		FMainWindow->topToolBarChanger()->widgetHandle(FSearchEdit)->setVisible(AEnabled);
         FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first()->setVisible(!AEnabled);
+        FMainWindow->topToolBarChanger()->setGroupAlignEnabled(!AEnabled);
 	}
 #else
 // *** >>> eyeCU >>> ***
