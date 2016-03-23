@@ -327,7 +327,7 @@ QComboBox *AccountManager::newResourceComboBox(const QUuid &AAccountId, QWidget 
 {
 	QComboBox *combox = new QComboBox(AParent);
 #ifdef EYECU_MOBILE		// *** <<< eyeCU <<<
-	combox->addItem(CLIENT_NAME_MOBILE, QString(CLIENT_NAME_MOBILE));
+	combox->addItem(QString(CLIENT_NAME).append("_Andriod"), QString(CLIENT_NAME).append("_Andriod"));
 #else					// *** <<< eyeCU <<<
 	combox->addItem(CLIENT_NAME, QString(CLIENT_NAME));
 #endif

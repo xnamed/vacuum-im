@@ -413,7 +413,14 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 	}
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
+
 // *** <<< eyeCU <<< ***
+void MainWindow::closeEvent(QCloseEvent *AEvent)
+{
+	if(AEvent->type()==QEvent::Close)
+		hide();
+}
+
 bool MainWindow::event(QEvent *AEvent)
 {
 	if (AEvent->type() == QEvent::Gesture)
@@ -450,7 +457,7 @@ void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 	}
 }
 
-// *** >>> eyeCU >>>***
+// *** >>> eyeCU >>> ***
 
 void MainWindow::onUpdateCentralWidgetVisible()
 {

@@ -22,14 +22,6 @@ int main(int argc, char *argv[])
 	app.setApplicationName(CLIENT_NAME);
 
 //! *** <<< eyeCU <<< *********************
-#ifdef EYECU_MOBILE
-
-qDebug()<<"*****Main/devicePixelRatio="		<<qApp->primaryScreen()->devicePixelRatio();
-qDebug()<<"*****Main/logicalDotsPerInch="	<<qApp->primaryScreen()->logicalDotsPerInch();
-qDebug()<<"*****Main/physicalDotsPerInch="	<<qApp->primaryScreen()->physicalDotsPerInch();
-qDebug()<<"*****Main/physicalSize="			<<qApp->primaryScreen()->physicalSize();
-qDebug()<<"*****Main/screen/depth="			<<qApp->primaryScreen()->depth();
-
 /*!
 densities:--dpi--icon--koef--font-comments--------------------------
 desktop  : [96]  [16]  1.0   8	  (base)					~96dpi
@@ -46,6 +38,14 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 4. small  screens are at least [426dp x 320dp]
 --------------------------------------------------------------------
 */
+#ifdef EYECU_MOBILE
+
+qDebug()<<"*****Main/devicePixelRatio="		<<qApp->primaryScreen()->devicePixelRatio();
+qDebug()<<"*****Main/logicalDotsPerInch="	<<qApp->primaryScreen()->logicalDotsPerInch();
+qDebug()<<"*****Main/physicalDotsPerInch="	<<qApp->primaryScreen()->physicalDotsPerInch();
+qDebug()<<"*****Main/physicalSize="			<<qApp->primaryScreen()->physicalSize();
+qDebug()<<"*****Main/screen/depth="			<<qApp->primaryScreen()->depth();
+
     QScreen *screen = qApp->primaryScreen();
 	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();

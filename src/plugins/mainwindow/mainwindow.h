@@ -56,6 +56,7 @@ protected:
 protected:
 	void showEvent(QShowEvent *AEvent);
 	bool eventFilter(QObject *AObject, QEvent *AEvent);
+	void closeEvent(QCloseEvent *AEvent);					// <<< eyeCU <<<
 	// Gesture Handler
 	bool gestureEvent(QGestureEvent *AEvent);				// <<< eyeCU <<<
 	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);	// <<< eyeCU <<<
