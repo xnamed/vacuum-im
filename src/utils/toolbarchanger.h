@@ -37,6 +37,10 @@ public:
 	QToolButton *insertAction(Action *AAction, int AGroup = TBG_DEFAULT);
 	void removeItem(QAction *AHandle);
 	void clear();
+// *** <<< eyeCU <<< ***
+    bool groupAlignEnabled() const {return FGroupAlignEnabled;}
+    void setGroupAlignEnabled(bool AEnable);
+// *** >>> eyeCU >>> ***
 signals:
 	void itemInserted(QAction *ABefore, QAction *AHandle, Action *AAction, QWidget *AWidget, int AGroup);
 	void itemRemoved(QAction *AHandle);
@@ -56,6 +60,7 @@ private:
 	bool FMinimizeWidth;
 	bool FAutoHideIfEmpty;
 	bool FSeparatorsVisible;
+    bool FGroupAlignEnabled; // *** <<< eyeCU >>> ***
 	QAction *FAllignChange;
 	QMap<int, QAction *> FSeparators;
 	QMap<QWidget *, QAction *> FHandles;
