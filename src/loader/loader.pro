@@ -35,7 +35,7 @@ GIT_HASH = $$system(git log -n 1 --format=%H)
 GIT_DATE = $$system(git log -n 1 --format=%ct)
 GIT_DATE = $$find(GIT_DATE,^\\d*)
 !isEmpty(GIT_DATE) {
-  win32|os2|symbian {
+  equals(QMAKE_HOST.os, Windows)|equals(QMAKE_HOST.os, os2) {
     WIN_OUT_PWD = $$replace(OUT_PWD, /, \\)
     system(mkdir $${WIN_OUT_PWD} & echo $${LITERAL_HASH}define GIT_HASH \"$${GIT_HASH}\" > $${WIN_OUT_PWD}\\gitinfo.h) {
       system(echo $${LITERAL_HASH}define GIT_DATE \"$${GIT_DATE}\" >> $${WIN_OUT_PWD}\\gitinfo.h)
