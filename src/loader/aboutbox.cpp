@@ -20,8 +20,7 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 // *** <<< eyeCU <<< ****
 #ifdef EYECU_MOBILE
 	QScreen *screen  = qApp->primaryScreen();
-	QString aboutDevice=
-		QString("<b>Device settings</b><br>"
+	QString aboutDevice=QString("<b>Device settings</b><br>"
 				"LogicalDotsPerInch:%1<br>PhysicalDotsPerInch:%2<br>"
 				"PhysicalSize:[%3x%4]cm<br>Depth:%5<br>"
 				"devicePixelRatio:%6<br>Settings App PointSizeF:%7")
