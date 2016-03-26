@@ -56,10 +56,11 @@ protected:
 protected:
 	void showEvent(QShowEvent *AEvent);
 	bool eventFilter(QObject *AObject, QEvent *AEvent);
-	void closeEvent(QCloseEvent *AEvent);					// <<< eyeCU <<<
+// *** <<< eyeCU <<< ***
 	// Gesture Handler
 	bool gestureEvent(QGestureEvent *AEvent);				// <<< eyeCU <<<
-	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);	// <<< eyeCU <<<
+	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
+// *** >>> eyeCU >>> ***
 protected slots:
 	void onUpdateCentralWidgetVisible();
 	void onCurrentCentralPageChanged();

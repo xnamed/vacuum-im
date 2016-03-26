@@ -105,7 +105,13 @@ bool MessageWidgets::initObjects()
 
 bool MessageWidgets::initSettings()
 {
-	Options::setDefaultValue(OPV_MESSAGES_COMBINEWITHROSTER,false);//old true
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    Options::setDefaultValue(OPV_MESSAGES_COMBINEWITHROSTER,false);
+#else
+// *** >>> eyeCU >>> ***
+    Options::setDefaultValue(OPV_MESSAGES_COMBINEWITHROSTER,true);
+#endif
 	Options::setDefaultValue(OPV_MESSAGES_EDITORAUTORESIZE,true);
 	Options::setDefaultValue(OPV_MESSAGES_EDITORMINIMUMLINES,1);
 	Options::setDefaultValue(OPV_MESSAGES_CLEANCHATTIMEOUT,30);

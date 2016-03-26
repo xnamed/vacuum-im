@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>255</width>
-    <height>83</height>
+    <height>85</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,16 +29,10 @@
    <property name="spacing">
     <number>2</number>
    </property>
-   <item row="4" column="0">
-    <widget class="QLabel" name="lblAvatarPosition">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="0" column="0" colspan="2">
+    <widget class="QCheckBox" name="cbShow">
      <property name="text">
-      <string>Avatar position</string>
+      <string>Display avatars</string>
      </property>
     </widget>
    </item>
@@ -52,19 +46,6 @@
      </property>
      <property name="text">
       <string>Display avatars for offline contacts grayscaled</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QCheckBox" name="cbShowEmpty">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Display empty avatars</string>
      </property>
     </widget>
    </item>
@@ -88,12 +69,44 @@
      </item>
     </widget>
    </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QCheckBox" name="cbShow">
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="cbShowEmpty">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
-      <string>Display avatars</string>
+      <string>Display empty avatars</string>
      </property>
     </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="lblAvatarPosition">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Avatar position</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

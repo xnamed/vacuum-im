@@ -111,7 +111,7 @@ isEmpty(INSTALL_SDK_DIR) {
 } else:android {
   DEFINES               += PLUGINS_DIR='\\\"\\\"'
   DEFINES               += RESOURCES_DIR='\\\"assets:/resources\\\"'
-  DEFINES               += TRANSLATIONS_DIR='\\\"assets:/translations\\\"'
+  DEFINES               += TRANSLATIONS_DIR='\\\"../assets:/translations\\\"'
 #  DEFINES               += TRANSLATIONS_DIR='\\\"../$${INSTALL_RES_DIR}/$${INSTALL_APP_DIR}/translations\\\"'
 
 }

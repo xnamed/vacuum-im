@@ -39,18 +39,10 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 --------------------------------------------------------------------
 */
 #ifdef EYECU_MOBILE
-
-qDebug()<<"*****Main/devicePixelRatio="		<<qApp->primaryScreen()->devicePixelRatio();
-qDebug()<<"*****Main/logicalDotsPerInch="	<<qApp->primaryScreen()->logicalDotsPerInch();
-qDebug()<<"*****Main/physicalDotsPerInch="	<<qApp->primaryScreen()->physicalDotsPerInch();
-qDebug()<<"*****Main/physicalSize="			<<qApp->primaryScreen()->physicalSize();
-qDebug()<<"*****Main/screen/depth="			<<qApp->primaryScreen()->depth();
-
     QScreen *screen = qApp->primaryScreen();
 	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
 	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
-
 	qreal scale=1.0;
 	float newPointSizeF=8;
 	if(midleDotsPerInch>110 && midleDotsPerInch<=160)		{scale=1.5; newPointSizeF=12;}

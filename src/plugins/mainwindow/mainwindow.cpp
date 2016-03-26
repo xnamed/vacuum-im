@@ -19,14 +19,16 @@
 
 MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(AParent,AFlags)
 {
-	setWindowFlags(Qt::WindowCloseButtonHint); // *** <<< eyeCU >>> ***
+    setWindowFlags(Qt::WindowCloseButtonHint); // *** <<< eyeCU >>> ***
 	setWindowRole("MainWindow");
-	setAttribute(Qt::WA_DeleteOnClose,false);
-#ifdef EYECU_MOBILE						// *** <<< eyeCU <<< ***
-    int size=16*(IconStorage::scale()+1);
+    IconStorage *iconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    int size=16*(iconStorage->scale()+1);
     setIconSize(QSize(size,size));
-qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
-#else									// *** <<< eyeCU <<< ***
+#else
+// *** >>> eyeCU >>> ***
+    setAttribute(Qt::WA_DeleteOnClose,false);
 	setIconSize(QSize(16,16));
 #endif
 
@@ -34,7 +36,6 @@ qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
 	FLeftWidgetWidth = 0;
 
 	QIcon icon;
-	IconStorage *iconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
 	icon.addFile(iconStorage->fileFullName(MNI_MAINWINDOW_LOGO16), QSize(16,16));
 	icon.addFile(iconStorage->fileFullName(MNI_MAINWINDOW_LOGO24), QSize(24,24));
 	icon.addFile(iconStorage->fileFullName(MNI_MAINWINDOW_LOGO32), QSize(32,32));
@@ -121,8 +122,8 @@ qDebug()<<"*****MainWindow::MainWindow/scale="<<IconStorage::scale();
 	setMenuBar(FMainMenuBar->menuBar());
 	updateWindow();
 
+//	grabKeyboard();
 // *** <<< eyeCU <<< ***
-//	grabGesture(Qt::TapGesture);
 ////	grabGesture(Qt::TapAndHoldGesture);
 ////    grabGesture(Qt::PinchGesture);
 //	grabGesture(Qt::PanGesture);
@@ -162,7 +163,7 @@ void MainWindow::showWindow(bool AMinimized)
 
 void MainWindow::closeWindow()
 {
-	close();
+    close();
 }
 
 Menu *MainWindow::mainMenu() const
@@ -415,14 +416,30 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 }
 
 // *** <<< eyeCU <<< ***
-void MainWindow::closeEvent(QCloseEvent *AEvent)
-{
-	if(AEvent->type()==QEvent::Close)
-		hide();
-}
-
 bool MainWindow::event(QEvent *AEvent)
 {
+	if (AEvent->type() == QEvent::KeyPress)
+	{
+		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
+		int keyValue = keyEvent->key();
+qDebug()<<"########--MainWindow::event()/KeyPress/keyValue"<<keyValue;
+		//AEvent->ignore();
+		//AEvent->accept();
+	}
+	else
+	if(AEvent->type() == QEvent::KeyRelease)
+	{
+		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
+		int keyValue = keyEvent->key();
+qDebug()<<"#######--MainWindow::event()/KeyRelease"<<keyValue;
+		if(keyValue==Qt::Key_Back)	//16777313
+		{
+qDebug()<<"######################--MainWindow::event()/KeyRelease"<<keyValue;
+			//AEvent->accept();
+			//AEvent->ignore();
+		}
+	}
+//!------------------------------
 	if (AEvent->type() == QEvent::Gesture)
 		return gestureEvent(static_cast<QGestureEvent*>(AEvent));
 	return QMainWindow::event(AEvent);

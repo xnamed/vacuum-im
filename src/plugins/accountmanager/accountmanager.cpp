@@ -90,12 +90,18 @@ bool AccountManager::initConnections(IPluginManager *APluginManager, int &AInitO
 
 bool AccountManager::initSettings()
 {
-	Options::setDefaultValue(OPV_ACCOUNT_DEFAULTRESOURCE, QString(CLIENT_NAME));
-
 	Options::setDefaultValue(OPV_ACCOUNT_ACTIVE, true);
 	Options::setDefaultValue(OPV_ACCOUNT_NAME, tr("New account")); // *** <<< eyeCU >>> ***
 	Options::setDefaultValue(OPV_ACCOUNT_STREAMJID, QString());
-	Options::setDefaultValue(OPV_ACCOUNT_RESOURCE, QString(CLIENT_NAME));
+// *** <<< eyeCU <<<
+#ifdef EYECU_MOBILE
+    Options::setDefaultValue(OPV_ACCOUNT_DEFAULTRESOURCE, QString(CLIENT_NAME).append("(Mobile)"));
+    Options::setDefaultValue(OPV_ACCOUNT_RESOURCE, QString(CLIENT_NAME).append("(Mobile)"));
+#else
+// *** >>> eyeCU >>>
+    Options::setDefaultValue(OPV_ACCOUNT_DEFAULTRESOURCE, QString(CLIENT_NAME));
+    Options::setDefaultValue(OPV_ACCOUNT_RESOURCE, QString(CLIENT_NAME));
+#endif
 	Options::setDefaultValue(OPV_ACCOUNT_PASSWORD, QByteArray());
 	Options::setDefaultValue(OPV_ACCOUNT_REQUIREENCRYPTION, true);
 
@@ -327,7 +333,7 @@ QComboBox *AccountManager::newResourceComboBox(const QUuid &AAccountId, QWidget 
 {
 	QComboBox *combox = new QComboBox(AParent);
 #ifdef EYECU_MOBILE		// *** <<< eyeCU <<<
-	combox->addItem(QString(CLIENT_NAME).append("_Andriod"), QString(CLIENT_NAME).append("_Andriod"));
+    combox->addItem(QString(CLIENT_NAME).append("(Mobile)"), QString(CLIENT_NAME).append("(Mobile)"));
 #else					// *** <<< eyeCU <<<
 	combox->addItem(CLIENT_NAME, QString(CLIENT_NAME));
 #endif

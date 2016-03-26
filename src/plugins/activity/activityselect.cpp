@@ -1,7 +1,7 @@
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
 #include "activityselect.h"
-
+#include <QDebug>
 ActivitySelect::ActivitySelect(Activity *AActivity, const QHash<QString, QStringList> &AActivityList, const QHash<QString, QStringList> &AActivityTexts, const ActivityData &AActivityData, QWidget *parent) :
     QDialog(parent),
     FActivity(AActivity),
@@ -13,14 +13,15 @@ ActivitySelect::ActivitySelect(Activity *AActivity, const QHash<QString, QString
 {
     ui->setupUi(this);
     ui->lstActivity->sortItems(0,Qt::AscendingOrder);
-#ifdef EYECU_MOBILE
+
     FCurScale=IconStorage::scale();
-    ui->lstActivity->setIconSize(QSize(16*FCurScale,16*FCurScale));
-    ui->lblIcon->setScaledContents(true);
     QFont fnt=ui->lstActivity->font();
-    fnt.setPointSizeF(FCurScale*fnt.pointSizeF());
+    fnt.setPointSizeF(1.5*FCurScale*fnt.pointSizeF());
     ui->lstActivity->setFont(fnt);
     ui->cmbText->setFont(fnt);
+#ifdef EYECU_MOBILE
+    ui->lstActivity->setIconSize(QSize(16*FCurScale,16*FCurScale));
+    ui->lblIcon->setScaledContents(true);
 	showMaximized();
 #else
 	ui->lstActivity->setIconSize(QSize(16,16));

@@ -14,14 +14,14 @@ MoodSelect::MoodSelect(Mood *AMood, const QStringList &AMoodList, const QHash<QS
 {
     ui->setupUi(this);	
     ui->listActiv->sortItems(0,Qt::AscendingOrder);
-#ifdef EYECU_MOBILE
     FCurScale=IconStorage::scale();
-    ui->listActiv->setIconSize(QSize(16*FCurScale,16*FCurScale));
-    ui->lblIcon->setScaledContents(true);
     QFont fnt=ui->listActiv->font();
-    fnt.setPointSizeF(FCurScale*fnt.pointSizeF());
+    fnt.setPointSizeF(1.5*FCurScale*fnt.pointSizeF());
     ui->listActiv->setFont(fnt);
     ui->comboBox->setFont(fnt);
+#ifdef EYECU_MOBILE
+    ui->listActiv->setIconSize(QSize(16*FCurScale,16*FCurScale));
+    ui->lblIcon->setScaledContents(true);
 	showMaximized();
 #else
 	ui->listActiv->setIconSize(QSize(16,16));

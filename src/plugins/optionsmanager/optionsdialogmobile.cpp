@@ -17,9 +17,10 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 	trvNodes->setIndentation(12);
 	trvNodes->setSortingEnabled(true);
 	trvNodes->header()->setVisible(false);
-
 	verticalLayout->addWidget(trvNodes);
 
+//------------
+    QVBoxLayout *vBox=new QVBoxLayout;
     scaScroll = new QScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
 	scaScroll->setWidgetResizable(true);
@@ -27,7 +28,11 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
     scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
 	scaScroll->setWidget(scrollAreaWidgetContents);
+    vBox->addWidget(scaScroll);
 
+    vSpaser=new QSpacerItem(60, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    vBox->addItem(vSpaser);
+//------------
 	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
 	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
 	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);

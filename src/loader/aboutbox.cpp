@@ -20,18 +20,24 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 // *** <<< eyeCU <<< ****
 #ifdef EYECU_MOBILE
 	QScreen *screen  = qApp->primaryScreen();
-	QString aboutDevice=QString("<b>Device settings</b><br>"
-				"LogicalDotsPerInch:%1<br>PhysicalDotsPerInch:%2<br>"
-				"PhysicalSize:[%3x%4]cm<br>Depth:%5<br>"
-				"devicePixelRatio:%6<br>Settings App PointSizeF:%7")
+    QString aboutDevice=QString("<b>Device Settings</b><br>Primary Screen: %8<br>"
+                                "Logical  Dots Per Inch: %1<br>"
+                                "Physical Dots Per Inch: %2<br>"
+                                "Screen's physical size: [%3x%4]mm<br>"
+                                "Screen's resolution:    [%9x%10]pixel<br>"
+                                "Screen's color depth:   %5<br>"
+                                "Device Pixel Ratio:     %6<br>"
+                                "Application font point size: %7")
 		.arg(screen->logicalDotsPerInch()).arg(screen->physicalDotsPerInch())
 		.arg(screen->physicalSize().width()).arg(screen->physicalSize().height())
 		.arg(screen->depth()).arg(screen->devicePixelRatio())
-		.arg(qApp->font().pointSizeF());
+        .arg(qApp->font().pointSizeF()).arg(screen->name())
+        .arg(screen->size().width()).arg(screen->size().height());
 	ui.lblDevice->setText(aboutDevice);
+ //   ui.lblDevice->setStyleSheet(QString("border:0; background-color:red; color:white;"));
 	showMaximized();
 #else
-	ui.lblDevice->setVisible(false);
+    ui.lblDevice->setVisible(false);
 #endif
 // *** >>> eyeCU >>> ****
 	connect(ui.lblHomePage,SIGNAL(linkActivated(const QString &)),SLOT(onLabelLinkActivated(const QString &)));
