@@ -5,13 +5,6 @@
 #include <utils/options.h>
 #include <utils/logger.h>
 
-#ifdef EYECU_MOBILE     // *** <<< eyeCU >>> ***
-    #define NODE 1
-#else
-    #define NODE 0
-#endif
-
-
 OptionsDialogWidget::OptionsDialogWidget(const OptionsNode &ANode, const QString &ACaption, QWidget *AParent) : QWidget(AParent)
 {
 	QVariant::Type valueType = ANode.value().type();
@@ -227,7 +220,7 @@ void OptionsDialogWidget::insertEditor(const QString &ACaption, QWidget *AEditor
     ALayout->addWidget(AEditor,1);
 }
 
-// *** <<< eyeCU >>> ***
+// *** <<< eyeCU <<< ***
 void OptionsDialogWidget::insertEditor2(const QString &ACaption, QWidget *AEditor, QHBoxLayout *ALayout)
 {
     ALayout->addWidget(AEditor,0);
@@ -241,7 +234,7 @@ void OptionsDialogWidget::insertEditor2(const QString &ACaption, QWidget *AEdito
         ALayout->addWidget(FCaption,1);
     }
 }
-// *** <<< eyeCU >>> ***
+// *** >>> eyeCU >>> ***
 
 void OptionsDialogWidget::rigisterEditor(const OptionsNode &ANode, const QString &ACaption, QWidget *AEditor)
 {
@@ -268,10 +261,12 @@ void OptionsDialogWidget::rigisterEditor(const OptionsNode &ANode, const QString
 	{
 		FCheckBox->setChecked(FValue.toBool());
 		connect(FCheckBox,SIGNAL(stateChanged(int)),SIGNAL(modified()));
-#if NODE
+// *** <<< eyeCU <<< ***
+#if EYECU_MOBILE
         FCheckBox->setText("");
         insertEditor2(ACaption,FCheckBox,hlayout);
 #else
+// *** >>> eyeCU >>> ***
         insertEditor(QString::null,FCheckBox,hlayout);
 #endif
 	}

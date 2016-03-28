@@ -6,6 +6,7 @@
 #include <QDesktopWidget>
 #include <QLabel>
 #include <QGestureEvent>
+#include <QMessageBox>
 #include <definitions/version.h>
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 {
     setWindowFlags(Qt::WindowCloseButtonHint); // *** <<< eyeCU >>> ***
 	setWindowRole("MainWindow");
+	setAttribute(Qt::WA_DeleteOnClose,false);
     IconStorage *iconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
@@ -28,7 +30,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     setIconSize(QSize(size,size));
 #else
 // *** >>> eyeCU >>> ***
-    setAttribute(Qt::WA_DeleteOnClose,false);
+
 	setIconSize(QSize(16,16));
 #endif
 
@@ -122,7 +124,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setMenuBar(FMainMenuBar->menuBar());
 	updateWindow();
 
-//	grabKeyboard();
+	grabKeyboard();
 // *** <<< eyeCU <<< ***
 ////	grabGesture(Qt::TapAndHoldGesture);
 ////    grabGesture(Qt::PinchGesture);
@@ -415,30 +417,75 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *AEvent)
+{
+//	if(AEvent->key()==Qt::Key_Back){
+//qDebug()<<"######################--MainWindow::keyPressEvent"<<AEvent->key();
+//		AEvent->ignore();
+//	}
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *AEvent)
+{
+//	if(AEvent->key()==Qt::Key_Back){
+//qDebug()<<"######################--MainWindow::keyReleaseEvent()"<<AEvent->key();
+//		AEvent->ignore();
+//	}
+}
+
+/*
+void MainWindow::closeEvent(QCloseEvent *AEvent)
+{
+	QMessageBox msgBox;
+	msgBox.setText("The program will be closed!");
+	msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+	msgBox.setDefaultButton(QMessageBox::Cancel);
+	int ret = msgBox.exec();
+qDebug()<<"MainWindow::closeEvent/ret="<<ret;
+	if(ret){
+		return;
+	}
+	else{
+		hide();
+		AEvent->ignore();
+	}
+}
+*/
+
+
 // *** <<< eyeCU <<< ***
 bool MainWindow::event(QEvent *AEvent)
 {
+/*
 	if (AEvent->type() == QEvent::KeyPress)
 	{
-		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
-		int keyValue = keyEvent->key();
-qDebug()<<"########--MainWindow::event()/KeyPress/keyValue"<<keyValue;
-		//AEvent->ignore();
-		//AEvent->accept();
+//		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
+//		int keyValue = keyEvent->key();
 	}
-	else
-	if(AEvent->type() == QEvent::KeyRelease)
+	else if(AEvent->type() == QEvent::KeyRelease)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
 		int keyValue = keyEvent->key();
-qDebug()<<"#######--MainWindow::event()/KeyRelease"<<keyValue;
 		if(keyValue==Qt::Key_Back)	//16777313
 		{
 qDebug()<<"######################--MainWindow::event()/KeyRelease"<<keyValue;
-			//AEvent->accept();
-			//AEvent->ignore();
+			QMessageBox::StandardButton reply;
+			reply=QMessageBox::question(this, QString::fromUtf8("Сообщение"),
+								QString::fromUtf8("The program will be closed"),
+								QMessageBox::Yes | QMessageBox::No );
+			if (reply == QMessageBox::Yes)
+			{
+qDebug()<<"QMessageBox::Yes";
+				AEvent->accept();
+			}
+			else{ //reply == QMessageBox::No
+qDebug()<<"QMessageBox::No";
+				this->hide();
+				AEvent->ignore();
+			}
 		}
 	}
+*/
 //!------------------------------
 	if (AEvent->type() == QEvent::Gesture)
 		return gestureEvent(static_cast<QGestureEvent*>(AEvent));

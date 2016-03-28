@@ -184,50 +184,88 @@ QStringList PoiOptions::getFilter(){return FPoiFilter;}
 
 void PoiOptions::modifyFont()
 {
-    bool ok;
-    QFont font = QFontDialog::getFont(&ok, FCurrentFont, this);
-    if(ok)
-    {
-        ui->txtLabel->setFont(font);
-        ui->txtTemporary->setFont(font);
-//        ui->viewShad->setFont(font);
-        FCurrentFont = font;
-        emit modified();
-    }
+	QFontDialog *fontDialog=new QFontDialog(FCurrentFont, this);
+	fontDialog->setToolTip(tr("Choose zoom factor font"));
+#ifdef EYECU_MOBILE
+	fontDialog->showMaximized();
+#endif
+	if(fontDialog->exec()==QDialog::Accepted)
+	{
+		QFont font=fontDialog->currentFont();
+		if (FCurrentFont!=font)
+		{
+			ui->txtLabel->setFont(font);
+			ui->txtTemporary->setFont(font);
+	//        ui->viewShad->setFont(font);
+			FCurrentFont = font;
+			emit modified();
+		}
+	}
+	fontDialog->deleteLater();
 }
 
 void PoiOptions::modifyColor()
 {
-    QColor color = QColorDialog::getColor(FCurrentTextColor,this,tr("Select POI label color")); //"color:#0066ff;"
-    if(color.isValid())
-    {
-        ui->txtLabel->setPalette(QColor(color));
-        FCurrentTextColor = color;
-        emit modified();
-    }
+//    QColor color = QColorDialog::getColor(FCurrentTextColor,this,tr("Select POI label color")); //"color:#0066ff;"
+	QColorDialog *colorDialog = new QColorDialog (FCurrentTextColor,this);
+	colorDialog->setToolTip(tr("Select POI label color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			ui->txtLabel->setPalette(QColor(color));
+			FCurrentTextColor = color;
+			emit modified();
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void PoiOptions::modifyTempColor()
 {
-    QColor color = QColorDialog::getColor(FCurrentTempTextColor, 0, tr("Select temporary POI label color"));
-    if(color.isValid())
-    {
-        ui->txtTemporary->setPalette(color);
-        FCurrentTempTextColor = color;
-        emit modified();
-    }
+//    QColor color = QColorDialog::getColor(FCurrentTempTextColor, 0, tr("Select temporary POI label color"));
+	QColorDialog *colorDialog = new QColorDialog (FCurrentTempTextColor,0);
+	colorDialog->setToolTip(tr("Select temporary POI label color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			ui->txtTemporary->setPalette(color);
+			FCurrentTempTextColor = color;
+			emit modified();
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void PoiOptions::modifyShadowColor()
 {
-    QColor color = QColorDialog::getColor(FCurrentShadowColor, 0, tr("Set shadow color"));
-    if(color.isValid())
-    {
-        ui->txtLabelShadow->setPalette(QColor(color.name()));
-        ui->txtTemporaryShadow->setPalette(QColor(color.name()));
-        FCurrentShadowColor = color;
-        emit modified();
-    }
+//    QColor color = QColorDialog::getColor(FCurrentShadowColor, 0, tr("Set shadow color"));
+	QColorDialog *colorDialog = new QColorDialog (FCurrentShadowColor,0);
+	colorDialog->setToolTip(tr("Set shadow color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			ui->txtLabelShadow->setPalette(QColor(color.name()));
+			ui->txtTemporaryShadow->setPalette(QColor(color.name()));
+			FCurrentShadowColor = color;
+			emit modified();
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void PoiOptions::onBackgroundSelected()

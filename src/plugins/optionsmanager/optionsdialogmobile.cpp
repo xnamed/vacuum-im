@@ -20,18 +20,25 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 	verticalLayout->addWidget(trvNodes);
 
 //------------
-    QVBoxLayout *vBox=new QVBoxLayout;
+	vBox=new QVBoxLayout;
+	vBox->setSpacing(2);
+	vBox->setObjectName(QStringLiteral("verLayoutScaScroll"));
+
     scaScroll = new QScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
 	scaScroll->setWidgetResizable(true);
+	scaScroll->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
 
     scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
 	scaScroll->setWidget(scrollAreaWidgetContents);
-    vBox->addWidget(scaScroll);
+	scrollAreaWidgetContents->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
 
-    vSpaser=new QSpacerItem(60, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    vBox->addItem(vSpaser);
+	vBox->addWidget(scaScroll);
+	vBox->addStretch();
+//	QSpacerItem *vSpaser=new QSpacerItem(60, 40, QSizePolicy::Minimum, QSizePolicy::Maximum);//:Expanding
+//	vBox->addItem(vSpaser);
+
 //------------
 	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
 	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));

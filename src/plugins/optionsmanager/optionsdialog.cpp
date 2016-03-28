@@ -267,7 +267,8 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		ui.scaScroll->setWidget(curWidget);
 #if OS_NODE         // *** <<< eyeCU <<< ***
         ui.scaScroll->showMaximized();
-        ui.scaScroll->setVisible(true);
+		ui.scaScroll->setVisible(true);
+		//ui.vBox->addStretch();
 #endif              // *** <<< eyeCU <<< ***
     }
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);

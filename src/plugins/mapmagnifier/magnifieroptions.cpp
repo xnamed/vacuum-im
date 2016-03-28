@@ -101,48 +101,74 @@ void MagnifierOptions::reset()
 
 void MagnifierOptions::onShadowColorButtonClicked()
 {
-    QColor color=QColorDialog::getColor(FShadowColor, this, tr("Choose shadow color"));
-    if (color.isValid())
-        if (FShadowColor!=color)
-        {
-            FShadowColor=color;
-            QColor contrast(FShadowColor.black()<128?Qt::black:Qt::white);
-            QPalette palette=ui->btnShadowColor->palette();
-            palette.setColor(QPalette::Button, FShadowColor);
-            palette.setColor(QPalette::ButtonText, contrast);
-            ui->btnShadowColor->setPalette(palette);
-            emit modified();
-        }
+//    QColor color=QColorDialog::getColor(FShadowColor, this, tr("Choose shadow color"));
+	QColorDialog *colorDialog = new QColorDialog (FShadowColor,this);
+	colorDialog->setToolTip(tr("Choose shadow color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if (color.isValid())
+			if (FShadowColor!=color)
+			{
+				FShadowColor=color;
+				QColor contrast(FShadowColor.black()<128?Qt::black:Qt::white);
+				QPalette palette=ui->btnShadowColor->palette();
+				palette.setColor(QPalette::Button, FShadowColor);
+				palette.setColor(QPalette::ButtonText, contrast);
+				ui->btnShadowColor->setPalette(palette);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MagnifierOptions::onZoomFactorColorButtonClicked()
 {
-    QColor color=QColorDialog::getColor(FZoomFactorColor, this, tr("Choose zoom factor color"));
-    if (color.isValid())
-        if (FZoomFactorColor!=color)
-        {
-            FZoomFactorColor=color;
-            QColor contrast(FZoomFactorColor.black()<128?Qt::black:Qt::white);
-            QPalette palette=ui->btnZoomFactorColor->palette();
-            palette.setColor(QPalette::Button, FZoomFactorColor);
-            palette.setColor(QPalette::ButtonText, contrast);
-            ui->btnZoomFactorColor->setPalette(palette);
-            emit modified();
-        }
+//    QColor color=QColorDialog::getColor(FZoomFactorColor, this, tr("Choose zoom factor color"));
+	QColorDialog *colorDialog = new QColorDialog (FZoomFactorColor,this);
+	colorDialog->setToolTip(tr("Choose zoom factor color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if (color.isValid())
+			if (FZoomFactorColor!=color)
+			{
+				FZoomFactorColor=color;
+				QColor contrast(FZoomFactorColor.black()<128?Qt::black:Qt::white);
+				QPalette palette=ui->btnZoomFactorColor->palette();
+				palette.setColor(QPalette::Button, FZoomFactorColor);
+				palette.setColor(QPalette::ButtonText, contrast);
+				ui->btnZoomFactorColor->setPalette(palette);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MagnifierOptions::onZoomFactorFontButtonClicked()
 {
-    bool ok;
-    QFont font=QFontDialog::getFont(&ok, FZoomFactorFont, this, tr("Choose zoom factor font"));
-    if (ok)
-    {
-        if (FZoomFactorFont!=font)
-        {
-            FZoomFactorFont=font;
-            ui->lblZoomFactorFont->setText(font.toString());
-            ui->lblZoomFactorFont->setFont(font);
-            emit modified();
-        }
-    }
+//    QFont font=QFontDialog::getFont(&ok, FZoomFactorFont, this, tr("Choose zoom factor font"));
+	QFontDialog *fontDialog=new QFontDialog(FZoomFactorFont, this);
+	fontDialog->setToolTip(tr("Choose zoom factor font"));
+#ifdef EYECU_MOBILE
+	fontDialog->showMaximized();
+#endif
+	if(fontDialog->exec()==QDialog::Accepted)
+	{
+		QFont font=fontDialog->currentFont();
+		if (FZoomFactorFont!=font)
+		{
+			FZoomFactorFont=font;
+			ui->lblZoomFactorFont->setText(font.toString());
+			ui->lblZoomFactorFont->setFont(font);
+			emit modified();
+		}
+	}
+	fontDialog->deleteLater();
 }

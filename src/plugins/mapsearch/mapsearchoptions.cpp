@@ -29,21 +29,27 @@ void MapSearchOptions::changeEvent(QEvent *e)
     }
 }
 
+
 void MapSearchOptions::onTextColorDialog()
 {
-/*	QColor color = QColorDialog::getColor(FCurrentColor,this,tr("Select label color"));*/
-	QColorDialog dlg;
+//	  QColor color = QColorDialog::getColor(FCurrentColor,this,tr("Select label color"));
+	QColorDialog *colorDialog = new QColorDialog (FCurrentColor,this);
+	colorDialog->setToolTip(tr("Select label color"));
 #ifdef EYECU_MOBILE
-	dlg.showMaximized();
+	colorDialog->showMaximized();
 #endif
-	QColor color = dlg.getColor(FCurrentColor,this,tr("Select label color"));
-	if(color.isValid())
-		if (FCurrentColor!=color)
-		{
-			FCurrentColor = color;
-			setWidgetColor(ui->pbTextColor, FCurrentColor);
-			emit modified();
-		}
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (FCurrentColor!=color)
+			{
+				FCurrentColor = color;
+				setWidgetColor(ui->pbTextColor, FCurrentColor);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapSearchOptions::apply()

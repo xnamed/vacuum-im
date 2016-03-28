@@ -187,205 +187,375 @@ void MapOptions::reset()
 
 void MapOptions::modifyFont()
 {
-    bool ok;
-    QFont font = QFontDialog::getFont(&ok, currFont, this);
-    if(ok)
-    {
-        currFont = font;
-        ui->lblFontTest->setFont(currFont);
-        ui->lblFontTest->setText(currFont.toString());
-        emit modified();
-    }
+//    bool ok;
+//    QFont font = QFontDialog::getFont(&ok, currFont, this);
+	QFontDialog *fontDialog=new QFontDialog(currFont, this);
+	fontDialog->setToolTip(tr("Choose zoom factor font"));
+#ifdef EYECU_MOBILE
+	fontDialog->showMaximized();
+#endif
+	if(fontDialog->exec()==QDialog::Accepted)
+	{
+		QFont font=fontDialog->currentFont();
+		if (currFont!=font)
+		{
+			currFont = font;
+			ui->lblFontTest->setFont(currFont);
+			ui->lblFontTest->setText(currFont.toString());
+			emit modified();
+		}
+	}
+	fontDialog->deleteLater();
 }
 
 void MapOptions::modifyColor()
 {
-    QColor color = QColorDialog::getColor(currColor, this, tr("Select text color"));
-    if(color.isValid())
-        if (currColor!=color)
-        {
-            currColor = color;
-            setWidgetColor(ui->pbTextColor, currColor);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(currColor, this, tr("Select text color"));
+	QColorDialog *colorDialog = new QColorDialog (currColor,this);
+	colorDialog->setToolTip(tr("Select text color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (currColor!=color)
+			{
+				currColor = color;
+				setWidgetColor(ui->pbTextColor, currColor);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlForeground()
 {
-    QColor color = QColorDialog::getColor(contrForeground, this, tr("Select control foreground color"));
-    if(color.isValid())
-        if (contrForeground!=color)
-        {
-            setWidgetColor(ui->pbCntrlForeground, contrForeground = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrForeground, this, tr("Select control foreground color"));
+	QColorDialog *colorDialog = new QColorDialog (contrForeground,this);
+	colorDialog->setToolTip(tr("Select control foreground color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrForeground!=color)
+			{
+				setWidgetColor(ui->pbCntrlForeground, contrForeground = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlBase()
 {
-    QColor color = QColorDialog::getColor(contrBase, this, tr("Select control base color"));
-    if(color.isValid())
-        if (contrBase!=color)
-        {
-            setWidgetColor(ui->pbCntrlBase, contrBase = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrBase, this, tr("Select control base color"));
+	QColorDialog *colorDialog = new QColorDialog (contrBase,this);
+	colorDialog->setToolTip(tr("Select control base color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrBase!=color)
+			{
+				setWidgetColor(ui->pbCntrlBase, contrBase = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlButton()
 {
-    QColor color = QColorDialog::getColor(contrButton, this, tr("Select control button color"));
-    if(color.isValid())
-        if (contrBase!=color)
-        {
-            setWidgetColor(ui->pbCntrlButton, contrButton = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrButton, this, tr("Select control button color"));
+	QColorDialog *colorDialog = new QColorDialog (contrButton,this);
+	colorDialog->setToolTip(tr("Select control button color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrBase!=color)
+			{
+				setWidgetColor(ui->pbCntrlButton, contrButton = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlLight()
 {
-    QColor color = QColorDialog::getColor(contrLight, this, tr("Select control light color"));
-    if(color.isValid())
-        if (contrLight!=color)
-        {
-            setWidgetColor(ui->pbCntrlLight, contrLight = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrLight, this, tr("Select control light color"));
+	QColorDialog *colorDialog = new QColorDialog (contrLight,this);
+	colorDialog->setToolTip(tr("Select control light color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrLight!=color)
+			{
+				setWidgetColor(ui->pbCntrlLight, contrLight = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlMidlight()
 {
-    QColor color = QColorDialog::getColor(contrMidlight, this, tr("Select control midlight color"));
-    if(color.isValid())
-        if (contrMidlight!=color)
-        {
-            setWidgetColor(ui->pbCntrlMidlight, contrMidlight = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrMidlight, this, tr("Select control midlight color"));
+	QColorDialog *colorDialog = new QColorDialog (contrMidlight,this);
+	colorDialog->setToolTip(tr("Select control midlight color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrMidlight!=color)
+			{
+				setWidgetColor(ui->pbCntrlMidlight, contrMidlight = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlDark()
 {
-    QColor color = QColorDialog::getColor(contrDark, this, tr("Select control dark color"));
-    if(color.isValid())
-        if (contrDark!=color)
-        {
-            setWidgetColor(ui->pbCntrlDark, contrDark = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrDark, this, tr("Select control dark color"));
+	QColorDialog *colorDialog = new QColorDialog (contrDark,this);
+	colorDialog->setToolTip(tr("Select control dark color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrDark!=color)
+			{
+				setWidgetColor(ui->pbCntrlDark, contrDark = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlShadow()
 {
-    QColor color = QColorDialog::getColor(contrShadow, this, tr("Select control shadow color"));
-    if(color.isValid())
-        if (contrShadow!=color)
-        {
-            setWidgetColor(ui->pbCntrlShadow, contrShadow = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(contrShadow, this, tr("Select control shadow color"));
+	QColorDialog *colorDialog = new QColorDialog (contrShadow,this);
+	colorDialog->setToolTip(tr("Select control shadow color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (contrShadow!=color)
+			{
+				setWidgetColor(ui->pbCntrlShadow, contrShadow = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyControlBackground()
 {
-    QColor color = QColorDialog::getColor(contrBackground, this, tr("Select control background color"));
-    if(color.isValid())
-    {
-        color.setAlpha(ui->slCntrlBackgroundAlpha->value());
-        if (contrBackground!=color)
-        {
-            setWidgetColor(ui->pbCntrlBackground, contrBackground = color);
-            emit modified();
-        }
-    }
+//    QColor color = QColorDialog::getColor(contrBackground, this, tr("Select control background color"));
+	QColorDialog *colorDialog = new QColorDialog (contrBackground,this);
+	colorDialog->setToolTip(tr("Select control background color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			color.setAlpha(ui->slCntrlBackgroundAlpha->value());
+			if (contrBackground!=color)
+			{
+				setWidgetColor(ui->pbCntrlBackground, contrBackground = color);
+				emit modified();
+			}
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyCenterMarkerColor()
 {
-    QColor color = QColorDialog::getColor(contrCentralMarker, this, tr("Select center marker color"));
-    if(color.isValid())
-    {
-        color.setAlpha(ui->slCenterMarkerAlpha->value());
-        if (contrCentralMarker!=color)
-        {
-            setWidgetColor(ui->pbCenterMarkerColor, contrCentralMarker = color);
-            emit modified();
-        }
-    }
+//    QColor color = QColorDialog::getColor(contrCentralMarker, this, tr("Select center marker color"));
+	QColorDialog *colorDialog = new QColorDialog (contrCentralMarker,this);
+	colorDialog->setToolTip(tr("Select center marker color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			color.setAlpha(ui->slCenterMarkerAlpha->value());
+			if (contrCentralMarker!=color)
+			{
+				setWidgetColor(ui->pbCenterMarkerColor, contrCentralMarker = color);
+				emit modified();
+			}
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyShadowColor()
 {
-    QColor color = QColorDialog::getColor(currShadowColor, 0, tr("Select shadow color"));
-    if(color.isValid())
-    {
-        color.setAlpha(ui->slShadowAlpha->value());
-        if (currShadowColor!=color)
-        {
-            currShadowColor = color;
-            setWidgetColor(ui->pbShadowColor, currShadowColor);
-            emit modified();
-        }
-    }
+//    QColor color = QColorDialog::getColor(currShadowColor, 0, tr("Select shadow color"));
+	QColorDialog *colorDialog = new QColorDialog (currShadowColor,0);
+	colorDialog->setToolTip(tr("Select shadow color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			color.setAlpha(ui->slShadowAlpha->value());
+			if (currShadowColor!=color)
+			{
+				currShadowColor = color;
+				setWidgetColor(ui->pbShadowColor, currShadowColor);
+				emit modified();
+			}
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyBoxForeground()
 {
-    QColor color = QColorDialog::getColor(boxForeground, 0, tr("Select box foreground color"));
-    if(color.isValid())
-        if (boxForeground!=color)
-        {
-            setWidgetColor(ui->pbBoxForeground, boxForeground = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(boxForeground, 0, tr("Select box foreground color"));
+	QColorDialog *colorDialog = new QColorDialog (boxForeground,0);
+	colorDialog->setToolTip(tr("Select box foreground color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (boxForeground!=color)
+			{
+				setWidgetColor(ui->pbBoxForeground, boxForeground = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyBoxLight()
 {
-    QColor color = QColorDialog::getColor(boxLight, 0, tr("Select box light color"));
-    if(color.isValid())
-        if (boxLight!=color)
-        {
-            setWidgetColor(ui->pbBoxLight, boxLight = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(boxLight, 0, tr("Select box light color"));
+	QColorDialog *colorDialog = new QColorDialog (boxLight,0);
+	colorDialog->setToolTip(tr("Select box light color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (boxLight!=color)
+			{
+				setWidgetColor(ui->pbBoxLight, boxLight = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyBoxMidlight()
 {
-    QColor color = QColorDialog::getColor(boxMidlight, 0, tr("Select box midlight color"));
-    if(color.isValid())
-        if (boxMidlight!=color)
-        {
-            setWidgetColor(ui->pbBoxMidlight, boxMidlight = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(boxMidlight, 0, tr("Select box midlight color"));
+	QColorDialog *colorDialog = new QColorDialog (boxMidlight,0);
+	colorDialog->setToolTip(tr("Select box midlight color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (boxMidlight!=color)
+			{
+				setWidgetColor(ui->pbBoxMidlight, boxMidlight = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyBoxDark()
 {
-    QColor color = QColorDialog::getColor(boxDark, 0, tr("Select box dark color"));
-    if(color.isValid())
-        if (boxDark!=color)
-        {
-            setWidgetColor(ui->pbBoxDark, boxDark = color);
-            emit modified();
-        }
+//    QColor color = QColorDialog::getColor(boxDark, 0, tr("Select box dark color"));
+	QColorDialog *colorDialog = new QColorDialog (boxDark,0);
+	colorDialog->setToolTip(tr("Select box dark color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+			if (boxDark!=color)
+			{
+				setWidgetColor(ui->pbBoxDark, boxDark = color);
+				emit modified();
+			}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::modifyBoxBackground()
 {
-    QColor color = QColorDialog::getColor(boxBackground, 0, tr("Select box background color"));
-    if(color.isValid())
-    {
-        color.setAlpha(ui->lcdBgColorTranspar->value());
-        if (boxBackground!=color)
-        {
-            setWidgetColor(ui->pbBackgroundColor, boxBackground = color);
-            emit modified();
-        }
-    }
+//    QColor color = QColorDialog::getColor(boxBackground, 0, tr("Select box background color"));
+	QColorDialog *colorDialog = new QColorDialog (boxBackground,0);
+	colorDialog->setToolTip(tr("Select box background color"));
+#ifdef EYECU_MOBILE
+	colorDialog->showMaximized();
+#endif
+	if (colorDialog->exec()==QDialog::Accepted)
+	{
+		QColor color = colorDialog->currentColor();
+		if(color.isValid())
+		{
+			color.setAlpha(ui->lcdBgColorTranspar->value());
+			if (boxBackground!=color)
+			{
+				setWidgetColor(ui->pbBackgroundColor, boxBackground = color);
+				emit modified();
+			}
+		}
+	}
+	colorDialog->deleteLater();
 }
 
 void MapOptions::onBackgroundAlphaChange(int value)

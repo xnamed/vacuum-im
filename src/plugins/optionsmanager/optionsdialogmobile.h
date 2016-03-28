@@ -25,7 +25,7 @@ public:
 	QScrollArea *scaScroll;
     QWidget *scrollAreaWidgetContents;
 	QDialogButtonBox *dbbButtons;
-    QSpacerItem *vSpaser;
+	QVBoxLayout *vBox;
 
 	void setupUi(QDialog *OptionsDialogClass);
     void retranslateUi(QDialog *OptionsDialogClass);
