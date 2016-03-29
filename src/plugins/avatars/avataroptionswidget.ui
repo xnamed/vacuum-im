@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>255</width>
+    <width>247</width>
     <height>85</height>
    </rect>
   </property>
@@ -15,31 +15,57 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="topMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="rightMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="bottomMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="spacing">
-    <number>2</number>
+    <number>1</number>
    </property>
-   <item row="0" column="0" colspan="2">
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="cbGrayscaledOffline">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="4">
     <widget class="QCheckBox" name="cbShow">
      <property name="text">
       <string>Display avatars</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="cbGrayscaledOffline">
+   <item row="3" column="0" colspan="2">
+    <widget class="QLabel" name="lblAvatarPosition">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Avatar position:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="4">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -47,15 +73,21 @@
      <property name="text">
       <string>Display avatars for offline contacts grayscaled</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="3" column="3">
     <widget class="QComboBox" name="cmbAvatarPosition">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
      </property>
      <item>
       <property name="text">
@@ -69,7 +101,7 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0" colspan="4">
     <widget class="QCheckBox" name="cbShowEmpty">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -82,21 +114,8 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="lblAvatarPosition">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Avatar position</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2">
-    <spacer name="horizontalSpacer">
+   <item row="3" column="2">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

@@ -59,8 +59,8 @@ protected:
 // *** <<< eyeCU <<< ***
 	// Gesture Handler
 //	void closeEvent(QCloseEvent *AEvent);
-	void keyPressEvent(QKeyEvent *AEvent);
-	void keyReleaseEvent(QKeyEvent * AEvent);
+//	void keyPressEvent(QKeyEvent *AEvent) Q_DECL_OVERRIDE;
+//	void keyReleaseEvent(QKeyEvent * AEvent);
 	bool gestureEvent(QGestureEvent *AEvent);				// <<< eyeCU <<<
 	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
 // *** >>> eyeCU >>> ***

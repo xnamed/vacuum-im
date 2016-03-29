@@ -16,16 +16,12 @@
 
 #define IDR_ORDER  Qt::UserRole + 1
 
-#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
-    #define OS_NODE     1       // NODE FOR ANDROID
-#else
-    #define OS_NODE     0       // NODE FOR WINDOWS
-#endif					// *** <<< eyeCU <<< ***
-
-#if OS_NODE				// *** <<< eyeCU <<< ***
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 	#define NODE_ITEM_ICONSIZE   QSize(32,32)
 	#define NODE_ITEM_SIZEHINT   QSize(48,48)
-#else					// *** <<< eyeCU <<< ***
+#else
+// *** <<< eyeCU <<< ***
 	#define NODE_ITEM_ICONSIZE   QSize(16,16)
 	#define NODE_ITEM_SIZEHINT   QSize(24,24)
 #endif
@@ -48,8 +44,8 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
 
-#if OS_NODE
-    showMaximized();
+#ifdef EYECU_MOBILE
+	showMaximized();
 #endif
 
 	FRootNodeId = ARootId;
@@ -73,7 +69,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->setRootIsDecorated(false);
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
-#if OS_NODE         // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
 	ui.trvNodes->setAlternatingRowColors(true);
     connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else				// *** >>> eyeCU >>> ***
@@ -86,7 +82,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	foreach (const IOptionsDialogNode &node, FOptionsManager->optionsDialogNodes())
 		onOptionsDialogNodeInserted(node);
 	ui.trvNodes->setVisible(FItemsModel->rowCount() > 0);
-#if !OS_NODE         // *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE        // *** <<< eyeCU <<< ***
     if (!restoreGeometry(Options::fileValue("optionsmanager.optionsdialog.geometry",FRootNodeId).toByteArray()))
         setGeometry(WidgetManager::alignGeometry(FItemsModel->rowCount()>0 ? QSize(750,560) : QSize(570,560),this));
 	if (!ui.sprSplitter->restoreState(Options::fileValue("optionsmanager.optionsdialog.splitter.state",FRootNodeId).toByteArray()))
@@ -96,7 +92,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 
 OptionsDialog::~OptionsDialog()
 {
-#if !OS_NODE         // *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE        // *** <<< eyeCU <<< ***
 	Options::setFileValue(saveGeometry(),"optionsmanager.optionsdialog.geometry",FRootNodeId);
 	Options::setFileValue(ui.sprSplitter->saveState(),"optionsmanager.optionsdialog.splitter.state",FRootNodeId);
 #endif
@@ -116,7 +112,7 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 
     QWidget *nodeWidget = new QWidget(ui.scaScroll);
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
-	nodeLayout->setMargin(5);
+	nodeLayout->setMargin(1);
 
 	QMultiMap<int, IOptionsDialogWidget *> orderedWidgets;
 	foreach(IOptionsDialogHolder *optionsHolder, FOptionsManager->optionsDialogHolders())
@@ -263,12 +259,14 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		FItemWidgets.insert(curItem,createNodeWidget(nodeId));
 
 	QWidget *curWidget = FItemWidgets.value(curItem);
-    if (curWidget){
+	if (curWidget)
+	{
 		ui.scaScroll->setWidget(curWidget);
-#if OS_NODE         // *** <<< eyeCU <<< ***
-        ui.scaScroll->showMaximized();
+#ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
+//		curWidget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Maximum);
+		ui.scaScroll->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+		ui.scaScroll->showMaximized();
 		ui.scaScroll->setVisible(true);
-		//ui.vBox->addStretch();
 #endif              // *** <<< eyeCU <<< ***
     }
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);

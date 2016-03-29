@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     setIconSize(QSize(size,size));
 #else
 // *** >>> eyeCU >>> ***
-
 	setIconSize(QSize(16,16));
 #endif
 
@@ -48,18 +47,22 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setWindowIcon(icon);
 
 	FSplitter = new QSplitter(this);
+#ifndef EYECU_MOBILE	// *** <<< TEST---
 	FSplitter->installEventFilter(this);
 	FSplitter->setOrientation(Qt::Horizontal);
 	FSplitterHandleWidth = FSplitter->handleWidth();
 	connect(FSplitter,SIGNAL(splitterMoved(int,int)),SLOT(onSplitterMoved(int,int)));
 	setCentralWidget(FSplitter);
-
+#endif	// *** >>> TEST---
 	FLeftWidget = new BoxWidget(this);
 	FLeftWidget->layout()->setSpacing(0);
-
+#ifdef EYECU_MOBILE	// *** <<< TEST---
+	setCentralWidget(FLeftWidget);		// *** <<< eyeCU <<< ***
+#else
 	FSplitter->addWidget(FLeftWidget);
 	FSplitter->setCollapsible(0,false);
 	FSplitter->setStretchFactor(0,1);
+#endif	// *** >>> TEST---
 
 	FCentralWidget = new MainCentralWidget(this,this);
 	FCentralWidget->instance()->setFrameShape(QFrame::StyledPanel);
@@ -67,12 +70,15 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	connect(FCentralWidget->instance(),SIGNAL(centralPageAppended(IMainCentralPage *)),SLOT(onCentralPageAddedOrRemoved(IMainCentralPage *)));
 	connect(FCentralWidget->instance(),SIGNAL(centralPageRemoved(IMainCentralPage *)),SLOT(onCentralPageAddedOrRemoved(IMainCentralPage *)));
 
+#ifndef EYECU_MOBILE	// *** <<< TEST---
 	FSplitter->addWidget(FCentralWidget->instance());
 	FSplitter->setCollapsible(1,false);
 	FSplitter->setStretchFactor(1,4);
-
+#endif	// *** >>> TEST---
 	FCentralVisible = false;
+#ifndef EYECU_MOBILE	// *** <<< TEST---
 	FSplitter->setHandleWidth(0);
+#endif	// *** >>> TEST---
 	FCentralWidget->instance()->setVisible(false);
 
 	FTabWidget = new MainTabWidget(FLeftWidget);
@@ -115,7 +121,6 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     button->setPopupMode(QToolButton::InstantPopup);
 
 	QLabel *title = new QLabel(CLIENT_NAME);
-//	title->setObjectName("eyeCU");
 	topToolBarChanger()->insertWidget(title, TBG_MWTTB_TITLE);
 #endif
 // *** >>> eyeCU >>>***
@@ -124,8 +129,8 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	setMenuBar(FMainMenuBar->menuBar());
 	updateWindow();
 
-	grabKeyboard();
 // *** <<< eyeCU <<< ***
+//	grabKeyboard();
 ////	grabGesture(Qt::TapAndHoldGesture);
 ////    grabGesture(Qt::PinchGesture);
 //	grabGesture(Qt::PanGesture);
@@ -417,25 +422,34 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
 
+/*
 void MainWindow::keyPressEvent(QKeyEvent *AEvent)
 {
-//	if(AEvent->key()==Qt::Key_Back){
-//qDebug()<<"######################--MainWindow::keyPressEvent"<<AEvent->key();
-//		AEvent->ignore();
-//	}
+	if(AEvent->key()==Qt::Key_Back){
+qDebug()<<"######################--MainWindow::keyPressEvent"<<AEvent->key();
+		AEvent->accept();//AEvent->ignore();
+		//QFrame::keyPressEvent(AEvent);
+		return;
+	}
+	return;// QMainWindow::event(AEvent);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *AEvent)
 {
-//	if(AEvent->key()==Qt::Key_Back){
-//qDebug()<<"######################--MainWindow::keyReleaseEvent()"<<AEvent->key();
-//		AEvent->ignore();
-//	}
+	if(AEvent->key()==Qt::Key_Back){
+qDebug()<<"######################--MainWindow::keyReleaseEvent()"<<AEvent->key();
+		//AEvent->accept();//AEvent->ignore();
+		return;
+	}
+	return;// QMainWindow::event(AEvent);
 }
-
+*/
 /*
 void MainWindow::closeEvent(QCloseEvent *AEvent)
 {
+	QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
+QEvent *event=static_cast<QMainWindow::close() *>(AEvent);
+//QMainWindow::event(AEvent);
 	QMessageBox msgBox;
 	msgBox.setText("The program will be closed!");
 	msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -451,7 +465,6 @@ qDebug()<<"MainWindow::closeEvent/ret="<<ret;
 	}
 }
 */
-
 
 // *** <<< eyeCU <<< ***
 bool MainWindow::event(QEvent *AEvent)
@@ -497,8 +510,6 @@ bool MainWindow::gestureEvent(QGestureEvent *AEvent)
 /*! Reserve for other gestures
 	if (QGesture *pinch = AEvent->gesture(Qt::PinchGesture))
 		pinchTriggered(static_cast<QPinchGesture *>(pinch));
-	if (QGesture *tap = AEvent->gesture(Qt::TapGesture))
-		tapTriggered(static_cast<QPinchGesture *>(tap));
 */
 	if(QGesture *gesture = AEvent->gesture(Qt::TapAndHoldGesture))
 		tapAndHoldGesture(static_cast<QTapAndHoldGesture *>(gesture));

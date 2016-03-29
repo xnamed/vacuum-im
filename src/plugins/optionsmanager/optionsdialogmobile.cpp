@@ -19,32 +19,20 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 	trvNodes->header()->setVisible(false);
 	verticalLayout->addWidget(trvNodes);
 
+	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
+	dbbButtons->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
+	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
+	verticalLayout->addWidget(dbbButtons);
 //------------
-	vBox=new QVBoxLayout;
-	vBox->setSpacing(2);
-	vBox->setObjectName(QStringLiteral("verLayoutScaScroll"));
-
     scaScroll = new QScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
 	scaScroll->setWidgetResizable(true);
-	scaScroll->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
 
     scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
 	scaScroll->setWidget(scrollAreaWidgetContents);
-	scrollAreaWidgetContents->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
-
-	vBox->addWidget(scaScroll);
-	vBox->addStretch();
-//	QSpacerItem *vSpaser=new QSpacerItem(60, 40, QSizePolicy::Minimum, QSizePolicy::Maximum);//:Expanding
-//	vBox->addItem(vSpaser);
-
 //------------
-	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
-	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
-	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
-	verticalLayout->addWidget(dbbButtons);
-
 	QWidget::setTabOrder(trvNodes, dbbButtons);
 	retranslateUi(OptionsDialogClass);
 	QMetaObject::connectSlotsByName(OptionsDialogClass);

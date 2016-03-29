@@ -523,7 +523,7 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 	}
 	else if (ANode.path()==OPV_MAP_OSD_CONTR_CMARKER_VISIBLE)
 		FMapForm->setOsdCenterMarkerVisible(ANode.value().toBool());
-	else if (ANode.path()==OPV_MAP_ATTACH_TO_ROSTER)
+	else if (ANode.path()==OPV_MAP_ATTACH_TO_ROSTER)	//! #ifndef EYECU_MOBILE
 	{
 		FMapForm->disableHideEvent();
 		if (ANode.value().toBool())
@@ -549,7 +549,7 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 				showMap(true, false);
 		}
 		FMapForm->enableHideEvent();
-	}
+	}		//!#endif
 	else if (ANode.path()==OPV_MAP_SHOWING)
 	{
 #ifdef EYECU_MOBILE
@@ -838,7 +838,9 @@ QMultiMap<int, IOptionsDialogWidget *> Map::optionsDialogWidgets(const QString &
 			widgets.insertMulti(OWO_MAP_CONNECTION, FConnectionManager->proxySettingsWidget(Options::node(OPV_MAP_PROXY), AParent));
 		widgets.insertMulti(OHO_MAP_GENERAL, FOptionsManager->newOptionsDialogHeader(tr("General"), AParent));
 		widgets.insertMulti(OWO_MAP_LOADING, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_LOADING), tr("Display \"Loading\" tiles"), AParent));
+#ifndef EYECU_MOBILE
 		widgets.insertMulti(OWO_MAP_ATTACH_TO_ROSTER, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_ATTACH_TO_ROSTER), tr("Combine map window with contact list"), AParent));
+#endif
 		widgets.insertMulti(OHO_MAP_ZOOM, FOptionsManager->newOptionsDialogHeader(tr("Zoom"), AParent));
 		widgets.insertMulti(OWO_MAP_ZOOM_WHEEL, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_ZOOM_WHEEL), tr("Mouse wheel zooming"), newWheelZoomComboBox(AParent), AParent));
 		widgets.insertMulti(OWO_MAP_ZOOM_SLIDERTRACK, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_ZOOM_SLIDERTRACK), tr("Update zoom during slider movement"), AParent));

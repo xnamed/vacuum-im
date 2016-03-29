@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>292</width>
+    <width>251</width>
     <height>101</height>
    </rect>
   </property>
@@ -14,7 +14,16 @@
    <string>Open Profile</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="topMargin">
+    <number>5</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
+   <property name="bottomMargin">
     <number>5</number>
    </property>
    <item>
@@ -30,7 +39,14 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="cmbProfile"/>
+      <widget class="QComboBox" name="cmbProfile">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="lblPassword">
@@ -44,6 +60,12 @@
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="lnePassword">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
