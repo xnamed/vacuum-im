@@ -180,6 +180,12 @@
       </item>
       <item row="5" column="3">
        <widget class="QLCDNumber" name="lcdBgColorTranspar">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -733,6 +739,12 @@
       </item>
       <item row="7" column="2">
        <widget class="QLCDNumber" name="lcdCntrlBackgroundAlpha">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -925,6 +937,12 @@
       </item>
       <item row="8" column="2">
        <widget class="QLCDNumber" name="lcdCntrlCentralMarkerAlpha">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>

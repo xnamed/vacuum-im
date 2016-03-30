@@ -187,16 +187,22 @@ bool RostersViewPlugin::initSettings()
 {
 	Options::setDefaultValue(OPV_ROSTER_SHOWOFFLINE,true);
 	Options::setDefaultValue(OPV_ROSTER_SHOWRESOURCE,false);
-	Options::setDefaultValue(OPV_ROSTER_HIDESCROLLBAR,false);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    Options::setDefaultValue(OPV_ROSTER_HIDESCROLLBAR,true);
+#else
+// *** >>> eyeCU >>> ***
+    Options::setDefaultValue(OPV_ROSTER_HIDESCROLLBAR,false);
+#endif
 	Options::setDefaultValue(OPV_ROSTER_MERGESTREAMS,true);
 	Options::setDefaultValue(OPV_ROSTER_VIEWMODE,IRostersView::ViewFull);
 	Options::setDefaultValue(OPV_ROSTER_SORTMODE,IRostersView::SortByStatus);
-    // *** <<< eyeCU <<< ***
+// *** <<< eyeCU <<< ***
 	Options::setDefaultValue(OPV_ROSTER_STATUSDISPLAY, true);
 	Options::setDefaultValue(OPV_ROSTER_ALTERNATIONHIGHLITE, false);
 	Options::setDefaultValue(OPV_ROSTER_SHOWSELF, false);
     Options::setDefaultValue(OPV_ROSTER_SHOWOFFLINEAGENTS, true);
-    // *** >>> eyeCU >>> ***
+// *** >>> eyeCU >>> ***
 
 	if (FOptionsManager)
 	{

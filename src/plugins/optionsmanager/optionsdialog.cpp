@@ -130,16 +130,16 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 				if (headerLayout == NULL)
 				{
 					headerLayout = new QVBoxLayout;
-					headerLayout->setContentsMargins(15,0,0,0);
+                    headerLayout->setContentsMargins(15,0,0,0);
 					nodeLayout->addLayout(headerLayout);
 				}
-				headerLayout->addWidget(widget->instance());
+                headerLayout->addWidget(widget->instance());
 			}
 			else
 			{
 				if (headerLayout != NULL)
 				{
-					nodeLayout->addSpacing(10);
+                    nodeLayout->addSpacing(10);
 					headerLayout = NULL;
 				}
 				else if (headerWidget != NULL)
@@ -147,7 +147,7 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 					delete headerWidget->instance();
 				}
 				nodeLayout->addWidget(widget->instance());
-				headerWidget = widget;
+                headerWidget = widget;
 			}
 
 			connect(this,SIGNAL(applied()),widget->instance(),SLOT(apply()));
@@ -263,7 +263,6 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 	{
 		ui.scaScroll->setWidget(curWidget);
 #ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
-//		curWidget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Maximum);
 		ui.scaScroll->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
 		ui.scaScroll->showMaximized();
 		ui.scaScroll->setVisible(true);

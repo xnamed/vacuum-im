@@ -170,8 +170,8 @@ protected slots:
 private:
 	IRostersModel *FRostersModel;
 private:
-	QPoint FPressedPos;
-	int	   FScrollBarValue;
+    QPoint FPressedPos;
+    int	   FScrollBarValue;     // ****  <<<  eyeCU  <<<  ****
 	quint32 FPressedLabel;
 	QModelIndex FPressedIndex;
 private:

@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FLeftWidget = new BoxWidget(this);
 	FLeftWidget->layout()->setSpacing(0);
 #ifdef EYECU_MOBILE	// *** <<< TEST---
-	setCentralWidget(FLeftWidget);		// *** <<< eyeCU <<< ***
+    setCentralWidget(FLeftWidget);		// *** <<< eyeCU <<< ***
 #else
 	FSplitter->addWidget(FLeftWidget);
 	FSplitter->setCollapsible(0,false);

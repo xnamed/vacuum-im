@@ -47,6 +47,7 @@ protected slots:
 	void onClicked(const QModelIndex &ACurrent);		// *** <<< eyeCU <<< ***
 private:
     Ui::OptionsDialogClass ui;
+
 private:
 	IOptionsManager *FOptionsManager;
 private:

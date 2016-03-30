@@ -234,7 +234,6 @@ bool Map::initSettings()
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);
 #endif
 	Options::setDefaultValue(OPV_MAP_SHOWING, true);
-
 	Options::setDefaultValue(OPV_MAP_PROXY, APPLICATION_PROXY_REF_UUID);
 	Options::setDefaultValue(OPV_MAP_LOADING, true);
 
@@ -894,7 +893,7 @@ void Map::showMap(bool AShow, bool AActivate)
 	{
 		if (Options::node(OPV_MAP_ATTACH_TO_ROSTER).value().toBool())
 		{
-			FMainWindow->mainCentralWidget()->appendCentralPage(FMapForm);
+            FMainWindow->mainCentralWidget()->appendCentralPage(FMapForm);
 			if (AActivate)
 				FMapForm->showWindow();
 		}

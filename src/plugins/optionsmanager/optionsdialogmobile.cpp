@@ -1,4 +1,7 @@
+#include <QDebug>
 #include "optionsdialogmobile.h"
+
+OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
 
 void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 {
@@ -24,15 +27,14 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
 	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
 	verticalLayout->addWidget(dbbButtons);
-//------------
-    scaScroll = new QScrollArea;
+
+	scaScroll = new OptionsScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
-	scaScroll->setWidgetResizable(true);
 
     scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
 	scaScroll->setWidget(scrollAreaWidgetContents);
-//------------
+
 	QWidget::setTabOrder(trvNodes, dbbButtons);
 	retranslateUi(OptionsDialogClass);
 	QMetaObject::connectSlotsByName(OptionsDialogClass);
@@ -43,7 +45,42 @@ void OptionsDialogMobile::retranslateUi(QDialog *OptionsDialogClass)
 	Q_UNUSED(OptionsDialogClass);
 } // retranslateUi
 
-OptionsDialogMobile::~OptionsDialogMobile()
+//------------
+//!
+//! \brief OptionsScrollArea::OptionsScrollArea
+//!
+OptionsScrollArea::OptionsScrollArea()
 {
-	delete scaScroll;
+	setWidgetResizable(true);
+//    bool statusPolicy=true;
+//    setVerticalScrollBarPolicy(statusPolicy ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    FPressedPos = QPoint();
+}
+
+OptionsScrollArea::~OptionsScrollArea(){}
+
+void OptionsScrollArea::mousePressEvent(QMouseEvent *AEvent)
+{
+	FPressedPos=AEvent->pos();
+    FScrollBarValue=verticalScrollBar()->value();  //scroll->value();
+	QScrollArea::mousePressEvent(AEvent);
+}
+
+void OptionsScrollArea::mouseMoveEvent(QMouseEvent *AEvent)
+{
+	if (!FPressedPos.isNull()){
+        verticalScrollBar()->setValue(FScrollBarValue+FPressedPos.ry()-AEvent->pos().ry());
+//        QScrollArea::mouseMoveEvent(AEvent);
+	}
+    else {
+        QScrollArea::mouseMoveEvent(AEvent);
+	}
+}
+
+void OptionsScrollArea::mouseReleaseEvent(QMouseEvent *AEvent)
+{
+    FPressedPos = QPoint();
+    QScrollArea::mouseReleaseEvent(AEvent);
 }

@@ -22,6 +22,14 @@ signals:
 	void modified();
 	void childApply();
 	void childReset();
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+protected:
+    void mousePressEvent(QMouseEvent *AEvent){QWidget::mousePressEvent(AEvent);}
+    void mouseMoveEvent(QMouseEvent *AEvent){QWidget::mouseMoveEvent(AEvent);}
+    void mouseReleaseEvent(QMouseEvent *AEvent){QWidget::mouseReleaseEvent(AEvent);}
+#endif
+// *** >>> eyeCU >>> ***
 };
 
 #endif // OPTIONSHEADER_H

@@ -13,27 +13,49 @@
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <QMouseEvent>
+#include <QScrollBar>
 
 QT_BEGIN_NAMESPACE
+
+class OptionsScrollArea;
 
 class OptionsDialogMobile
 {
 public:
-	~OptionsDialogMobile();
+    ~OptionsDialogMobile();
     QVBoxLayout *verticalLayout;
 	QTreeView *trvNodes;
-	QScrollArea *scaScroll;
+	OptionsScrollArea *scaScroll;
     QWidget *scrollAreaWidgetContents;
 	QDialogButtonBox *dbbButtons;
-	QVBoxLayout *vBox;
 
 	void setupUi(QDialog *OptionsDialogClass);
     void retranslateUi(QDialog *OptionsDialogClass);
+
+};
+namespace Ui {
+	class OptionsDialogClass: public OptionsDialogMobile {};
+} // namespace Ui
+
+
+//!
+//! \brief The OptionsScrollArea class
+//!
+class OptionsScrollArea : public QScrollArea
+{
+public:
+	OptionsScrollArea();
+    ~OptionsScrollArea();
+protected:
+	void mousePressEvent(QMouseEvent *AEvent);
+    void mouseMoveEvent(QMouseEvent *AEvent);
+    void mouseReleaseEvent(QMouseEvent *AEvent);
+private:
+	QPoint FPressedPos;
+	int	   FScrollBarValue;
 };
 
-namespace Ui {
-    class OptionsDialogClass: public OptionsDialogMobile {};
-} // namespace Ui
 
 QT_END_NAMESPACE
 

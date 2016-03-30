@@ -38,7 +38,7 @@ RostersView::RostersView(QWidget *AParent) : QTreeView(AParent)
 {
 	FRostersModel = NULL;
 
-	FPressedPos = QPoint();
+    FPressedPos = QPoint();         // ****  <<<  eyeCU  <<<  ****
 	FPressedIndex = QModelIndex();
 	FPressedLabel = AdvancedDelegateItem::NullId;
 

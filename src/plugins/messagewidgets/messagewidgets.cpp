@@ -141,8 +141,10 @@ QMultiMap<int, IOptionsDialogWidget *> MessageWidgets::optionsDialogWidgets(cons
 	{
 		widgets.insertMulti(OHO_MESSAGES_VIEW,FOptionsManager->newOptionsDialogHeader(tr("Message window view"),AParent));
 		widgets.insertMulti(OWO_MESSAGES_LOADHISTORY,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_LOADHISTORY),tr("Load last messages from history"),AParent));
-		widgets.insertMulti(OWO_MESSAGES_COMBINEWITHROSTER,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_COMBINEWITHROSTER),tr("Show message windows together with contacts list"),AParent));
-		widgets.insertMulti(OWO_MESSAGES_TABWINDOWSENABLE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE),tr("Show message windows in tab window"),AParent));
+#ifndef EYECU_MOBILE        // *** <<< eyeCU <<< ***
+        widgets.insertMulti(OWO_MESSAGES_COMBINEWITHROSTER,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_COMBINEWITHROSTER),tr("Show message windows together with contacts list"),AParent));
+#endif                      // *** <<< eyeCU <<< ***
+        widgets.insertMulti(OWO_MESSAGES_TABWINDOWSENABLE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE),tr("Show message windows in tab window"),AParent));
 		widgets.insertMulti(OWO_MESSAGES_EDITORAUTORESIZE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_EDITORAUTORESIZE),tr("Automatically resize messages input field"),AParent));
 		widgets.insertMulti(OWO_MESSAGES_EDITORMINIMUMLINES,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_EDITORMINIMUMLINES),tr("Minimum number of lines in messages input field:"),AParent));
 
