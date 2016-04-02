@@ -14,6 +14,21 @@
 #include "edithtml.h"
 #include "xhtmloptions.h"
 
+#define DT_BOLD			1
+#define DT_ITALIC		2
+#define DT_UNDERLINE	3
+#define DT_OVERLINE		4
+#define DT_STRIKEOUT	5
+
+#define FMT_NORMAL		0
+#define FMT_HEADING1	1
+#define FMT_HEADING2	2
+#define FMT_HEADING3	3
+#define FMT_HEADING4	4
+#define FMT_HEADING5	5
+#define FMT_HEADING6	6
+#define FMT_PREFORMAT	7
+
 class XhtmlIm:
         public QObject,
         public IPlugin,
@@ -55,6 +70,13 @@ public:
 	static int checkBlockFormat(const QTextCursor &ACursor);
 	static void clearBlockProperties(const QTextBlock &ATextBlock, const QSet<QTextFormat::Property> &AProperties);
 
+	QTextCursor getCursor(QTextEdit *ATextEdit, bool ASelectWholeDocument=false, bool ASelect=true);
+	QTextCursor getCursor(QTextEdit *ATextEdit, int APosition, bool ASelectWholeDocument=false);
+	QTextCursor getCursor();
+	void mergeFormatOnSelection(QTextCursor ACursor, const QTextCharFormat &AFormat, QTextEdit *ATextEdit=NULL);
+	void clearFormatOnSelection(QTextCursor ACursor, QTextEdit *ATextEdit);
+	void setFormat(QTextEdit *ATextEdit, int AFormatType, int APosition=-1);
+
     //IPlugin
     QObject *instance() { return this; }
     QUuid pluginUuid() const { return XHTMLIM_UUID; }
@@ -86,9 +108,20 @@ protected:
 	void updateMessageWindows(bool ARichTextEditor);
 	void registerDiscoFeatures();
 
-	QTextCursor getCursor(bool ASelectWholeDocument=false, bool ASelect=true);
-	void mergeFormatOnWordOrSelection(QTextCursor ACursor, const QTextCharFormat &AFormat);
-	void clearFormatOnWordOrSelection();
+	IMessageEditWidget *messageEditWidget(Action **AAction);
+
+	void selectFont(QTextEdit *AEditWidget, int APosition=-1);
+	void selectColor(int AType, IMessageEditWidget *AEditWidget, int APosition=-1);
+	void selectDecoration(QTextEdit *ATextEdit, QTextCursor ACursor, int ADecorationType, bool ASelected);
+	void insertLink(QTextCursor ACursor, QWidget *AParent);
+	void insertImage(QTextCursor ACursor, IMessageEditWidget *AEditWidget);
+	void setToolTip(QTextCursor ACursor, IMessageEditWidget *AEditWidget);
+	void insertSpecial(QTextCursor ACursor, QChar ASpecialCharacter);
+	void setCode(QTextEdit *ATextEdit, QTextCursor ACursor, bool ACode);
+	void setCapitalization(QTextEdit *ATextEdit, QTextCursor ACursor, QFont::Capitalization ACapitalization);
+	void setAlignment(QTextCursor ACursor, Qt::Alignment AAlignment);
+	void changeIndent(QTextCursor ACursor, bool AIncrease);
+
 protected slots:
 	void onViewContextMenu(const QPoint &APosition, Menu *AMenu);
 	void onImageCopy();
@@ -102,6 +135,9 @@ protected slots:
 	void onRichTextEditorToggled(bool AChecked);
 	void onEditWidgetCreated(IMessageEditWidget *AWidget);
 	void onEditWidgetContextMenuRequested(const QPoint &APosition, Menu *AMenu);
+
+	void onShortcutActivated(const QString &AId, QWidget *AWidget);
+	void onMessageSent();
 
 	void onResetFormat(bool AStatus);
 	void onRemoveFormat();
@@ -122,6 +158,9 @@ protected slots:
 protected slots:
 	void onOptionsChanged(const OptionsNode &ANode);
 
+signals:
+	void specialCharacterInserted(QChar ASpecialCharacter);
+
 private:
     IOptionsManager*        FOptionsManager;
     IMessageProcessor*      FMessageProcessor;
@@ -131,8 +170,7 @@ private:
     QNetworkAccessManager*  FNetworkAccessManager;
     IconStorage*            FIconStorage;
     QStringList             FValidSchemes;
-	IMessageEditWidget		*FCurrentMessageEditWidget;
-	int						FCurrentCursorPosition;
+	QChar					FSpecialCharacter;
 };
 
 #endif // XHTMLIM_H

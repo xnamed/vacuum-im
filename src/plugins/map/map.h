@@ -47,7 +47,7 @@ public:
 	bool initConnections(IPluginManager *APluginManager, int &AInitOrder);
 	bool initObjects();
 	bool initSettings();
-	bool startPlugin(){return true;}
+	bool startPlugin() {return true;}
 
 	// IMap
 	GeoMap	*geoMap() {return this;}
@@ -170,7 +170,7 @@ private:
 	QStackedWidget		*FMapsWidget;
 	IMapMouseGrabber	*FMouseGrabber;
 	Action				*FMyLocation;
-	bool				FFollowMyLocation;
+	bool				FOptionsOpened;
 	QList<IOptionsDialogNode> FOptionsDialogNodes;
 
 	QPointF				FMousePosition;
