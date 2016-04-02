@@ -15,7 +15,7 @@
 AccountItemWidget::AccountItemWidget(const QUuid &AAccountId, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
-//ui.setupUi
+
 	FAccountId = AAccountId;
 
 	ui.lblMove->setVisible(false);
