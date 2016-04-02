@@ -28,8 +28,10 @@ public:
 	virtual MenuBarChanger *mainMenuBar() const;
 	// Widgets Management
 	virtual BoxWidget *mainLeftWidget() const;
+#ifndef EYECU_MOBILE
 	virtual IMainTabWidget *mainTabWidget() const;
 	virtual bool isCentralWidgetVisible() const;
+#endif
 	virtual IMainCentralWidget *mainCentralWidget() const;
 	// Tool Bars Management
 	virtual ToolBarChanger *topToolBarChanger() const;
@@ -43,7 +45,9 @@ public:
 signals:
 	void toolBarChangerInserted(int AOrderId, ToolBarChanger *AChanger);
 	void toolBarChangerRemoved(ToolBarChanger *AChanger);
+#ifndef EYECU_MOBILE
 	void centralWidgetVisibleChanged(bool AVisible);
+#endif
 public:
 	void saveWindowGeometryAndState();
 	void loadWindowGeometryAndState();
@@ -52,30 +56,40 @@ protected:
 	QMenu *createPopupMenu();
 	void correctWindowPosition();
 	void restoreAcceptDrops(QWidget *AParent);
+#ifndef EYECU_MOBILE
 	void setCentralWidgetVisible(bool AVisible);
+#endif
 protected:
 	void showEvent(QShowEvent *AEvent);
+#ifndef EYECU_MOBILE
 	bool eventFilter(QObject *AObject, QEvent *AEvent);
+#endif
 // *** <<< eyeCU <<< ***
 	// Gesture Handler
-//	void closeEvent(QCloseEvent *AEvent);
+	void closeEvent(QCloseEvent *AEvent);
 //	void keyPressEvent(QKeyEvent *AEvent) Q_DECL_OVERRIDE;
 //	void keyReleaseEvent(QKeyEvent * AEvent);
 	bool gestureEvent(QGestureEvent *AEvent);				// <<< eyeCU <<<
 	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
 // *** >>> eyeCU >>> ***
 protected slots:
+#ifndef EYECU_MOBILE
 	void onUpdateCentralWidgetVisible();
+	void onSplitterMoved(int APos, int AIndex);
+#endif
 	void onCurrentCentralPageChanged();
 	void onCentralPageAddedOrRemoved(IMainCentralPage *APage);
-	void onSplitterMoved(int APos, int AIndex);
 private:
+#ifndef EYECU_MOBILE
 	IMainTabWidget *FTabWidget;
+#endif
 	IMainCentralWidget *FCentralWidget;
 private:
 	Menu *FMainMenu;
 	Menu *FMainMenuRight;		// *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE
 	QSplitter *FSplitter;
+#endif
 	BoxWidget *FLeftWidget;
 	MenuBarChanger *FMainMenuBar;
 private:

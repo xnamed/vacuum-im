@@ -83,8 +83,10 @@ public:
 	virtual MenuBarChanger *mainMenuBar() const =0;
 	// Widgets Management
 	virtual BoxWidget *mainLeftWidget() const =0;
+#ifndef EYECU_MOBILE
 	virtual IMainTabWidget *mainTabWidget() const =0;
 	virtual bool isCentralWidgetVisible() const =0;
+#endif
 	virtual IMainCentralWidget *mainCentralWidget() const =0;
 	// Tool Bars Management
 	virtual ToolBarChanger *topToolBarChanger() const =0;
@@ -97,7 +99,9 @@ public:
 protected:
 	virtual void toolBarChangerInserted(int AOrderId, ToolBarChanger *AChanger) =0;
 	virtual void toolBarChangerRemoved(ToolBarChanger *AChanger) =0;
+#ifndef EYECU_MOBILE
 	virtual void centralWidgetVisibleChanged(bool AVisible) =0;
+#endif
 };
 
 class IMainWindowPlugin

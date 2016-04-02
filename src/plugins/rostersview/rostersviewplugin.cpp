@@ -155,11 +155,13 @@ bool RostersViewPlugin::initObjects()
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
+		FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
+
 #else
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);
+		FMainWindowPlugin->mainWindow()->mainTabWidget()->insertTabPage(MWTP_ROSTERSVIEW,FRostersView);
 #endif
-// *** >>> eyeCU >>> ***
-        FMainWindowPlugin->mainWindow()->mainTabWidget()->insertTabPage(MWTP_ROSTERSVIEW,FRostersView);
+// *** >>> eyeCU >>> ***        
 	}
 
 	if (FRostersModel)

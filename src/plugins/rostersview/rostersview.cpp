@@ -473,7 +473,22 @@ void RostersView::clipboardMenuForIndex(const QList<IRosterIndex *> &AIndexes, c
 		}
 	}
 }
+#ifdef EYECU_MOBILE
+void RostersView::showCentralPage(bool AMinimized)
+{
+	emit centralPageShow(true);
+}
 
+QIcon RostersView::centralPageIcon() const
+{
+	return IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_EYECU_LOGO);
+}
+
+QString RostersView::centralPageCaption() const
+{
+	return QString("eyeCU");
+}
+#endif
 bool RostersView::hasMultiSelection() const
 {
 	return FRostersModel!=NULL ? selectedIndexes().count()>1 : false;

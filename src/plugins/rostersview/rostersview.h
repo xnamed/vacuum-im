@@ -13,10 +13,18 @@ class RostersView :
 	public IMainTabPage,
 	public IRostersView,
 	public IRosterDataHolder,
+#ifdef EYECU_MOBILE
+	public IMainCentralPage,
+#endif
 	public IRostersLabelHolder
 {
 	Q_OBJECT;
+#ifdef EYECU_MOBILE
+	Q_INTERFACES(IMainTabPage IRostersView IRosterDataHolder IMainCentralPage IRostersLabelHolder);
+#else
 	Q_INTERFACES(IMainTabPage IRostersView IRosterDataHolder IRostersLabelHolder);
+#endif
+
 public:
 	RostersView(QWidget *AParent = NULL);
 	~RostersView();
@@ -46,6 +54,12 @@ public:
 	virtual void toolTipsForIndex(IRosterIndex *AIndex, const QHelpEvent *AEvent, QMap<int,QString> &AToolTips);
 	virtual void contextMenuForIndex(const QList<IRosterIndex *> &AIndexes, const QContextMenuEvent *AEvent, Menu *AMenu);
 	virtual void clipboardMenuForIndex(const QList<IRosterIndex *> &AIndexes, const QContextMenuEvent *AEvent, Menu *AMenu);
+#ifdef EYECU_MOBILE
+	// IMainCentralPage
+	void showCentralPage(bool AMinimized = false);
+	QIcon centralPageIcon() const;
+	QString centralPageCaption() const;
+#endif
 	//--IndexSelection
 	virtual bool hasMultiSelection() const;
 	virtual bool isSelectionAcceptable(const QList<IRosterIndex *> &AIndexes);
@@ -118,6 +132,12 @@ signals:
 	void rosterDataChanged(IRosterIndex *AIndex, int ARole);
 	//IRostersLabelHolder
 	void rosterLabelChanged(quint32 ALabelId, IRosterIndex *AIndex = NULL);
+#ifdef EYECU_MOBILE
+	// IMainCentralPage
+	void centralPageShow(bool AMinimized);
+	void centralPageChanged();
+	void centralPageDestroyed();
+#endif
 protected:
 	void clearLabels();
 	void updateBlinkTimer();

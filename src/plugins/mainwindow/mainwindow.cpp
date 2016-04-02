@@ -46,22 +46,20 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	icon.addFile(iconStorage->fileFullName(MNI_MAINWINDOW_LOGO128), QSize(128,128));
 	setWindowIcon(icon);
 
-	FSplitter = new QSplitter(this);
+	FLeftWidget = new BoxWidget(this);
+	FLeftWidget->layout()->setSpacing(0);
 #ifndef EYECU_MOBILE	// *** <<< TEST---
+	FSplitter = new QSplitter(this);
 	FSplitter->installEventFilter(this);
 	FSplitter->setOrientation(Qt::Horizontal);
 	FSplitterHandleWidth = FSplitter->handleWidth();
 	connect(FSplitter,SIGNAL(splitterMoved(int,int)),SLOT(onSplitterMoved(int,int)));
 	setCentralWidget(FSplitter);
-#endif	// *** >>> TEST---
-	FLeftWidget = new BoxWidget(this);
-	FLeftWidget->layout()->setSpacing(0);
-#ifdef EYECU_MOBILE	// *** <<< TEST---
-    setCentralWidget(FLeftWidget);		// *** <<< eyeCU <<< ***
-#else
 	FSplitter->addWidget(FLeftWidget);
 	FSplitter->setCollapsible(0,false);
 	FSplitter->setStretchFactor(0,1);
+#else
+	setCentralWidget(FLeftWidget);
 #endif	// *** >>> TEST---
 
 	FCentralWidget = new MainCentralWidget(this,this);
@@ -78,12 +76,13 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FCentralVisible = false;
 #ifndef EYECU_MOBILE	// *** <<< TEST---
 	FSplitter->setHandleWidth(0);
-#endif	// *** >>> TEST---
-	FCentralWidget->instance()->setVisible(false);
-
 	FTabWidget = new MainTabWidget(FLeftWidget);
 	FTabWidget->instance()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FTabWidget->instance(),100);
+#else
+	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FCentralWidget->instance(),100);
+#endif	// *** >>> TEST---
+	FCentralWidget->instance()->setVisible(false);
 
 	QToolBar *topToolbar = new QToolBar(this);
     topToolbar->setFloatable(false);
@@ -160,7 +159,11 @@ void MainWindow::showWindow(bool AMinimized)
 		if (!FAligned)
 		{
 			FAligned = true;
+#ifndef EYECU_MOBILE
 			QString ns = isCentralWidgetVisible() ? ONE_WINDOW_MODE_OPTIONS_NS : "";
+#else
+			QString ns = ONE_WINDOW_MODE_OPTIONS_NS;
+#endif
 			WidgetManager::alignWindow(this,(Qt::Alignment)Options::fileValue("mainwindow.align",ns).toInt());
 		}
 
@@ -193,7 +196,7 @@ BoxWidget *MainWindow::mainLeftWidget() const
 {
 	return FLeftWidget;
 }
-
+#ifndef EYECU_MOBILE
 IMainTabWidget *MainWindow::mainTabWidget() const
 {
 	return FTabWidget;
@@ -203,7 +206,7 @@ bool MainWindow::isCentralWidgetVisible() const
 {
 	return FCentralVisible;
 }
-
+#endif
 IMainCentralWidget * MainWindow::mainCentralWidget() const
 {
 	return FCentralWidget;
@@ -257,8 +260,13 @@ void MainWindow::removeToolBarChanger(ToolBarChanger *AChanger)
 
 void MainWindow::saveWindowGeometryAndState()
 {
+#ifndef EYECU_MOBILE
 	QString ns = isCentralWidgetVisible() ? ONE_WINDOW_MODE_OPTIONS_NS : "";
 	if (isCentralWidgetVisible() && FLeftWidgetWidth>0)
+#else
+	QString ns = ONE_WINDOW_MODE_OPTIONS_NS;
+	if (FLeftWidgetWidth>0)
+#endif
 		Options::setFileValue(FLeftWidgetWidth,"mainwindow.left-frame-width",ns);
 	Options::setFileValue(saveGeometry(),"mainwindow.geometry",ns);
 	Options::setFileValue((int)WidgetManager::windowAlignment(this),"mainwindow.align",ns);
@@ -267,22 +275,34 @@ void MainWindow::saveWindowGeometryAndState()
 void MainWindow::loadWindowGeometryAndState()
 {
 	FAligned = false;
+#ifndef EYECU_MOBILE
 	QString ns = isCentralWidgetVisible() ? ONE_WINDOW_MODE_OPTIONS_NS : "";
+#else
+	QString ns = ONE_WINDOW_MODE_OPTIONS_NS;
+#endif
 	if (!restoreGeometry(Options::fileValue("mainwindow.geometry",ns).toByteArray()))
 	{
+#ifndef EYECU_MOBILE
 		if (isCentralWidgetVisible())
 		{
+#endif
 			FLeftWidgetWidth = 200;
 			Options::setFileValue(0,"mainwindow.align",ns);
 			setGeometry(WidgetManager::alignGeometry(QSize(800,600),this,Qt::AlignCenter));
+#ifndef EYECU_MOBILE
 		}
 		else
 		{
 			Options::setFileValue((int)(Qt::AlignRight|Qt::AlignBottom),"mainwindow.align",ns);
 			setGeometry(WidgetManager::alignGeometry(QSize(200,600),this,Qt::AlignRight|Qt::AlignBottom));
 		}
+#endif
 	}
+#ifndef EYECU_MOBILE
 	else if (isCentralWidgetVisible())
+#else
+	else
+#endif
 	{
 		FLeftWidgetWidth = Options::fileValue("mainwindow.left-frame-width",ns).toInt();
 	}
@@ -290,7 +310,11 @@ void MainWindow::loadWindowGeometryAndState()
 
 void MainWindow::updateWindow()
 {
+#ifndef EYECU_MOBILE
 	IMainCentralPage *page = isCentralWidgetVisible() ? mainCentralWidget()->currentCentralPage() : NULL;
+#else
+	IMainCentralPage *page = mainCentralWidget()->currentCentralPage();
+#endif
 	if (page && !page->centralPageCaption().isEmpty())
 		setWindowTitle(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
 	else
@@ -341,7 +365,7 @@ void MainWindow::restoreAcceptDrops(QWidget *AParent)
 	Q_UNUSED(AParent);
 #endif
 }
-
+#ifndef EYECU_MOBILE
 void MainWindow::setCentralWidgetVisible(bool AVisible)
 {
 	if (AVisible != FCentralVisible)
@@ -377,10 +401,12 @@ void MainWindow::setCentralWidgetVisible(bool AVisible)
 		emit centralWidgetVisibleChanged(AVisible);
 	}
 }
+#endif
 
 void MainWindow::showEvent(QShowEvent *AEvent)
 {
 	QMainWindow::showEvent(AEvent);
+#ifndef EYECU_MOBILE
 	if (isCentralWidgetVisible())
 	{
 		QList<int> splitterSizes = FSplitter->sizes();
@@ -393,8 +419,9 @@ void MainWindow::showEvent(QShowEvent *AEvent)
 			FSplitter->setSizes(splitterSizes);
 		}
 	}
+#endif
 }
-
+#ifndef EYECU_MOBILE
 bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 {
 	if (AObject == FSplitter)
@@ -421,7 +448,7 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 	}
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
-
+#endif
 /*
 void MainWindow::keyPressEvent(QKeyEvent *AEvent)
 {
@@ -444,27 +471,27 @@ qDebug()<<"######################--MainWindow::keyReleaseEvent()"<<AEvent->key()
 	return;// QMainWindow::event(AEvent);
 }
 */
-/*
+
 void MainWindow::closeEvent(QCloseEvent *AEvent)
 {
-	QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
-QEvent *event=static_cast<QMainWindow::close() *>(AEvent);
-//QMainWindow::event(AEvent);
-	QMessageBox msgBox;
-	msgBox.setText("The program will be closed!");
-	msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-	msgBox.setDefaultButton(QMessageBox::Cancel);
-	int ret = msgBox.exec();
-qDebug()<<"MainWindow::closeEvent/ret="<<ret;
-	if(ret){
-		return;
-	}
-	else{
+//	QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
+//QEvent *event=static_cast<QMainWindow::close() *>(AEvent);
+////QMainWindow::event(AEvent);
+//	QMessageBox msgBox;
+//	msgBox.setText("The program will be closed!");
+//	msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+//	msgBox.setDefaultButton(QMessageBox::Cancel);
+//	int ret = msgBox.exec();
+//qDebug()<<"MainWindow::closeEvent/ret="<<ret;
+//	if(ret){
+//		return;
+//	}
+//	else{
 		hide();
 		AEvent->ignore();
-	}
+//	}
 }
-*/
+
 
 // *** <<< eyeCU <<< ***
 bool MainWindow::event(QEvent *AEvent)
@@ -533,12 +560,12 @@ void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 }
 
 // *** >>> eyeCU >>> ***
-
+#ifndef EYECU_MOBILE
 void MainWindow::onUpdateCentralWidgetVisible()
 {
 	setCentralWidgetVisible(!FCentralWidget->centralPages().isEmpty());
 }
-
+#endif
 void MainWindow::onCurrentCentralPageChanged()
 {
 	updateWindow();
@@ -549,9 +576,10 @@ void MainWindow::onCentralPageAddedOrRemoved(IMainCentralPage *APage)
 	Q_UNUSED(APage);
 	QTimer::singleShot(0,this,SLOT(onUpdateCentralWidgetVisible()));
 }
-
+#ifndef EYECU_MOBILE
 void MainWindow::onSplitterMoved(int APos, int AIndex)
 {
 	Q_UNUSED(APos); Q_UNUSED(AIndex);
 	FLeftWidgetWidth = FSplitter->sizes().value(FSplitter->indexOf(FLeftWidget));
 }
+#endif
