@@ -45,7 +45,6 @@ Map::Map():
 	FMouseGrabber(NULL),
 	FMyLocation(NULL),
 	FOptionsOpened(false),
-	FFollowMyLocation(false),
 	FGestureActive(false)
 {}
 
