@@ -30,27 +30,6 @@
 #define ADR_FORMATTING_TYPE Action::DR_Parametr1
 #define ADR_SPECIAL_SYMBOL  Action::DR_Parametr1
 
-#define DT_BOLD      1
-#define DT_ITALIC    2
-#define DT_UNDERLINE 3
-#define DT_OVERLINE	 4
-#define DT_STRIKEOUT 5
-
-#define CPT_MIXED      0
-#define CPT_SMALLCAPS  1
-#define CPT_ALLUPPER   2
-#define CPT_ALLLOWER   3
-#define CPT_CAPITALIZE 4
-
-#define FMT_NORMAL          0
-#define FMT_HEADING1        1
-#define FMT_HEADING2        2
-#define FMT_HEADING3        3
-#define FMT_HEADING4        4
-#define FMT_HEADING5        5
-#define FMT_HEADING6        6
-#define FMT_PREFORMAT       7
-
 EditHtml::EditHtml(IMessageEditWidget *AEditWidget, bool AEnableFormatAutoReset, IBitsOfBinary *BOB , QNetworkAccessManager *ANetworkAccessManager, XhtmlIm *AXhtmlIm, QWidget *parent) :
 	QToolBar(parent),
 	FToolBarChanger(new ToolBarChanger(this)),
@@ -80,14 +59,10 @@ EditHtml::EditHtml(IMessageEditWidget *AEditWidget, bool AEnableFormatAutoReset,
 	setupFontActions(AEnableFormatAutoReset);
 	setupTextActions();
 
-	AEditWidget->setRichTextEnabled(true); // When XHTML enabled, it should accept rich text!
-	AEditWidget->textEdit()->acceptDrops();
 	connect(FTextEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), SLOT(onCurrentCharFormatChanged(QTextCharFormat)));
 	connect(FTextEdit, SIGNAL(textChanged()), SLOT(onTextChanged()));
 	connect(FTextEdit, SIGNAL(cursorPositionChanged()), SLOT(onCursorPositionChanged()));
-
-	if (AEnableFormatAutoReset)
-		connect(AEditWidget->instance(), SIGNAL(messageSent()), SLOT(onMessageSent()));
+	connect(FXhtmlIm, SIGNAL(specialCharacterInserted(QChar)), SLOT(onSpecialCharacterInserted(QChar)));
 
 	onCurrentCharFormatChanged(FTextEdit->currentCharFormat());
 	updateCurrentBlock(FTextEdit->textCursor());
@@ -115,7 +90,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionTextBold=new Action(this);
 	FActionTextBold->setIcon(QIcon::fromTheme("format-text-bold",FIconStorage->getIcon(XHI_TEXT_BOLD)));
 	FActionTextBold->setText(tr("Bold"));
-	FActionTextBold->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_BOLD);
+//	FActionTextBold->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_BOLD);
 	FActionTextBold->setPriority(QAction::LowPriority);
 	FActionTextBold->setData(ADR_DECORATION_TYPE, DT_BOLD);
 	FActionTextBold->setCheckable(true);
@@ -127,7 +102,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionTextItalic->setIcon(QIcon::fromTheme("format-text-italic",FIconStorage->getIcon(XHI_TEXT_ITALIC)));
 	FActionTextItalic->setText(tr("Italic"));
 	FActionTextItalic->setPriority(QAction::LowPriority);
-	FActionTextItalic->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ITALIC);
+//	FActionTextItalic->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ITALIC);
 	FActionTextItalic->setData(ADR_DECORATION_TYPE, DT_ITALIC);
 	connect(FActionTextItalic, SIGNAL(triggered(bool)), SLOT(onSelectDecoration(bool)));
 	FActionTextItalic->setCheckable(true);
@@ -137,7 +112,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionTextUnderline=new Action(this);
 	FActionTextUnderline->setIcon(QIcon::fromTheme("format-text-underline",FIconStorage->getIcon(XHI_TEXT_UNDERLINE)));
 	FActionTextUnderline->setText(tr("Underline"));
-	FActionTextUnderline->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_UNDERLINE);
+//	FActionTextUnderline->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_UNDERLINE);
 	FActionTextUnderline->setPriority(QAction::LowPriority);
 	FActionTextUnderline->setData(ADR_DECORATION_TYPE, DT_UNDERLINE);
 	connect(FActionTextUnderline, SIGNAL(triggered(bool)), SLOT(onSelectDecoration(bool)));
@@ -148,7 +123,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionTextOverline=new Action(this);
 	FActionTextOverline->setIcon(QIcon::fromTheme("format-text-overline", FIconStorage->getIcon(XHI_TEXT_OVERLINE)));
 	FActionTextOverline->setText(tr("Overline"));
-	FActionTextOverline->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_OVERLINE);
+//	FActionTextOverline->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_OVERLINE);
 	FActionTextOverline->setPriority(QAction::LowPriority);
 	FActionTextOverline->setData(ADR_DECORATION_TYPE, DT_OVERLINE);
 	connect(FActionTextOverline, SIGNAL(triggered(bool)), SLOT(onSelectDecoration(bool)));
@@ -159,15 +134,12 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionTextStrikeout=new Action(this);
 	FActionTextStrikeout->setIcon(QIcon::fromTheme("format-text-strikeout",FIconStorage->getIcon(XHI_TEXT_STRIKEOUT)));
 	FActionTextStrikeout->setText(tr("Strikeout"));
-	FActionTextStrikeout->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_STRIKEOUT);
+//	FActionTextStrikeout->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_STRIKEOUT);
 	FActionTextStrikeout->setPriority(QAction::LowPriority);
 	FActionTextStrikeout->setData(ADR_DECORATION_TYPE, DT_STRIKEOUT);
 	connect(FActionTextStrikeout, SIGNAL(triggered(bool)), SLOT(onSelectDecoration(bool)));
 	FActionTextStrikeout->setCheckable(true);
 	FToolBarChanger->insertAction(FActionTextStrikeout, AG_XHTMLIM_FONT);
-
-
-
 
 	// *** Capitalization submenu ***
 	FMenuCapitalization = new Menu(this);
@@ -179,8 +151,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionMixed = new Action(group);
 	FActionMixed->setIcon(QIcon::fromTheme("format-text-capitalization-mixedcase",FIconStorage->getIcon(XHI_CAPS_MIXED)));
 	FActionMixed->setText(tr("Mixed case"));
-//			mixed->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FONT);
-	FActionMixed->setData(ADR_CAPITALIZATION_TYPE, CPT_MIXED);
+	FActionMixed->setData(ADR_CAPITALIZATION_TYPE, QFont::MixedCase);
 	FActionMixed->setCheckable(true);
 	connect(FActionMixed, SIGNAL(triggered()), SLOT(onSelectCapitalization()));
 	FMenuCapitalization->addAction(FActionMixed, AG_XHTMLIM_FONT);
@@ -189,8 +160,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionSmallCaps = new Action(group);
 	FActionSmallCaps->setIcon(QIcon::fromTheme("format-text-capitalization-smallcaps",FIconStorage->getIcon(XHI_CAPS_SMALLCAPS)));
 	FActionSmallCaps->setText(tr("Small caps"));
-//			smallCaps->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FONT);
-	FActionSmallCaps->setData(ADR_CAPITALIZATION_TYPE, CPT_SMALLCAPS);
+	FActionSmallCaps->setData(ADR_CAPITALIZATION_TYPE, QFont::SmallCaps);
 	FActionSmallCaps->setCheckable(true);
 	connect(FActionSmallCaps, SIGNAL(triggered()), SLOT(onSelectCapitalization()));
 	FMenuCapitalization->addAction(FActionSmallCaps, AG_XHTMLIM_FONT);
@@ -199,8 +169,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionAllUppercase = new Action(group);
 	FActionAllUppercase->setIcon(QIcon::fromTheme("format-text-capitalization-alluppercase",FIconStorage->getIcon(XHI_CAPS_ALLUPPER)));
 	FActionAllUppercase->setText(tr("All uppercase"));
-//			allUppercase->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FONT);
-	FActionAllUppercase->setData(ADR_CAPITALIZATION_TYPE, CPT_ALLUPPER);
+	FActionAllUppercase->setData(ADR_CAPITALIZATION_TYPE, QFont::AllUppercase);
 	FActionAllUppercase->setCheckable(true);
 	connect(FActionAllUppercase, SIGNAL(triggered()), SLOT(onSelectCapitalization()));
 	FMenuCapitalization->addAction(FActionAllUppercase, AG_XHTMLIM_FONT);
@@ -209,8 +178,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionAllLowercase = new Action(group);
 	FActionAllLowercase->setIcon(QIcon::fromTheme("format-text-capitalization-alllowercase",FIconStorage->getIcon(XHI_CAPS_ALLLOWER)));
 	FActionAllLowercase->setText(tr("All lowercase"));
-//			allLowercase->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FONT);
-	FActionAllLowercase->setData(ADR_CAPITALIZATION_TYPE, CPT_ALLLOWER);
+	FActionAllLowercase->setData(ADR_CAPITALIZATION_TYPE, QFont::AllLowercase);
 	FActionAllLowercase->setCheckable(true);
 	connect(FActionAllLowercase, SIGNAL(triggered()), SLOT(onSelectCapitalization()));
 	FMenuCapitalization->addAction(FActionAllLowercase, AG_XHTMLIM_FONT);
@@ -219,8 +187,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionCapitalize = new Action(group);
 	FActionCapitalize->setIcon(QIcon::fromTheme("format-text-capitalization-capitalize",FIconStorage->getIcon(XHI_CAPS_CAPITALIZE)));
 	FActionCapitalize->setText(tr("Capitalize"));
-//			capitalize->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FONT);
-	FActionCapitalize->setData(ADR_CAPITALIZATION_TYPE, CPT_CAPITALIZE);
+	FActionCapitalize->setData(ADR_CAPITALIZATION_TYPE, QFont::Capitalize);
 	FActionCapitalize->setCheckable(true);
 	connect(FActionCapitalize, SIGNAL(triggered()), SLOT(onSelectCapitalization()));
 	FMenuCapitalization->addAction(FActionCapitalize, AG_XHTMLIM_FONT);
@@ -231,7 +198,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionTextCode=new Action(this);
 	FActionTextCode->setIcon(QIcon::fromTheme("format-text-code", FIconStorage->getIcon(XHI_CODE)));
 	FActionTextCode->setText(tr("Code"));
-	FActionTextCode->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_CODE);
+//	FActionTextCode->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_CODE);
 	FActionTextCode->setPriority(QAction::LowPriority);
 	connect(FActionTextCode, SIGNAL(triggered(bool)), SLOT(onTextCode(bool)));
 	FActionTextCode->setCheckable(true);
@@ -248,7 +215,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionInsertLink=new Action(this);
 	FActionInsertLink->setIcon(QIcon::fromTheme("insert-link",IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_LINK)));
 	FActionInsertLink->setText(tr("Insert link"));
-	FActionInsertLink->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTLINK);
+//	FActionInsertLink->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTLINK);
 	FActionInsertLink->setPriority(QAction::LowPriority);
 	FActionInsertLink->setCheckable(false);
 	connect(FActionInsertLink, SIGNAL(triggered()), SLOT(onInsertLink()));
@@ -258,7 +225,7 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionInsertImage=new Action(this);
 	FActionInsertImage->setIcon(QIcon::fromTheme("insert-image",FIconStorage->getIcon(XHI_INSERT_IMAGE)));
 	FActionInsertImage->setText(tr("Insert image"));
-	FActionInsertImage->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTIMAGE);
+//	FActionInsertImage->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTIMAGE);
 	FActionInsertImage->setPriority(QAction::LowPriority);
 	connect(FActionInsertImage, SIGNAL(triggered()), SLOT(onInsertImage()));
 	FActionInsertImage->setCheckable(false);
@@ -268,50 +235,20 @@ void EditHtml::setupFontActions(bool AEnableReset)
 	FActionSetTitle=new Action(this);
 	FActionSetTitle->setIcon(QIcon::fromTheme("set-tooltip", FIconStorage->getIcon(XHI_SET_TOOLTIP)));
 	FActionSetTitle->setText(tr("Set tool tip"));
-	FActionSetTitle->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_SETTOOLTIP);
+//	FActionSetTitle->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_SETTOOLTIP);
 	FActionSetTitle->setPriority(QAction::LowPriority);
 	connect(FActionSetTitle, SIGNAL(triggered()), SLOT(onSetToolTip()));
 	FActionSetTitle->setCheckable(true);
 	FToolBarChanger->insertAction(FActionSetTitle, AG_XHTMLIM_INSERT);
 
-	// *** Special characters ***
-	Menu *special = new Menu(this);
-	special->setTitle(tr("Insert special symbol"));
-	special->menuAction()->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NBSP);
-	special->menuAction()->setData(ADR_SPECIAL_SYMBOL, QChar::Nbsp);
-	connect(special->menuAction(), SIGNAL(triggered()), SLOT(onInsertSpecial()));
-	group=new QActionGroup(special);
-
-	Action *action = new Action(group);
-	action->setText(tr("Non-breaking space"));
-	action->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NBSP);
-	action->setData(ADR_SPECIAL_SYMBOL, QChar::Nbsp);
-	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTNBSP);
-	action->setCheckable(true);
-	action->setPriority(QAction::LowPriority);
-	action->setActionGroup(group);
-	connect(action, SIGNAL(triggered()), SLOT(onInsertSpecial()));
-	special->addAction(action);
-
-	action = new Action(group);
-	action->setText(tr("New line"));
-	action->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NEWLINE);
-	action->setData(ADR_SPECIAL_SYMBOL, QChar::LineSeparator);
-	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTNEWLINE);
-	action->setCheckable(true);
-	action->setPriority(QAction::LowPriority);
-	action->setActionGroup(group);
-	connect(action, SIGNAL(triggered()), SLOT(onInsertSpecial()));
-	special->addAction(action);
-	FToolBarChanger->insertAction(special->menuAction(), AG_XHTMLIM_INSERT);
-
 	//-----
 	FActionRemoveFormat=new Action(this);
 	FActionRemoveFormat->setIcon(QIcon::fromTheme("format-text-clear", FIconStorage->getIcon(XHI_REMOVEFORMAT)));
 	FActionRemoveFormat->setText(tr("Remove format"));
-	FActionRemoveFormat->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FORMATREMOVE);
+//	FActionRemoveFormat->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FORMATREMOVE);
 	FActionRemoveFormat->setPriority(QAction::LowPriority);
 	connect(FActionRemoveFormat, SIGNAL(triggered()), this, SLOT(onRemoveFormat()));
+//	connect(FActionRemoveFormat, SIGNAL(triggered()), FXhtmlIm, SLOT(onRemoveFormat()));
 	FActionRemoveFormat->setCheckable(false);
 	FToolBarChanger->insertAction(FActionRemoveFormat, AG_XHTMLIM_SPECIAL);
 	//------------------------
@@ -321,9 +258,9 @@ void EditHtml::setupFontActions(bool AEnableReset)
 		FActionAutoRemoveFormat = new Action(this);
 		FActionAutoRemoveFormat->setIcon(QIcon::fromTheme("format-rich-text", FIconStorage->getIcon(XHI_NORICHTEXT)));
 		FActionAutoRemoveFormat->setText(tr("Reset formatting on message send"));
-		FActionAutoRemoveFormat->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FORMATAUTORESET);
+//		FActionAutoRemoveFormat->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_FORMATAUTORESET);
 		FActionAutoRemoveFormat->setPriority(QAction::LowPriority);
-		connect(FActionAutoRemoveFormat, SIGNAL(toggled(bool)), SLOT(onResetFormat(bool)));
+		connect(FActionAutoRemoveFormat, SIGNAL(toggled(bool)), FXhtmlIm, SLOT(onResetFormat(bool)));
 		FActionAutoRemoveFormat->setCheckable(true);
 		FActionAutoRemoveFormat->setChecked(Options::node(OPV_XHTML_FORMATAUTORESET).value().toBool());
 		FToolBarChanger->insertAction(FActionAutoRemoveFormat, AG_XHTMLIM_SPECIAL);
@@ -334,15 +271,42 @@ void EditHtml::setupFontActions(bool AEnableReset)
 
 void EditHtml::setupTextActions()
 {
-	Shortcuts::insertWidgetShortcut(SCT_MESSAGEWINDOWS_XHTMLIM_FOREGROUNDCOLOR, FEditWidget->instance()->parentWidget());
-	Shortcuts::insertWidgetShortcut(SCT_MESSAGEWINDOWS_XHTMLIM_BACKGROUNDCOLOR, FEditWidget->instance()->parentWidget());
-	Shortcuts::insertWidgetShortcut(SCT_MESSAGEWINDOWS_XHTMLIM_FONT, FEditWidget->instance()->parentWidget());
-	connect(Shortcuts::instance(), SIGNAL(shortcutActivated(QString,QWidget*)), SLOT(onShortcutActivated(QString,QWidget*)));
+	// *** Special characters ***
+	Menu *special = new Menu(this);
+	special->setTitle(tr("Insert special symbol"));
+	special->menuAction()->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NBSP);
+	special->menuAction()->setData(ADR_SPECIAL_SYMBOL, QChar::Nbsp);
+	connect(special->menuAction(), SIGNAL(triggered()), SLOT(onInsertSpecial()));
+	QActionGroup *group=new QActionGroup(special);
 
+	Action *action = new Action(group);
+	action->setText(tr("Non-breaking space"));
+	action->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NBSP);
+	action->setData(ADR_SPECIAL_SYMBOL, QChar::Nbsp);
+//	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTNBSP);
+	action->setCheckable(true);
+	action->setPriority(QAction::LowPriority);
+	action->setActionGroup(group);
+	connect(action, SIGNAL(triggered()), SLOT(onInsertSpecial()));
+	special->addAction(action);
+
+	action = new Action(group);
+	action->setText(tr("New line"));
+	action->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NEWLINE);
+	action->setData(ADR_SPECIAL_SYMBOL, QChar::LineSeparator);
+//	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INSERTNEWLINE);
+	action->setCheckable(true);
+	action->setPriority(QAction::LowPriority);
+	action->setActionGroup(group);
+	connect(action, SIGNAL(triggered()), SLOT(onInsertSpecial()));
+	special->addAction(action);
+	FToolBarChanger->insertAction(special->menuAction(), AG_XHTMLIM_INSERT);
+
+	// *** Indentation ***
 	FActionIndentLess= new Action(this);
 	FActionIndentLess->setIcon(QIcon::fromTheme("format-indent-less", FIconStorage->getIcon(XHI_OUTDENT)));
 	FActionIndentLess->setText(tr("Decrease indent"));
-	FActionIndentLess->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INDENTDECREASE);
+//	FActionIndentLess->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INDENTDECREASE);
 	FActionIndentLess->setPriority(QAction::LowPriority);
 	FActionIndentLess->setCheckable(false);
 	connect(FActionIndentLess, SIGNAL(triggered()), this, SLOT(onIndentChange()));
@@ -351,25 +315,25 @@ void EditHtml::setupTextActions()
 	FActionIndentMore=new Action(this);
 	FActionIndentMore->setIcon(QIcon::fromTheme("format-indent-more",FIconStorage->getIcon(XHI_INDENT)));
 	FActionIndentMore->setText(tr("Increase indent"));
-	FActionIndentMore->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INDENTINCREASE);
+//	FActionIndentMore->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_INDENTINCREASE);
 	FActionIndentMore->setPriority(QAction::LowPriority);
 	FActionIndentMore->setCheckable(false);
 	connect(FActionIndentMore, SIGNAL(triggered()), this, SLOT(onIndentChange()));
 	FToolBarChanger->insertAction(FActionIndentMore, AG_XHTMLIM_INDENT);
 
-//  Alignment
+	// *** Alignment ***
 	FMenuAlign = new Menu(this);
 	FMenuAlign->setTitle(tr("Text align"));
 	FMenuAlign->menuAction()->setCheckable(true);
 	connect(FMenuAlign->menuAction(), SIGNAL(triggered()), SLOT(onTextAlign()));
 
-	QActionGroup *group=new QActionGroup(FMenuAlign);
-	Action *action = new Action(group);
+	group=new QActionGroup(FMenuAlign);
+	action = new Action(group);
 	action->setText(tr("Left"));
 	action->setIcon(RSR_STORAGE_HTML, XHI_ALIGN_LEFT);
 	action->setData(ADR_ALIGN_TYPE, int(Qt::AlignLeft|Qt::AlignAbsolute));
 	action->setCheckable(true);
-	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNLEFT);
+//	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNLEFT);
 	action->setPriority(QAction::LowPriority);
 	action->setActionGroup(group);
 	connect(action, SIGNAL(triggered()), SLOT(onTextAlign()));
@@ -381,7 +345,7 @@ void EditHtml::setupTextActions()
 	action->setIcon(RSR_STORAGE_HTML,XHI_ALIGN_CENTER);
 	action->setData(ADR_ALIGN_TYPE, Qt::AlignHCenter);
 	action->setCheckable(true);
-	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNCENTER);
+//	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNCENTER);
 	action->setPriority(QAction::LowPriority);
 	action->setActionGroup(group);
 	connect(action, SIGNAL(triggered()), SLOT(onTextAlign()));
@@ -392,7 +356,7 @@ void EditHtml::setupTextActions()
 	action->setIcon(RSR_STORAGE_HTML,XHI_ALIGN_RIGHT);
 	action->setData(ADR_ALIGN_TYPE, int(Qt::AlignRight|Qt::AlignAbsolute));
 	action->setCheckable(true);
-	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNRIGHT);
+//	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNRIGHT);
 	action->setPriority(QAction::LowPriority);
 	action->setActionGroup(group);
 	connect(action, SIGNAL(triggered()), SLOT(onTextAlign()));
@@ -403,7 +367,7 @@ void EditHtml::setupTextActions()
 	action->setIcon(RSR_STORAGE_HTML,XHI_ALIGN_JUSTIFY);
 	action->setData(ADR_ALIGN_TYPE, Qt::AlignJustify);
 	action->setCheckable(true);
-	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNJUSTIFY);
+//	action->setShortcutId(SCT_MESSAGEWINDOWS_XHTMLIM_ALIGNJUSTIFY);
 	action->setPriority(QAction::LowPriority);
 	action->setActionGroup(group);
 	connect(action, SIGNAL(triggered()), SLOT(onTextAlign()));
@@ -411,7 +375,7 @@ void EditHtml::setupTextActions()
 
 	FToolBarChanger->insertAction(FMenuAlign->menuAction(), AG_XHTMLIM_PARAGRAPH);
 
-	// Text list
+	// *** Text list ***
 	FMenuList = new Menu(this);
 	FMenuList->setTitle(tr("List"));
 	FMenuList->setIcon(RSR_STORAGE_HTML, XHI_LIST_BULLET_DISC);
@@ -592,41 +556,12 @@ void EditHtml::setupTextActions()
 	FToolBarChanger->insertAction(FMenuFormat->menuAction(), AG_XHTMLIM_PARAGRAPH);
 }
 
-//----slots-----
-void EditHtml::onMessageSent()
-{
-	if (Options::node(OPV_XHTML_FORMATAUTORESET).value().toBool())
-		clearFormatOnWordOrSelection(true);
-}
+// ---- SLOTS -----
 
 void EditHtml::onOptionsChanged(const OptionsNode &ANode)
 {
 	if (ANode.path() == OPV_XHTML_FORMATAUTORESET)
 		FActionAutoRemoveFormat->setChecked(ANode.value().toBool());
-}
-
-void EditHtml::onShortcutActivated(const QString &AId, QWidget *AWidget)
-{
-	Q_UNUSED(AWidget)
-
-	if (AId==SCT_MESSAGEWINDOWS_XHTMLIM_FOREGROUNDCOLOR)
-		selectForegroundColor();
-	else if (AId==SCT_MESSAGEWINDOWS_XHTMLIM_BACKGROUNDCOLOR)
-		selectBackgroundColor();
-	else if (AId==SCT_MESSAGEWINDOWS_XHTMLIM_FONT)
-		selectFont();
-/*
-	else if (AId==SCT_MESSAGEWINDOWS_XHTMLIM_INDENTDECREASE)
-	{
-		QTextCursor cursor = FEditWidget->textEdit()->textCursor();
-		if (cursor.atBlockStart())
-			FActionIndentMore->trigger();
-		else
-			cursor.insertText("\t");
-	}
-	else if (AId==SCT_MESSAGEWINDOWS_XHTMLIM_INDENTDECREASE)
-		FActionIndentLess->trigger();
-*/
 }
 
 void EditHtml::onColorClicked(bool ABackground)
@@ -637,15 +572,16 @@ void EditHtml::onColorClicked(bool ABackground)
 		selectForegroundColor();
 }
 
-void EditHtml::onResetFormat(bool AStatus)
-{
-	Options::node(OPV_XHTML_FORMATAUTORESET).setValue(AStatus);
-}
+//void EditHtml::onResetFormat(bool AStatus)
+//{
+//	Options::node(OPV_XHTML_FORMATAUTORESET).setValue(AStatus);
+//}
 
 void EditHtml::onInsertImage()
 {
 	QUrl        imageUrl;
 	QByteArray  imageData;
+	QPixmap		pixmap;
 	QTextCursor cursor = FTextEdit->textCursor();
 	QTextCharFormat charFmtCurrent=cursor.charFormat();
 	QSize       size;
@@ -658,14 +594,20 @@ void EditHtml::onInsertImage()
 		{
 			QTextImageFormat imageFormat=charFmtCurrent.toImageFormat();
 			cursor.select(QTextCursor::WordUnderCursor);
-			imageUrl = QUrl::fromEncoded(imageFormat.name().toLatin1());
-			imageData=FTextEdit->document()->resource(QTextDocument::ImageResource, imageUrl).toByteArray();
+			imageUrl = imageFormat.name();
+			QVariant imageResource = FTextEdit->document()->resource(QTextDocument::ImageResource, imageUrl);
+			if (imageResource.type()==QVariant::ByteArray)
+				imageData=imageResource.toByteArray();
+			else if (imageResource.type()==QVariant::Pixmap)
+				pixmap = imageResource.value<QPixmap>();
+			else if (imageResource.type()==QVariant::Image)
+				pixmap = QPixmap::fromImage(imageResource.value<QImage>());
 			size.setWidth(imageFormat.width());
 			size.setHeight(imageFormat.height());
 			alt=imageFormat.property(XmlTextDocumentParser::ImageAlternativeText).toString();
 		}
 
-	InsertImage *inserImage = new InsertImage(FXhtmlIm, FNetworkAccessManager, imageData, imageUrl, size, alt);
+	InsertImage *inserImage = new InsertImage(FXhtmlIm, FNetworkAccessManager, imageData, pixmap, imageUrl, size, alt);
 
 	inserImage->setWindowIcon(FIconStorage->getIcon(XHI_INSERT_IMAGE));
 	if(!supportBoB)
@@ -689,22 +631,25 @@ void EditHtml::onInsertImage()
 			if(inserImage->isRemote())
 			{
 				QUrl url=inserImage->getUrl();
-				imageFormat.setName(url.toEncoded());
+				imageFormat.setName(url.toString());
 				cursor.document()->addResource(QTextDocument::ImageResource, url, inserImage->getImageData());
 				cursor.insertImage(imageFormat);
 			}
 			else
 				if(supportBoB)
 				{
-					QByteArray imageData=inserImage->getImageData();
-					QString contentId=FBitsOfBinary->contentIdentifier(imageData);
-					QString uri=QString("cid:").append(contentId);
-					imageFormat.setName(uri);
-					imageFormat.setProperty(XhtmlIm::PMaxAge, inserImage->getMaxAge());
-					imageFormat.setProperty(XhtmlIm::PMimeType, inserImage->getFileType());
-					imageFormat.setProperty(XhtmlIm::PEmbed, inserImage->embed());
-					cursor.document()->addResource(QTextDocument::ImageResource, QUrl(uri), imageData);
-					cursor.insertImage(imageFormat);
+					QByteArray imageData=inserImage->getImageData().toByteArray();
+					if (!imageData.isNull())
+					{
+						QString contentId=FBitsOfBinary->contentIdentifier(imageData);
+						QString uri=QString("cid:").append(contentId);
+						imageFormat.setName(uri);
+						imageFormat.setProperty(XhtmlIm::PMaxAge, inserImage->getMaxAge());
+						imageFormat.setProperty(XhtmlIm::PMimeType, inserImage->getFileType());
+						imageFormat.setProperty(XhtmlIm::PEmbed, inserImage->embed());
+						cursor.document()->addResource(QTextDocument::ImageResource, QUrl(uri), imageData);
+						cursor.insertImage(imageFormat);
+					}
 				}
 			cursor.endEditBlock();
 		}
@@ -887,24 +832,7 @@ void EditHtml::onSelectCapitalization()
 {
 	Action *action = qobject_cast<Action *>(sender());
 	QTextCharFormat charFormat;
-	switch (action->data(ADR_CAPITALIZATION_TYPE).toInt())
-	{
-		case CPT_ALLLOWER:
-			charFormat.setFontCapitalization(QFont::AllLowercase);
-			break;
-		case CPT_ALLUPPER:
-			charFormat.setFontCapitalization(QFont::AllUppercase);
-			break;
-		case CPT_CAPITALIZE:
-			charFormat.setFontCapitalization(QFont::Capitalize);
-			break;
-		case CPT_SMALLCAPS:
-			charFormat.setFontCapitalization(QFont::SmallCaps);
-			break;
-		case CPT_MIXED:
-			charFormat.setFontCapitalization(QFont::MixedCase);
-			break;
-	}
+	charFormat.setFontCapitalization((QFont::Capitalization)action->data(ADR_CAPITALIZATION_TYPE).toInt());
 	mergeFormatOnWordOrSelection(charFormat);
 }
 
@@ -1094,14 +1022,16 @@ void EditHtml::selectTextFragment(QTextCursor &ACursor)
 
 void EditHtml::onSetFormat()
 {
-	Action *ac = qobject_cast<Action *>(sender());
-	if (ac!=FMenuFormat->menuAction())
-		FActionLastFormat=ac;
-	int formatType = ac->data(ADR_FORMATTING_TYPE).toInt();
-	QTextCursor cursor = FTextEdit->textCursor();
+	Action *action = qobject_cast<Action *>(sender());
+	if (action!=FMenuFormat->menuAction())
+		FActionLastFormat=action;
+	FXhtmlIm->setFormat(FTextEdit, action->data(ADR_FORMATTING_TYPE).toInt());
+/*
+	int formatType = action->data(ADR_FORMATTING_TYPE).toInt();
+	QTextCursor cursor = FXhtmlIm->getCursor(FTextEdit, true, false);	
 	int currentFormatType=XhtmlIm::checkBlockFormat(cursor);
 
-	cursor.beginEditBlock();
+	cursor.beginEditBlock();	
 	QTextCharFormat blockCharFormat;
 	QTextBlockFormat blockFormat;
 
@@ -1149,6 +1079,7 @@ void EditHtml::onSetFormat()
 	cursor.setBlockFormat(blockFormat);
 	cursor.endEditBlock();
 	updateCurrentBlock(cursor);
+*/
 }
 
 void EditHtml::onInsertSpecial()
@@ -1325,10 +1256,7 @@ void EditHtml::onTextAlign()
 
 void EditHtml::onRemoveFormat()
 {
-	clearFormatOnWordOrSelection();
-	updateCurrentBlock(FTextEdit->textCursor());
-	QTextCharFormat currFmt=FTextEdit->currentCharFormat();
-	onCurrentCharFormatChanged(currFmt);
+	FXhtmlIm->clearFormatOnSelection(FXhtmlIm->getCursor(FTextEdit, true, true), FTextEdit);
 }
 
 void EditHtml::onCurrentCharFormatChanged(const QTextCharFormat &ACharFormat)
@@ -1373,6 +1301,26 @@ void EditHtml::onCurrentCharFormatChanged(const QTextCharFormat &ACharFormat)
 			if (ACharFormat.hasProperty(QTextFormat::FontCapitalization))
 				FActionCapitalize->setChecked(true);
 			break;
+	}
+}
+
+void EditHtml::onSpecialCharacterInserted(QChar ASpecialCharacter)
+{
+	QList<QAction *> actions = FToolBarChanger->groupItems(AG_XHTMLIM_INSERT);
+	if (!actions.isEmpty())
+	{
+		Action *action = FToolBarChanger->handleAction(actions.first());
+		switch (ASpecialCharacter.unicode())
+		{
+			case QChar::Nbsp:
+				action->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NBSP);
+				action->setData(ADR_SPECIAL_SYMBOL, QChar::Nbsp);
+				break;
+			case QChar::LineSeparator:
+				action->setIcon(RSR_STORAGE_HTML, XHI_INSERT_NEWLINE);
+				action->setData(ADR_SPECIAL_SYMBOL, QChar::LineSeparator);
+				break;
+		}
 	}
 }
 

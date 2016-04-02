@@ -99,7 +99,7 @@ bool Emoji::initObjects()
 	FCategoryIDs.insert(Nature, "nature");
 	FCategoryIDs.insert(Travel, "travel");
 	FCategoryIDs.insert(Objects, "objects");
-	FCategoryIDs.insert(Foods, "foods");
+	FCategoryIDs.insert(Foods, "food");
 
 	if (FMessageProcessor)
 		FMessageProcessor->insertMessageWriter(MWO_EMOJI,this);
@@ -315,7 +315,7 @@ QIcon Emoji::getIcon(const QString &AEmojiCode, const QSize &ASize) const
 				QImageReader reader(&file);
 				if (!ASize.isNull())
 					reader.setScaledSize(ASize);
-				icon.addPixmap(QPixmap::fromImageReader(&reader));
+				icon.addPixmap(QPixmap::fromImage(reader.read()));
 				file.close();
 				FIconHash.insert(AEmojiCode, icon);
 			}
@@ -331,12 +331,12 @@ QIcon Emoji::getIconForSet(const QString &AEmojiSet, const QString &AEmojiText, 
 		QDir dir(FResourceDir);
 		if (dir.cd(AEmojiSet) && dir.cd("png") && dir.cd(QString::number(ASize.height())))
 		{
-			QFile file(dir.absoluteFilePath(FEmojiData.value(AEmojiText).ucs4+".png"));
+			QFile file(getFileName(FEmojiData.value(AEmojiText), dir));
 			if (file.exists() && file.open(QIODevice::ReadOnly))
 			{
 				QImageReader reader(&file);
 				reader.setScaledSize(ASize);
-				QPixmap pixmap = QPixmap::fromImageReader(&reader);
+				QPixmap pixmap = QPixmap::fromImage(reader.read());
 				if (!pixmap.isNull())
 					return QIcon(pixmap);
 			}
@@ -425,8 +425,9 @@ void Emoji::findEmojiSets()
 							bool ok;
 							uint ucs4[16];
 							int  i(0);
+							emojiData.ucs4alt = val.property("unicode_alternates").toString();
 							emojiData.ucs4 = val.property("unicode").toString();
-							QList<QString> splitted = emojiData.ucs4.split('-');
+							QList<QString> splitted = (emojiData.ucs4alt.isEmpty()?emojiData.ucs4:emojiData.ucs4alt).split('-');
 							for (QList<QString>::ConstIterator it=splitted.constBegin(); it!=splitted.constEnd(); ++it, ++i)
 							{
 								ucs4[i]=(*it).toInt(&ok, 16);
@@ -524,7 +525,7 @@ void Emoji::findEmojiSets()
 								{
 									QImageReader reader(&file);
 									reader.setScaledSize(QSize(16, 16));
-									QPixmap pixmap = QPixmap::fromImageReader(&reader);
+									QPixmap pixmap = QPixmap::fromImage(reader.read());
 									if (!pixmap.isNull())
 										FCategoryIcons.insert(ifc.key(), QIcon(pixmap));
 									file.close();
@@ -559,7 +560,7 @@ void Emoji::findEmojiSets()
 														FCategoryCount[itc.key()]=0;
 														for (QMap<uint, EmojiData>::Iterator it = (*itc).begin(); it!=(*itc).end(); ++it)
 														{
-															QFile file(QDir::cleanPath(set.absoluteFilePath((*it).ucs4+".png")));
+															QFile file(getFileName(*it, set));
 															if (file.exists())
 																setEmoji.insert(it.key(), (*it).unicode);
 														}
@@ -621,7 +622,7 @@ void Emoji::loadEmojiSet(const QString &AEmojiSet)
 					FCategoryCount[itc.key()]=0;
 					for (QMap<uint, EmojiData>::Iterator it = (*itc).begin(); it!=(*itc).end(); ++it)
 					{
-						QFile file(QDir::cleanPath(dir.absoluteFilePath((*it).ucs4+".png")));
+						QFile file(getFileName(*it, dir));
 						if (file.exists())
 						{
 							QUrl url(QUrl::fromLocalFile(file.fileName()));
@@ -792,6 +793,20 @@ void Emoji::updateSelectIconMenu(const QString &AIconSet)
 			button->setPopupMode(QToolButton::InstantPopup);
 		}
 	}
+}
+
+QString Emoji::getFileName(const EmojiData &AEmojiData, const QDir &ADir) const
+{
+	QFile file;
+	if (AEmojiData.ucs4alt.isNull())
+		file.setFileName(ADir.absoluteFilePath(AEmojiData.ucs4+".png"));
+	else
+	{
+		file.setFileName(ADir.absoluteFilePath(AEmojiData.ucs4alt+".png"));
+		if (!file.exists())
+			file.setFileName(ADir.absoluteFilePath(AEmojiData.ucs4+".png"));
+	}
+	return QDir::cleanPath(file.fileName());
 }
 
 void Emoji::onToolBarWindowLayoutChanged()
