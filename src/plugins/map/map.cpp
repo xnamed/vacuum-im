@@ -45,7 +45,6 @@ Map::Map():
 	FMouseGrabber(NULL),
 	FMyLocation(NULL),
 	FOptionsOpened(false),
-	FFollowMyLocation(false),
 	FGestureActive(false)
 {}
 
@@ -229,11 +228,12 @@ bool Map::initSettings()
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_COLOR, QColor(Qt::darkYellow));
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_ALPHA, 127);
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_VISIBLE, true);
-	Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
 #ifdef EYECU_MOBILE
-	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, false);
+    Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, false);
+    Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("MS Shell Dlg 2,16,-1,5,50,0,0,0,0,0"));
 #else
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);
+    Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
 #endif
 	Options::setDefaultValue(OPV_MAP_SHOWING, true);
 	Options::setDefaultValue(OPV_MAP_PROXY, APPLICATION_PROXY_REF_UUID);

@@ -6,28 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>229</width>
-    <height>62</height>
+    <width>226</width>
+    <height>45</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">Options</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
-   <property name="fieldGrowthPolicy">
-    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-   </property>
+  <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="topMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="rightMargin">
-    <number>4</number>
+    <number>1</number>
    </property>
    <property name="bottomMargin">
-    <number>4</number>
+    <number>1</number>
+   </property>
+   <property name="horizontalSpacing">
+    <number>5</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>1</number>
    </property>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
@@ -38,6 +41,12 @@
    </item>
    <item row="0" column="1">
     <widget class="QComboBox" name="cmbMapContactsView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <item>
       <property name="text">
        <string>Full</string>
@@ -56,11 +65,37 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="2">
-    <widget class="QCheckBox" name="cbFollow">
-     <property name="text">
-      <string>Follow contact</string>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>6</number>
      </property>
-    </widget>
+     <item>
+      <widget class="QCheckBox" name="cbFollow">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Follow contact</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

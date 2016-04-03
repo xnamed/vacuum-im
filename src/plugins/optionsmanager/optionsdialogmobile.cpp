@@ -33,7 +33,7 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 
     scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-	scaScroll->setWidget(scrollAreaWidgetContents);
+    scaScroll->setWidget(scrollAreaWidgetContents);
 
 	QWidget::setTabOrder(trvNodes, dbbButtons);
 	retranslateUi(OptionsDialogClass);
@@ -72,7 +72,7 @@ void OptionsScrollArea::mouseMoveEvent(QMouseEvent *AEvent)
 {
 	if (!FPressedPos.isNull()){
         verticalScrollBar()->setValue(FScrollBarValue+FPressedPos.ry()-AEvent->pos().ry());
-//        QScrollArea::mouseMoveEvent(AEvent);
+        QScrollArea::mouseMoveEvent(AEvent);
 	}
     else {
         QScrollArea::mouseMoveEvent(AEvent);

@@ -187,8 +187,6 @@ void MapOptions::reset()
 
 void MapOptions::modifyFont()
 {
-//    bool ok;
-//    QFont font = QFontDialog::getFont(&ok, currFont, this);
 	QFontDialog *fontDialog=new QFontDialog(currFont, this);
 	fontDialog->setToolTip(tr("Choose zoom factor font"));
 #ifdef EYECU_MOBILE
@@ -210,7 +208,6 @@ void MapOptions::modifyFont()
 
 void MapOptions::modifyColor()
 {
-//    QColor color = QColorDialog::getColor(currColor, this, tr("Select text color"));
 	QColorDialog *colorDialog = new QColorDialog (currColor,this);
 	colorDialog->setToolTip(tr("Select text color"));
 #ifdef EYECU_MOBILE
@@ -232,7 +229,6 @@ void MapOptions::modifyColor()
 
 void MapOptions::modifyControlForeground()
 {
-//    QColor color = QColorDialog::getColor(contrForeground, this, tr("Select control foreground color"));
 	QColorDialog *colorDialog = new QColorDialog (contrForeground,this);
 	colorDialog->setToolTip(tr("Select control foreground color"));
 #ifdef EYECU_MOBILE
@@ -253,7 +249,6 @@ void MapOptions::modifyControlForeground()
 
 void MapOptions::modifyControlBase()
 {
-//    QColor color = QColorDialog::getColor(contrBase, this, tr("Select control base color"));
 	QColorDialog *colorDialog = new QColorDialog (contrBase,this);
 	colorDialog->setToolTip(tr("Select control base color"));
 #ifdef EYECU_MOBILE
@@ -274,7 +269,6 @@ void MapOptions::modifyControlBase()
 
 void MapOptions::modifyControlButton()
 {
-//    QColor color = QColorDialog::getColor(contrButton, this, tr("Select control button color"));
 	QColorDialog *colorDialog = new QColorDialog (contrButton,this);
 	colorDialog->setToolTip(tr("Select control button color"));
 #ifdef EYECU_MOBILE
@@ -295,7 +289,6 @@ void MapOptions::modifyControlButton()
 
 void MapOptions::modifyControlLight()
 {
-//    QColor color = QColorDialog::getColor(contrLight, this, tr("Select control light color"));
 	QColorDialog *colorDialog = new QColorDialog (contrLight,this);
 	colorDialog->setToolTip(tr("Select control light color"));
 #ifdef EYECU_MOBILE
@@ -316,7 +309,6 @@ void MapOptions::modifyControlLight()
 
 void MapOptions::modifyControlMidlight()
 {
-//    QColor color = QColorDialog::getColor(contrMidlight, this, tr("Select control midlight color"));
 	QColorDialog *colorDialog = new QColorDialog (contrMidlight,this);
 	colorDialog->setToolTip(tr("Select control midlight color"));
 #ifdef EYECU_MOBILE
@@ -337,7 +329,6 @@ void MapOptions::modifyControlMidlight()
 
 void MapOptions::modifyControlDark()
 {
-//    QColor color = QColorDialog::getColor(contrDark, this, tr("Select control dark color"));
 	QColorDialog *colorDialog = new QColorDialog (contrDark,this);
 	colorDialog->setToolTip(tr("Select control dark color"));
 #ifdef EYECU_MOBILE
@@ -358,7 +349,6 @@ void MapOptions::modifyControlDark()
 
 void MapOptions::modifyControlShadow()
 {
-//    QColor color = QColorDialog::getColor(contrShadow, this, tr("Select control shadow color"));
 	QColorDialog *colorDialog = new QColorDialog (contrShadow,this);
 	colorDialog->setToolTip(tr("Select control shadow color"));
 #ifdef EYECU_MOBILE
@@ -379,7 +369,6 @@ void MapOptions::modifyControlShadow()
 
 void MapOptions::modifyControlBackground()
 {
-//    QColor color = QColorDialog::getColor(contrBackground, this, tr("Select control background color"));
 	QColorDialog *colorDialog = new QColorDialog (contrBackground,this);
 	colorDialog->setToolTip(tr("Select control background color"));
 #ifdef EYECU_MOBILE
@@ -403,7 +392,6 @@ void MapOptions::modifyControlBackground()
 
 void MapOptions::modifyCenterMarkerColor()
 {
-//    QColor color = QColorDialog::getColor(contrCentralMarker, this, tr("Select center marker color"));
 	QColorDialog *colorDialog = new QColorDialog (contrCentralMarker,this);
 	colorDialog->setToolTip(tr("Select center marker color"));
 #ifdef EYECU_MOBILE
@@ -427,7 +415,6 @@ void MapOptions::modifyCenterMarkerColor()
 
 void MapOptions::modifyShadowColor()
 {
-//    QColor color = QColorDialog::getColor(currShadowColor, 0, tr("Select shadow color"));
 	QColorDialog *colorDialog = new QColorDialog (currShadowColor,0);
 	colorDialog->setToolTip(tr("Select shadow color"));
 #ifdef EYECU_MOBILE
@@ -452,7 +439,6 @@ void MapOptions::modifyShadowColor()
 
 void MapOptions::modifyBoxForeground()
 {
-//    QColor color = QColorDialog::getColor(boxForeground, 0, tr("Select box foreground color"));
 	QColorDialog *colorDialog = new QColorDialog (boxForeground,0);
 	colorDialog->setToolTip(tr("Select box foreground color"));
 #ifdef EYECU_MOBILE
@@ -473,7 +459,6 @@ void MapOptions::modifyBoxForeground()
 
 void MapOptions::modifyBoxLight()
 {
-//    QColor color = QColorDialog::getColor(boxLight, 0, tr("Select box light color"));
 	QColorDialog *colorDialog = new QColorDialog (boxLight,0);
 	colorDialog->setToolTip(tr("Select box light color"));
 #ifdef EYECU_MOBILE
@@ -494,7 +479,6 @@ void MapOptions::modifyBoxLight()
 
 void MapOptions::modifyBoxMidlight()
 {
-//    QColor color = QColorDialog::getColor(boxMidlight, 0, tr("Select box midlight color"));
 	QColorDialog *colorDialog = new QColorDialog (boxMidlight,0);
 	colorDialog->setToolTip(tr("Select box midlight color"));
 #ifdef EYECU_MOBILE
@@ -515,7 +499,6 @@ void MapOptions::modifyBoxMidlight()
 
 void MapOptions::modifyBoxDark()
 {
-//    QColor color = QColorDialog::getColor(boxDark, 0, tr("Select box dark color"));
 	QColorDialog *colorDialog = new QColorDialog (boxDark,0);
 	colorDialog->setToolTip(tr("Select box dark color"));
 #ifdef EYECU_MOBILE
@@ -536,7 +519,6 @@ void MapOptions::modifyBoxDark()
 
 void MapOptions::modifyBoxBackground()
 {
-//    QColor color = QColorDialog::getColor(boxBackground, 0, tr("Select box background color"));
 	QColorDialog *colorDialog = new QColorDialog (boxBackground,0);
 	colorDialog->setToolTip(tr("Select box background color"));
 #ifdef EYECU_MOBILE

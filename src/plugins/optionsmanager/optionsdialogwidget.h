@@ -38,6 +38,14 @@ protected:
 	void insertEditor(const QString &ACaption, QWidget *AEditor, QHBoxLayout *ALayout);
     void insertEditor2(const QString &ACaption, QWidget *AEditor, QHBoxLayout *ALayout);  // *** <<< eyeCU >>> ***
 	void rigisterEditor(const OptionsNode &ANode, const QString &ACaption, QWidget *AEditor);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+protected:
+    void mousePressEvent(QMouseEvent *AEvent){QWidget::mousePressEvent(AEvent);}
+    void mouseMoveEvent(QMouseEvent *AEvent){QWidget::mouseMoveEvent(AEvent);}
+    void mouseReleaseEvent(QMouseEvent *AEvent){QWidget::mouseReleaseEvent(AEvent);}
+#endif
+// *** >>> eyeCU >>> ***
 private:
 	QLabel *FCaption;
 	QCheckBox *FCheckBox;

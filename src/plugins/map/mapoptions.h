@@ -57,7 +57,6 @@ signals:
     void modified();
     void childApply();
     void childReset();
-
 protected:
     void changeEvent(QEvent *e);
     void setWidgetColor(QWidget *AWidget, const QColor &AColor);
