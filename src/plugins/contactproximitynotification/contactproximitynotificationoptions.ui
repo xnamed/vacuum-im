@@ -6,16 +6,57 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>147</width>
-    <height>88</height>
+    <width>187</width>
+    <height>87</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">Contact proximity notification options</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="1">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="2">
+    <widget class="QSpinBox" name="spbTreshold">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimum">
+      <number>50</number>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+     <property name="singleStep">
+      <number>10</number>
+     </property>
+     <property name="value">
+      <number>200</number>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="2">
     <widget class="QSpinBox" name="spbDistance">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimum">
       <number>100</number>
      </property>
@@ -30,19 +71,24 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
-    <widget class="QSpinBox" name="spbTreshold">
-     <property name="minimum">
-      <number>50</number>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lblDistance">
+     <property name="text">
+      <string>Distance</string>
      </property>
-     <property name="maximum">
-      <number>1000</number>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QCheckBox" name="chkIgnoreOwnResources">
+     <property name="text">
+      <string>Ignore own resources</string>
      </property>
-     <property name="singleStep">
-      <number>10</number>
-     </property>
-     <property name="value">
-      <number>200</number>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lblTreshold">
+     <property name="text">
+      <string>Treshold</string>
      </property>
     </widget>
    </item>
@@ -59,22 +105,8 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="lblDistance">
-     <property name="text">
-      <string>Distance</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="lblTreshold">
-     <property name="text">
-      <string>Treshold</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <spacer name="horizontalSpacer_2">
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -85,13 +117,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="chkIgnoreOwnResources">
-     <property name="text">
-      <string>Ignore own resources</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

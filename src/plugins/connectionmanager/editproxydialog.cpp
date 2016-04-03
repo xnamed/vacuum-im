@@ -18,7 +18,11 @@ EditProxyDialog::EditProxyDialog(IConnectionManager *AManager, QWidget *AParent)
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	setWindowModality(Qt::WindowModal);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    showMaximized();
+#endif
+// *** >>> eyeCU >>>***
 	FManager = AManager;
 	IConnectionProxy noproxy = FManager->proxyById(QUuid());
 
