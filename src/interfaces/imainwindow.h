@@ -79,13 +79,19 @@ public:
 	virtual void closeWindow() =0;
 	// Menu Management
 	virtual Menu *mainMenu() const =0;
-        virtual Menu *mainMenuRight() const =0;     // <<< eyeCU <<<
+// *** >>> eyeCU >>> ***
+#ifdef EYECU_MOBILE
+	virtual Menu *mainMenuRight() const =0;
+#endif
+// *** <<< eyeCU <<< ***
 	virtual MenuBarChanger *mainMenuBar() const =0;
 	// Widgets Management
 	virtual BoxWidget *mainLeftWidget() const =0;
+// *** >>> eyeCU >>> ***
 #ifndef EYECU_MOBILE
 	virtual IMainTabWidget *mainTabWidget() const =0;
 #endif
+// *** <<< eyeCU <<< ***
 	virtual bool isCentralWidgetVisible() const =0;
 	virtual IMainCentralWidget *mainCentralWidget() const =0;
 	// Tool Bars Management

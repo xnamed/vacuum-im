@@ -27,7 +27,11 @@ public:
 	virtual void closeWindow();
 	// Menu Management
 	virtual Menu *mainMenu() const;
-	virtual Menu *mainMenuRight() const;		// <<< eyeCU <<<
+// *** >>> eyeCU >>> ***
+#ifdef EYECU_MOBILE
+	virtual Menu *mainMenuRight() const;
+#endif
+// *** <<< eyeCU <<< ***
 	virtual MenuBarChanger *mainMenuBar() const;
 	// Widgets Management
 	virtual BoxWidget *mainLeftWidget() const;
@@ -44,7 +48,9 @@ public:
 	virtual ToolBarChanger *toolBarChangerByOrder(int AOrderId) const;
 	virtual void insertToolBarChanger(int AOrderId, ToolBarChanger *AChanger);
 	virtual void removeToolBarChanger(ToolBarChanger *AChanger);
+#ifdef EYECU_MOBILE
 	virtual bool event(QEvent *AEvent);
+#endif
 signals:
 	void toolBarChangerInserted(int AOrderId, ToolBarChanger *AChanger);
 	void toolBarChangerRemoved(ToolBarChanger *AChanger);

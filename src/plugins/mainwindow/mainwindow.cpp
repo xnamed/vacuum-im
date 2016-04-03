@@ -186,10 +186,12 @@ Menu *MainWindow::mainMenu() const
 }
 
 // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 Menu *MainWindow::mainMenuRight() const
 {
     return FMainMenuRight;
 }
+#endif
 // *** >>> eyeCU >>>***
 MenuBarChanger *MainWindow::mainMenuBar() const
 {
@@ -501,9 +503,13 @@ void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 #endif
 void MainWindow::onCurrentCentralPageChanged(IMainCentralPage *APage)
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 	if (FCentralPageOpenStack.contains(APage))
 		FCentralPageOpenStack.removeAll(APage);
 	FCentralPageOpenStack.append(APage);
+#endif
+// *** >>> eyeCU >>> ***
 	updateWindow();
 }
 #ifndef EYECU_MOBILE
