@@ -195,7 +195,7 @@ IOptionsDialogWidget *SimpleMessageStyleEngine::styleSettingsWidget(const Option
 
 IMessageStyleOptions SimpleMessageStyleEngine::styleSettinsOptions( IOptionsDialogWidget *AWidget ) const
 {
-	SimpleOptionsWidget *widget = qobject_cast<SimpleOptionsWidget *>(AWidget->instance());
+    SimpleOptionsWidget *widget = qobject_cast<SimpleOptionsWidget *>(AWidget->instance());
 	return widget!=NULL ? widget->styleOptions() : IMessageStyleOptions();
 }
 
