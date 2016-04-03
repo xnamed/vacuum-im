@@ -131,8 +131,9 @@ protected slots:
 
 	void showOptions();
 	void showMyLocation();
-
+#ifndef EYECU_MOBILE
 	void onCentralWidgetVisibleChanged(bool AVisible);
+#endif
 	void onCurrentCentralPageChanged(IMainCentralPage *APage);
 
 signals:

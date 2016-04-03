@@ -85,8 +85,8 @@ public:
 	virtual BoxWidget *mainLeftWidget() const =0;
 #ifndef EYECU_MOBILE
 	virtual IMainTabWidget *mainTabWidget() const =0;
-	virtual bool isCentralWidgetVisible() const =0;
 #endif
+	virtual bool isCentralWidgetVisible() const =0;
 	virtual IMainCentralWidget *mainCentralWidget() const =0;
 	// Tool Bars Management
 	virtual ToolBarChanger *topToolBarChanger() const =0;

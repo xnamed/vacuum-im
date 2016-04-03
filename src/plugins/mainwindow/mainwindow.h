@@ -1,10 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include <QSplitter>
+#ifdef EYECU_MOBILE
 #include <QGestureEvent>				// <<< eyeCU <<<
 #include <QTapAndHoldGesture>			// <<< eyeCU <<<
+#else
+#include <QSplitter>
+#endif
 #include <interfaces/imainwindow.h>
+#include <interfaces/irostersview.h>
 #include "maintabwidget.h"
 #include "maincentralwidget.h"
 
@@ -30,8 +33,8 @@ public:
 	virtual BoxWidget *mainLeftWidget() const;
 #ifndef EYECU_MOBILE
 	virtual IMainTabWidget *mainTabWidget() const;
-	virtual bool isCentralWidgetVisible() const;
 #endif
+	virtual bool isCentralWidgetVisible() const;
 	virtual IMainCentralWidget *mainCentralWidget() const;
 	// Tool Bars Management
 	virtual ToolBarChanger *topToolBarChanger() const;
@@ -61,35 +64,39 @@ protected:
 #endif
 protected:
 	void showEvent(QShowEvent *AEvent);
+// *** <<< eyeCU <<< ***
 #ifndef EYECU_MOBILE
 	bool eventFilter(QObject *AObject, QEvent *AEvent);
-#endif
-// *** <<< eyeCU <<< ***
+#else
 	// Gesture Handler
 	void closeEvent(QCloseEvent *AEvent);
-//	void keyPressEvent(QKeyEvent *AEvent) Q_DECL_OVERRIDE;
-//	void keyReleaseEvent(QKeyEvent * AEvent);
-	bool gestureEvent(QGestureEvent *AEvent);				// <<< eyeCU <<<
+	bool gestureEvent(QGestureEvent *AEvent);
 	void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
 // *** >>> eyeCU >>> ***
+#endif
 protected slots:
 #ifndef EYECU_MOBILE
 	void onUpdateCentralWidgetVisible();
 	void onSplitterMoved(int APos, int AIndex);
-#endif
-	void onCurrentCentralPageChanged();
 	void onCentralPageAddedOrRemoved(IMainCentralPage *APage);
+#endif
+	void onCurrentCentralPageChanged(IMainCentralPage *APage);
 private:
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+	QList<IMainCentralPage *> FCentralPageOpenStack;
+#else
 	IMainTabWidget *FTabWidget;
 #endif
 	IMainCentralWidget *FCentralWidget;
 private:
 	Menu *FMainMenu;
-	Menu *FMainMenuRight;		// *** <<< eyeCU <<< ***
+// *** <<< eyeCU <<< ***
 #ifndef EYECU_MOBILE
 	QSplitter *FSplitter;
+#else
+	Menu *FMainMenuRight;
 #endif
+// *** >>> eyeCU >>> ***
 	BoxWidget *FLeftWidget;
 	MenuBarChanger *FMainMenuBar;
 private:
