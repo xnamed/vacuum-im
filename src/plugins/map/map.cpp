@@ -144,7 +144,7 @@ bool Map::initObjects()
 	FMenuMap->menuAction()->setEnabled(true);
 
 	FMenuToolbar = new Menu;
-    FMenuToolbar->setTitle(tr("Map menu"));
+	FMenuToolbar->setTitle(tr("Map menu"));
 	FMenuToolbar->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
 	FMenuToolbar->menuAction()->setEnabled(true);
 	FMenuToolbar->menuAction()->setCheckable(true);
@@ -155,34 +155,31 @@ bool Map::initObjects()
 	Shortcuts::insertWidgetShortcut(SCT_MAP_ZOOM_OUT, FMapForm);
 	connect(Shortcuts::instance(),SIGNAL(shortcutActivated(QString,QWidget*)),SLOT(onShortcutActivated(QString,QWidget*)));
 
-    FMainWindow = FMainWindowPlugin->mainWindow();
+	FMainWindow = FMainWindowPlugin->mainWindow();
 
 #ifndef EYECU_MOBILE
 	QToolButton *action = FMainWindow ->topToolBarChanger()					// Get toolbar changer
 			   ->insertAction(FMenuToolbar->menuAction(), TBG_MWTTB_MAPS);	// Add action as a button
-    action->setPopupMode(QToolButton::MenuButtonPopup);
+	action->setPopupMode(QToolButton::MenuButtonPopup);
 	FMenuToolbar->menuAction()->setShortcutId(SCT_MAP_SHOW);
 	connect(FMenuToolbar->menuAction(),SIGNAL(toggled(bool)),SLOT(showMap(bool)));
 #else
 	FMapAction = new Action(this);
 	FMapAction->setText(tr("Map"));
 	FMapAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
-	FMapAction->setCheckable(true);
 	FMapAction->setEnabled(true);
-	connect(FMapAction,SIGNAL(toggled(bool)),SLOT(showMap(bool)));
+	connect(FMapAction,SIGNAL(triggered()),SLOT(showMap()));
 	FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
 #endif
 
 	fillMenu();
 	fillSources();
-//!------------
-//	if (FPositioning)
-//		showMyLocation();
-
+#ifndef EYECU_MOBILE
 	connect(FMainWindow->instance(), SIGNAL(centralWidgetVisibleChanged(bool)), SLOT(onCentralWidgetVisibleChanged(bool)));
+#endif
 	connect(FMainWindow->mainCentralWidget()->instance(), SIGNAL(currentCentralPageChanged(IMainCentralPage*)), SLOT(onCurrentCentralPageChanged(IMainCentralPage*)));
 
-    connect(FMapForm->mapScene()->instance(), SIGNAL(sceneRectChanged(QRectF)), SIGNAL(sceneRectChanged(QRectF)));
+	connect(FMapForm->mapScene()->instance(), SIGNAL(sceneRectChanged(QRectF)), SIGNAL(sceneRectChanged(QRectF)));
 	connect(FMapForm->mapScene()->instance(), SIGNAL(mapCenterChanged(double,double,bool)), SLOT(onMapCenterChanged(double,double,bool)));
 
 	connect(Options::instance(),SIGNAL(optionsOpened()),SLOT(onOptionsOpened()));
@@ -229,13 +226,13 @@ bool Map::initSettings()
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_ALPHA, 127);
 	Options::setDefaultValue(OPV_MAP_OSD_CONTR_CMARKER_VISIBLE, true);
 #ifdef EYECU_MOBILE
-    Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, false);
+<<<<<<< .mine    Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, false);
     Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("MS Shell Dlg 2,16,-1,5,50,0,0,0,0,0"));
 #else
-	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);
+=======>>>>>>> .theirs	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);
     Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
-#endif
-	Options::setDefaultValue(OPV_MAP_SHOWING, true);
+<<<<<<< .mine#endif
+=======>>>>>>> .theirs	Options::setDefaultValue(OPV_MAP_SHOWING, true);
 	Options::setDefaultValue(OPV_MAP_PROXY, APPLICATION_PROXY_REF_UUID);
 	Options::setDefaultValue(OPV_MAP_LOADING, true);
 
@@ -562,7 +559,7 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 	}
 	else if (ANode.path()==OPV_MAP_OSD_CONTR_CMARKER_VISIBLE)
 		FMapForm->setOsdCenterMarkerVisible(ANode.value().toBool());
-	else if (ANode.path()==OPV_MAP_ATTACH_TO_ROSTER)	//! #ifndef EYECU_MOBILE
+	else if (ANode.path()==OPV_MAP_ATTACH_TO_ROSTER)
 	{
 		FMapForm->disableHideEvent();
 		if (ANode.value().toBool())
@@ -588,7 +585,7 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 				showMap(true, false);
 		}
 		FMapForm->enableHideEvent();
-	}		//!#endif
+	}
 	else if (ANode.path()==OPV_MAP_SHOWING)
 	{
 #ifdef EYECU_MOBILE
@@ -924,16 +921,20 @@ void Map::showMap(bool AShow, bool AActivate)
 {
 	if (AShow)
 	{
+#ifndef EYECU_MOBILE
 		if (Options::node(OPV_MAP_ATTACH_TO_ROSTER).value().toBool())
 		{
+#endif
             FMainWindow->mainCentralWidget()->appendCentralPage(FMapForm);
 			if (AActivate)
 				FMapForm->showWindow();
 			else
 				FMainWindow->mainCentralWidget()->setCurrentCentralPage(FMapForm);
+#ifndef EYECU_MOBILE
 		}
 		else
 			FMapForm->showWindow();
+#endif
 	}
 	else
 		FMapForm->hideWindow();
@@ -976,18 +977,28 @@ void Map::showMyLocation()
 
 	Options::node(OPV_MAP_FOLLOWMYLOCATION).setValue(true);
 }
-
+#ifndef EYECU_MOBILE
 void Map::onCentralWidgetVisibleChanged(bool AVisible)
 {
 	if (AVisible && Options::node(OPV_MAP_ATTACH_TO_ROSTER).value().toBool() && Options::node(OPV_MAP_SHOWING).value().toBool())
 		FMainWindow->mainCentralWidget()->appendCentralPage(FMapForm);
 }
-
+#endif
 void Map::onCurrentCentralPageChanged(IMainCentralPage *APage)
 {
 	if (FOptionsOpened)
-		if (Options::node(OPV_MAP_ATTACH_TO_ROSTER).value().toBool() && APage != FMapForm)
-			Options::node(OPV_MAP_SHOWING).setValue(false);
+		if (Options::node(OPV_MAP_ATTACH_TO_ROSTER).value().toBool())
+			if (APage != FMapForm)
+			{
+				Options::node(OPV_MAP_SHOWING).setValue(false);
+#ifdef EYECU_MOBILE
+				FMapAction->setEnabled(true);
+			}
+			else
+				FMapAction->setDisabled(true);
+#else
+			}
+#endif
 }
 
 /***************************************************************/

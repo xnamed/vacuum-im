@@ -155,11 +155,13 @@ bool RostersViewPlugin::initObjects()
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
+		FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
+
 #else
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);
+		FMainWindowPlugin->mainWindow()->mainTabWidget()->insertTabPage(MWTP_ROSTERSVIEW,FRostersView);
 #endif
-// *** >>> eyeCU >>> ***
-        FMainWindowPlugin->mainWindow()->mainTabWidget()->insertTabPage(MWTP_ROSTERSVIEW,FRostersView);
+// *** >>> eyeCU >>> ***        
 	}
 
 	if (FRostersModel)
@@ -919,7 +921,6 @@ void RostersViewPlugin::onShowOfflineContactsAction(bool)
 	OptionsNode node = Options::node(OPV_ROSTER_SHOWOFFLINE);
 	node.setValue(!node.value().toBool());
 }
-
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_rostersview, RostersViewPlugin)
 #endif

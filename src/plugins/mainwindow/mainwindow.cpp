@@ -4,17 +4,24 @@
 #include <QResizeEvent>
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QLabel>
 #include <QGestureEvent>
 #include <QMessageBox>
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include <QLabel>
+#endif
+// *** >>> eyeCU >>> ***
 #include <definitions/version.h>
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
 #include <definitions/optionvalues.h>
 #include <definitions/mainwindowwidgets.h>
+// *** <<< eyeCU <<< ***
+#include <definitions/toolbargroups.h>
+#include <interfaces/irostersview.h>
+// *** >>> eyeCU >>> ***
 #include <utils/widgetmanager.h>
 #include <utils/options.h>
-#include <definitions/toolbargroups.h>		// *** <<< eyeCU >>> ***
 
 #define ONE_WINDOW_MODE_OPTIONS_NS "one-window-mode"
 
@@ -46,44 +53,43 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	icon.addFile(iconStorage->fileFullName(MNI_MAINWINDOW_LOGO128), QSize(128,128));
 	setWindowIcon(icon);
 
-	FSplitter = new QSplitter(this);
+	FLeftWidget = new BoxWidget(this);
+	FLeftWidget->layout()->setSpacing(0);
 #ifndef EYECU_MOBILE	// *** <<< TEST---
+	FSplitter = new QSplitter(this);
 	FSplitter->installEventFilter(this);
 	FSplitter->setOrientation(Qt::Horizontal);
 	FSplitterHandleWidth = FSplitter->handleWidth();
 	connect(FSplitter,SIGNAL(splitterMoved(int,int)),SLOT(onSplitterMoved(int,int)));
 	setCentralWidget(FSplitter);
-#endif	// *** >>> TEST---
-	FLeftWidget = new BoxWidget(this);
-	FLeftWidget->layout()->setSpacing(0);
-#ifdef EYECU_MOBILE	// *** <<< TEST---
-    setCentralWidget(FLeftWidget);		// *** <<< eyeCU <<< ***
-#else
 	FSplitter->addWidget(FLeftWidget);
 	FSplitter->setCollapsible(0,false);
 	FSplitter->setStretchFactor(0,1);
+#else
+	setCentralWidget(FLeftWidget);
 #endif	// *** >>> TEST---
 
 	FCentralWidget = new MainCentralWidget(this,this);
 	FCentralWidget->instance()->setFrameShape(QFrame::StyledPanel);
-	connect(FCentralWidget->instance(),SIGNAL(currentCentralPageChanged(IMainCentralPage *)),SLOT(onCurrentCentralPageChanged()));
+	connect(FCentralWidget->instance(),SIGNAL(currentCentralPageChanged(IMainCentralPage *)),SLOT(onCurrentCentralPageChanged(IMainCentralPage *)));
+#ifndef EYECU_MOBILE	// *** <<< TEST---
 	connect(FCentralWidget->instance(),SIGNAL(centralPageAppended(IMainCentralPage *)),SLOT(onCentralPageAddedOrRemoved(IMainCentralPage *)));
 	connect(FCentralWidget->instance(),SIGNAL(centralPageRemoved(IMainCentralPage *)),SLOT(onCentralPageAddedOrRemoved(IMainCentralPage *)));
 
-#ifndef EYECU_MOBILE	// *** <<< TEST---
 	FSplitter->addWidget(FCentralWidget->instance());
 	FSplitter->setCollapsible(1,false);
 	FSplitter->setStretchFactor(1,4);
-#endif	// *** >>> TEST---
 	FCentralVisible = false;
-#ifndef EYECU_MOBILE	// *** <<< TEST---
 	FSplitter->setHandleWidth(0);
-#endif	// *** >>> TEST---
-	FCentralWidget->instance()->setVisible(false);
-
 	FTabWidget = new MainTabWidget(FLeftWidget);
 	FTabWidget->instance()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FTabWidget->instance(),100);
+	FCentralWidget->instance()->setVisible(false);
+#else
+	FCentralVisible = true;
+	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FCentralWidget->instance(),100);
+	FCentralWidget->instance()->setVisible(true);
+#endif	// *** >>> TEST---	
 
 	QToolBar *topToolbar = new QToolBar(this);
     topToolbar->setFloatable(false);
@@ -108,11 +114,12 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
     FMainMenu = new Menu(this);
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
-    FMainMenu->setTitle(tr("Main menu"));                                         // *** <<< eyeCU >>> ***
-	QToolButton *button =
-		topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);	// *** <<< eyeCU >>> ***
+// *** <<< eyeCU <<< ***
+	FMainMenu->setTitle(tr("Main menu"));
+	QToolButton *button = topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);
+// *** >>> eyeCU >>> ***
     button->setPopupMode(QToolButton::InstantPopup);
- // *** <<< eyeCU <<< ***
+// *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     FMainMenuRight = new Menu(this);
     FMainMenuRight->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU_RIGHT);
@@ -179,10 +186,12 @@ Menu *MainWindow::mainMenu() const
 }
 
 // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 Menu *MainWindow::mainMenuRight() const
 {
     return FMainMenuRight;
 }
+#endif
 // *** >>> eyeCU >>>***
 MenuBarChanger *MainWindow::mainMenuBar() const
 {
@@ -193,12 +202,12 @@ BoxWidget *MainWindow::mainLeftWidget() const
 {
 	return FLeftWidget;
 }
-
+#ifndef EYECU_MOBILE
 IMainTabWidget *MainWindow::mainTabWidget() const
 {
 	return FTabWidget;
 }
-
+#endif
 bool MainWindow::isCentralWidgetVisible() const
 {
 	return FCentralVisible;
@@ -290,11 +299,24 @@ void MainWindow::loadWindowGeometryAndState()
 
 void MainWindow::updateWindow()
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QLabel *title;
+	QList<QAction *> actions = topToolBarChanger()->groupItems(TBG_MWTTB_TITLE);
+	if (!actions.isEmpty())
+		title = qobject_cast<QLabel *>(topToolBarChanger()->handleWidget(actions.first()));
+#define SET_TITLE(T) title->setText(T)
+#else
+#define SET_TITLE(T) setWindowTitle(T)
+#endif
+// *** >>> eyeCU >>> ***
 	IMainCentralPage *page = isCentralWidgetVisible() ? mainCentralWidget()->currentCentralPage() : NULL;
 	if (page && !page->centralPageCaption().isEmpty())
-		setWindowTitle(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
+// *** <<< eyeCU <<< ***
+		SET_TITLE(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
 	else
-		setWindowTitle(CLIENT_NAME);
+		SET_TITLE(CLIENT_NAME);
+// *** >>> eyeCU >>> ***
 }
 
 QMenu *MainWindow::createPopupMenu()
@@ -341,7 +363,7 @@ void MainWindow::restoreAcceptDrops(QWidget *AParent)
 	Q_UNUSED(AParent);
 #endif
 }
-
+#ifndef EYECU_MOBILE
 void MainWindow::setCentralWidgetVisible(bool AVisible)
 {
 	if (AVisible != FCentralVisible)
@@ -377,10 +399,12 @@ void MainWindow::setCentralWidgetVisible(bool AVisible)
 		emit centralWidgetVisibleChanged(AVisible);
 	}
 }
+#endif
 
 void MainWindow::showEvent(QShowEvent *AEvent)
 {
 	QMainWindow::showEvent(AEvent);
+#ifndef EYECU_MOBILE // *** <<< eyeCU >>> ***
 	if (isCentralWidgetVisible())
 	{
 		QList<int> splitterSizes = FSplitter->sizes();
@@ -393,8 +417,9 @@ void MainWindow::showEvent(QShowEvent *AEvent)
 			FSplitter->setSizes(splitterSizes);
 		}
 	}
+#endif // *** <<< eyeCU >>> ***
 }
-
+#ifndef EYECU_MOBILE // *** <<< eyeCU >>> ***
 bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 {
 	if (AObject == FSplitter)
@@ -422,84 +447,26 @@ bool MainWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
 
-/*
-void MainWindow::keyPressEvent(QKeyEvent *AEvent)
+void MainWindow::onUpdateCentralWidgetVisible()
 {
-	if(AEvent->key()==Qt::Key_Back){
-qDebug()<<"######################--MainWindow::keyPressEvent"<<AEvent->key();
-		AEvent->accept();//AEvent->ignore();
-		//QFrame::keyPressEvent(AEvent);
-		return;
-	}
-	return;// QMainWindow::event(AEvent);
+	setCentralWidgetVisible(!FCentralWidget->centralPages().isEmpty());
 }
-
-void MainWindow::keyReleaseEvent(QKeyEvent *AEvent)
-{
-	if(AEvent->key()==Qt::Key_Back){
-qDebug()<<"######################--MainWindow::keyReleaseEvent()"<<AEvent->key();
-		//AEvent->accept();//AEvent->ignore();
-		return;
-	}
-	return;// QMainWindow::event(AEvent);
-}
-*/
-/*
+// *** <<< eyeCU <<< ***
+#else
 void MainWindow::closeEvent(QCloseEvent *AEvent)
 {
-	QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
-QEvent *event=static_cast<QMainWindow::close() *>(AEvent);
-//QMainWindow::event(AEvent);
-	QMessageBox msgBox;
-	msgBox.setText("The program will be closed!");
-	msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-	msgBox.setDefaultButton(QMessageBox::Cancel);
-	int ret = msgBox.exec();
-qDebug()<<"MainWindow::closeEvent/ret="<<ret;
-	if(ret){
-		return;
-	}
-	else{
-		hide();
-		AEvent->ignore();
-	}
-}
-*/
+	AEvent->ignore();
 
-// *** <<< eyeCU <<< ***
+	if (FCentralPageOpenStack.size()>1)
+	{
+		FCentralPageOpenStack.removeLast();
+		FCentralWidget->setCurrentCentralPage(FCentralPageOpenStack.last());
+	}
+	else
+		showMinimized();
+}
 bool MainWindow::event(QEvent *AEvent)
 {
-/*
-	if (AEvent->type() == QEvent::KeyPress)
-	{
-//		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
-//		int keyValue = keyEvent->key();
-	}
-	else if(AEvent->type() == QEvent::KeyRelease)
-	{
-		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(AEvent);
-		int keyValue = keyEvent->key();
-		if(keyValue==Qt::Key_Back)	//16777313
-		{
-qDebug()<<"######################--MainWindow::event()/KeyRelease"<<keyValue;
-			QMessageBox::StandardButton reply;
-			reply=QMessageBox::question(this, QString::fromUtf8("Сообщение"),
-								QString::fromUtf8("The program will be closed"),
-								QMessageBox::Yes | QMessageBox::No );
-			if (reply == QMessageBox::Yes)
-			{
-qDebug()<<"QMessageBox::Yes";
-				AEvent->accept();
-			}
-			else{ //reply == QMessageBox::No
-qDebug()<<"QMessageBox::No";
-				this->hide();
-				AEvent->ignore();
-			}
-		}
-	}
-*/
-//!------------------------------
 	if (AEvent->type() == QEvent::Gesture)
 		return gestureEvent(static_cast<QGestureEvent*>(AEvent));
 	return QMainWindow::event(AEvent);
@@ -531,22 +498,25 @@ void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 		}
 	}
 }
-
 // *** >>> eyeCU >>> ***
 
-void MainWindow::onUpdateCentralWidgetVisible()
+#endif
+void MainWindow::onCurrentCentralPageChanged(IMainCentralPage *APage)
 {
-	setCentralWidgetVisible(!FCentralWidget->centralPages().isEmpty());
-}
-
-void MainWindow::onCurrentCentralPageChanged()
-{
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	if (FCentralPageOpenStack.contains(APage))
+		FCentralPageOpenStack.removeAll(APage);
+	FCentralPageOpenStack.append(APage);
+#endif
+// *** >>> eyeCU >>> ***
 	updateWindow();
 }
-
+#ifndef EYECU_MOBILE
 void MainWindow::onCentralPageAddedOrRemoved(IMainCentralPage *APage)
 {
 	Q_UNUSED(APage);
+
 	QTimer::singleShot(0,this,SLOT(onUpdateCentralWidgetVisible()));
 }
 
@@ -555,3 +525,4 @@ void MainWindow::onSplitterMoved(int APos, int AIndex)
 	Q_UNUSED(APos); Q_UNUSED(AIndex);
 	FLeftWidgetWidth = FSplitter->sizes().value(FSplitter->indexOf(FLeftWidget));
 }
+#endif
