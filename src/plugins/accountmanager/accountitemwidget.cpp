@@ -6,12 +6,6 @@
 #include <utils/iconstorage.h>
 #include <utils/qt4qt5compat.h>
 
-#ifdef EYECU_MOBILE
-	#define SIZEPIXMAP 32
-#else
-	#define SIZEPIXMAP 16
-#endif
-
 AccountItemWidget::AccountItemWidget(const QUuid &AAccountId, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
@@ -52,7 +46,7 @@ void AccountItemWidget::setActive(bool AActive)
 void AccountItemWidget::setIcon(const QIcon &AIcon)
 {
 	if (!AIcon.isNull())
-		ui.lblIcon->setPixmap(AIcon.pixmap(QSize(SIZEPIXMAP,SIZEPIXMAP)));
+		ui.lblIcon->setPixmap(AIcon.pixmap(AIcon.availableSizes().first())); // *** <<< eyeCU <<< ***
 	else
 		ui.lblIcon->setVisible(false);
 }

@@ -93,15 +93,15 @@ bool AccountManager::initSettings()
 	Options::setDefaultValue(OPV_ACCOUNT_ACTIVE, true);
 	Options::setDefaultValue(OPV_ACCOUNT_NAME, tr("New account")); // *** <<< eyeCU >>> ***
 	Options::setDefaultValue(OPV_ACCOUNT_STREAMJID, QString());
-// *** <<< eyeCU <<<
+// *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     Options::setDefaultValue(OPV_ACCOUNT_DEFAULTRESOURCE, QString(CLIENT_NAME).append("(Mobile)"));
     Options::setDefaultValue(OPV_ACCOUNT_RESOURCE, QString(CLIENT_NAME).append("(Mobile)"));
 #else
-// *** >>> eyeCU >>>
+// *** >>> eyeCU >>> ***
     Options::setDefaultValue(OPV_ACCOUNT_DEFAULTRESOURCE, QString(CLIENT_NAME));
     Options::setDefaultValue(OPV_ACCOUNT_RESOURCE, QString(CLIENT_NAME));
-#endif
+#endif // *** <<< eyeCU >>> ***
 	Options::setDefaultValue(OPV_ACCOUNT_PASSWORD, QByteArray());
 	Options::setDefaultValue(OPV_ACCOUNT_REQUIREENCRYPTION, true);
 
