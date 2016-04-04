@@ -56,15 +56,14 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->frmMapType->raise();
     ui->frmJoystick->raise();
 	ui->mapScale->raise();
+    FMapFontScale=IconStorage::scale();
 
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
     ui->frmJoystick->setVisible(false);
 	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
-	int scale=16*IconStorage::scale();
+    int scale=FMapFontScale;
 	QSize size(16*scale,16*scale);
-	//size.setHeight(16*scale);
-	//size.setWidth(16*scale);
 	ui->btnReload2->setIconSize(size);
 	ui->lblType1->setBaseSize(size);
 	ui->rbtMode1->setIconSize(size);
@@ -74,10 +73,6 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->rbtMode3->setIconSize(size);
 	ui->rbtMode4->setIconSize(size);
 	ui->lblType4->setBaseSize(size);
-	//cmbMapSource font change
-	QFont font=ui->cmbMapSource->font();
-	font.setPointSizeF(font.pointSizeF()*scale);
-	ui->cmbMapSource->setFont(font);
 #else
 	ui->btnReload2->setVisible(false);
 #endif
@@ -376,25 +371,25 @@ void MapForm::graphicsViewResize(QResizeEvent *AResizeEvent)
 
 void MapForm::setOsdFont(const QFont &AFont)
 {
-	ui->lblMapCenter->setFont(AFont);
-	ui->lblMapCenterLatLabel->setFont(AFont);
-	ui->lblMapCenterLonLabel->setFont(AFont);
-	ui->lblMapCenterLat->setFont(AFont);
-	ui->lblMapCenterLon->setFont(AFont);
+    ui->lblMapCenter->setFont(AFont);
+    ui->lblMapCenterLatLabel->setFont(AFont);
+    ui->lblMapCenterLonLabel->setFont(AFont);
+    ui->lblMapCenterLat->setFont(AFont);
+    ui->lblMapCenterLon->setFont(AFont);
 
-	ui->lblLocation->setFont(AFont);
-	ui->lblLocationLatLabel->setFont(AFont);
-	ui->lblLocationLonLabel->setFont(AFont);
-	ui->lblLocationLat->setFont(AFont);
-	ui->lblLocationLon->setFont(AFont);
+    ui->lblLocation->setFont(AFont);
+    ui->lblLocationLatLabel->setFont(AFont);
+    ui->lblLocationLonLabel->setFont(AFont);
+    ui->lblLocationLat->setFont(AFont);
+    ui->lblLocationLon->setFont(AFont);
 
-	ui->lblSelection->setFont(AFont);
-	ui->lblSelectionLatLabel->setFont(AFont);
-	ui->lblSelectionLonLabel->setFont(AFont);
-	ui->lblSelectionLat->setFont(AFont);
-	ui->lblSelectionLon->setFont(AFont);
+    ui->lblSelection->setFont(AFont);
+    ui->lblSelectionLatLabel->setFont(AFont);
+    ui->lblSelectionLonLabel->setFont(AFont);
+    ui->lblSelectionLat->setFont(AFont);
+    ui->lblSelectionLon->setFont(AFont);
 
-	ui->cmbMapSource->setFont(AFont);
+    ui->cmbMapSource->setFont(AFont);
 }
 
 void MapForm::setOsdTextColor(const QColor &ATextColor)

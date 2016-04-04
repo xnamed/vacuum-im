@@ -48,7 +48,10 @@ struct IconStorage::IconUpdateParams {
 	IconAnimateParams *animation;
 };
 
-qreal IconStorage::FScale(1.0);		 // *** <<< eyeCU <<< ***
+// *** <<< eyeCU <<< ***
+qreal IconStorage::FScale(1.0);
+float IconStorage::FFontPointSize(8.0);
+// *** >>> eyeCU >>> ***
 
 IconStorage::IconStorage(const QString &AStorage, const QString &ASubStorage, QObject *AParent) : FileStorage(AStorage,ASubStorage,AParent)
 {

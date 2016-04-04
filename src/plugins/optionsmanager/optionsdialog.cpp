@@ -258,15 +258,17 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 	if (curItem && !FItemWidgets.contains(curItem))
 		FItemWidgets.insert(curItem,createNodeWidget(nodeId));
 
-	QWidget *curWidget = FItemWidgets.value(curItem);
+    QWidget *curWidget = FItemWidgets.value(curItem);
 	if (curWidget)
 	{
 		ui.scaScroll->setWidget(curWidget);
-#ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
-		ui.scaScroll->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+        curWidget->layout()->setSpacing(1);
 		ui.scaScroll->showMaximized();
-		ui.scaScroll->setVisible(true);
-#endif              // *** <<< eyeCU <<< ***
+        ui.scaScroll->setVisible(true);
+#endif
+// *** >>> eyeCU >>> ***
     }
 	Options::setFileValue(nodeId,"options.dialog.last-node",FRootNodeId);
 }

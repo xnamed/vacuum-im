@@ -25,8 +25,12 @@ public:
 public:
 	static void clearIconCache();
 	static IconStorage *staticStorage(const QString &AStorage);
-	static void setScale(int AValue) {FScale = AValue;}  // *** <<< eyeCU <<< ***
-	static int scale() {return FScale;}					 // *** <<< eyeCU <<< ***
+//! *** <<< eyeCU <<< ***
+    static void setScale(int AValue) {FScale = AValue;}
+    static qreal scale() {return FScale;}
+    static void setFontPointSize(float AValue) {FFontPointSize = AValue;}
+    static float fontPointSize() {return FFontPointSize;}
+//! *** >>> eyeCU >>> ***
 protected:
 	void initAnimation(QObject *AObject, IconUpdateParams *AParams);
 	void removeAnimation(IconUpdateParams *AParams);
@@ -45,6 +49,7 @@ private:
 	static QHash<QString, QHash<QString, QIcon> > FIconCache;
 	static QHash<QString, QHash<QString, QList<IconAnimateFrame> > > FAnimateCache;
 	static qreal FScale;		 // *** <<< eyeCU <<< ***
+    static float FFontPointSize; // *** <<< eyeCU <<< ***
 };
 
 #endif // ICONSTORAGE_H

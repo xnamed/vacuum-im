@@ -52,17 +52,21 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{scale=3.5; newPointSizeF=28;}
 	else if(midleDotsPerInch>640)							{scale=4.5;	newPointSizeF=36;}
 
+//!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
 	scale=2.0;
 	newPointSizeF=16;
 #endif
+//!---- delete Later-------
 
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);
 	IconStorage::setScale(scale);
+    IconStorage::setFontPointSize(newPointSizeF);
 #else
-	IconStorage::setScale(1.0);		//!---For Q_OS_WIN---
+    IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
+    IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---
 #endif
 //! *** >>> eyeCU >>> ********************
 
