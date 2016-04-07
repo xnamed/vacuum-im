@@ -19,15 +19,16 @@
 QT_BEGIN_NAMESPACE
 
 class OptionsScrollArea;
+class OptionsTreeView;
 
 class OptionsDialogMobile
 {
 public:
     ~OptionsDialogMobile();
     QVBoxLayout *verticalLayout;
-	QTreeView *trvNodes;
+//!    QTreeView *trvNodes;         // Old variant ---
+    OptionsTreeView *trvNodes;      // New variant ---
 	OptionsScrollArea *scaScroll;
-    QWidget *scrollAreaWidgetContents;
 	QDialogButtonBox *dbbButtons;
 
 	void setupUi(QDialog *OptionsDialogClass);
@@ -38,6 +39,23 @@ namespace Ui {
 	class OptionsDialogClass: public OptionsDialogMobile {};
 } // namespace Ui
 
+
+//!
+//! \brief The OptionsTreeView class
+//!
+class OptionsTreeView : public QTreeView
+{
+public:
+    OptionsTreeView();
+    ~OptionsTreeView();
+protected:
+    void mousePressEvent(QMouseEvent *AEvent);
+    void mouseMoveEvent(QMouseEvent *AEvent);
+    void mouseReleaseEvent(QMouseEvent *AEvent);
+private:
+    QPoint FPressedPos;
+    int	   FScrollBarValue;
+};
 
 //!
 //! \brief The OptionsScrollArea class

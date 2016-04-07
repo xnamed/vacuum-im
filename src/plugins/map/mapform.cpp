@@ -959,6 +959,7 @@ void MapForm::onSourceSelected(int AIndex)
 /*************************************/
 void MapForm::onTypeSelected(bool AState)
 {
+	Q_UNUSED(AState)
 	if (sender()==ui->rbtMode1)
 		selectMapMode(0);
 	else if (sender()==ui->rbtMode2)

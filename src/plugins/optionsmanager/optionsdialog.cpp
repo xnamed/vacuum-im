@@ -49,7 +49,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 #endif
 
 	FRootNodeId = ARootId;
-	delete ui.scaScroll->takeWidget();
+    delete ui.scaScroll->takeWidget();
 
 	FOptionsManager = AOptionsManager;
 	connect(FOptionsManager->instance(),SIGNAL(optionsDialogNodeInserted(const IOptionsDialogNode &)),SLOT(onOptionsDialogNodeInserted(const IOptionsDialogNode &)));
@@ -70,7 +70,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
 #ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
-	ui.trvNodes->setAlternatingRowColors(true);
+//    ui.trvNodes->setAlternatingRowColors(true);
     connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else				// *** >>> eyeCU >>> ***
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
@@ -101,7 +101,7 @@ OptionsDialog::~OptionsDialog()
 
 void OptionsDialog::showNode(const QString &ANodeId)
 {
-	QStandardItem *item = FNodeItems.value(ANodeId, NULL);
+    QStandardItem *item = FNodeItems.value(ANodeId, NULL);
 	if (item)
 		ui.trvNodes->setCurrentIndex(FProxyModel->mapFromSource(FItemsModel->indexFromItem(item)));
 }
