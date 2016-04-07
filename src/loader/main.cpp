@@ -43,7 +43,7 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
 	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
-	qreal scale=1.0;
+	qreal scale=1.0;			//! PointSizeF=96
 	float newPointSizeF=8;
 	if(midleDotsPerInch>110 && midleDotsPerInch<=160)		{scale=1.5; newPointSizeF=12;}
 	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{scale=2.0; newPointSizeF=16;}
