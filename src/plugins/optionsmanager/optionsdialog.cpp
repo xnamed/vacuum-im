@@ -45,6 +45,8 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
 
 #ifdef EYECU_MOBILE
+	FCurStyle=QString("background-color:black; color:white;");
+	//	setStyleSheet(FCurStyle);
 	showMaximized();
 #endif
 
@@ -111,6 +113,9 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
 
     QWidget *nodeWidget = new QWidget(ui.scaScroll);
+#ifdef EYECU_MOBILE        // *** <<< eyeCU <<< ***
+//	ui.scaScroll->setStyleSheet(FCurStyle);
+#endif
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
 	nodeLayout->setMargin(1);
 
@@ -133,6 +138,7 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
                     headerLayout->setContentsMargins(15,0,0,0);
 					nodeLayout->addLayout(headerLayout);
 				}
+				//widget->instance()->installEventFilter(this);//for mouse
                 headerLayout->addWidget(widget->instance());
 			}
 			else

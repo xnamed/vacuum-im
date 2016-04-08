@@ -54,7 +54,7 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-	scale=2.0;
+    scale=2.0;
 	newPointSizeF=16;
 #endif
 //!---- delete Later-------

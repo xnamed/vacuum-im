@@ -48,8 +48,9 @@ private:
 	static QHash<QObject *, IconStorage *> FObjectStorage;
 	static QHash<QString, QHash<QString, QIcon> > FIconCache;
 	static QHash<QString, QHash<QString, QList<IconAnimateFrame> > > FAnimateCache;
-	static qreal FScale;		 // *** <<< eyeCU <<< ***
-    static float FFontPointSize; // *** <<< eyeCU <<< ***
+    static qreal FScale;            // *** <<< eyeCU <<< ***
+    static float FFontPointSize;    // *** <<< eyeCU <<< ***
+    QString FCurPrefiks;            // *** <<< eyeCU <<< ***
 };
 
 #endif // ICONSTORAGE_H

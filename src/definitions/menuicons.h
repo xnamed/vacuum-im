@@ -93,7 +93,6 @@
 #define MNI_MAINWINDOW_QUIT             "mainwindowQuit"
 // <<< eyeCU <<<
 #ifdef EYECU_MOBILE
-//#define MNI_MAINWINDOW_MENU             "mainwindowMenuAn"
 #define MNI_MAINWINDOW_MENU             "mainwindowMenuMobile"
 #define MNI_MAINWINDOW_MENU_RIGHT       "mainwindowRightMenu"
 #else
@@ -221,10 +220,14 @@
 #define MNI_ROSTEREXCHANGE_REQUEST      "rosterexchangeRequest"
 
 //RosterSearch
-#define MNI_ROSTERSEARCH_MENU           "rostersearchMenu"
 // <<< *** eyeCU *** <<<
-#define MNI_ROSTERSEARCH_MENU_MOBILE    "rostersearchMenuMobile"
+#ifdef EYECU_MOBILE
+#define MNI_ROSTERSEARCH_MENU           "rostersearchMenuMobile"
 // >>> *** eyeCU *** >>>
+#else
+#define MNI_ROSTERSEARCH_MENU           "rostersearchMenu"
+#endif
+
 //RosterView
 #define MNI_ROSTERVIEW_CONTACTS         "rosterviewContacts"
 #define MNI_ROSTERVIEW_OPTIONS          "rosterviewOptions"

@@ -4,8 +4,4 @@
     <key>jsearch</key>
     <object mime="image/png">jsearch.png</object>
   </icon>
-  <icon>
-    <key>jsearch32</key>
-    <object mime="image/png">jsearch32.png</object>
-  </icon>
 </icondef>

@@ -96,10 +96,10 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	topToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	topToolbar->setStyleSheet(QString("border:0; background-color:red; color:white;"));
+    QString curStyle=QString("border:0; background-color:#08AC07; color:white;");
+    topToolbar->setStyleSheet(curStyle);
 #endif
 // *** >>> eyeCU >>> ***
-
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
 	topChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
@@ -107,7 +107,11 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    bottomToolbar->setStyleSheet(curStyle);
+#endif
+// *** >>> eyeCU >>> ***
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
 	bottomChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_BOTTOM_TOOLBAR,bottomChanger);
@@ -138,7 +142,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
 // *** <<< eyeCU <<< ***
 //	grabKeyboard();
-////	grabGesture(Qt::TapAndHoldGesture);
+    grabGesture(Qt::TapAndHoldGesture);
 ////    grabGesture(Qt::PinchGesture);
 //	grabGesture(Qt::PanGesture);
 //	grabGesture(Qt::SwipeGesture);

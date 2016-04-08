@@ -917,11 +917,11 @@ int MapForm::chooseMapSource(IMapSource *ASource)
 
 void MapForm::setOwnLocation(const QString &ALatitude, const QString &ALongitude, GeolocElement::Reliability AReliable)//data from "Geoloc"
 {
-	QString css = QString("QLabel {background-color: rgba(0, 0, 0, 0); color: %1; }")
-			.arg(AReliable==GeolocElement::Reliable   ?"green":
-				 AReliable==GeolocElement::WasReliable?"red":
-				 AReliable==GeolocElement::NotReliable?"yellow":
-													   "black");
+    QString css = QString("QLabel {background-color: rgba(0, 0, 0, 0); color: %1; }")
+            .arg(AReliable==GeolocElement::Reliable   ?"yellow":     //green
+                 AReliable==GeolocElement::WasReliable?"red":
+                 AReliable==GeolocElement::NotReliable?"green":    //yellow
+                                                       "black");
 
 	ui->lblLocation->setStyleSheet(css);
 	ui->lblLocationLat->setStyleSheet(css);

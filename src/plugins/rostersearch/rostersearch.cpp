@@ -31,37 +31,35 @@ RosterSearch::RosterSearch()
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 
 	FEnableAction = new Action(this);
-#ifdef EYECU_MOBILE  // *** <<< eyeCU <<< ***
-	FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU_MOBILE);
-#else			// *** <<< eyeCU <<< ***
     FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
-#endif
+
 	FEnableAction->setToolTip(tr("Show search toolbar"));
     FEnableAction->setText(tr("Show search toolbar"));
 	FEnableAction->setCheckable(true);
 	FEnableAction->setChecked(false);
 	connect(FEnableAction,SIGNAL(triggered(bool)),SLOT(onEnableActionTriggered(bool)));
 
-#ifndef EYECU_MOBILE // *** <<< eyeCU >>> ***
-	QToolBar *searchToolBar = new QToolBar(tr("Search toolbar"));
-	searchToolBar->setAllowedAreas(Qt::TopToolBarArea);
-	searchToolBar->setMovable(false);
+#ifdef EYECU_MOBILE // *** <<< eyeCU >>> ***
+// *** <<< eyeCU <<< ***
+    FSearchEdit = new SearchLineEdit;
+	FSearchEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
+#else
+// *** >>> eyeCU >>> ***
+    QToolBar *searchToolBar = new QToolBar(tr("Search toolbar"));
+    searchToolBar->setAllowedAreas(Qt::TopToolBarArea);
+    searchToolBar->setMovable(false);
 
     FSearchToolBarChanger = new ToolBarChanger(searchToolBar);
     FSearchToolBarChanger->setAutoHideEmptyToolbar(false);
     FSearchToolBarChanger->setSeparatorsVisible(false);
     FSearchToolBarChanger->toolBar()->setVisible(false);
     FSearchEdit = new SearchLineEdit(searchToolBar);
-// *** <<< eyeCU <<< ***
-#else
-	FSearchEdit = new SearchLineEdit;
-	FSearchEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 #endif
-// *** >>> eyeCU >>> ***
+
 	FSearchEdit->installEventFilter(this);
 	FSearchEdit->setSearchMenuVisible(true);
 	FSearchEdit->setSelectTextOnFocusEnabled(false);
-	FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU_MOBILE);
+    FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
 
 #if QT_VERSION >= 0x040700	// *** <<< eyeCU >>> ***
 	FSearchEdit->setPlaceholderText(tr("Search for Contacts"));
@@ -316,6 +314,13 @@ void RosterSearch::setSearchEnabled(bool AEnabled)
 		FMainWindow->topToolBarChanger()->widgetHandle(FSearchEdit)->setVisible(AEnabled);
         FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first()->setVisible(!AEnabled);
         FMainWindow->topToolBarChanger()->setGroupAlignEnabled(!AEnabled);
+        if (AEnabled)
+        {
+            QStyle *style = QApplication::style();
+            FEnableAction->setIcon(style->standardIcon(QStyle::SP_TitleBarCloseButton));
+        }
+        else
+            FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
 	}
 #else
 // *** >>> eyeCU >>> ***
@@ -445,15 +450,6 @@ void RosterSearch::onEnableActionTriggered(bool AChecked)
 	{
 		FSearchEdit->setFocus();
 		FSearchEdit->selectAll();
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-		QStyle *style = QApplication::style();
-		FEnableAction->setIcon(style->standardIcon(QStyle::SP_TitleBarCloseButton));
-	}
-	else{
-		FEnableAction->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU_MOBILE);
-#endif
-// *** >>> eyeCU >>> ***
 	}
 }
 

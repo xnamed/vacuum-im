@@ -46,58 +46,10 @@
   </icon>
   <icon>
     <key>mainwindowMenuMobile</key>
-    <object mime="image/png">mainwindowmenuMobile16.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowmenuMobile32</key>
-    <object mime="image/png">mainwindowmenuMobile32.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowmenuMobile40</key>
-    <object mime="image/png">mainwindowmenuMobile40.png</object>
-  </icon>  
-  <icon>
-    <key>mainwindowmenuMobile48</key>
-    <object mime="image/png">mainwindowmenuMobile48.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowmenuMobile64</key>
-    <object mime="image/png">mainwindowmenuMobile64.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowmenuMobile128</key>
-    <object mime="image/png">mainwindowmenuMobile128.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowmenuMobile256</key>
-    <object mime="image/png">mainwindowmenuMobile256.png</object>
+    <object mime="image/png">mainwindowmenuMobile.png</object>
   </icon>
   <icon>
     <key>mainwindowRightMenu</key>
-    <object mime="image/png">mainwindowrightmenu16.png</object>
+    <object mime="image/png">mainwindowrightmenu.png</object>
   </icon>
-  <icon>
-    <key>mainwindowRightMenu32</key>
-    <object mime="image/png">mainwindowrightmenu32.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowRightMenu40</key>
-    <object mime="image/png">mainwindowrightmenu40.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowRightMenu48</key>
-    <object mime="image/png">mainwindowrightmenu48.png</object>
-  </icon>
-    <icon>
-    <key>mainwindowRightMenu64</key>
-    <object mime="image/png">mainwindowrightmenu64.png</object>
-  </icon>
-    <icon>
-    <key>mainwindowRightMenu128</key>
-    <object mime="image/png">mainwindowrightmenu128.png</object>
-  </icon>
-  <icon>
-    <key>mainwindowRightMenu256</key>
-    <object mime="image/png">mainwindowrightmenu256.png</object>
-  </icon>  
 </icondef>
