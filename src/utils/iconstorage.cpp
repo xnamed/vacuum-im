@@ -67,6 +67,7 @@ IconStorage::~IconStorage()
 }
 
 // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 {
 	QIcon icon;
@@ -76,31 +77,35 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 		icon = FIconCache[storage()].value(key);
 		if (icon.isNull())
 		{
-			// Scale icon according to FScale
-            QString fileName=fileFullName(AKey,AIndex);
-            //!-build new name ---
-            QStringList partsName=fileName.split(".");
-//! if name = "aaa/abcde.cdefr.png" - 2 points ????
-            QString newFilaName=QString(partsName[0]).append(FCurPrefiks).append(".").append(partsName[partsName.size()-1]);
-            QFile file(newFilaName);
-            if(file.exists())
-            {
-                QPixmap pixmap = QPixmap::fromImage(QImageReader(newFilaName).read());
-                icon.addPixmap(pixmap);
-            }
-            else{
-                QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
+			if(FScale>1.5) {
+				QString fileName=fileFullName(AKey,AIndex);
+				//!-build new name ---
+				QStringList partsName=fileName.split(".");
+				QString newFilaName=QString(partsName[0]).append(FCurPrefiks)
+										.append(".").append(partsName[partsName.size()-1]);
+				QFile file(newFilaName);
+				if(file.exists())
+				{
+					QPixmap pixmap = QPixmap::fromImage(QImageReader(newFilaName).read());
+					icon.addPixmap(pixmap);
+				}
+				else	// Scale icon according to FScale
+				{
+					QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
 //! need scale from min exists icon (32->40...), but not (16->40).....
-                icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap);
-            }
+					icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap);
+				}
+			}
+			else {
+				icon.addFile(fileFullName(AKey,AIndex));
+			}
 			FIconCache[storage()].insert(key,icon);
 		}
 	}
 	return icon;
 }
 // *** >>> eyeCU >>> ***
-
-#ifndef EYECU_MOBILE
+#else
 QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 {
     QIcon icon;
