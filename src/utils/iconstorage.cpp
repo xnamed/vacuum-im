@@ -55,7 +55,7 @@ float IconStorage::FFontPointSize(8.0);
 
 IconStorage::IconStorage(const QString &AStorage, const QString &ASubStorage, QObject *AParent) : FileStorage(AStorage,ASubStorage,AParent)
 {
-    FCurPrefiks=QString("%1").arg(FScale*16);
+    FCurSuffiks=QString("%1").arg(FScale*16);
 	connect(this,SIGNAL(storageChanged()),SLOT(onStorageChanged()));
 }
 
@@ -67,7 +67,6 @@ IconStorage::~IconStorage()
 }
 
 // *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
 QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 {
 	QIcon icon;
@@ -81,7 +80,7 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 				QString fileName=fileFullName(AKey,AIndex);
 				//!-build new name ---
 				QStringList partsName=fileName.split(".");
-				QString newFilaName=QString(partsName[0]).append(FCurPrefiks)
+				QString newFilaName=QString(partsName[0]).append(FCurSuffiks)
 										.append(".").append(partsName[partsName.size()-1]);
 				QFile file(newFilaName);
 				if(file.exists())
@@ -105,23 +104,6 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 	return icon;
 }
 // *** >>> eyeCU >>> ***
-#else
-QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
-{
-    QIcon icon;
-    QString key = fileCacheKey(AKey,AIndex);
-    if (!key.isEmpty())
-    {
-        icon = FIconCache[storage()].value(key);
-        if (icon.isNull())
-        {
-            icon.addFile(fileFullName(AKey,AIndex));
-            FIconCache[storage()].insert(key,icon);
-        }
-    }
-    return icon;
-}
-#endif
 
 void IconStorage::clearIconCache()
 {

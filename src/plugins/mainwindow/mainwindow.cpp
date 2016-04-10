@@ -96,8 +96,8 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	topToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    QString curStyle=QString("border:0; background-color:#08AC07; color:white;");
-    topToolbar->setStyleSheet(curStyle);
+    QString topToolbarStyle=QString("border:0; background-color:#08AC07; color:white;");
+    topToolbar->setStyleSheet(topToolbarStyle);
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
@@ -109,7 +109,8 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	bottomToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    bottomToolbar->setStyleSheet(curStyle);
+    QString bottomToolbarStyle=QString("border:0; background-color:#08AC07; color:white;");
+    bottomToolbar->setStyleSheet(bottomToolbarStyle);
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);

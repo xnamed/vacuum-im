@@ -17,14 +17,9 @@
 #define IDR_ORDER  Qt::UserRole + 1
 
 // *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-	#define NODE_ITEM_ICONSIZE   QSize(32,32)
-	#define NODE_ITEM_SIZEHINT   QSize(48,48)
-#else
-// *** <<< eyeCU <<< ***
-	#define NODE_ITEM_ICONSIZE   QSize(16,16)
-	#define NODE_ITEM_SIZEHINT   QSize(24,24)
-#endif
+//	#define NODE_ITEM_ICONSIZE   QSize(16,16)
+//	#define NODE_ITEM_SIZEHINT   QSize(24,24)
+// *** >>> eyeCU >>> ***
 
 static const QString NodeDelimiter = ".";
 
@@ -45,11 +40,24 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
 
 #ifdef EYECU_MOBILE
-	FCurStyle=QString("background-color:black; color:white;");
-	//	setStyleSheet(FCurStyle);
+    FNodeItemIconSize.setWidth(16*IconStorage::scale());
+    FNodeItemIconSize.setHeight(16*IconStorage::scale());
+    FNodeItemSizeHint.setWidth(1.5*16*IconStorage::scale());
+    FNodeItemSizeHint.setHeight(1.5*16*IconStorage::scale());
+    //! Set styles for OptionsDialog
+	FStyleOn=true;
+	FTrvNodesStyle=QString("background-color:#0ac525; color:white;");//border:0;
+    FScaStyle     =QString("background-color:#0ac525; color:white;");
+	FHeaderStyle  =QString("background-color:#069105; color:white;");//08AC07
+    if(FStyleOn)
+        setStyleSheet(FTrvNodesStyle);
 	showMaximized();
+#else
+    FNodeItemIconSize.setWidth(16);
+    FNodeItemIconSize.setHeight(16);
+    FNodeItemSizeHint.setWidth(24);
+    FNodeItemSizeHint.setHeight(24);
 #endif
-
 	FRootNodeId = ARootId;
     delete ui.scaScroll->takeWidget();
 
@@ -67,12 +75,13 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	FProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
 	ui.trvNodes->setModel(FProxyModel);
-	ui.trvNodes->setIconSize(NODE_ITEM_ICONSIZE);
+//	ui.trvNodes->setIconSize(NODE_ITEM_ICONSIZE);
+    ui.trvNodes->setIconSize(FNodeItemIconSize);    // *** <<< eyeCU <<< ***
 	ui.trvNodes->setRootIsDecorated(false);
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
 #ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
-//    ui.trvNodes->setAlternatingRowColors(true);
+//    ui.trvNodes->setAlternatingRowColors(true);   //--all grey--???
     connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else				// *** >>> eyeCU >>> ***
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
@@ -113,9 +122,10 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
 
     QWidget *nodeWidget = new QWidget(ui.scaScroll);
-#ifdef EYECU_MOBILE        // *** <<< eyeCU <<< ***
-//	ui.scaScroll->setStyleSheet(FCurStyle);
-#endif
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    if(FStyleOn)
+        ui.scaScroll->setStyleSheet(FScaStyle);
+#endif                  // *** <<< eyeCU <<< ---
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
 	nodeLayout->setMargin(1);
 
@@ -126,34 +136,50 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	if (!orderedWidgets.isEmpty())
 	{
 		QVBoxLayout *headerLayout = NULL;
-		IOptionsDialogWidget *headerWidget = NULL;
+        IOptionsDialogWidget *headerWidget = NULL;
 		foreach(IOptionsDialogWidget *widget, orderedWidgets)
-		{
+        {
 			bool isHeader = qobject_cast<OptionsDialogHeader *>(widget->instance()) != NULL;
 			if (!isHeader)
 			{
 				if (headerLayout == NULL)
 				{
 					headerLayout = new QVBoxLayout;
-                    headerLayout->setContentsMargins(15,0,0,0);
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
+					headerLayout->setContentsMargins(0,0,0,0);
+#else				// *** <<< eyeCU <<< ---
+					headerLayout->setContentsMargins(15,0,0,0);
+#endif
 					nodeLayout->addLayout(headerLayout);
 				}
 				//widget->instance()->installEventFilter(this);//for mouse
                 headerLayout->addWidget(widget->instance());
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
+				widget->instance()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+				LineOnWidget *line=new LineOnWidget;
+				// test-default:white //line->setColor(Qt::yellow);
+				headerLayout->addWidget(line);
+#endif				// *** <<< eyeCU <<< ---
 			}
 			else
 			{
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
+				if(FStyleOn){
+					widget->instance()->setStyleSheet(FHeaderStyle);
+					widget->instance()->setFixedHeight(16*(IconStorage::scale()+1));
+				}
+#endif				// *** <<< eyeCU <<< ---
 				if (headerLayout != NULL)
 				{
-                    nodeLayout->addSpacing(10);
+					nodeLayout->addSpacing(10);
 					headerLayout = NULL;
 				}
 				else if (headerWidget != NULL)
 				{
 					delete headerWidget->instance();
 				}
-				nodeLayout->addWidget(widget->instance());
-                headerWidget = widget;
+                nodeLayout->addWidget(widget->instance());
+				headerWidget = widget;
 			}
 
 			connect(this,SIGNAL(applied()),widget->instance(),SLOT(apply()));
@@ -221,7 +247,8 @@ void OptionsDialog::onOptionsDialogNodeInserted(const IOptionsDialogNode &ANode)
 			QStandardItem *item = getNodeModelItem(ANode.nodeId);
 			item->setText(ANode.caption);
 			item->setData(ANode.order,IDR_ORDER);
-			item->setData(NODE_ITEM_SIZEHINT,Qt::SizeHintRole);
+//			item->setData(NODE_ITEM_SIZEHINT,Qt::SizeHintRole);
+            item->setData(FNodeItemSizeHint,Qt::SizeHintRole);  // *** <<< eyeCU <<< ***
 			item->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(ANode.iconkey));
 
 			ui.trvNodes->setVisible(FItemsModel->rowCount() > 0);
@@ -270,7 +297,7 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		ui.scaScroll->setWidget(curWidget);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-        curWidget->layout()->setSpacing(1);
+		curWidget->layout()->setSpacing(0);
 		ui.scaScroll->showMaximized();
         ui.scaScroll->setVisible(true);
 #endif

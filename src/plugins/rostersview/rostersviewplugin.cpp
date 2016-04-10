@@ -227,7 +227,7 @@ QMultiMap<int, IOptionsDialogWidget *> RostersViewPlugin::optionsDialogWidgets(c
 		widgets.insertMulti(OWO_ROSTER_HIDESCROLLBAR,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_HIDESCROLLBAR),tr("Hide scroll bars in contact list window"),AParent));
 // *** <<< eyeCU <<< ***
 		widgets.insertMulti(OWO_ROSTER_ALTERNATIONHIGHLITE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_ALTERNATIONHIGHLITE),tr("Highlite alternation"),AParent));		
-widgets.insertMulti(OHO_ROSTER_EXTRA_ICONS, FOptionsManager->newOptionsDialogHeader(tr("Extra icons"), AParent));
+        widgets.insertMulti(OHO_ROSTER_EXTRA_ICONS, FOptionsManager->newOptionsDialogHeader(tr("Extra icons"), AParent));
 		if (Options::node(OPV_COMMON_ADVANCED).value().toBool())
 		{
 			widgets.insertMulti(OWO_ROSTER_SHOWOFFLIEAGENTS,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_SHOWOFFLINEAGENTS),tr("Always show offline agents"),AParent));

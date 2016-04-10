@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QPainter>
 #include "optionsdialogmobile.h"
 
 OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
@@ -23,11 +24,6 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 
 	trvNodes->setSortingEnabled(true);
     trvNodes->header()->setVisible(false);
-//!--- new cod --
-//    trvNodes->setStyleSheet(QString("background-color:black; color:white;"));
-
-
-
 	verticalLayout->addWidget(trvNodes);
 
 	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
@@ -51,7 +47,7 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 void OptionsDialogMobile::retranslateUi(QDialog *OptionsDialogClass)
 {
 	Q_UNUSED(OptionsDialogClass);
-} // retranslateUi
+} //! retranslateUi
 
 
 //------------
@@ -63,7 +59,7 @@ OptionsScrollArea::OptionsScrollArea()
 	setWidgetResizable(true);
 //    bool statusPolicy=true;
 //    setVerticalScrollBarPolicy(statusPolicy ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     FPressedPos = QPoint();
 }
@@ -92,7 +88,7 @@ void OptionsScrollArea::mouseReleaseEvent(QMouseEvent *AEvent)
 {
     FPressedPos = QPoint();
     QScrollArea::mouseReleaseEvent(AEvent);
-} // OptionsScrollArea
+} //! OptionsScrollArea
 
 
 //!
@@ -132,4 +128,22 @@ void OptionsTreeView::mouseReleaseEvent(QMouseEvent *AEvent)
 {
     FPressedPos = QPoint();
     QTreeView::mouseReleaseEvent(AEvent);
-} // OptionsTreeView
+} //! OptionsTreeView
+
+
+//!
+//! \brief LineOnWidget::LineOnWidget
+//! \param parent
+//!
+LineOnWidget::LineOnWidget(QLabel *parent) :
+FColorLine(Qt::white)
+{
+	Q_UNUSED (parent)
+}
+
+void LineOnWidget::paintEvent(QPaintEvent *AEvent){
+	QWidget::paintEvent(AEvent);
+	QPainter p(this);
+	p.setPen(QPen(FColorLine,1,Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	p.drawLine(0,0,width(),0);
+} //! LineOnWidget

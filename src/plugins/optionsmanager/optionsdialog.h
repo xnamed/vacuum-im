@@ -58,7 +58,12 @@ private:
 	QObjectCleanupHandler FCleanupHandler;
 	QMap<QString, QStandardItem *> FNodeItems;
 	QMap<QStandardItem *, QWidget *> FItemWidgets;
-	QString FCurStyle;
+    QString FTrvNodesStyle;     // *** <<< eyeCU <<< ***
+    QString FScaStyle;          // *** <<< eyeCU <<< ***
+    QString FHeaderStyle;       // *** <<< eyeCU <<< ***
+    QSize FNodeItemIconSize;     // *** <<< eyeCU <<< ***
+    QSize FNodeItemSizeHint;     // *** <<< eyeCU <<< ***
+    bool FStyleOn;
 };
 
 #endif // OPTIONSDIALOG_H

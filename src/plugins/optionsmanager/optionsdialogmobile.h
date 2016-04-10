@@ -15,11 +15,16 @@
 #include <QtWidgets/QWidget>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QPainter>
+#include <QLabel>
+#include <QPaintEvent>
 
 QT_BEGIN_NAMESPACE
 
 class OptionsScrollArea;
 class OptionsTreeView;
+class LineOnWidget;
+class QPaintEvent;
 
 class OptionsDialogMobile
 {
@@ -74,6 +79,22 @@ private:
 	int	   FScrollBarValue;
 };
 
+
+//!
+//! \brief The LineOnWidget class
+//!
+class LineOnWidget : public QLabel
+{
+	Q_OBJECT
+public:
+	explicit LineOnWidget(QLabel *parent = 0);
+	void setColor(QColor AColor){FColorLine=AColor;}
+protected:
+	void paintEvent(QPaintEvent *AEvent);
+private:
+	QColor FColorLine;
+
+};
 
 QT_END_NAMESPACE
 
