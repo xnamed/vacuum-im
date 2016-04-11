@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 #ifdef EYECU_MOBILE
     int size=16*(iconStorage->scale()+1);
     setIconSize(QSize(size,size));
+//	QString mainWindowStyle=QString("background-color:#F4F0F0;");
+//	setStyleSheet(mainWindowStyle);
 #else
 // *** >>> eyeCU >>> ***
 	setIconSize(QSize(16,16));

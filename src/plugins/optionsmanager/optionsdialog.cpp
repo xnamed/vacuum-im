@@ -46,9 +46,9 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
     FNodeItemSizeHint.setHeight(1.5*16*IconStorage::scale());
     //! Set styles for OptionsDialog
 	FStyleOn=true;
-	FTrvNodesStyle=QString("background-color:#0ac525; color:white;");//border:0;
-    FScaStyle     =QString("background-color:#0ac525; color:white;");
-	FHeaderStyle  =QString("background-color:#069105; color:white;");//08AC07
+	FTrvNodesStyle=QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
+	FScaStyle     =QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
+	FHeaderStyle  =QString("background-color:#a0a0a4; color:white;");//#069105 4061d1
     if(FStyleOn)
         setStyleSheet(FTrvNodesStyle);
 	showMaximized();
@@ -122,10 +122,6 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
 
     QWidget *nodeWidget = new QWidget(ui.scaScroll);
-#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
-    if(FStyleOn)
-        ui.scaScroll->setStyleSheet(FScaStyle);
-#endif                  // *** <<< eyeCU <<< ---
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
 	nodeLayout->setMargin(1);
 
@@ -145,33 +141,35 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 				if (headerLayout == NULL)
 				{
 					headerLayout = new QVBoxLayout;
-#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
-					headerLayout->setContentsMargins(0,0,0,0);
-#else				// *** <<< eyeCU <<< ---
+#ifndef EYECU_MOBILE	// *** <<< eyeCU <<< ---
 					headerLayout->setContentsMargins(15,0,0,0);
 #endif
 					nodeLayout->addLayout(headerLayout);
 				}
-				//widget->instance()->installEventFilter(this);//for mouse
                 headerLayout->addWidget(widget->instance());
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
-				widget->instance()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+//				widget->instance()->installEventFilter(this);//for mouse
 				LineOnWidget *line=new LineOnWidget;
-				// test-default:white //line->setColor(Qt::yellow);
+				line->setColor(Qt::gray);//bcb8b8 , dadada
 				headerLayout->addWidget(line);
 #endif				// *** <<< eyeCU <<< ---
 			}
 			else
 			{
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
-				if(FStyleOn){
+				if(FStyleOn)
+				{
 					widget->instance()->setStyleSheet(FHeaderStyle);
 					widget->instance()->setFixedHeight(16*(IconStorage::scale()+1));
 				}
 #endif				// *** <<< eyeCU <<< ---
 				if (headerLayout != NULL)
 				{
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
+					nodeLayout->addSpacing(0);
+#else
 					nodeLayout->addSpacing(10);
+#endif				// *** <<< eyeCU <<< ---
 					headerLayout = NULL;
 				}
 				else if (headerWidget != NULL)
@@ -179,6 +177,9 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 					delete headerWidget->instance();
 				}
                 nodeLayout->addWidget(widget->instance());
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
+				nodeLayout->addSpacing(10);		//! Spaser after header
+#endif				// *** <<< eyeCU <<< ---
 				headerWidget = widget;
 			}
 
@@ -275,8 +276,9 @@ void OptionsDialog::onOptionsDialogNodeRemoved(const IOptionsDialogNode &ANode)
 // *** <<< eyeCU <<< ***
 void OptionsDialog::onClicked(const QModelIndex &ACurrent)
 {
-    onCurrentItemChanged(ACurrent, ACurrent);
+	onCurrentItemChanged(ACurrent, ACurrent);
 }
+
 // *** >>> eyeCU >>> ***
 
 void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QModelIndex &APrevious)
@@ -299,7 +301,9 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 #ifdef EYECU_MOBILE
 		curWidget->layout()->setSpacing(0);
 		ui.scaScroll->showMaximized();
-        ui.scaScroll->setVisible(true);
+		ui.scaScroll->setVisible(true);
+		if(FStyleOn)
+			ui.scaScroll->setStyleSheet(FScaStyle);
 #endif
 // *** >>> eyeCU >>> ***
     }
