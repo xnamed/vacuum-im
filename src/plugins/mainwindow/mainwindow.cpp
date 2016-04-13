@@ -127,7 +127,9 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
 // *** <<< eyeCU <<< ***
 	FMainMenu->setTitle(tr("Main menu"));
-//	FMainMenu->setStyleSheet(menuMainRightStyle);
+#ifdef EYECU_MOBILE
+	FMainMenu->setStyleSheet(menuMainRightStyle);
+#endif
 	QToolButton *button = topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);
 // *** >>> eyeCU >>> ***
     button->setPopupMode(QToolButton::InstantPopup);
