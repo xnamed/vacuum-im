@@ -49,8 +49,7 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	FTrvNodesStyle=QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
 	FScaStyle     =QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
 	FHeaderStyle  =QString("background-color:#a0a0a4; color:white;");//#069105 4061d1
-    if(FStyleOn)
-        setStyleSheet(FTrvNodesStyle);
+//    if(FStyleOn)  setStyleSheet(FTrvNodesStyle);
 	showMaximized();
 #else
     FNodeItemIconSize.setWidth(16);
