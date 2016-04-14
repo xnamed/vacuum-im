@@ -267,7 +267,7 @@ bool Mood::initObjects()
         FNotifications->registerNotificationType(NNT_MOOD, notifyType);
     }
 
-	Action *action = FPEPManager->addAction(AG_MOOD);
+	Action *action = FPEPManager->addAction(AG_PEP);
 	action->setText(tr("Mood"));
 	action->setIcon(RSR_STORAGE_MENUICONS, MNI_MOOD);
 	action->setShortcutId(SCT_APP_SETMOOD);

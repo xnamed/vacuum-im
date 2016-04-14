@@ -253,7 +253,7 @@ bool Activity::initObjects()
 		FNotifications->registerNotificationType(NNT_ACTIVITY, notifyType);
 	}
 
-	Action *action = FPEPManager->addAction(AG_ACTIVITY);
+	Action *action = FPEPManager->addAction(AG_PEP);
 	action->setText(tr("Activity"));
 	action->setIcon(RSR_STORAGE_MENUICONS, MNI_ACTIVITY);
 	action->setShortcutId(SCT_APP_SETACTIVITY);

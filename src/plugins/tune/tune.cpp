@@ -37,12 +37,15 @@
 
 #define MDR_TUNE_ICON		1002
 
+#define ADR_ID				Action::DR_Parametr1
 #define ADR_URI				Action::DR_Parametr1
 #define ADR_CLIPBOARD_INFO	Action::DR_Parametr2
 #define ADR_CLIPBOARD_IMAGE	Action::DR_Parametr3
 
 #define TUNE_CACHE_DIR		"tune"
 #define TUNE_CACHE_FILE		"tuneinfo.xml"
+
+#define ID_TUNE				100
 
 UrlRequest::UrlRequest(const QUrl &AUrl): FUrl(AUrl)
 {
@@ -286,11 +289,12 @@ bool Tune::initObjects()
         FNotifications->registerNotificationType(NNT_TUNE, notifyType);
     }
 
-	Action *action = FPEPManager->addAction(AG_TUNE);
+	Action *action = FPEPManager->addAction(AG_PEP);
 	action->setText(tr("Publish Tune"));
 	action->setIcon(RSR_STORAGE_MENUICONS, MNI_TUNE);
 	action->setCheckable(true);
 	action->setShortcutId(SCT_APP_PUBLISHTUNE);
+	action->setData(ADR_ID, ID_TUNE);
 	connect(action, SIGNAL(triggered(bool)), SLOT(onPublishUserTuneTriggered(bool)));
     return true;
 }
@@ -379,7 +383,14 @@ void Tune::onOptionsOpened()
         onOptionsChanged(Options::node(OPV_TUNE_INFOREQUESTER_USED));
     if (FPollingPlugins)
         FPollingTimer.start();
-	FPEPManager->groupActions(AG_TUNE).first()->setChecked(Options::node(OPV_TUNE_PUBLISH).value().toBool());
+
+	QList<Action *> actions = FPEPManager->groupActions(AG_PEP);
+	for (QList<Action *>::ConstIterator it = actions.constBegin(); it !=  actions.constEnd(); ++it)
+		if ((*it)->data(ADR_ID) == ID_TUNE)
+		{
+			(*it)->setChecked(Options::node(OPV_TUNE_PUBLISH).value().toBool());
+			break;
+		}
 }
 
 void Tune::onOptionsChanged(const OptionsNode &ANode)

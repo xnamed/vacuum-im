@@ -24,7 +24,9 @@ PEPManager::PEPManager()
 // *** <<< eyeCU <<< ***
 	FOptionsManager = NULL;
 	FMainWindowPlugin = NULL;
+#ifndef EYECU_MOBILE
 	FMenu = NULL;
+#endif
 // *** >>> eyeCU >>> ***
 }
 
@@ -205,6 +207,11 @@ bool PEPManager::deleteItem(const Jid &AStreamJid, const QString &ANode, const Q
 
 Action * PEPManager::addAction(int AGroup, bool ASort)
 {
+#ifdef EYECU_MOBILE
+	Menu *menu = FMainWindowPlugin->mainWindow()->mainMenuRight();
+	Action *action = new Action(menu);
+	menu->addAction(action, AGroup, ASort);
+#else
 	if (!FMenu)
 	{		
 		FMenu = new Menu(FMainWindowPlugin->mainWindow()->bottomToolBarChanger()->toolBar());
@@ -213,14 +220,19 @@ Action * PEPManager::addAction(int AGroup, bool ASort)
 		button->setPopupMode(QToolButton::InstantPopup);
 		button->setToolTip(tr("Extended Status"));
 	}
-	Action *action = new Action(FMainWindowPlugin->mainWindow()->topToolBarChanger()->toolBar());
+	Action *action = new Action(FMenu);
 	FMenu->addAction(action, AGroup, ASort);
+#endif
 	return action;
 }
 
 QList<Action *> PEPManager::groupActions(int AGroup)
 {
+#ifdef EYECU_MOBILE
+	return FMainWindowPlugin->mainWindow()->mainMenuRight()->actions(AGroup);
+#else
 	return FMenu->actions(AGroup);
+#endif
 }
 // *** >>> eyeCU >>> ***
 

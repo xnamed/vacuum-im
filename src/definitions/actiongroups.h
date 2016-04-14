@@ -149,6 +149,8 @@
 // POI - menu
 #define AG_POI_MENU_COMMON                                      400
 
+// PEP - extended status menu
+#define AG_PEP                                                  1000
 // User Mood - chat window info widget
 #define AG_MOOD                                                 1010
 // User Acitivity - chat window info widget

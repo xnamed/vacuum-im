@@ -64,7 +64,9 @@ private:
 // *** <<< eyeCU <<< ***
 	IOptionsManager		*FOptionsManager;
 	IMainWindowPlugin	*FMainWindowPlugin;
+#ifndef EYECU_MOBILE
 	Menu				*FMenu;
+#endif
 // *** >>> eyeCU >>> ***
 private:
 	QMap<Jid, int> FStanzaHandles;
