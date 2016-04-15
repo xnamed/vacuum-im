@@ -36,10 +36,9 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     int size=16*(iconStorage->scale()+1);
     setIconSize(QSize(size,size));
 //	QString mainWindowStyle=QString("background-color:#F4F0F0;");
-	QString topToolbarStyle=QString("border:0; background-color:#08AC07; color:white;");
-	QString bottomToolbarStyle=QString("border:0; background-color:#08AC07; color:white;");
-	QString menuMainRightStyle=QString("background-color:#A4F9A3; color:white;");//C6FAC6
-
+	QString topToolbarStyle   =QString("border:0; background-color:#039702; color:white;"); // 08AC07
+	QString bottomToolbarStyle=QString("border:0; background-color:#039702; color:white;");// 08AC07
+	QString menuMainRightStyle=QString("background-color:#DAD9D7;");//BDBAAF  E6E4DE   C6FAC6 34C033  color:white;
 //	setStyleSheet(mainWindowStyle);
 #else
 // *** >>> eyeCU >>> ***
@@ -103,7 +102,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	topToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    topToolbar->setStyleSheet(topToolbarStyle);
+	topToolbar->setStyleSheet(topToolbarStyle);
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
@@ -116,7 +115,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	bottomToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    bottomToolbar->setStyleSheet(bottomToolbarStyle);
+	bottomToolbar->setStyleSheet(bottomToolbarStyle);
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
@@ -128,7 +127,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 // *** <<< eyeCU <<< ***
 	FMainMenu->setTitle(tr("Main menu"));
 #ifdef EYECU_MOBILE
-	FMainMenu->setStyleSheet(menuMainRightStyle);
+//	FMainMenu->setStyleSheet(menuMainRightStyle);
 #endif
 	QToolButton *button = topToolBarChanger()->insertAction(FMainMenu->menuAction(),TBG_MWTTB_MAINMENU);
 // *** >>> eyeCU >>> ***
@@ -138,7 +137,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FMainMenuRight = new Menu(this);
     FMainMenuRight->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU_RIGHT);
     FMainMenuRight->setTitle(tr("Right menu"));
-	FMainMenuRight->setStyleSheet(menuMainRightStyle);
+//	FMainMenuRight->setStyleSheet(menuMainRightStyle);
 	button = topToolBarChanger()->insertAction(FMainMenuRight->menuAction(),TBG_MWTTB_RIGHTMENU);
     button->setPopupMode(QToolButton::InstantPopup);
 
