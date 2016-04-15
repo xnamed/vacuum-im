@@ -136,7 +136,7 @@ void OptionsTreeView::mouseReleaseEvent(QMouseEvent *AEvent)
 //! \param parent
 //!
 LineOnWidget::LineOnWidget(QLabel *parent) :
-FColorLine(Qt::white)
+FColorLine(Qt::gray)
 {
 	Q_UNUSED (parent)
 }
