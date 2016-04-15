@@ -300,8 +300,8 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		curWidget->layout()->setSpacing(0);
 		ui.scaScroll->showMaximized();
 		ui.scaScroll->setVisible(true);
-		if(FStyleOn)
-			ui.scaScroll->setStyleSheet(FScaStyle);
+//		if(FStyleOn)
+//			ui.scaScroll->setStyleSheet(FScaStyle);
 #endif
 // *** >>> eyeCU >>> ***
     }

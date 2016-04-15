@@ -43,7 +43,7 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
 	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
-    qreal scale;			//! PointSizeF=96
+	qreal scale;					//! PointSizeF=96
     float newPointSizeF;
          if(midleDotsPerInch<=110)                          {scale=1.0; newPointSizeF= 8;}
     else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{scale=1.5; newPointSizeF=12;}
@@ -60,13 +60,13 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 #endif
 //!---- delete Later-------
 
-	//! -- select style for APP ---
-	//QStringList styles=QStyleFactory::keys();
+//! -- select style for APP ---
+/*	QStringList styles=QStyleFactory::keys();
 	// "Android","Windows", "Fusion"
 	//! Also m.b. //"Motif , Plastique, Cleanlooks, GTK, GDE, cde, WindowsVista, WindowsXP"//
-	//if(styles.contains("fusion",Qt::CaseInsensitive))
-	//	app.setStyle(QStyleFactory::create("Fusion"));
-
+	if(styles.contains("fusion",Qt::CaseInsensitive))
+		app.setStyle(QStyleFactory::create("Fusion"));
+*/
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);
