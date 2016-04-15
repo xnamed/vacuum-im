@@ -37,8 +37,13 @@
 RostersView::RostersView(QWidget *AParent) : QTreeView(AParent)
 {
 	FRostersModel = NULL;
-
-    FPressedPos = QPoint();         // ****  <<<  eyeCU  <<<  ****
+// ****  <<<  eyeCU  <<<  ****
+#ifdef EYECU_MOBILE		// TEMPORARY ---
+	int size=16*(IconStorage::scale()+1);
+	setIconSize(QSize(size,size));
+#endif
+	FPressedPos = QPoint();
+// ****  <<<  eyeCU  <<<  ****
 	FPressedIndex = QModelIndex();
 	FPressedLabel = AdvancedDelegateItem::NullId;
 
