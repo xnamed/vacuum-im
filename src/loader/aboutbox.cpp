@@ -35,16 +35,15 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
         .arg(qApp->font().pointSizeF()).arg(screen->name())
         .arg(screen->size().width()).arg(screen->size().height());
 	ui.lblDevice->setText(aboutDevice);
+//   ui.lblDevice->setStyleSheet(QString("border:0; background-color:red; color:white;"));
 
-	QStringList styles=QStyleFactory::keys();
 	QString allStyles;
-	for (int i = 0; i < styles.size(); ++i)
-		allStyles += styles[i]+", ";
-	QString aboutStyles=QString("Current style: %1 from %2")
+	for (int i = 0; i < QStyleFactory::keys().size(); ++i)
+		allStyles += QStyleFactory::keys()[i]+", ";
+	QString aboutStyles=QString("Current style: <b>%1</b> of %2")
 			.arg(qApp->style()->objectName()).arg(allStyles);
 	ui.lblStyles->setText(aboutStyles);
 
- //   ui.lblDevice->setStyleSheet(QString("border:0; background-color:red; color:white;"));
 	showMaximized();
 #else
     ui.lblDevice->setVisible(false);

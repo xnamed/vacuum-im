@@ -13,6 +13,10 @@ ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJ
 	setWindowTitle(tr("Client info - %1").arg(AContactName));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_CLIENTINFO,0,0,"windowIcon");
 
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
+
 	FClientInfo = AClientInfo;
 	FStreamJid = AStreamJid;
 	FContactJid = AContactJid;

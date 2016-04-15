@@ -38,6 +38,9 @@ MapSearchDialog::MapSearchDialog(QHash<QUuid, IMapSearchProvider *> AProviders, 
     ui->ledSearch->setPlaceholderText(tr("Enter search string"));
 #endif
 
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
     //Shortcuts
     FPoi->setTreeWidgetShortcuts(ui->twFound, true);
     Shortcuts::bindObjectShortcut(SCT_MAPSEARCH_CLEARLIST, ui->pbClear);
