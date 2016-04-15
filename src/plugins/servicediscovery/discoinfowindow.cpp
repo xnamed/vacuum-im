@@ -17,7 +17,11 @@ DiscoInfoWindow::DiscoInfoWindow(IServiceDiscovery *ADiscovery, const Jid &AStre
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	setWindowTitle(tr("Discovery Info - %1").arg(AContactJid.uFull()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_SDISCOVERY_DISCOINFO,0,0,"windowIcon");
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
+// *** >>> eyeCU >>> ***
 	FNode = ANode;
 	FFormMenu = NULL;
 	FStreamJid = AStreamJid;
