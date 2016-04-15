@@ -2,6 +2,7 @@
 
 #include <QDesktopServices>
 #include <QScreen>
+#include <QStyleFactory>
 #include <utils/logger.h>
 #include <utils/iconstorage.h>
 #include <definitions/resources.h>
@@ -34,10 +35,20 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
         .arg(qApp->font().pointSizeF()).arg(screen->name())
         .arg(screen->size().width()).arg(screen->size().height());
 	ui.lblDevice->setText(aboutDevice);
+
+	QStringList styles=QStyleFactory::keys();
+	QString allStyles;
+	for (int i = 0; i < styles.size(); ++i)
+		allStyles += styles[i]+", ";
+	QString aboutStyles=QString("Current style: %1 from %2")
+			.arg(qApp->style()->objectName()).arg(allStyles);
+	ui.lblStyles->setText(aboutStyles);
+
  //   ui.lblDevice->setStyleSheet(QString("border:0; background-color:red; color:white;"));
 	showMaximized();
 #else
     ui.lblDevice->setVisible(false);
+	ui.lblStyles->setVisible(false);
 #endif
 // *** >>> eyeCU >>> ****
 	connect(ui.lblHomePage,SIGNAL(linkActivated(const QString &)),SLOT(onLabelLinkActivated(const QString &)));

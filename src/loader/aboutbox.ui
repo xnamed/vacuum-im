@@ -148,6 +148,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="lblStyles">
+     <property name="text">
+      <string>Styles: </string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="lblHomePage">
