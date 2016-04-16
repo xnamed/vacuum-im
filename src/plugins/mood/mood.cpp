@@ -739,7 +739,7 @@ void Mood::updateChatWindowInfo(IMessageChatWindow *AMessageChatWindow)
 			label->setMargin(3);
 			AMessageChatWindow->infoWidget()->infoToolBarChanger()->insertWidget(label, AG_MOOD);
 		}
-		label->setPixmap(getIcon(FMoodHash[contactJid.bare()].name).pixmap(16));
+		label->setPixmap(getIcon(FMoodHash[contactJid.bare()].name).pixmap(16*IconStorage::scale()));
 		label->setToolTip(getLabel(contactJid));
 	}
 	else

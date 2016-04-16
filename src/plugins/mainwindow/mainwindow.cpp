@@ -36,9 +36,9 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	int size=16*(iconStorage->scale()+2);
 	setIconSize(QSize(size,size));	//!------??????-----
 //	QString mainWindowStyle=QString("background-color:#F4F0F0;");
-	QString topToolbarStyle   =QString("border:0; background-color:#039702; color:white;"); // 08AC07
-	QString bottomToolbarStyle=QString("border:0; background-color:#039702; color:white;");// 08AC07
-	QString menuMainRightStyle=QString("background-color:#DAD9D7;");//BDBAAF  E6E4DE   C6FAC6 34C033  color:white;
+	QString topToolbarStyle   ="border:0; background-color:#039702; color:white;"; // 08AC07
+	QString bottomToolbarStyle="border:0; background-color:#039702; color:white;";// 08AC07
+	QString menuMainRightStyle="background-color:#DAD9D7;";//BDBAAF  E6E4DE   C6FAC6 34C033  color:white;
 //	setStyleSheet(mainWindowStyle);
 #else
 // *** >>> eyeCU >>> ***

@@ -58,9 +58,15 @@ Avatars::Avatars()
 	FAvatarRightLabelId = 0;
 	FAvatarLeftLabelId = 0;
 	FAvatarPosition = Left;
-/*** >>> eyeCU >>> ***/
+
 	FAvatarsVisible = false;
+// *** <<< eyeCU >>> ***
+#ifdef EYECU_MOBILE
+	FAvatarSize = QSize(2*16*IconStorage::scale(),2*16*IconStorage::scale());
+#else
 	FAvatarSize = QSize(32,32);
+#endif
+/*** >>> eyeCU >>> ***/
 }
 
 Avatars::~Avatars()
