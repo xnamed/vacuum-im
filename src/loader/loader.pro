@@ -106,40 +106,80 @@ macx {
 }
 
 #Android Install
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_EXTRA_LIBS = \
-    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Multimedia.so \
-    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Network.so \
-    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Script.so \
-    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Sql.so \
-    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Util.so \
-    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Geo.so \
-    C:/QT/Qt5.5.1/5.5/android_armv7/plugins/sqldrivers/libqsqlite.so
+greaterThan(QT_VERSION, 5.5) {
+    contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+        ANDROID_EXTRA_LIBS = \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Multimedia.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Network.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Script.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Sql.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Svg.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Util.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Geo.so \
+        C:/QT/Qt5.6/5.6/android_armv7/plugins/sqldrivers/libqsqlite.so
+    }
+    contains(ANDROID_TARGET_ARCH,armeabi) {
+        ANDROID_EXTRA_LIBS = \
+        C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Multimedia.so \
+        C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Network.so \
+        C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Script.so \
+        C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Sql.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Svg.so \
+        C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Util.so \
+        C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Geo.so \
+        C:/QT/Qt5.6/5.6/android_armv5/plugins/sqldrivers/libqsqlite.so
+    }
+    #contains(ANDROID_TARGET_ARCH,android-x86) {
+    #    ANDROID_EXTRA_LIBS = \
+    #    C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Multimedia.so \
+    #    C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Network.so \
+    #    C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Script.so \
+    #    C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Sql.so \
+    #    C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Svg.so \
+    #    C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Util.so \
+    #    C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Geo.so \
+    #    C:/QT/Qt5.6/5.6/android_x86/plugins/sqldrivers/libqsqlite.so
+    #}
+message("1.CUR QT_VERSION" = $$QT_VERSION)
+message("1.ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
+} else {
+    contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+        ANDROID_EXTRA_LIBS = \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Multimedia.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Network.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Script.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Sql.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Svg.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Util.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Geo.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/plugins/sqldrivers/libqsqlite.so
+    }
+    contains(ANDROID_TARGET_ARCH,armeabi) {
+        ANDROID_EXTRA_LIBS = \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Multimedia.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Network.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Script.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Sql.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Svg.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Util.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Geo.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/plugins/sqldrivers/libqsqlite.so
+    }
+    #contains(ANDROID_TARGET_ARCH,android-x86) {
+    #    ANDROID_EXTRA_LIBS = \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Multimedia.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Network.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Script.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Sql.so \
+    #    C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Svg.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Util.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Geo.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/plugins/sqldrivers/libqsqlite.so
+    #}
+message("2.CUR QT_VERSION" = $$QT_VERSION)
+message("2.ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
 }
 
-contains(ANDROID_TARGET_ARCH,armeabi) {
-    ANDROID_EXTRA_LIBS = \
-    C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Multimedia.so \
-    C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Network.so \
-    C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Script.so \
-    C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Sql.so \
-    C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Util.so \
-    C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Geo.so \
-    C:/QT/Qt5.5.1/5.5/android_armv5/plugins/sqldrivers/libqsqlite.so
-}
-
-#contains(ANDROID_TARGET_ARCH,android-x86) {
-#    ANDROID_EXTRA_LIBS = \
-#    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Multimedia.so \
-#    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Network.so \
-#    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Script.so \
-#    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Sql.so \
-#    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Util.so \
-#    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Geo.so \
-#    C:/QT/Qt5.5.1/5.5/android_x86/plugins/sqldrivers/libqsqlite.so
-#}
-
-#message("LOADER/ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
 
 DISTFILES += \
     android/AndroidManifest.xml \

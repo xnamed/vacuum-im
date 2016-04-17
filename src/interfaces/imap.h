@@ -28,6 +28,12 @@
 
 #define  UNCHANGED -1
 
+enum setSearchMenu {
+        MENU_MAP,
+        MENU_ALL,
+        MENU_TOOLBAR
+};
+
 class IMapSource
 {
 public:

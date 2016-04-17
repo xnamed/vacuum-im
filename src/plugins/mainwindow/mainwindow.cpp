@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     IconStorage *iconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	int size=16*(iconStorage->scale()+2);
+	int size=16*(iconStorage->scale()+1);
 	setIconSize(QSize(size,size));	//!------??????-----
 //	QString mainWindowStyle=QString("background-color:#F4F0F0;");
 	QString topToolbarStyle   ="border:0; background-color:#039702; color:white;"; // 08AC07
@@ -97,12 +97,13 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 #endif	// *** >>> TEST---	
 
 	QToolBar *topToolbar = new QToolBar(this);
-	topToolbar->setIconSize(QSize(48,48));
+
     topToolbar->setFloatable(false);
 	topToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	topToolbar->setStyleSheet(topToolbarStyle);
+//	topToolbar->setIconSize(QSize(48,48));
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
@@ -110,12 +111,12 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
 
 	QToolBar *bottomToolbar =  new QToolBar(this);
-	//bottomToolbar->setIconSize();
 	bottomToolbar->setFloatable(false);
 	bottomToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	bottomToolbar->setStyleSheet(bottomToolbarStyle);
+	//bottomToolbar->setIconSize(QSize(48,48));
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);

@@ -32,10 +32,13 @@ InfoWidget::InfoWidget(IMessageWidgets *AMessageWidgets, IMessageWindow *AWindow
 	QToolBar *toolBar = new QToolBar;
 	toolBar->setMovable(false);
 	toolBar->setFloatable(false);
+// *** <<< eyeCU >>> ***
 #ifdef EYECU_MOBILE
 	ui.lblAvatar->setMaximumSize(16*IconStorage::scale(),16*IconStorage::scale());
+	ui.lblIcon->setMaximumSize(16*IconStorage::scale(),16*IconStorage::scale());
 	toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
+// *** <<< eyeCU >>> ***
 	toolBar->setIconSize(QSize(16,16));
 #endif
 	toolBar->layout()->setMargin(0);

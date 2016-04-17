@@ -24,6 +24,12 @@ class Map;
 class MapObject;
 class MapObjectDataSource;
 
+/*enum setSearchMenu {
+	MENU_MAP,
+	MENU_ALL,
+	MENU_TOOLBAR
+};
+*/
 class Map:  public GeoMap,
 			public IPlugin,
 			public IMap,

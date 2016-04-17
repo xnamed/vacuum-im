@@ -76,7 +76,7 @@ SUBDIRS += messagecarbons
 SUBDIRS += recentcontacts
 SUBDIRS += metacontacts
 SUBDIRS += statistics
-contains(QT_CONFIG, webkit): SUBDIRS += adiummessagestyle
+!greaterThan(QT_VERSION,5.6): contains(QT_CONFIG, webkit):SUBDIRS += adiummessagestyle
 SUBDIRS += activity
 SUBDIRS += mood
 SUBDIRS += tune
@@ -148,7 +148,7 @@ SUBDIRS += abbreviations
 }
 SUBDIRS += streetview
 SUBDIRS += streetviewprovidergoogle
-contains(QT_CONFIG, webkit) {
+!greaterThan(QT_VERSION,5.6): contains(QT_CONFIG, webkit) {
     SUBDIRS += placeview
     SUBDIRS += placeviewprovidergoogle
 }

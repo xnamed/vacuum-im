@@ -92,9 +92,9 @@ bool MapSearch::initObjects()
     Action *action;
     if (FMap)
 #ifdef EYECU_MOBILE
-        action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, 0);
+		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_MAP);//0
 #else
-        action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, 1);
+		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_ALL);//1
 #endif
     else
     {
