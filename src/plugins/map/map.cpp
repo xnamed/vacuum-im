@@ -610,16 +610,6 @@ Action *Map::addMenuAction(const QString &AText, const QString &AIcon, const QSt
 	Action * action = new Action(AMenuTypes==2?FMenuToolbar:FMenuMap);
 	action->setText(AText);
 	action->setIcon(AIcon, AKeyIcon);
-
-/*	if(AMenuTypes==0)
-        FMenuMap->addAction(action, AG_MAPS_MENU_COMMON, false);
-	if(AMenuTypes==1){
-		FMenuToolbar->addAction(action, AG_MAPS_MENU_COMMON, false);
-		FMenuMap->addAction(action, AG_MAPS_MENU_COMMON, false);
-	}
-	if(AMenuTypes==2)
-		FMenuToolbar->addAction(action, AG_MAPS_MENU_COMMON, false);
-*/
 	switch(AMenuTypes){
 		case MENU_MAP:	   FMenuMap->addAction(action, AG_MAPS_MENU_COMMON, false); 	break;
 		case MENU_ALL:	   FMenuToolbar->addAction(action, AG_MAPS_MENU_COMMON, false);

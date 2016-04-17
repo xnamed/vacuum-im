@@ -104,7 +104,7 @@ bool MapSearch::initObjects()
 #ifndef EYECU_MOBILE
 	else
 #endif
-	{	//!--- ????? ---- if no MAP for PC Version
+	{
 	IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
 	mainWindow->topToolBarChanger()->insertAction(action, TBG_MWTTB_MAPS); // Add action as a button
 	}
