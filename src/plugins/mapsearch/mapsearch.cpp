@@ -89,21 +89,25 @@ bool MapSearch::initObjects()
     Shortcuts::declareShortcut(SCT_MAPSEARCH_SEARCHDIALOG, tr("Search dialog"), tr("Alt+F7", "Search"), Shortcuts::ApplicationShortcut);
     Shortcuts::declareShortcut(SCT_MESSAGEWINDOWS_POI_INSERTSEARCHRESULT, tr("Insert search result"), tr("Alt+S", "Add search result"), Shortcuts::WindowShortcut);    
 
-    Action *action;
-    if (FMap)
+	Action *action;
+	action = new Action();
+	action->setText(tr("Search"));
+	action->setIcon(RSR_STORAGE_MENUICONS, MNI_MAPSEARCH);
+	if (FMap)
+	{
 #ifdef EYECU_MOBILE
-		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_MAP);//0
+		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_MAP);
 #else
-		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_ALL);//1
+		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_ALL);
 #endif
-    else
-    {
-        action = new Action();
-        action->setText(tr("Search"));
-        action->setIcon(RSR_STORAGE_MENUICONS, MNI_MAPSEARCH);
-        IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
-        mainWindow ->topToolBarChanger()->insertAction(action, TBG_MWTTB_MAPS); // Add action as a button
-    }
+	}
+#ifndef EYECU_MOBILE
+	else
+#endif
+	{	//!--- ????? ---- if no MAP for PC Version
+	IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
+	mainWindow->topToolBarChanger()->insertAction(action, TBG_MWTTB_MAPS); // Add action as a button
+	}
     action->setShortcutId(SCT_MAPSEARCH_SEARCHDIALOG);
     connect(action, SIGNAL(triggered()), SLOT(onMapSearchTriggered()));
     return true;
