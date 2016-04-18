@@ -309,6 +309,7 @@ void MainWindow::loadWindowGeometryAndState()
 	}
 }
 
+/*
 void MainWindow::updateWindow()
 {
 // *** <<< eyeCU <<< ***
@@ -330,6 +331,50 @@ void MainWindow::updateWindow()
 		SET_TITLE(CLIENT_NAME);
 // *** >>> eyeCU >>> ***
 }
+*/
+void MainWindow::updateWindow()
+{
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QLabel *title;
+	QList<QAction *> actions = topToolBarChanger()->groupItems(TBG_MWTTB_TITLE);
+	if (!actions.isEmpty())
+		title = qobject_cast<QLabel *>(topToolBarChanger()->handleWidget(actions.first()));
+#define SET_TITLE(T) title->setText(T)
+#else
+#define SET_TITLE(T) setWindowTitle(T)
+#endif
+// *** >>> eyeCU >>> ***
+	IMainCentralPage *page = isCentralWidgetVisible() ? mainCentralWidget()->currentCentralPage() : NULL;
+	if (page && !page->centralPageCaption().isEmpty()){
+// *** <<< eyeCU <<< ***
+		if(!topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).isEmpty())
+			topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).first()->setVisible(true);
+		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).isEmpty())
+			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).first()->setVisible(false);
+		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).isEmpty()){
+			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).first()->setVisible(false);
+			topToolBarChanger()->setGroupAlignEnabled(true);
+		}
+
+		SET_TITLE(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
+	}
+	else{
+		if(!topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).isEmpty())
+			topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).first()->setVisible(false);
+		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).isEmpty())
+			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).first()->setVisible(true);
+
+//        if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).isEmpty()){
+//            topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).first()->setVisible(true);
+//            topToolBarChanger()->setGroupAlignEnabled(true);
+//        }
+
+		SET_TITLE(CLIENT_NAME);
+	}
+// *** >>> eyeCU >>> ***
+}
+//! ------------------------------------------
 
 QMenu *MainWindow::createPopupMenu()
 {

@@ -57,7 +57,7 @@ RosterSearch::RosterSearch()
 #endif
 
 	FSearchEdit->installEventFilter(this);
-	FSearchEdit->setSearchMenuVisible(true);
+    FSearchEdit->setSearchMenuVisible(true);
 	FSearchEdit->setSelectTextOnFocusEnabled(false);
     FSearchEdit->searchMenu()->setIcon(RSR_STORAGE_MENUICONS,MNI_ROSTERSEARCH_MENU);
 
