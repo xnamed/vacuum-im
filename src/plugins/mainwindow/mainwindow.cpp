@@ -352,10 +352,10 @@ void MainWindow::updateWindow()
 			topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).first()->setVisible(true);
 		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).isEmpty())
 			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).first()->setVisible(false);
-		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).isEmpty()){
-			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).first()->setVisible(false);
-			topToolBarChanger()->setGroupAlignEnabled(true);
-		}
+//		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).isEmpty()){
+//			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).first()->setVisible(false);
+//			topToolBarChanger()->setGroupAlignEnabled(true);
+//		}
 
 		SET_TITLE(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
 	}
