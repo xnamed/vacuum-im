@@ -2,39 +2,39 @@
 <icondef>
   <icon>
     <key>mainwindowLogo16</key>
-    <object mime="image/png">mainwindowlogo16.png</object>
+    <object mime="image/png">mainwindowlogo#16.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo20</key>
-    <object mime="image/png">mainwindowlogo20.png</object>
+    <object mime="image/png">mainwindowlogo#20.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo24</key>
-    <object mime="image/png">mainwindowlogo24.png</object>
+    <object mime="image/png">mainwindowlogo#24.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo32</key>
-    <object mime="image/png">mainwindowlogo32.png</object>
+    <object mime="image/png">mainwindowlogo#32.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo40</key>
-    <object mime="image/png">mainwindowlogo40.png</object>
+    <object mime="image/png">mainwindowlogo#40.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo48</key>
-    <object mime="image/png">mainwindowlogo48.png</object>
+    <object mime="image/png">mainwindowlogo#48.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo64</key>
-    <object mime="image/png">mainwindowlogo64.png</object>
+    <object mime="image/png">mainwindowlogo#64.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo96</key>
-    <object mime="image/png">mainwindowlogo96.png</object>
+    <object mime="image/png">mainwindowlogo#96.png</object>
   </icon>
   <icon>
     <key>mainwindowLogo128</key>
-    <object mime="image/png">mainwindowlogo128.png</object>
+    <object mime="image/png">mainwindowlogo#128.png</object>
   </icon>
   <icon>
     <key>mainwindowQuit</key>

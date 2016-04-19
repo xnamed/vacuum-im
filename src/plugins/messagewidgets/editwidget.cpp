@@ -31,7 +31,7 @@ EditWidget::EditWidget(IMessageWidgets *AMessageWidgets, IMessageWindow *AWindow
 	toolBar->setMovable(false);
 	toolBar->setFloatable(false);
 #ifdef EYECU_MOBILE
-		toolBar->setIconSize(QSize(48,48));
+        toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
 		toolBar->setIconSize(QSize(16,16));
 #endif

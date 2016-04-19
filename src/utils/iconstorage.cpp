@@ -76,28 +76,51 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 		icon = FIconCache[storage()].value(key);
 		if (icon.isNull())
 		{
-			if(FScale>1.5) {
-				QString fileName=fileFullName(AKey,AIndex);
-				//!-build new name ---
-				QStringList partsName=fileName.split(".");
-				QString newFilaName=QString(partsName[0]).append(FCurSuffiks)
-										.append(".").append(partsName[partsName.size()-1]);
-				QFile file(newFilaName);
-				if(file.exists())
-				{
-					QPixmap pixmap = QPixmap::fromImage(QImageReader(newFilaName).read());
-					icon.addPixmap(pixmap);
-				}
-				else	// Scale icon according to FScale
-				{
-					QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
-//! need scale from min exists icon (32->40...), but not (16->40).....
-					icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap);
-				}
-			}
-			else {
-				icon.addFile(fileFullName(AKey,AIndex));
-			}
+            QString     fileName  = fileFullName(AKey,AIndex);
+            QStringList partsName = fileName.split(".");
+            QString     extName   = partsName[1];   // or [partsName.size()-1]
+            QString     nameName  = partsName[0];
+            if(nameName.split("#").size()>1)        // example file name= AABBCC_32
+                icon.addFile(fileName);
+            else
+            {
+                if(FScale>1.5)
+                {
+                    //!-build new name ---
+                    QString newFileName=QString(nameName).append("_").append(FCurSuffiks).append(".").append(extName);
+                    QFile file(newFileName);
+                    if(file.exists())
+                    {
+                        QPixmap pixmap = QPixmap::fromImage(QImageReader(newFileName).read());
+                        icon.addPixmap(pixmap);
+                    }
+                    else
+                    {
+                        //! SEARCH NEAR NAME
+                        bool result=false;
+                        QString suffiks;
+                        for(qreal step=FScale;step>1.5;step-=.5)
+                        {
+                            suffiks=QString("%1").arg(16*step);
+                            newFileName=QString(nameName).append("#").append(suffiks).append(".").append(extName);
+                            file.setFileName(newFileName);
+                            if(file.exists())
+                            {
+                                icon.addFile(newFileName);
+                                result=true;
+                                break;
+                            }
+                        }
+                        if(!result) 	// Scale icon according to FScale
+                        {
+                            QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
+                            icon.addPixmap((pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap);
+                        }
+                    }
+                }
+                else
+                    icon.addFile(fileName);
+            }
 			FIconCache[storage()].insert(key,icon);
 		}
 	}

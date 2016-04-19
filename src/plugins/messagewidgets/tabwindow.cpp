@@ -50,7 +50,7 @@ TabWindow::TabWindow(IMessageWidgets *AMessageWidgets, const QUuid &AWindowId)
 
 	FCornerBar = new QToolBar(ui.twtTabs);
 #ifdef EYECU_MOBILE
-		FCornerBar->setIconSize(QSize(48, 48));
+        FCornerBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
 		FCornerBar->setIconSize(QSize(16, 16));
 #endif

@@ -20,7 +20,11 @@ CombineContactsDialog::CombineContactsDialog(IMetaContacts *AMetaContacts, const
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_METACONTACTS_COMBINE,0,0,"windowIcon");
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QSize avatarSize(1.5*16*IconStorage::scale(),1.5*16*IconStorage::scale());
+#endif
+// *** >>> eyeCU >>> ***
 	FMetaContacts = AMetaContacts;
 	connect(FMetaContacts->instance(),SIGNAL(metaContactsClosed(const Jid &)),SLOT(onMetaContactsClosed(const Jid &)));
 
@@ -57,19 +61,30 @@ CombineContactsDialog::CombineContactsDialog(IMetaContacts *AMetaContacts, const
 				FMetaItems.insertMulti(streamJid,AContacts.at(i));
 			}
 		}
-		FMetaId = FMetaId.isNull() ? QUuid::createUuid() : FMetaId;
-
+		FMetaId = FMetaId.isNull() ? QUuid::createUuid() : FMetaId;   
+#ifndef EYECU_MOBILE
 		ui.lwtContacts->setIconSize(AVATAR_SIZE);
+#else
+// *** <<< eyeCU <<< ***
+        ui.lwtContacts->setIconSize(avatarSize);
+#endif
+// *** >>> eyeCU >>> ***
 		for (QMultiMap<Jid, Jid>::const_iterator it = FMetaItems.constBegin(); it!=FMetaItems.constEnd(); ++it)
 		{
 			IRoster *roster = FRosterManager!=NULL ? FRosterManager->findRoster(it.key()) : NULL;
 			IRosterItem ritem = roster!=NULL ? roster->findItem(it.value()) : IRosterItem();
 			QString name = !ritem.name.isEmpty() ? ritem.name : ritem.itemJid.uBare();
-
+#ifndef EYECU_MOBILE
 			QImage avatar = FAvatars!=NULL ? FAvatars->loadAvatarImage(FAvatars->avatarHash(it.value()),AVATAR_SIZE) : QImage();
 			avatar = avatar.isNull() ? (FAvatars!=NULL ? FAvatars->emptyAvatarImage(AVATAR_SIZE) : QImage()) : avatar;
 			avatar = ImageManager::squared(avatar,AVATAR_SIZE.width());
-
+#else
+// *** <<< eyeCU <<< ***
+            QImage avatar = FAvatars!=NULL ? FAvatars->loadAvatarImage(FAvatars->avatarHash(it.value()),avatarSize) : QImage();
+            avatar = avatar.isNull() ? (FAvatars!=NULL ? FAvatars->emptyAvatarImage(avatarSize) : QImage()) : avatar;
+            avatar = ImageManager::squared(avatar,avatarSize.width());
+#endif
+// *** >>> eyeCU >>> ***
 			QListWidgetItem *item = new QListWidgetItem(QIcon(QPixmap::fromImage(avatar)),name,ui.lwtContacts);
 			item->setFlags(Qt::ItemIsEnabled);
 			ui.lwtContacts->addItem(item);

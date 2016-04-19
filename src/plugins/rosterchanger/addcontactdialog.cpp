@@ -25,9 +25,11 @@ AddContactDialog::AddContactDialog(IRosterChanger *ARosterChanger, const Jid &AS
 	FRosterChanger = ARosterChanger;
 
 	QToolBar *toolBar = new QToolBar(this);
+// *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	toolBar->setIconSize(QSize(32,32));
+    toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
+// *** >>> eyeCU >>> ***
 	toolBar->setIconSize(QSize(16,16));
 #endif
 	ui.lytMainLayout->setMenuBar(toolBar);

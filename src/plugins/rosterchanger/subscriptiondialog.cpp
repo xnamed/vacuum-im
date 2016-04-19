@@ -20,10 +20,12 @@ SubscriptionDialog::SubscriptionDialog(IRosterChanger *ARosterChanger, const Jid
 	FRosterChanger = ARosterChanger;
 
 	QToolBar *toolBar = new QToolBar(this);
+// *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	toolBar->setIconSize(QSize(32,32));
+    toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
-	toolBar->setIconSize(QSize(16,16));
+// *** >>> eyeCU >>> ***
+    toolBar->setIconSize(QSize(16,16));
 #endif
 	ui.lytMainLayout->setMenuBar(toolBar);
 	FToolBarChanger = new ToolBarChanger(toolBar);

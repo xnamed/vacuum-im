@@ -49,7 +49,7 @@ EditHtml::EditHtml(IMessageEditWidget *AEditWidget, bool AEnableFormatAutoReset,
 	FNewListItemCreated(false)
 {
 #ifdef EYECU_MOBILE
-	setIconSize(QSize(48,48));
+    setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
 	setIconSize(QSize(16,16));
 #endif
