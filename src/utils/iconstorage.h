@@ -50,7 +50,7 @@ private:
 	static QHash<QString, QHash<QString, QList<IconAnimateFrame> > > FAnimateCache;
     static qreal FScale;            // *** <<< eyeCU <<< ---
     static float FFontPointSize;    // *** <<< eyeCU <<< ---
-    QString FCurSuffiks;            // *** <<< eyeCU <<< ---
+    QString FCurSuffix;            // *** <<< eyeCU <<< ---
 };
 
 #endif // ICONSTORAGE_H

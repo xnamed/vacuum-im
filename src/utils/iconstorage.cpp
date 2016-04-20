@@ -55,7 +55,7 @@ float IconStorage::FFontPointSize(8.0);
 
 IconStorage::IconStorage(const QString &AStorage, const QString &ASubStorage, QObject *AParent) : FileStorage(AStorage,ASubStorage,AParent)
 {
-    FCurSuffiks=QString("%1").arg(FScale*16);
+	FCurSuffix=QString("%1").arg(FScale*16);
 	connect(this,SIGNAL(storageChanged()),SLOT(onStorageChanged()));
 }
 
@@ -67,6 +67,7 @@ IconStorage::~IconStorage()
 }
 
 // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 {
 	QIcon icon;
@@ -80,14 +81,14 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
             QStringList partsName = fileName.split(".");
             QString     extName   = partsName[1];   // or [partsName.size()-1]
             QString     nameName  = partsName[0];
-            if(nameName.split("#").size()>1)        // example file name= AABBCC_32
+			if(nameName.split("#").size()>1)        // example file name= AABBCC#32
                 icon.addFile(fileName);
             else
             {
                 if(FScale>1.5)
                 {
                     //!-build new name ---
-                    QString newFileName=QString(nameName).append("_").append(FCurSuffiks).append(".").append(extName);
+					QString newFileName=QString(nameName).append("#%1.%2").arg(FCurSuffix).arg(extName);
                     QFile file(newFileName);
                     if(file.exists())
                     {
@@ -98,19 +99,20 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
                     {
                         //! SEARCH NEAR NAME
                         bool result=false;
-                        QString suffiks;
-                        for(qreal step=FScale;step>1.5;step-=.5)
-                        {
-                            suffiks=QString("%1").arg(16*step);
-                            newFileName=QString(nameName).append("#").append(suffiks).append(".").append(extName);
-                            file.setFileName(newFileName);
-                            if(file.exists())
-                            {
-                                icon.addFile(newFileName);
-                                result=true;
-                                break;
-                            }
-                        }
+						QString suffix;
+						qreal step=FScale;
+						do{
+							step-=.5;
+							suffix=QString("%1").arg(16*step);
+							newFileName=QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
+							file.setFileName(newFileName);
+							if(file.exists())
+							{
+								icon.addFile(newFileName);
+								result=true;
+								break;
+							}
+						} while(step>1.5);
                         if(!result) 	// Scale icon according to FScale
                         {
                             QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
@@ -127,6 +129,23 @@ QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
 	return icon;
 }
 // *** >>> eyeCU >>> ***
+#else
+QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const
+{
+	QIcon icon;
+	QString key = fileCacheKey(AKey,AIndex);
+	if (!key.isEmpty())
+	{
+		icon = FIconCache[storage()].value(key);
+		if (icon.isNull())
+		{
+			icon.addFile(fileFullName(AKey,AIndex));
+			FIconCache[storage()].insert(key,icon);
+		}
+	}
+	return icon;
+}
+#endif
 
 void IconStorage::clearIconCache()
 {
