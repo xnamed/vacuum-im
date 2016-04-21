@@ -17,7 +17,7 @@
 #include <utils/options.h>
 #include <utils/action.h>
 #include <utils/logger.h>
-
+#include <QDebug>
 RosterSearch::RosterSearch()
 {
 	FRostersViewPlugin = NULL;
@@ -116,7 +116,7 @@ bool RosterSearch::initObjects()
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 		FMainWindow->topToolBarChanger()->insertAction(FEnableAction,TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT);
-        FMainWindow->topToolBarChanger()->insertWidget(FSearchEdit,TBG_MWTTB_ROSTERSEARCH_ANDROID);
+		FMainWindow->topToolBarChanger()->insertWidget(FSearchEdit,TBG_MWTTB_ROSTERSEARCH_EDITOR);
 #else
 // *** >>> eyeCU >>> ***
         FMainWindow->topToolBarChanger()->insertAction(FEnableAction,TBG_MWTTB_ROSTERSEARCH);
@@ -312,7 +312,7 @@ void RosterSearch::setSearchEnabled(bool AEnabled)
 	if (FMainWindow)
 	{
 		FMainWindow->topToolBarChanger()->widgetHandle(FSearchEdit)->setVisible(AEnabled);
-        FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first()->setVisible(!AEnabled);
+		FMainWindow->topToolBarChanger()->groupItems(TBG_MWTTB_TITLE).first()->setVisible(!AEnabled);
         FMainWindow->topToolBarChanger()->setGroupAlignEnabled(!AEnabled);
         if (AEnabled)
         {
@@ -444,6 +444,7 @@ void RosterSearch::onFieldActionTriggered(bool)
 
 void RosterSearch::onEnableActionTriggered(bool AChecked)
 {
+	Options::node(OPV_ROSTER_SEARCH_ENABLED).setValue(AChecked);
     setSearchEnabled(AChecked);
     startSearch();
 	if (AChecked)

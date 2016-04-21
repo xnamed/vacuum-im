@@ -331,49 +331,55 @@ void MainWindow::updateWindow()
 // *** >>> eyeCU >>> ***
 }
 */
-void MainWindow::updateWindow()
-{
+
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
+void MainWindow::updateWindow()
+{
 	QLabel *title;
 	QList<QAction *> actions = topToolBarChanger()->groupItems(TBG_MWTTB_TITLE);
 	if (!actions.isEmpty())
 		title = qobject_cast<QLabel *>(topToolBarChanger()->handleWidget(actions.first()));
-#define SET_TITLE(T) title->setText(T)
-#else
-#define SET_TITLE(T) setWindowTitle(T)
-#endif
-// *** >>> eyeCU >>> ***
+
 	IMainCentralPage *page = isCentralWidgetVisible() ? mainCentralWidget()->currentCentralPage() : NULL;
-	if (page && !page->centralPageCaption().isEmpty()){
-// *** <<< eyeCU <<< ***
+	if (page && !page->centralPageCaption().isEmpty())
+	{
 		if(!topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).isEmpty())
 			topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).first()->setVisible(true);
 		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).isEmpty())
+		{
 			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).first()->setVisible(false);
-//		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).isEmpty()){
-//			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).first()->setVisible(false);
-//			topToolBarChanger()->setGroupAlignEnabled(true);
-//		}
-
-		SET_TITLE(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
+			if(Options::node(OPV_ROSTER_SEARCH_ENABLED).value().toBool())
+				topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_EDITOR).first()->setVisible(false);
+		}
+		title->setText(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
+		topToolBarChanger()->setGroupAlignEnabled(true);
 	}
-	else{
+	else
+	{
 		if(!topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).isEmpty())
 			topToolBarChanger()->groupItems(TBG_MWTTB_MAPS).first()->setVisible(false);
 		if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).isEmpty())
+		{
 			topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID_ACT).first()->setVisible(true);
-
-//        if(!topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).isEmpty()){
-//            topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_ANDROID).first()->setVisible(true);
-//            topToolBarChanger()->setGroupAlignEnabled(true);
-//        }
-
-		SET_TITLE(CLIENT_NAME);
+			if(Options::node(OPV_ROSTER_SEARCH_ENABLED).value().toBool())
+				topToolBarChanger()->groupItems(TBG_MWTTB_ROSTERSEARCH_EDITOR).first()->setVisible(true);
+		}
+		title->setText(CLIENT_NAME);
+		topToolBarChanger()->setGroupAlignEnabled(true);
 	}
-// *** >>> eyeCU >>> ***
 }
-//! ------------------------------------------
+#else
+// *** >>> eyeCU >>> ***
+void MainWindow::updateWindow()
+{
+	IMainCentralPage *page = isCentralWidgetVisible() ? mainCentralWidget()->currentCentralPage() : NULL;
+	if (page && !page->centralPageCaption().isEmpty())
+		setWindowTitle(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
+	else
+		setWindowTitle(CLIENT_NAME);
+}
+#endif
 
 QMenu *MainWindow::createPopupMenu()
 {
