@@ -5,12 +5,13 @@
 #define OHO_COMMON_SETTINGS                       100
 // *** <<< eyeCU <<< ***
 #  define OWO_COMMON_ADVANCED                     105
+#  define OWO_SIMPLE_STYLE                        107
 // *** <<< eyeCU <<< ***
 #  define OWO_COMMON_AUTOSTART                    110
 #  define OWO_COMMON_SENDSTATISTICS               120
 #  define OWO_COMMON_SENDCLIENTINFO               130
 #  define OWO_COMMON_VCARDIMAGE                   140
-#define OHO_COMMON_LOCALIZATION                   300
+#  define OHO_COMMON_LOCALIZATION                 300
 #  define OWO_COMMON_LANGUAGE                     310
 
 //Node = ON_ACCOUNTS

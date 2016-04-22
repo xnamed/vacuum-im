@@ -18,14 +18,10 @@
 
 #include "ui_mapform.h"
 
-#define SENSITIVITY	2.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
-#ifdef EYECU_MOBILE
-	#define SIZEPIXMAP 32
-#else
-	#define SIZEPIXMAP 16
-#endif
-//-----------------
+#define SENSITIVITY_ADD		1.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
+#define SENSITIVITY_SUB		1.0		//
 
+//-----------------
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	QScrollArea(parent),
 	ui(new Ui::MapForm),
@@ -34,6 +30,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FMapSource(NULL),
 	FOldType(TYPE_NONE),
 	FHideEventEnabled(false),
+	FSizePixmap(16),
 	FWorkScaleFactor(1.0)
 {
 	FTypes[0]=-1;
@@ -62,8 +59,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
     ui->frmJoystick->setVisible(false);
 	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
-    int scale=FMapFontScale;
-	QSize size(16*scale,16*scale);
+	QSize size(16*IconStorage::scale(),16*IconStorage::scale());
 	ui->btnReload2->setIconSize(size);
 	ui->lblType1->setBaseSize(size);
 	ui->rbtMode1->setIconSize(size);
@@ -73,8 +69,10 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->rbtMode3->setIconSize(size);
 	ui->rbtMode4->setIconSize(size);
 	ui->lblType4->setBaseSize(size);
+	FSizePixmap=16*IconStorage::scale();
 #else
 	ui->btnReload2->setVisible(false);
+	FSizePimap=16;
 #endif
 
 	QStyle *style = QApplication::style();
@@ -204,8 +202,8 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 //! temp -----
 
 //! [enable gestures]
-    grabGesture(Qt::PinchGesture);
-    grabGesture(Qt::TapAndHoldGesture);
+	grabGesture(Qt::PinchGesture);
+	grabGesture(Qt::TapAndHoldGesture);
 //! [enable gestures]
 }
 //--------------------------------------------
@@ -388,8 +386,14 @@ void MapForm::setOsdFont(const QFont &AFont)
     ui->lblSelectionLonLabel->setFont(AFont);
     ui->lblSelectionLat->setFont(AFont);
     ui->lblSelectionLon->setFont(AFont);
+#ifdef EYECU_MOBILE
+	QFont fnt=AFont;
+	fnt.setPointSize(IconStorage::fontPointSize());
+	ui->cmbMapSource->setFont(fnt);
+#else
+	ui->cmbMapSource->setFont(AFont);
+#endif
 
-    ui->cmbMapSource->setFont(AFont);
 }
 
 void MapForm::setOsdTextColor(const QColor &ATextColor)
@@ -663,22 +667,22 @@ void MapForm::setImage(QLabel *ALabel, int AType)
 	switch (AType)
 	{
 		case ICON_MAP:
-			ALabel->setPixmap(FMap->getIcon(MPI_MAP).pixmap(SIZEPIXMAP));
+			ALabel->setPixmap(FMap->getIcon(MPI_MAP).pixmap(FSizePixmap));
 			break;
 		case ICON_MAP1:
-			ALabel->setPixmap(FMap->getIcon(MPI_MAP1).pixmap(SIZEPIXMAP));
+			ALabel->setPixmap(FMap->getIcon(MPI_MAP1).pixmap(FSizePixmap));
 			break;
 		case ICON_MAP2:
-			ALabel->setPixmap(FMap->getIcon(MPI_MAP2).pixmap(SIZEPIXMAP));
+			ALabel->setPixmap(FMap->getIcon(MPI_MAP2).pixmap(FSizePixmap));
 			break;
 		case ICON_SATELLITE:
-			ALabel->setPixmap(FMap->getIcon(MPI_SATELLITE).pixmap(SIZEPIXMAP));
+			ALabel->setPixmap(FMap->getIcon(MPI_SATELLITE).pixmap(FSizePixmap));
 			break;
 		case ICON_HYBRID:
-			ALabel->setPixmap(FMap->getIcon(MPI_HYBRID).pixmap(SIZEPIXMAP));
+			ALabel->setPixmap(FMap->getIcon(MPI_HYBRID).pixmap(FSizePixmap));
 			break;
 		case ICON_TERRAIN:
-			ALabel->setPixmap(FMap->getIcon(MPI_TERRAIN).pixmap(SIZEPIXMAP));
+			ALabel->setPixmap(FMap->getIcon(MPI_TERRAIN).pixmap(FSizePixmap));
 			break;
 	}
 }
@@ -751,7 +755,8 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 		QPinchGesture::ChangeFlags changeFlags = AGesture->changeFlags();
 		if (changeFlags & QPinchGesture::ScaleFactorChanged)
 		{
-			float scaleDelta=SENSITIVITY;
+			float scaleDelta   =SENSITIVITY_ADD;
+			float scaleDeltaSub=SENSITIVITY_SUB;
 			float curScaleFactor =AGesture->property("totalScaleFactor").toFloat();
 			float direct=curScaleFactor-FWorkScaleFactor;
 			if(curScaleFactor>=1.0)
@@ -763,7 +768,7 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 				}
 				else if(direct<-scaleDelta)
 				{
-					FWorkScaleFactor-=scaleDelta;
+					FWorkScaleFactor-=scaleDeltaSub;
 					FMap->zoomOut();					//! zoom out--
 				}
 			}
@@ -772,12 +777,12 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 				if((direct)>=scaleDelta/10.0)
 				{
 					FWorkScaleFactor+=scaleDelta/10.0;
-					FMap->zoomIn();
+					FMap->zoomIn();						//! zoom in++
 				}
 				else if(direct<-scaleDelta/10.0)
 				{
-					FWorkScaleFactor-=scaleDelta/10.0;
-					FMap->zoomOut();
+					FWorkScaleFactor-=scaleDeltaSub/10.0;
+					FMap->zoomOut();					//! zoom out--
 				}
 			}
 		}

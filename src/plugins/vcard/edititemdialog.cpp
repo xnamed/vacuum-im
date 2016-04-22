@@ -7,7 +7,11 @@ EditItemDialog::EditItemDialog(const QString &AValue, QStringList ATags, QString
 {
 	REPORT_VIEW;
 	ui.setupUi(this);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
+// *** >>> eyeCU >>> ***
 	ui.lneEdit->setText(AValue);
 
 	QVBoxLayout *layout = new QVBoxLayout;

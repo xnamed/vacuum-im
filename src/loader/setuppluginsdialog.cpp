@@ -71,7 +71,9 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PLUGINMANAGER_SETUP,0,0,"windowIcon");
-
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
 	FPluginManager = APluginManager;
 	FPluginsSetup = APluginsSetup;
 
