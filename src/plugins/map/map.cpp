@@ -230,7 +230,7 @@ bool Map::initSettings()
     Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("MS Shell Dlg 2,16,-1,5,50,0,0,0,0,0"));
 #else
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);
-    Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
+	Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
 #endif
 	Options::setDefaultValue(OPV_MAP_SHOWING, true);
 	Options::setDefaultValue(OPV_MAP_PROXY, APPLICATION_PROXY_REF_UUID);
@@ -280,13 +280,14 @@ void Map::onOptionsOpened()
 	onOptionsChanged(Options::node(OPV_MAP_SOURCE));
 	onOptionsChanged(Options::node(OPV_MAP_MODE));
 	onOptionsChanged(Options::node(OPV_MAP_ZOOM));
-//	onOptionsChanged(Options::node(OPV_MAP_COORDS));
 	onOptionsChanged(Options::node(OPV_MAP_FOLLOWMYLOCATION));
 	onOptionsChanged(Options::node(OPV_MAP_ZOOM_WHEEL));
 	onOptionsChanged(Options::node(OPV_MAP_ZOOM_SLIDERTRACK));
 
+	onOptionsChanged(Options::node(OPV_MAP_COORDS));
 	QPointF coords=Options::node(OPV_MAP_COORDS).value().toPointF();
 	FMapForm->mapScene()->setMapCenter(coords.y(), coords.x());
+
 	if (Options::node(OPV_MAP_SHOWING).value().toBool())
 	{
 		FMenuToolbar->menuAction()->blockSignals(true);

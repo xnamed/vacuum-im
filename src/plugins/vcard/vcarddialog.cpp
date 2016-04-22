@@ -18,7 +18,11 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	setWindowTitle(tr("Profile - %1").arg(AContactJid.uFull()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_VCARD,0,0,"windowIcon");
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
+// *** >>> eyeCU >>> ***
 	FContactJid = AContactJid;
 	FStreamJid = AStreamJid;
 	FVCardManager = AVCardPlugin;

@@ -434,7 +434,11 @@ void ServiceDiscovery::fillDiscoInfo(IDiscoInfo &ADiscoInfo)
 	{
 		IDiscoIdentity didentity;
 		didentity.category = "client";
+#ifdef EYECU_MOBILE
+		didentity.type = "mobile";
+#else
 		didentity.type = "pc";
+#endif
 		didentity.name = CLIENT_NAME;
 		ADiscoInfo.identity.append(didentity);
 

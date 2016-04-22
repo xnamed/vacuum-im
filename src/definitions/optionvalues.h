@@ -178,7 +178,7 @@
 // MessageStyleManager
 #define OPV_MESSAGESTYLE_ROOT                           "message-styles"
 // *** <<< eyeCU <<< ***
-#define OPV_MESSAGESTYLE_FONT_MONOSPACED				"message-styles.font.monospaced"
+#define OPV_MESSAGESTYLE_FONT_MONOSPACED		"message-styles.font.monospaced"
 // *** >>> eyeCU >>> ***
 #define OPV_MESSAGESTYLE_MTYPE_ITEM                     "message-styles.message-type"
 #define OPV_MESSAGESTYLE_CONTEXT_ITEM                   "message-styles.message-type.context"
@@ -199,13 +199,13 @@
 #define OPV_COMMON_LANGUAGE                             "common.language"
 #define OPV_COMMON_ADVANCED                             "common.advanced"
 #define OPV_COMMON_AUTOSTART                            "common.autostart"
-// ClintInfo
+#define OPV_SIMPLE_STYLE                                "common.simple-style"
+// ClientInfo
 #define OPV_COMMON_SHAREOSVERSION                       "common.share-os-version"
 // Statistics
 #define OPV_COMMON_STATISTICTS_ENABLED                  "common.statistics-enabled"
 // VCardPlugin
 #define OPV_COMMON_RESTRICT_VCARD_IMAGES_SIZE           "common.restrict-vcard-images-size"
-
 // Notifications
 #define OPV_NOTIFICATIONS_ROOT                          "notifications"
 #define OPV_NOTIFICATIONS_SILENTIFDND                   "notifications.silent-if-dnd"

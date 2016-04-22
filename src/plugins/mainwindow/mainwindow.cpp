@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	topToolbar->setStyleSheet(topToolbarStyle);
-//	topToolbar->setIconSize(QSize(size,size));
+	topToolbar->setIconSize(QSize(size,size));
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	bottomToolbar->setStyleSheet(bottomToolbarStyle);
-    //bottomToolbar->setIconSize(QSize(size,size));
+	bottomToolbar->setIconSize(QSize(size,size));
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
@@ -307,30 +307,6 @@ void MainWindow::loadWindowGeometryAndState()
 		FLeftWidgetWidth = Options::fileValue("mainwindow.left-frame-width",ns).toInt();
 	}
 }
-
-/*
-void MainWindow::updateWindow()
-{
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-	QLabel *title;
-	QList<QAction *> actions = topToolBarChanger()->groupItems(TBG_MWTTB_TITLE);
-	if (!actions.isEmpty())
-		title = qobject_cast<QLabel *>(topToolBarChanger()->handleWidget(actions.first()));
-#define SET_TITLE(T) title->setText(T)
-#else
-#define SET_TITLE(T) setWindowTitle(T)
-#endif
-// *** >>> eyeCU >>> ***
-	IMainCentralPage *page = isCentralWidgetVisible() ? mainCentralWidget()->currentCentralPage() : NULL;
-	if (page && !page->centralPageCaption().isEmpty())
-// *** <<< eyeCU <<< ***
-		SET_TITLE(QString(CLIENT_NAME" - %1").arg(page->centralPageCaption()));
-	else
-		SET_TITLE(CLIENT_NAME);
-// *** >>> eyeCU >>> ***
-}
-*/
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE

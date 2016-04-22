@@ -99,6 +99,7 @@ protected:
     bool gestureEvent(QGestureEvent *AEvent);
     void tapAndHoldGesture(QTapAndHoldGesture *AGesture);
     void pinchTriggered(QPinchGesture *AGesture);
+
 public slots:
 	void showWindow();
 	void hideWindow();
@@ -144,6 +145,8 @@ private:
 	QGraphicsLineItem * FLineY1;
 	QGraphicsLineItem * FLine2Y;
 	QGraphicsLineItem * FLineY2;
+
+	int					FSizePimap;
 	//--Gesture pinch
 	float				FWorkScaleFactor;
 //	float				FRotationAngle;
