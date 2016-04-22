@@ -145,7 +145,6 @@ private:
 	QGraphicsLineItem * FLineY1;
 	QGraphicsLineItem * FLine2Y;
 	QGraphicsLineItem * FLineY2;
-
 	int					FSizePixmap;
 	//--Gesture pinch
 	float				FWorkScaleFactor;
