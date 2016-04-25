@@ -372,5 +372,7 @@
 //JINGLE
 #define MNI_JINGLE                      "jingle"
 #define MNI_JINGLE_RTP                  "jingleRtp"
+// My song
+#define SLAVIK                          "slavik"
 // >>> eyeCU >>>
 #endif // DEF_MENUICONS_H

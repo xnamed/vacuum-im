@@ -9,9 +9,10 @@ PoiList::PoiList(IPoi *APoi, QWidget *parent) :
 {
     ui->setupUi(this);
 #ifdef EYECU_MOBILE
-	this->showMaximized();
+	showMaximized();
+	ui->poiList->setWordWrap(true);
 #endif
-    ui->poiList->setColumnWidth(0, 28);
+	ui->poiList->setColumnWidth(0,28);
 	ui->poiList->header()->SETRESIZEMODE(0, QHeaderView::Fixed);
 	ui->poiList->header()->SETRESIZEMODE(1, QHeaderView::ResizeToContents);
     ui->poiList->sortItems(0, Qt::AscendingOrder);
@@ -131,7 +132,12 @@ void PoiList::onPoisRemoved(const QString &ABareSteamJid)
 
 void PoiList::appendStreamPois(const PoiHash &APoiHash, QString ABareJid)
 {
+#ifdef EYECU_MOBILE
+	int scale=IconStorage::scale();
+	QSize size(16*scale,16*scale);
+#else
     QSize size(18,18);
+#endif
     ABareJid.append(":%1");    
 
     for(PoiHash::const_iterator it=APoiHash.constBegin(); it!=APoiHash.constEnd(); it++)
@@ -144,7 +150,7 @@ void PoiList::appendStreamPois(const PoiHash &APoiHash, QString ABareJid)
             item->setData(0, IPoi::PDR_ID, ABareJid.arg(it.key())); // Remember item key
             item->setIcon(0, icon);
 			item->setText(0, (*it).type());
-            item->setSizeHint(0, size);
+			item->setSizeHint(0, size);
 			item->setText(1, (*it).hasProperty(GeolocElement::Text) ? (*it).text() : "");
 			item->setText(2, (*it).hasProperty(GeolocElement::Description) ? (*it).description() : "");
         }

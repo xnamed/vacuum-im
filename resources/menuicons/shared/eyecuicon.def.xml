@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <icondef>
  <icon><key>logo</key><object mime="image/svg">eyecu.svg</object></icon>
+ <icon><key>slavik</key><object mime="image/png">slavik#210.png</object></icon>
 </icondef>

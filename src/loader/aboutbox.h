@@ -15,6 +15,9 @@ public:
 	~AboutBox();
 protected slots:
 	void onLabelLinkActivated(const QString &ALink);
+#ifdef EYECU_MOBILE
+    void onLinkActivated();
+#endif
 private:
 	Ui::AboutBoxClass ui;
 };

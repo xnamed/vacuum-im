@@ -1,5 +1,5 @@
 #include "aboutbox.h"
-
+#include <QDebug>
 #include <QDesktopServices>
 #include <QScreen>
 #include <QStyleFactory>
@@ -44,10 +44,15 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 			.arg(qApp->style()->objectName()).arg(allStyles);
 	ui.lblStyles->setText(aboutStyles);
 
+//!----------
+	ui.lblPosv->setText(QString("<a href='dedicated'>%1</a>").arg(tr("Dedicated")));
+    connect(ui.lblPosv,SIGNAL(linkActivated(const QString &)),SLOT(onLinkActivated()));
+//!----------
 	showMaximized();
 #else
     ui.lblDevice->setVisible(false);
 	ui.lblStyles->setVisible(false);
+    ui.lblPosv->setVisible(false);
 #endif
 // *** >>> eyeCU >>> ****
 	connect(ui.lblHomePage,SIGNAL(linkActivated(const QString &)),SLOT(onLabelLinkActivated(const QString &)));
@@ -60,5 +65,44 @@ AboutBox::~AboutBox()
 
 void AboutBox::onLabelLinkActivated(const QString &ALink)
 {
-	QDesktopServices::openUrl(ALink);
+    QDesktopServices::openUrl(ALink);
 }
+
+#ifdef EYECU_MOBILE
+void AboutBox::onLinkActivated()
+{
+/*
+Памяти моего безвременно ушедшего сына Вячеслава Вячеславовича Целых (14.11.1992-21.08.2015) посвящается.
+Dedicated to my untimely deceased son Vyacheslav V. Tselykh (14.11.1992-21.08.2015)
+*/
+	QWidget *dedicated=new QWidget;
+	dedicated->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	dedicated->setStyleSheet(QString("background-color:red;"));
+
+	QVBoxLayout *lay= new QVBoxLayout(dedicated);
+	lay->setSpacing(2);
+	lay->setContentsMargins(5,5,5,5);
+	lay->setAlignment(Qt::AlignVCenter);
+
+    QLabel *lblIcon= new QLabel;
+    lblIcon->setAlignment(Qt::AlignHCenter);
+    QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(SLAVIK);
+    lblIcon->setPixmap(QPixmap::fromImage(QImageReader(fileName).read()));
+
+    QLabel *lbl= new QLabel;
+    lbl->setStyleSheet(QString("border:0;  color:white;"));//background-color:red;
+    lbl->setWordWrap(true);
+    lbl->setAlignment(Qt::AlignHCenter);//Qt::AlignJustify
+	lbl->setText(tr("Памяти\nмоего безвременно ушедшего сына\nВячеслава Вячеславовича\nЦелых\n14.11.1992 - 21.08.2015\nпосвящается."));
+
+	QFont font=lbl->font();
+	font.setPointSizeF(lbl->font().pointSizeF()*IconStorage::scale()*.8);
+	lbl->setFont(font);
+
+    lay->addWidget(lblIcon);
+    lay->addWidget(lbl);
+	lay->addSpacing(10);
+
+	dedicated->show();
+}
+#endif
