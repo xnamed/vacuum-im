@@ -56,7 +56,7 @@
         <item>
          <widget class="QComboBox" name="cmbConnections">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -76,7 +76,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="wdtConnectionSettings" native="true"/>
+    <widget class="QWidget" name="wdtConnectionSettings" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

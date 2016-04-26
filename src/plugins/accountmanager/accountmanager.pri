@@ -1,5 +1,7 @@
 FORMS = accountitemwidget.ui \
-        accountsoptionswidget.ui
+        accountsoptionswidget.ui \
+    $$PWD/accountsoptionswidget2.ui \
+    $$PWD/accountitemwidget2.ui
 
 HEADERS = accountitemwidget.h \
           accountsoptionswidget.h \

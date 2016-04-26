@@ -3,12 +3,18 @@
 
 #include <QDialog>
 #include <interfaces/iconnectionmanager.h>
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_editproxydialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_editproxydialog.h"
+#endif
 
 class EditProxyDialog :
 	public QDialog
 {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	EditProxyDialog(IConnectionManager *AManager, QWidget *AParent = NULL);
 	~EditProxyDialog();

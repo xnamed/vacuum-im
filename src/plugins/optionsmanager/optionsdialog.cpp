@@ -297,7 +297,7 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		ui.scaScroll->setWidget(curWidget);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-		curWidget->layout()->setSpacing(0);
+//		curWidget->layout()->setSpacing(0);
 		ui.scaScroll->showMaximized();
 		ui.scaScroll->setVisible(true);
 //		if(FStyleOn)

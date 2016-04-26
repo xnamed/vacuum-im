@@ -4,14 +4,20 @@
 #include <QWidget>
 #include <interfaces/iconnectionmanager.h>
 #include <interfaces/ioptionsmanager.h>
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_proxysettingswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_proxysettingswidget.h"
+#endif
 
 class ProxySettingsWidget :
 	public QWidget,
 	public IOptionsDialogWidget
 {
-	Q_OBJECT;
-	Q_INTERFACES(IOptionsDialogWidget);
+	Q_OBJECT
+	Q_INTERFACES(IOptionsDialogWidget)
 public:
 	ProxySettingsWidget(IConnectionManager *AManager, const OptionsNode &ANode, QWidget *AParent);
 	~ProxySettingsWidget();

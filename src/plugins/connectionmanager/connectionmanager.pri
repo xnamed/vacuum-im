@@ -1,6 +1,8 @@
 FORMS = connectionoptionswidget.ui \
         editproxydialog.ui \
-        proxysettingswidget.ui
+        proxysettingswidget.ui \
+    $$PWD/editproxydialog2.ui \
+    $$PWD/proxysettingswidget2.ui
 
 HEADERS = connectionmanager.h \
           connectionoptionswidget.h \

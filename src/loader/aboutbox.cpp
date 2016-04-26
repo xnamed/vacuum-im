@@ -72,7 +72,6 @@ void AboutBox::onLinkActivated()
 {
 /*
 Памяти моего безвременно ушедшего сына Вячеслава Вячеславовича Целых (14.11.1992-21.08.2015) посвящается.
-Dedicated to my untimely deceased son Vyacheslav V. Tselykh (14.11.1992-21.08.2015)
 */
 	QWidget *dedicated=new QWidget;
 	dedicated->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -89,18 +88,16 @@ Dedicated to my untimely deceased son Vyacheslav V. Tselykh (14.11.1992-21.08.20
     lblIcon->setPixmap(QPixmap::fromImage(QImageReader(fileName).read()));
 
     QLabel *lbl= new QLabel;
-    lbl->setStyleSheet(QString("border:0;  color:white;"));//background-color:red;
+	lbl->setStyleSheet(QString("border:0;color:white;"));//background-color:red;
     lbl->setWordWrap(true);
-	lbl->setAlignment(Qt::AlignHCenter);//Qt::AlignJustify
-	lbl->setText(tr("Памяти\nмоего безвременно ушедшего сына\nВячеслава Вячеславовича\nЦелых\n14.11.1992 - 21.08.2015\nпосвящается"));
-
+	lbl->setAlignment(Qt::AlignHCenter);
+	lbl->setText(tr("Dedicated\nto my prematurely\ndeceased son\n Vyacheslav V. Tselykh\n14.11.1992 - 21.08.2015 "));
 	QFont font=lbl->font();
 	font.setPointSizeF(lbl->font().pointSizeF()*IconStorage::scale()*.7);
 	lbl->setFont(font);
 
     lay->addWidget(lblIcon);
     lay->addWidget(lbl);
-//	lay->addSpacing(10);
 
 	dedicated->show();
 }

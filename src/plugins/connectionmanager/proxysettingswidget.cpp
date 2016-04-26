@@ -10,9 +10,14 @@ ProxySettingsWidget::ProxySettingsWidget(IConnectionManager *AManager, const Opt
 	FOptions = ANode;
 
 	if (ANode.path() == OPV_PROXY_DEFAULT)
+#ifdef EYECU_MOBILE
+		ui.groupBoxProxy->setTitle(tr("Default proxy:"));
+#else
 		ui.lblProxy->setText(tr("Default proxy:"));
+#endif
 	else
 		ui.cmbProxy->addItem(" "+tr("<Default Proxy>"), APPLICATION_PROXY_REF_UUID);
+
 	ui.cmbProxy->addItem(FManager->proxyById(QUuid()).name, QUuid().toString());
 
 	foreach(const QUuid &id, FManager->proxyList())

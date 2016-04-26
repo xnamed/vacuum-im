@@ -4,13 +4,18 @@
 #include <QUuid>
 #include <QWidget>
 #include <utils/jid.h>
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_accountitemwidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_accountitemwidget.h"
+#endif
 
 class AccountItemWidget :
 	public QWidget
 {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	AccountItemWidget(const QUuid &AAccountId, QWidget *AParent = NULL);
 	~AccountItemWidget();

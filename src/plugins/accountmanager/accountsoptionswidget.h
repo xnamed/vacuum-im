@@ -10,7 +10,13 @@
 #include <interfaces/iaccountmanager.h>
 #include <interfaces/ioptionsmanager.h>
 #include "accountitemwidget.h"
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_accountsoptionswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_accountsoptionswidget.h"
+#endif
 
 class AccountManager;
 
@@ -18,8 +24,8 @@ class AccountsOptionsWidget :
 	public QWidget,
 	public IOptionsDialogWidget
 {
-	Q_OBJECT;
-	Q_INTERFACES(IOptionsDialogWidget);
+	Q_OBJECT
+	Q_INTERFACES(IOptionsDialogWidget)
 public:
 	enum Flags {
 		Advanced = 1,
