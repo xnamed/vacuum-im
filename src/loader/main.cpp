@@ -32,10 +32,11 @@ xhdpi	 : [320] [48]  3.0   24   (extra-high)				~320dpi
 xxhdpi	 : [480] [56]  3.5   28   (extra-extra-high)		~480dpi
 xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 --------------------------------------------------------------------
-1. xlarge screens are at least [960dp x 720dp]
-2. large  screens are at least [640dp x 480dp]
-3. normal screens are at least [470dp x 320dp]
-4. small  screens are at least [426dp x 320dp]
+							   [height x width]
+1. xlarge screens are at least [960dp  x 720dp]
+2. large  screens are at least [640dp  x 480dp]
+3. normal screens are at least [470dp  x 320dp]
+4. small  screens are at least [426dp  x 320dp]
 --------------------------------------------------------------------
 */
 #ifdef EYECU_MOBILE

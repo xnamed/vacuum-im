@@ -10,6 +10,7 @@
 
 void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+	int size=16*IconStorage::scale();
 // Qt::UserRole contains display data
     QString userRole = index.data(Qt::UserRole).toString();
 
@@ -23,7 +24,7 @@ void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     if(userRole.contains("dir:"))
         flag=true;
     else
-        opt.rect.setX(16);
+		opt.rect.setX(size);
 
 // QStandardItem
     const QStyleOptionViewItemV4 *v4 = qstyleoption_cast<const QStyleOptionViewItemV4 *>(&option);
@@ -33,7 +34,7 @@ void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     painter->save();
     if(!flag)
     {
-        QRect backgroundRect(option.rect.x(), option.rect.y(), 18, 18);
+		QRect backgroundRect(option.rect.x(), option.rect.y(), size+2, size+2);//18,18
         QPixmap pix = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(CONNECT_ICON);
         style->drawItemPixmap(painter,backgroundRect,Qt::AlignLeft,pix);
     }
@@ -57,7 +58,7 @@ void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     painter->setPen(pen);
 
     QRect rect = opt.rect;
-    int shift = 24;
+	int shift = 1.5*size;//24
     QFont font;
     rect.setX(rect.x()+shift);
     if(flag)
@@ -75,6 +76,6 @@ QSize TypeItemDelegate::sizeHint(const QStyleOptionViewItem & option, const QMod
     QSize result = QStyledItemDelegate::sizeHint(option, index);
     if(result.height()<16)
         result.setHeight(16);
-    result.setHeight(result.height()*1.15);
+	result.setHeight(result.height()*1.15);
     return result;
 }

@@ -43,9 +43,8 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 	QString aboutStyles=QString("Current style: <b>%1</b> of %2")
 			.arg(qApp->style()->objectName()).arg(allStyles);
 	ui.lblStyles->setText(aboutStyles);
-
 //!----------
-	ui.lblPosv->setText(QString("<a href='dedicated'>%1</a>").arg(tr("Dedicated")));
+	//ui.lblPosv->setText(QString("<a href='dedicated'>%1</a>").arg(tr("Dedicated")));
     connect(ui.lblPosv,SIGNAL(linkActivated(const QString &)),SLOT(onLinkActivated()));
 //!----------
 	showMaximized();
@@ -80,7 +79,7 @@ Dedicated to my untimely deceased son Vyacheslav V. Tselykh (14.11.1992-21.08.20
 	dedicated->setStyleSheet(QString("background-color:red;"));
 
 	QVBoxLayout *lay= new QVBoxLayout(dedicated);
-	lay->setSpacing(2);
+//	lay->setSpacing(2);
 	lay->setContentsMargins(5,5,5,5);
 	lay->setAlignment(Qt::AlignVCenter);
 
@@ -92,16 +91,16 @@ Dedicated to my untimely deceased son Vyacheslav V. Tselykh (14.11.1992-21.08.20
     QLabel *lbl= new QLabel;
     lbl->setStyleSheet(QString("border:0;  color:white;"));//background-color:red;
     lbl->setWordWrap(true);
-    lbl->setAlignment(Qt::AlignHCenter);//Qt::AlignJustify
-	lbl->setText(tr("Памяти\nмоего безвременно ушедшего сына\nВячеслава Вячеславовича\nЦелых\n14.11.1992 - 21.08.2015\nпосвящается."));
+	lbl->setAlignment(Qt::AlignHCenter);//Qt::AlignJustify
+	lbl->setText(tr("Памяти\nмоего безвременно ушедшего сына\nВячеслава Вячеславовича\nЦелых\n14.11.1992 - 21.08.2015\nпосвящается"));
 
 	QFont font=lbl->font();
-	font.setPointSizeF(lbl->font().pointSizeF()*IconStorage::scale()*.8);
+	font.setPointSizeF(lbl->font().pointSizeF()*IconStorage::scale()*.7);
 	lbl->setFont(font);
 
     lay->addWidget(lblIcon);
     lay->addWidget(lbl);
-	lay->addSpacing(10);
+//	lay->addSpacing(10);
 
 	dedicated->show();
 }
