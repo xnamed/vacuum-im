@@ -1,4 +1,5 @@
-FORMS = editnotedialog.ui
+FORMS = editnotedialog.ui \
+    $$PWD/editnotedialog2.ui
 
 HEADERS = editnotedialog.h \
           annotations.h

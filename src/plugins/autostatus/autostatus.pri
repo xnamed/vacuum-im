@@ -1,4 +1,5 @@
-FORMS = autostatusoptionswidget.ui
+FORMS = autostatusoptionswidget.ui \
+    $$PWD/autostatusoptionswidget2.ui
 
 HEADERS = autostatus.h \
           autostatusoptionswidget.h \

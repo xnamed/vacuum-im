@@ -6,7 +6,14 @@
 #include <interfaces/iautostatus.h>
 #include <interfaces/istatuschanger.h>
 #include <interfaces/ioptionsmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_autostatusoptionswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_autostatusoptionswidget.h"
+#endif
 
 class AutoStatusOptionsWidget :
 	public QWidget,

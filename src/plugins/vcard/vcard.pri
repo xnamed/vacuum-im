@@ -1,5 +1,6 @@
 FORMS = vcarddialog.ui \
-        edititemdialog.ui
+        edititemdialog.ui \
+    $$PWD/vcarddialog2.ui
 
 HEADERS = vcardmanager.h \
           vcard.h \

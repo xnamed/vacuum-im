@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>201</width>
-    <height>83</height>
+    <height>72</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -79,6 +79,24 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>1</number>
+      </property>
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="rightMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>1</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>4</number>
+      </property>
       <item row="0" column="0" colspan="2">
        <widget class="QLabel" name="lblAddAccount">
         <property name="sizePolicy">

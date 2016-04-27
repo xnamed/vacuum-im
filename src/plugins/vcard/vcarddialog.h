@@ -4,12 +4,19 @@
 #include <QDialog>
 #include <interfaces/ivcardmanager.h>
 #include "edititemdialog.h"
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_vcarddialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_vcarddialog.h"
+#endif
 
 class VCardDialog :
 	public QDialog
 {
-	Q_OBJECT;
+	Q_OBJECT
 public:
 	VCardDialog(IVCardManager *AVCardPlugin,const Jid &AStreamJid, const Jid &AContactJid, QWidget *AParent);
 	~VCardDialog();

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>165</width>
-    <height>42</height>
+    <height>45</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,15 +21,18 @@
     <number>1</number>
    </property>
    <property name="topMargin">
-    <number>1</number>
+    <number>2</number>
    </property>
    <property name="rightMargin">
     <number>1</number>
    </property>
    <property name="bottomMargin">
-    <number>1</number>
+    <number>4</number>
    </property>
-   <property name="spacing">
+   <property name="horizontalSpacing">
+    <number>3</number>
+   </property>
+   <property name="verticalSpacing">
     <number>1</number>
    </property>
    <item row="0" column="0">
@@ -62,7 +65,7 @@
       <item>
        <widget class="QComboBox" name="cmbProxy">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>

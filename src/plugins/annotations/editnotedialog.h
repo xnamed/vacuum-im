@@ -3,7 +3,14 @@
 
 #include <QDialog>
 #include <interfaces/iannotations.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_editnotedialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_editnotedialog.h"
+#endif
 
 class EditNoteDialog :
 	public QDialog

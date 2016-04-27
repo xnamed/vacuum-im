@@ -1,4 +1,5 @@
-FORMS = connectionoptionswidget.ui
+FORMS = connectionoptionswidget.ui \
+    $$PWD/connectionoptionswidget2.ui
 
 HEADERS = defaultconnection.h \
           defaultconnectionengine.h \
