@@ -62,12 +62,12 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 //!---- delete Later-------
 
 //! -- select style for APP ---
-/*	QStringList styles=QStyleFactory::keys();
+    QStringList styles=QStyleFactory::keys();
 	// "Android","Windows", "Fusion"
 	//! Also m.b. //"Motif , Plastique, Cleanlooks, GTK, GDE, cde, WindowsVista, WindowsXP"//
-	if(styles.contains("fusion",Qt::CaseInsensitive))
-		app.setStyle(QStyleFactory::create("Fusion"));
-*/
+//	if(styles.contains("fusion",Qt::CaseInsensitive))
+//		app.setStyle(QStyleFactory::create("Fusion"));
+
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);

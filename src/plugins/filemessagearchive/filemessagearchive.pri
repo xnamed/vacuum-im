@@ -1,4 +1,5 @@
-FORMS   = filearchiveoptionswidget.ui
+FORMS   = filearchiveoptionswidget.ui \
+    $$PWD/filearchiveoptionswidget2.ui
 
 HEADERS = filemessagearchive.h \
           filewriter.h \

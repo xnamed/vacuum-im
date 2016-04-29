@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+   <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -22,7 +22,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>131</height>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -52,16 +52,22 @@
    </property>
    <item row="0" column="1">
     <widget class="QLineEdit" name="ledPath">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>20</height>
+       <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>20</height>
+       <height>16777215</height>
       </size>
      </property>
     </widget>
@@ -70,8 +76,8 @@
     <widget class="QTextEdit" name="tedDesc">
      <property name="minimumSize">
       <size>
-       <width>235</width>
-       <height>35</height>
+       <width>0</width>
+       <height>0</height>
       </size>
      </property>
      <property name="acceptRichText">
@@ -96,6 +102,12 @@
    </item>
    <item row="0" column="0">
     <widget class="QComboBox" name="cmbScheme">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="toolTip">
       <string notr="true"/>
      </property>

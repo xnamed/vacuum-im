@@ -131,19 +131,18 @@ QMultiMap<int, IOptionsDialogWidget *> AccountManager::optionsDialogWidgets(cons
 				flags|=AccountsOptionsWidget::NoWizrd;
 			AccountsOptionsWidget *widget = new AccountsOptionsWidget(this, flags, AParent);
 			widgets.insertMulti(OWO_ACCOUNTS_ACCOUNTS, widget);
+
 			connect(widget, SIGNAL(addAccountLinkActivated(const QString &)), SLOT(onAddAccountLinkActivated(const QString &)));
 			connect(this, SIGNAL(showAccountSettings(QUuid)), widget, SLOT(onSettingsButtonClicked(QUuid)));
 // *** >>> eyeCU >>> ***
 			widgets.insertMulti(OHO_ACCOUNTS_COMMON, FOptionsManager->newOptionsDialogHeader(tr("Common account settings"),AParent));
-			
-			QComboBox *resourceCombox = newResourceComboBox(QUuid(),AParent);
-			resourceCombox->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+
+            QComboBox *resourceCombox = newResourceComboBox(QUuid(),AParent);
 			widgets.insertMulti(OWO_ACCOUNTS_DEFAULTRESOURCE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ACCOUNT_DEFAULTRESOURCE),tr("Default resource:"),resourceCombox,AParent));
 		}
 		else if (nodeTree.count()==3 && nodeTree.at(0)==OPN_ACCOUNTS && nodeTree.at(2)=="Parameters")
 		{
 			OptionsNode options = Options::node(OPV_ACCOUNT_ITEM,nodeTree.at(1));
-
 			widgets.insertMulti(OHO_ACCOUNTS_PARAMS_ACCOUNT,FOptionsManager->newOptionsDialogHeader(tr("Account"),AParent));
 			widgets.insertMulti(OWO_ACCOUNTS_PARAMS_NAME,FOptionsManager->newOptionsDialogWidget(options.node("name"),tr("Name:"),AParent));
 // *** <<< eyeCU <<< ***

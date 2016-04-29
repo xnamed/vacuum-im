@@ -89,11 +89,12 @@ class LineOnWidget : public QLabel
 public:
 	explicit LineOnWidget(QLabel *parent = 0);
 	void setColor(QColor AColor){FColorLine=AColor;}
+    void setWidthLine(int AWidth){FcurWidth=AWidth;}
 protected:
 	void paintEvent(QPaintEvent *AEvent);
 private:
-	QColor FColorLine;
-
+    QColor  FColorLine;
+    int     FcurWidth;
 };
 
 QT_END_NAMESPACE

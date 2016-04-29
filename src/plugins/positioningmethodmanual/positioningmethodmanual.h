@@ -18,6 +18,7 @@
 #include <definitions/menuicons.h>
 
 #include <utils/action.h>
+
 #include "positioningmethodmanualoptions.h"
 
 #define POSITIONINGMETHODMANUAL_UUID "{32dbe444-c291-4947-ab76-899ce7bcd023}"

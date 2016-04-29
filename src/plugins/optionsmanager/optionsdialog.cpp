@@ -74,7 +74,6 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	FProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
 	ui.trvNodes->setModel(FProxyModel);
-//	ui.trvNodes->setIconSize(NODE_ITEM_ICONSIZE);
     ui.trvNodes->setIconSize(FNodeItemIconSize);    // *** <<< eyeCU <<< ***
 	ui.trvNodes->setRootIsDecorated(false);
 	ui.trvNodes->setUniformRowHeights(false);
@@ -116,13 +115,15 @@ void OptionsDialog::showNode(const QString &ANodeId)
 		ui.trvNodes->setCurrentIndex(FProxyModel->mapFromSource(FItemsModel->indexFromItem(item)));
 }
 
+// *** <<< eyeCU <<< ---
+#ifdef EYECU_MOBILE
 QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 {
 	LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
 
     QWidget *nodeWidget = new QWidget(ui.scaScroll);
 	QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
-	nodeLayout->setMargin(1);
+    nodeLayout->setMargin(1);
 
 	QMultiMap<int, IOptionsDialogWidget *> orderedWidgets;
 	foreach(IOptionsDialogHolder *optionsHolder, FOptionsManager->optionsDialogHolders())
@@ -140,34 +141,23 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 				if (headerLayout == NULL)
 				{
 					headerLayout = new QVBoxLayout;
-#ifndef EYECU_MOBILE	// *** <<< eyeCU <<< ---
-					headerLayout->setContentsMargins(15,0,0,0);
-#endif
+                    headerLayout->setContentsMargins(IconStorage::scale()*2,0,0,0);
 					nodeLayout->addLayout(headerLayout);
 				}
                 headerLayout->addWidget(widget->instance());
-#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
-//				widget->instance()->installEventFilter(this);//for mouse
-				LineOnWidget *line=new LineOnWidget;
-				headerLayout->addWidget(line);
-#endif				// *** <<< eyeCU <<< ---
+                widget->instance()->installEventFilter(this);   // for mouse
+                headerLayout->addWidget(new LineOnWidget);      //! add line after widget
 			}
 			else
 			{
-#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
 				if(FStyleOn)
 				{
 					widget->instance()->setStyleSheet(FHeaderStyle);
 					widget->instance()->setFixedHeight(16*(IconStorage::scale()+1));
 				}
-#endif				// *** <<< eyeCU <<< ---
 				if (headerLayout != NULL)
 				{
-#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
 					nodeLayout->addSpacing(0);
-#else
-					nodeLayout->addSpacing(10);
-#endif				// *** <<< eyeCU <<< ---
 					headerLayout = NULL;
 				}
 				else if (headerWidget != NULL)
@@ -175,9 +165,7 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 					delete headerWidget->instance();
 				}
                 nodeLayout->addWidget(widget->instance());
-#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ---
 				nodeLayout->addSpacing(10);		//! Spaser after header
-#endif				// *** <<< eyeCU <<< ---
 				headerWidget = widget;
 			}
 
@@ -203,6 +191,75 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	FCleanupHandler.add(nodeWidget);
 	return nodeWidget;
 }
+#else
+// *** >>> eyeCU >>> ***
+QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
+{
+    LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
+
+    QWidget *nodeWidget = new QWidget(ui.scaScroll);
+    QVBoxLayout *nodeLayout = new QVBoxLayout(nodeWidget);
+    nodeLayout->setMargin(5);
+
+    QMultiMap<int, IOptionsDialogWidget *> orderedWidgets;
+    foreach(IOptionsDialogHolder *optionsHolder, FOptionsManager->optionsDialogHolders())
+        orderedWidgets += optionsHolder->optionsDialogWidgets(ANodeId,nodeWidget);
+
+    if (!orderedWidgets.isEmpty())
+    {
+        QVBoxLayout *headerLayout = NULL;
+        IOptionsDialogWidget *headerWidget = NULL;
+        foreach(IOptionsDialogWidget *widget, orderedWidgets)
+        {
+            bool isHeader = qobject_cast<OptionsDialogHeader *>(widget->instance()) != NULL;
+            if (!isHeader)
+            {
+                if (headerLayout == NULL)
+                {
+                    headerLayout = new QVBoxLayout;
+                    headerLayout->setContentsMargins(15,0,0,0);
+                    nodeLayout->addLayout(headerLayout);
+                }
+                headerLayout->addWidget(widget->instance());
+            }
+            else
+            {
+                if (headerLayout != NULL)
+                {
+                    nodeLayout->addSpacing(10);
+                    headerLayout = NULL;
+                }
+                else if (headerWidget != NULL)
+                {
+                    delete headerWidget->instance();
+                }
+                nodeLayout->addWidget(widget->instance());
+                headerWidget = widget;
+            }
+
+            connect(this,SIGNAL(applied()),widget->instance(),SLOT(apply()));
+            connect(this,SIGNAL(reseted()),widget->instance(),SLOT(reset()));
+            connect(widget->instance(),SIGNAL(modified()),SLOT(onOptionsWidgetModified()));
+        }
+
+        if (headerWidget!=NULL && headerLayout==NULL)
+            delete headerWidget->instance();
+
+        if (!canExpandVertically(nodeWidget))
+            nodeLayout->addStretch();
+    }
+    else
+    {
+        QLabel *label = new QLabel(tr("Options are absent"),nodeWidget);
+        label->setAlignment(Qt::AlignCenter);
+        label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+        nodeLayout->addWidget(label);
+    }
+
+    FCleanupHandler.add(nodeWidget);
+    return nodeWidget;
+}
+#endif
 
 QStandardItem *OptionsDialog::getNodeModelItem(const QString &ANodeId)
 {
@@ -226,7 +283,29 @@ bool OptionsDialog::canExpandVertically(const QWidget *AWidget) const
 			if (childs.at(i)->isWidgetType())
 				expanding = canExpandVertically(qobject_cast<QWidget *>(childs.at(i)));
 	}
-	return expanding;
+    return expanding;
+}
+
+bool OptionsDialog::eventFilter(QObject *AObj, QEvent *AEvent)
+{
+    bool hooked = false;
+
+    QMouseEvent *mEvent=static_cast<QMouseEvent *>(AEvent);
+
+    if(mEvent->type() == QMouseEvent::MouseButtonPress){
+qDebug()<<"OptionsDialog::eventFilter/Mouse______Press/objectName="<<AObj->objectName();
+//        QWidget::mousePressEvent(static_cast<QMouseEvent *>(AEvent));
+
+    }
+    else if(mEvent->type() == QMouseEvent::MouseButtonRelease)  {
+qDebug()<<"OptionsDialog::eventFilter/MouseButtonRelease/objectName="<<AObj->objectName();
+
+    }
+    else if(mEvent->type() == QMouseEvent::MouseMove){
+
+    }
+    return QObject::eventFilter(AObj, AEvent);
+//    return hooked || QObject::eventFilter(AObj,AEvent);
 }
 
 void OptionsDialog::onOptionsWidgetModified()
@@ -246,10 +325,8 @@ void OptionsDialog::onOptionsDialogNodeInserted(const IOptionsDialogNode &ANode)
 			QStandardItem *item = getNodeModelItem(ANode.nodeId);
 			item->setText(ANode.caption);
 			item->setData(ANode.order,IDR_ORDER);
-//			item->setData(NODE_ITEM_SIZEHINT,Qt::SizeHintRole);
             item->setData(FNodeItemSizeHint,Qt::SizeHintRole);  // *** <<< eyeCU <<< ***
 			item->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(ANode.iconkey));
-
 			ui.trvNodes->setVisible(FItemsModel->rowCount() > 0);
 		}
 	}
@@ -276,7 +353,6 @@ void OptionsDialog::onClicked(const QModelIndex &ACurrent)
 {
 	onCurrentItemChanged(ACurrent, ACurrent);
 }
-
 // *** >>> eyeCU >>> ***
 
 void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QModelIndex &APrevious)
@@ -297,7 +373,6 @@ void OptionsDialog::onCurrentItemChanged(const QModelIndex &ACurrent, const QMod
 		ui.scaScroll->setWidget(curWidget);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-//		curWidget->layout()->setSpacing(0);
 		ui.scaScroll->showMaximized();
 		ui.scaScroll->setVisible(true);
 //		if(FStyleOn)

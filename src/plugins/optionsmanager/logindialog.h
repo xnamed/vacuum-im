@@ -3,7 +3,14 @@
 
 #include <QDialog>
 #include <interfaces/ioptionsmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_logindialog2.h"
+#else
 #include "ui_logindialog.h"
+#endif
+// *** >>> eyeCU >>> ***
 
 class LoginDialog :
 	public QDialog

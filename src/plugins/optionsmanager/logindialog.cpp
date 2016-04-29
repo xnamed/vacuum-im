@@ -9,6 +9,12 @@ LoginDialog::LoginDialog(IOptionsManager *AOptionsManager, QWidget *AParent) : Q
 	ui.setupUi(this);
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose, true);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    //showMaximized();
+    resize(350,250);
+#endif
+// *** >>> eyeCU >>> ***
 
 	FManager = AOptionsManager;
 

@@ -9,4 +9,5 @@ SOURCES = \
 
 FORMS += \
     positioningmethodmanualoptions.ui \
-    $$PWD/setlocation.ui
+    $$PWD/setlocation.ui \
+    $$PWD/positioningmethodmanualoptions2.ui

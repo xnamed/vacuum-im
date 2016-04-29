@@ -1,7 +1,8 @@
 FORMS = \
         editprofilesdialog.ui \
         logindialog.ui \
-        optionsdialog.ui
+        optionsdialog.ui \
+    $$PWD/logindialog2.ui
 
 
 HEADERS = optionsmanager.h \

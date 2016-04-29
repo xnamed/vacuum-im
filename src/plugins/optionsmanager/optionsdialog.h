@@ -38,6 +38,9 @@ protected:
 	QWidget *createNodeWidget(const QString &ANodeId);
 	QStandardItem *getNodeModelItem(const QString &ANodeId);
 	bool canExpandVertically(const QWidget *AWidget) const;
+protected:// *** >>> eyeCU >>> ***
+    bool eventFilter(QObject *AObj, QEvent *AEvent);// *** >>> eyeCU >>> ***
+
 protected slots:
 	void onOptionsWidgetModified();
 	void onOptionsDialogNodeInserted(const IOptionsDialogNode &ANode);

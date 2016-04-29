@@ -183,7 +183,7 @@ AutoRulesOptionsDialog::AutoRulesOptionsDialog(IAutoStatus *AAutoStatus, IStatus
 	FAutoStatus = AAutoStatus;
 	FStatusChanger = AStatusChanger;
 
-	tbwRules = new QTableWidget(this);
+    tbwRules = new QTableWidget(this);
 	tbwRules->verticalHeader()->hide();
 	tbwRules->horizontalHeader()->setSortIndicatorShown(false);
 	tbwRules->setItemDelegate(new AutoRuleDelegate(FStatusChanger,tbwRules));

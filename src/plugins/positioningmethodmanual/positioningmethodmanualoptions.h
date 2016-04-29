@@ -5,7 +5,7 @@
 #include <interfaces/ioptionsmanager.h>
 #include "definitions/optionvalues.h"
 
-#include "ui_positioningmethodmanualoptions.h"
+#include "ui_positioningmethodmanualoptions2.h"
 
 namespace Ui {
 class PositioningMethodManualOptions;

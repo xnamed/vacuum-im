@@ -136,14 +136,16 @@ void OptionsTreeView::mouseReleaseEvent(QMouseEvent *AEvent)
 //! \param parent
 //!
 LineOnWidget::LineOnWidget(QLabel *parent) :
-FColorLine(Qt::gray)
+FColorLine(Qt::gray),
+FcurWidth(1)
 {
 	Q_UNUSED (parent)
 }
 
 void LineOnWidget::paintEvent(QPaintEvent *AEvent){
 	QWidget::paintEvent(AEvent);
+    setFixedHeight(FcurWidth);
 	QPainter p(this);
-	p.setPen(QPen(FColorLine,1,Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    p.setPen(QPen(FColorLine,FcurWidth,Qt::SolidLine,Qt::RoundCap,Qt::RoundJoin));
 	p.drawLine(0,0,width(),0);
 } //! LineOnWidget

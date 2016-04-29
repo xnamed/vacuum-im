@@ -3,8 +3,14 @@
 
 #include <interfaces/ipluginmanager.h>
 #include <interfaces/ioptionsmanager.h>
-#include "ui_filearchiveoptionswidget.h"
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_filearchiveoptionswidget2.h"
+#else
+#include "ui_filearchiveoptionswidget.h"
+#endif
+// *** >>> eyeCU >>> ***
 class FileArchiveOptionsWidget : 
 	public QWidget,
 	public IOptionsDialogWidget

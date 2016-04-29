@@ -7,7 +7,14 @@
 #include <interfaces/iaccountmanager.h>
 #include <interfaces/ioptionsmanager.h>
 #include "connectionmanager.h"
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_connectionoptionswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_connectionoptionswidget.h"
+#endif
 
 class ConnectionManager;
 

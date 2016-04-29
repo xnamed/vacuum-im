@@ -10,6 +10,7 @@ OptionsDialogHeader::OptionsDialogHeader(const QString &ACaption, QWidget *APare
 #ifdef EYECU_MOBILE
     setWordWrap(true);
 	setText(QString("<h3>&nbsp;%1</h3>").arg(HTML_ESCAPE(ACaption)));
+    setObjectName(QStringLiteral("optionsDialogHeader"));
 #else
     setText(QString("<h2>%1</h2>").arg(HTML_ESCAPE(ACaption)));
 #endif
