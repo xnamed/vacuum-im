@@ -199,7 +199,6 @@
 #define OPV_COMMON_LANGUAGE                             "common.language"
 #define OPV_COMMON_ADVANCED                             "common.advanced"
 #define OPV_COMMON_AUTOSTART                            "common.autostart"
-#define OPV_SIMPLE_STYLE                                "common.simple-style"
 // ClientInfo
 #define OPV_COMMON_SHAREOSVERSION                       "common.share-os-version"
 // Statistics

@@ -13,6 +13,8 @@ LoginDialog::LoginDialog(IOptionsManager *AOptionsManager, QWidget *AParent) : Q
 #ifdef EYECU_MOBILE
     //showMaximized();
     resize(350,250);
+	//QString styleDialog="border:0; background-color:#039702; color:white;";
+	//setStyleSheet();
 #endif
 // *** >>> eyeCU >>> ***
 

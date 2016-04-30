@@ -129,7 +129,6 @@ bool OptionsManager::initSettings()
 {
 	Options::setDefaultValue(OPV_COMMON_AUTOSTART,false);
 	Options::setDefaultValue(OPV_COMMON_LANGUAGE,QString());
-	Options::setDefaultValue(OPV_SIMPLE_STYLE,false);
 
 	if (profiles().count() == 0)
 		addProfile(DEFAULT_PROFILE, QString::null);
@@ -170,11 +169,6 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 #ifdef Q_OS_WIN
 		widgets.insertMulti(OWO_COMMON_AUTOSTART, newOptionsDialogWidget(Options::node(OPV_COMMON_AUTOSTART), tr("Auto run application on system startup"), AParent));
 #endif
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-		widgets.insertMulti(OWO_SIMPLE_STYLE, newOptionsDialogWidget(Options::node(OPV_SIMPLE_STYLE), tr("Simple style for menu"), AParent)); // *** <<< eyeCU >>> ***
-#endif
-// *** >>> eyeCU >>> ***
 		widgets.insertMulti(OHO_COMMON_LOCALIZATION, newOptionsDialogHeader(tr("Localization"),AParent));
 
 		QDir localeDir(QApplication::applicationDirPath());
@@ -828,10 +822,6 @@ void OptionsManager::onOptionsChanged(const OptionsNode &ANode)
 	{
 		if (ANode.value().toBool() != FAdvanced && QMessageBox::question(NULL, tr("Options mode changed"), tr("To switch options mode, %1 needs to be restarted.\nDo you want to restart %1 now?").arg(CLIENT_NAME), QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes)
 			FPluginManager->restart();
-	}
-	else if (ANode.path() == OPV_SIMPLE_STYLE)
-	{
-
 	}
 // *** >>> eyeCU >>> ***
 	LOG_DEBUG(QString("Options node value changed, node=%1, value=%2").arg(ANode.path(),ANode.value().toString()));

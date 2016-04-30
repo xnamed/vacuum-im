@@ -14,6 +14,10 @@ int main(int argc, char *argv[])
 		// https://bugreports.qt-project.org/browse/QTBUG-40833
 		QFont::insertSubstitution(".Helvetica Neue DeskInterface", "Helvetica Neue");
 	}
+// *** <<< eyeCU <<< ***
+	//Иконки в меню не используются в Mac,
+	app.setAttribute(Qt::AA_DontShowIconsInMenus);
+// *** >>> eyeCU >>> ***
 #endif
 
 	QApplication app(argc, argv);
@@ -56,23 +60,30 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-    scale=2.0;
-    newPointSizeF=16;
+	scale=2.0;			//2.0
+	newPointSizeF=16;	//16
 #endif
 //!---- delete Later-------
 
-//! -- select style for APP ---
+	// -- select style for APP ---
     QStringList styles=QStyleFactory::keys();
 	// "Android","Windows", "Fusion"
-	//! Also m.b. //"Motif , Plastique, Cleanlooks, GTK, GDE, cde, WindowsVista, WindowsXP"//
-//	if(styles.contains("fusion",Qt::CaseInsensitive))
-//		app.setStyle(QStyleFactory::create("Fusion"));
+	// "Motif , Plastique, Cleanlooks, GTK, GDE, cde, WindowsVista, WindowsXP"
+	if(styles.contains("windows",Qt::CaseInsensitive))
+		app.setStyle(QStyleFactory::create("Windows"));
 
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);
 	IconStorage::setScale(scale);
-    IconStorage::setFontPointSize(newPointSizeF);
+	IconStorage::setFontPointSize(newPointSizeF);
+
+	// Need calculate from current device
+	QString chBoxStyle=QString("%1 %2")
+			.arg("QCheckBox::indicator {width: 24px; height: 24px; spacing: 10px;}")
+			.arg("QRadioButton::indicator {width: 24px;height: 24px;}");
+	app.setStyleSheet(chBoxStyle);
+
 #else
     IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
     IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---

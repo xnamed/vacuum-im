@@ -45,7 +45,8 @@
 #if defined(Q_OS_WIN)
 #  define ENV_APP_DATA              "APPDATA"
 #  define DIR_APP_DATA              APPLICATION_NAME
-#  define PATH_APP_DATA             ORGANIZATION_NAME"/"DIR_APP_DATA
+//#  define PATH_APP_DATA             ORGANIZATION_NAME"/"DIR_APP_DATA
+#  define PATH_APP_DATA             "RoadWorksSoftware/eyeCU"
 // *** <<< eyeCU <<< ***
 #elif defined(Q_OS_OS2)
 #  define ENV_APP_DATA              "HOME"
