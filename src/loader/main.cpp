@@ -14,16 +14,18 @@ int main(int argc, char *argv[])
 		// https://bugreports.qt-project.org/browse/QTBUG-40833
 		QFont::insertSubstitution(".Helvetica Neue DeskInterface", "Helvetica Neue");
 	}
-// *** <<< eyeCU <<< ***
-	//Иконки в меню не используются в Mac,
-	app.setAttribute(Qt::AA_DontShowIconsInMenus);
-// *** >>> eyeCU >>> ***
 #endif
 
 	QApplication app(argc, argv);
 	app.setQuitOnLastWindowClosed(false);
 	app.addLibraryPath(app.applicationDirPath());
 	app.setApplicationName(CLIENT_NAME);
+// *** <<< eyeCU <<< ***
+#ifdef Q_OS_MACX
+	//Icons on the menu are not used in Mac
+	app.setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
+// *** >>> eyeCU >>> ***
 
 //! *** <<< eyeCU <<< *********************
 /*!
@@ -50,13 +52,13 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
 	qreal scale;					//! PointSizeF=96
     float newPointSizeF;
-         if(midleDotsPerInch<=110)                          {scale=1.0; newPointSizeF= 8;}
-    else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{scale=1.5; newPointSizeF=12;}
-	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{scale=2.0; newPointSizeF=16;}
-	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{scale=2.5; newPointSizeF=20;}
-	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{scale=3.0; newPointSizeF=24;}
-	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{scale=3.5; newPointSizeF=28;}
-	else if(midleDotsPerInch>640)							{scale=4.5;	newPointSizeF=36;}
+		 if(midleDotsPerInch<=110)                          {scale=1.0; newPointSizeF= 8.0;}
+	else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{scale=1.5; newPointSizeF=12.0;}
+	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{scale=2.0; newPointSizeF=18.0;}
+	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{scale=2.5; newPointSizeF=20.0;}
+	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{scale=3.0; newPointSizeF=24.0;}
+	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{scale=3.5; newPointSizeF=28.0;}
+	else if(midleDotsPerInch>640)							{scale=4.5;	newPointSizeF=36.0;}
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
@@ -64,25 +66,27 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	newPointSizeF=16;	//16
 #endif
 //!---- delete Later-------
-
+//!
 	// -- select style for APP ---
-    QStringList styles=QStyleFactory::keys();
+	QStringList styles=QStyleFactory::keys();
 	// "Android","Windows", "Fusion"
 	// "Motif , Plastique, Cleanlooks, GTK, GDE, cde, WindowsVista, WindowsXP"
-	if(styles.contains("windows",Qt::CaseInsensitive))
-		app.setStyle(QStyleFactory::create("Windows"));
+	if(styles.contains("Windows"))//Qt::CaseInsensitive
+		app.setStyle(QStyleFactory::create("windows"));
+
+	// Need calculate from current device
+	QString chBoxStyle=QString("%1 %2")
+			.arg("QCheckBox::indicator {width: 40px; height: 40px; spacing: 5px;}")
+			.arg("QRadioButton::indicator {width: 40px; height: 40px; spacing: 5px;}");
+	app.setStyleSheet(chBoxStyle);
+//	qApp->setStyleSheet(chBoxStyle);
 
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);
+
 	IconStorage::setScale(scale);
 	IconStorage::setFontPointSize(newPointSizeF);
-
-	// Need calculate from current device
-	QString chBoxStyle=QString("%1 %2")
-			.arg("QCheckBox::indicator {width: 24px; height: 24px; spacing: 10px;}")
-			.arg("QRadioButton::indicator {width: 24px;height: 24px;}");
-	app.setStyleSheet(chBoxStyle);
 
 #else
     IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---

@@ -44,7 +44,6 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 			.arg(qApp->style()->objectName()).arg(allStyles);
 	ui.lblStyles->setText(aboutStyles);
 //!----------
-	//ui.lblPosv->setText(QString("<a href='dedicated'>%1</a>").arg(tr("Dedicated")));
     connect(ui.lblPosv,SIGNAL(linkActivated(const QString &)),SLOT(onLinkActivated()));
 //!----------
 	showMaximized();
@@ -79,7 +78,7 @@ void AboutBox::onLinkActivated()
 
 	QVBoxLayout *lay= new QVBoxLayout(dedicated);
 //	lay->setSpacing(2);
-	lay->setContentsMargins(5,5,5,5);
+	lay->setContentsMargins(2,2,2,2);
 	lay->setAlignment(Qt::AlignVCenter);
 
     QLabel *lblIcon= new QLabel;
@@ -91,11 +90,11 @@ void AboutBox::onLinkActivated()
 	lbl->setStyleSheet(QString("border:0;color:white;"));//background-color:red;
     lbl->setWordWrap(true);
 	lbl->setAlignment(Qt::AlignHCenter);
-	lbl->setText(tr("Dedicated\nto my prematurely\ndeceased son\n Vyacheslav V. Tselykh\n14.11.1992 - 21.08.2015 "));
-	QFont font=lbl->font();
-	font.setPointSizeF(lbl->font().pointSizeF()*IconStorage::scale()*.7);
-	lbl->setFont(font);
 
+//	QFont font=lbl->font();
+//	font.setPointSizeF(lbl->font().pointSizeF()*IconStorage::scale()*.7);
+//	lbl->setFont(font);
+	lbl->setText(tr("Dedicated\nto my prematurely\ndeceased son\n Vyacheslav V. Tselykh\n14.11.1992 - 21.08.2015 "));
     lay->addWidget(lblIcon);
     lay->addWidget(lbl);
 
