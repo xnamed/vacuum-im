@@ -6,7 +6,14 @@
 #include <interfaces/ifilestreamsmanager.h>
 #include <interfaces/idatastreamsmanager.h>
 #include <interfaces/ioptionsmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_filestreamsoptionswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_filestreamsoptionswidget.h"
+#endif
 
 class FileStreamsOptionsWidget :
 	public QWidget,

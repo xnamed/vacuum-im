@@ -48,7 +48,6 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	FStyleOn=true;
 	FTrvNodesStyle=QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
 	FScaStyle     =QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
-	FHeaderStyle  =QString("background-color:#039702; color:white;");//#069105 4061d1
 //    if(FStyleOn)  setStyleSheet(FTrvNodesStyle);
 	showMaximized();
 #else
@@ -145,16 +144,11 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 					nodeLayout->addLayout(headerLayout);
 				}
                 headerLayout->addWidget(widget->instance());
-                widget->instance()->installEventFilter(this);   // for mouse
                 headerLayout->addWidget(new LineOnWidget);      //! add line after widget
+				widget->instance()->installEventFilter(this);   // for mouse
 			}
 			else
 			{
-				if(FStyleOn)
-				{
-					widget->instance()->setStyleSheet(FHeaderStyle);
-					widget->instance()->setFixedHeight(16*(IconStorage::scale()+1));
-				}
 				if (headerLayout != NULL)
 				{
 					nodeLayout->addSpacing(0);
@@ -289,7 +283,7 @@ bool OptionsDialog::canExpandVertically(const QWidget *AWidget) const
 bool OptionsDialog::eventFilter(QObject *AObj, QEvent *AEvent)
 {
     bool hooked = false;
-
+/*
     QMouseEvent *mEvent=static_cast<QMouseEvent *>(AEvent);
 
     if(mEvent->type() == QMouseEvent::MouseButtonPress){
@@ -304,6 +298,7 @@ qDebug()<<"OptionsDialog::eventFilter/MouseButtonRelease/objectName="<<AObj->obj
     else if(mEvent->type() == QMouseEvent::MouseMove){
 
     }
+*/
     return QObject::eventFilter(AObj, AEvent);
 //    return hooked || QObject::eventFilter(AObj,AEvent);
 }

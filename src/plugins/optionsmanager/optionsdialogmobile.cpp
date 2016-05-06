@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QPainter>
 #include "optionsdialogmobile.h"
+#include <utils/iconstorage.h>	// *** <<< eyeCU <<< ***
 
 OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
 

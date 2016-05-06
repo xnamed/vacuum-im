@@ -66,28 +66,26 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	newPointSizeF=16;	//16
 #endif
 //!---- delete Later-------
-//!
+
 	// -- select style for APP ---
-	QStringList styles=QStyleFactory::keys();
-	// "Android","Windows", "Fusion"
-	// "Motif , Plastique, Cleanlooks, GTK, GDE, cde, WindowsVista, WindowsXP"
-	if(styles.contains("Windows"))//Qt::CaseInsensitive
-		app.setStyle(QStyleFactory::create("windows"));
-
-	// Need calculate from current device
-	QString chBoxStyle=QString("%1 %2")
-			.arg("QCheckBox::indicator {width: 40px; height: 40px; spacing: 5px;}")
-			.arg("QRadioButton::indicator {width: 40px; height: 40px; spacing: 5px;}");
-	app.setStyleSheet(chBoxStyle);
-//	qApp->setStyleSheet(chBoxStyle);
-
+	QStringList styles=QStyleFactory::keys();	// "Android","Windows", "Fusion"
+	if(styles.contains("Fusion"))//Qt::CaseInsensitive
+		app.setStyle(QStyleFactory::create("Fusion"));
+	//! Style modify
+	int newSize=16*scale;
+    QString chBoxStyle=QString("QCheckBox::indicator {width: %1px; height: %2px; spacing: %3px;}")
+            .arg(newSize).arg(newSize).arg(4);
+    QString radBotSyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
+            .arg(newSize).arg(newSize).arg(4);
+    app.setStyleSheet(QString("%1 %2").arg(chBoxStyle).arg(radBotSyle));
+    app.style()->setObjectName("Fusion");
+	//!----------------
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);
-
+	//!----------------
 	IconStorage::setScale(scale);
 	IconStorage::setFontPointSize(newPointSizeF);
-
 #else
     IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
     IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---

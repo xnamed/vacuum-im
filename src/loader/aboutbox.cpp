@@ -21,21 +21,25 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 // *** <<< eyeCU <<< ****
 #ifdef EYECU_MOBILE
 	QScreen *screen  = qApp->primaryScreen();
-    QString aboutDevice=QString("<b>Device Settings</b><br>Primary Screen: %8<br>"
-                                "Logical  Dots Per Inch: %1<br>"
-                                "Physical Dots Per Inch: %2<br>"
-                                "Screen's physical size: [%3x%4]mm<br>"
-                                "Screen's resolution:    [%9x%10]pixel<br>"
-                                "Screen's color depth:   %5<br>"
-                                "Device Pixel Ratio:     %6<br>"
-                                "Application font point size: %7")
-		.arg(screen->logicalDotsPerInch()).arg(screen->physicalDotsPerInch())
-		.arg(screen->physicalSize().width()).arg(screen->physicalSize().height())
-		.arg(screen->depth()).arg(screen->devicePixelRatio())
-        .arg(qApp->font().pointSizeF()).arg(screen->name())
-        .arg(screen->size().width()).arg(screen->size().height());
-	ui.lblDevice->setText(aboutDevice);
-//   ui.lblDevice->setStyleSheet(QString("border:0; background-color:red; color:white;"));
+    QString aboutDevice=QString("<b>Device Settings</b><br>"
+								"Logical  Dots Per Inch: %1&nbsp;[%2x%3]<br>"
+								"Physical Dots Per Inch: %4&nbsp;[%5x%6]<br>"
+								"Screen's physical size: [%7x%8]mm<br>"
+								"Screen's resolution: [%9x%10]pixel<br>"
+								"Pixel in mm: x=%11,&nbsp;y=%12<br>"
+								"Pixel in mm2: %13<br>"
+								"Application font point size: %14")
+        .arg(screen->logicalDotsPerInch())
+            .arg(screen->logicalDotsPerInchX()).arg(screen->logicalDotsPerInchY())
+        .arg(screen->physicalDotsPerInch())
+            .arg(screen->physicalDotsPerInchX()).arg(screen->physicalDotsPerInchY())
+        .arg(screen->physicalSize().width()).arg(screen->physicalSize().height())
+        .arg(screen->size().width()).arg(screen->size().height())
+        .arg(screen->size().width()/screen->physicalSize().width())
+        .arg(screen->size().height()/screen->physicalSize().height())
+        .arg(screen->size().width()/screen->physicalSize().width()*screen->size().height()/screen->physicalSize().height())
+        .arg(qApp->font().pointSizeF());
+    ui.lblDevice->setText(aboutDevice);
 
 	QString allStyles;
 	for (int i = 0; i < QStyleFactory::keys().size(); ++i)
@@ -77,7 +81,6 @@ void AboutBox::onLinkActivated()
 	dedicated->setStyleSheet(QString("background-color:red;"));
 
 	QVBoxLayout *lay= new QVBoxLayout(dedicated);
-//	lay->setSpacing(2);
 	lay->setContentsMargins(2,2,2,2);
 	lay->setAlignment(Qt::AlignVCenter);
 

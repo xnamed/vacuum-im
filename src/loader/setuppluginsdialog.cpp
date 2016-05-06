@@ -71,9 +71,7 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PLUGINMANAGER_SETUP,0,0,"windowIcon");
-#ifdef EYECU_MOBILE
-	showMaximized();
-#endif
+
 	FPluginManager = APluginManager;
 	FPluginsSetup = APluginsSetup;
 
@@ -100,8 +98,12 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 	connect(ui.lblDependsFor, SIGNAL(linkActivated(const QString &)),SLOT(onDependsLinkActivated(const QString &)));
 	connect(ui.tbvPlugins->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentPluginChanged(const QModelIndex &, const QModelIndex &)));
 
+#ifdef EYECU_MOBILE
+    showMaximized();
+#else
 	restoreGeometry(Options::fileValue("misc.setup-plugins-dialog.geometry").toByteArray());
-	
+#endif
+
 	updatePlugins();
 }
 

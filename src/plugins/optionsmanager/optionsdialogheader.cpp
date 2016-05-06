@@ -8,9 +8,14 @@ OptionsDialogHeader::OptionsDialogHeader(const QString &ACaption, QWidget *APare
 	setTextFormat(Qt::RichText);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
+	QString FHeaderStyle  =QString("background-color:#039702; color:white;");
+	setStyleSheet(FHeaderStyle);
     setWordWrap(true);
 	setText(QString("<h3>&nbsp;%1</h3>").arg(HTML_ESCAPE(ACaption)));
     setObjectName(QStringLiteral("optionsDialogHeader"));
+
+	setFixedHeight(16*(IconStorage::scale()+1));//!--??????---
+//	setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 #else
     setText(QString("<h2>%1</h2>").arg(HTML_ESCAPE(ACaption)));
 #endif

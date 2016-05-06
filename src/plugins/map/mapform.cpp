@@ -50,7 +50,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->frmMapCenter->raise();
 	ui->frmSelection->raise();
 	ui->frmScale->raise();
-	ui->frmMapType->raise();
+    ui->frmMapType->raise();
     ui->frmJoystick->raise();
 	ui->mapScale->raise();
     FMapFontScale=IconStorage::scale();
@@ -59,7 +59,10 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
     ui->frmJoystick->setVisible(false);
 	ui->frmScale->setVisible(false);
     ui->mapScale->setVisible(false);
-	QSize size(16*IconStorage::scale(),16*IconStorage::scale());
+
+	int newSize=16*IconStorage::scale();
+	QSize size(newSize,newSize);
+    ui->lblReload->setVisible(false);
 	ui->btnReload2->setIconSize(size);
 	ui->lblType1->setBaseSize(size);
 	ui->rbtMode1->setIconSize(size);
@@ -69,10 +72,17 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->rbtMode3->setIconSize(size);
 	ui->rbtMode4->setIconSize(size);
 	ui->lblType4->setBaseSize(size);
-	FSizePixmap=16*IconStorage::scale();
+    ui->lblType1->text().clear();
+    ui->lblType2->text().clear();
+    ui->lblType3->text().clear();
+    ui->lblType4->text().clear();
+
+	FSizePixmap=newSize;
+
 #else
-	ui->btnReload2->setVisible(false);
-	FSizePimap=16;
+    ui->btnReload2->setVisible(false);
+    ui->lblReload->setVisible(false);
+    FSizePixmap=16;
 #endif
 
 	QStyle *style = QApplication::style();
@@ -80,7 +90,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->btnLeft->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
 	ui->btnUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
-	ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
+    ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 	ui->btnRight->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
 
 	Shortcuts::bindObjectShortcut(SCT_MAP_REFRESH, ui->btnReload);
@@ -182,24 +192,19 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	pen.setWidth(1);
 
 	QGraphicsScene *scene=FMapScene->instance();
-	FLineX  = scene->addLine(0, 0, 0, 0, pen);    FLineX->setZValue(ZVLine);
+    FLineX  = scene->addLine(0, 0, 0, 0, pen);      FLineX->setZValue(ZVLine);
 	FLine1X = scene->addLine(0, -2, 0, +2, pen);    FLine1X->setZValue(ZVLine);
 	FLine2X = scene->addLine(0, -4, 0, +4, pen);    FLine2X->setZValue(ZVLine);
 	FLineX1 = scene->addLine(0, -2, 0, +2, pen);    FLineX1->setZValue(ZVLine);
 	FLineX2 = scene->addLine(0, -4, 0, +4, pen);    FLineX2->setZValue(ZVLine);
 
-	FLineY  = scene->addLine(0, 0, 0, 0, pen);    FLineY->setZValue(ZVLine);
+    FLineY  = scene->addLine(0, 0, 0, 0, pen);      FLineY->setZValue(ZVLine);
 	FLine1Y = scene->addLine(-2, 0, +2, 0, pen);    FLine1Y->setZValue(ZVLine);
 	FLine2Y = scene->addLine(-4, 0, +4, 0, pen);    FLine2Y->setZValue(ZVLine);
 	FLineY1 = scene->addLine(-2, 0, +2, 0, pen);    FLineY1->setZValue(ZVLine);
 	FLineY2 = scene->addLine(-4, 0, +4, 0, pen);    FLineY2->setZValue(ZVLine);
 
 	FMapScene->instance()->setSceneRect(0, 0, width(), height());
-
-//! temp -----
-	ui->lblType1->text().clear(); ui->lblType2->text().clear();
-	ui->lblType3->text().clear(); ui->lblType4->text().clear();
-//! temp -----
 
 //! [enable gestures]
 	grabGesture(Qt::PinchGesture);
@@ -413,7 +418,7 @@ void MapForm::setOsdBoxColor(QPalette::ColorRole ARole, QColor AColor)
 	ui->frmLocation->setPalette(FBoxPalette);
 	ui->frmMapCenter->setPalette(FBoxPalette);
 	ui->frmJoystick->setPalette(FBoxPalette);
-	ui->frmMapType->setPalette(FBoxPalette);
+    ui->frmMapType->setPalette(FBoxPalette);
 	ui->frmSelection->setPalette(FBoxPalette);
 	ui->frmScale->setPalette(FBoxPalette);
 }
@@ -424,7 +429,7 @@ void MapForm::setOsdBoxShape(int AShape)
 	ui->frmLocation->setFrameShape(shape);
 	ui->frmMapCenter->setFrameShape(shape);
 	ui->frmJoystick->setFrameShape(shape);
-	ui->frmMapType->setFrameShape(shape);
+    ui->frmMapType->setFrameShape(shape);
 	ui->frmSelection->setFrameShape(shape);
 	ui->frmScale->setFrameShape(shape);
 }
@@ -435,7 +440,7 @@ void MapForm::setOsdBoxShadow(int AShadow)
 	ui->frmLocation->setFrameShadow(shadow);
 	ui->frmMapCenter->setFrameShadow(shadow);
 	ui->frmJoystick->setFrameShadow(shadow);
-	ui->frmMapType->setFrameShadow(shadow);
+    ui->frmMapType->setFrameShadow(shadow);
 	ui->frmSelection->setFrameShadow(shadow);
 	ui->frmScale->setFrameShadow(shadow);
 }
@@ -445,7 +450,7 @@ void MapForm::setOsdBoxBgTransparent(bool ATransparent)
 	ui->frmLocation->setAutoFillBackground(!ATransparent);
 	ui->frmMapCenter->setAutoFillBackground(!ATransparent);
 	ui->frmJoystick->setAutoFillBackground(!ATransparent);
-	ui->frmMapType->setAutoFillBackground(!ATransparent);
+    ui->frmMapType->setAutoFillBackground(!ATransparent);
 	ui->frmSelection->setAutoFillBackground(!ATransparent);
 	ui->frmScale->setAutoFillBackground(!ATransparent);
 }

@@ -63,10 +63,9 @@ private:
 	QMap<QStandardItem *, QWidget *> FItemWidgets;
     QString FTrvNodesStyle;     // *** <<< eyeCU <<< ***
     QString FScaStyle;          // *** <<< eyeCU <<< ***
-    QString FHeaderStyle;       // *** <<< eyeCU <<< ***
-	QSize FNodeItemIconSize;    // *** <<< eyeCU <<< ***
-	QSize FNodeItemSizeHint;    // *** <<< eyeCU <<< ***
-	bool FStyleOn;				// *** <<< eyeCU <<< ***
+	QSize	FNodeItemIconSize;  // *** <<< eyeCU <<< ***
+	QSize	FNodeItemSizeHint;  // *** <<< eyeCU <<< ***
+	bool	FStyleOn;			// *** <<< eyeCU <<< ***
 };
 
 #endif // OPTIONSDIALOG_H

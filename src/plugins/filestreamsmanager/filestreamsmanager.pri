@@ -1,5 +1,6 @@
 FORMS = filestreamswindow.ui \
-        filestreamsoptionswidget.ui
+        filestreamsoptionswidget.ui \
+    $$PWD/filestreamsoptionswidget2.ui
 
 HEADERS = transferthread.h \
           filestream.h \

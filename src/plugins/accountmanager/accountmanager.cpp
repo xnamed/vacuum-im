@@ -137,7 +137,7 @@ QMultiMap<int, IOptionsDialogWidget *> AccountManager::optionsDialogWidgets(cons
 // *** >>> eyeCU >>> ***
 			widgets.insertMulti(OHO_ACCOUNTS_COMMON, FOptionsManager->newOptionsDialogHeader(tr("Common account settings"),AParent));
 
-            QComboBox *resourceCombox = newResourceComboBox(QUuid(),AParent);
+			QComboBox *resourceCombox = newResourceComboBox(QUuid(),AParent);
 			widgets.insertMulti(OWO_ACCOUNTS_DEFAULTRESOURCE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ACCOUNT_DEFAULTRESOURCE),tr("Default resource:"),resourceCombox,AParent));
 		}
 		else if (nodeTree.count()==3 && nodeTree.at(0)==OPN_ACCOUNTS && nodeTree.at(2)=="Parameters")
