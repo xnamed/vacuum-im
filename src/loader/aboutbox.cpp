@@ -22,8 +22,8 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 #ifdef EYECU_MOBILE
 	QScreen *screen  = qApp->primaryScreen();
     QString aboutDevice=QString("<b>Device Settings</b><br>"
-								"Logical  Dots Per Inch: %1&nbsp;[%2x%3]<br>"
-								"Physical Dots Per Inch: %4&nbsp;[%5x%6]<br>"
+								"Logical  Dots Per Inch: %1 ;[%2x%3]<br>"
+								"Physical Dots Per Inch: %4 [%5x%6]<br>"
 								"Screen's physical size: [%7x%8]mm<br>"
 								"Screen's resolution: [%9x%10]pixel<br>"
 								"Pixel in mm: x=%11,&nbsp;y=%12<br>"

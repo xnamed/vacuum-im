@@ -169,6 +169,11 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 #ifdef Q_OS_WIN
 		widgets.insertMulti(OWO_COMMON_AUTOSTART, newOptionsDialogWidget(Options::node(OPV_COMMON_AUTOSTART), tr("Auto run application on system startup"), AParent));
 #endif
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu"), AParent)); // *** <<< eyeCU >>> ***
+#endif
+// *** >>> eyeCU >>> ***
 		widgets.insertMulti(OHO_COMMON_LOCALIZATION, newOptionsDialogHeader(tr("Localization"),AParent));
 
 		QDir localeDir(QApplication::applicationDirPath());
