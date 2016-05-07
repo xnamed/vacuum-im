@@ -10,4 +10,5 @@ SOURCES = \
 
 FORMS += \
     playerwindow.ui \
-    multimediaplayeroptions.ui
+    multimediaplayeroptions.ui \
+    $$PWD/multimediaplayeroptions2.ui

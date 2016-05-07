@@ -1,7 +1,11 @@
 #include <definitions/optionvalues.h>
 #include "multimediaplayeroptions.h"
-#include "ui_multimediaplayeroptions.h"
 
+#ifdef EYECU_MOBILE
+#include "ui_multimediaplayeroptions2.h"
+#else
+#include "ui_multimediaplayeroptions.h"
+#endif
 MultimediaPlayerOptions::MultimediaPlayerOptions(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MultimediaPlayerOptions)

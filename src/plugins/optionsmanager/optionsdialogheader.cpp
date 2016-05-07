@@ -14,7 +14,7 @@ OptionsDialogHeader::OptionsDialogHeader(const QString &ACaption, QWidget *APare
 	setText(QString("<h3>&nbsp;%1</h3>").arg(HTML_ESCAPE(ACaption)));
     setObjectName(QStringLiteral("optionsDialogHeader"));
 
-	setFixedHeight(16*(IconStorage::scale()+1));//!--??????---
+	setFixedHeight(16*(IconStorage::scale()+1));//!--??  tmp ????---
 //	setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 #else
     setText(QString("<h2>%1</h2>").arg(HTML_ESCAPE(ACaption)));
