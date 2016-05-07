@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>170</width>
-    <height>77</height>
+    <width>180</width>
+    <height>97</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -27,51 +27,46 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>5</number>
+    <number>9</number>
    </property>
    <property name="topMargin">
-    <number>3</number>
+    <number>9</number>
    </property>
    <property name="rightMargin">
-    <number>5</number>
+    <number>9</number>
    </property>
    <property name="bottomMargin">
-    <number>3</number>
+    <number>9</number>
    </property>
-   <property name="horizontalSpacing">
-    <number>4</number>
+   <property name="spacing">
+    <number>6</number>
    </property>
-   <property name="verticalSpacing">
-    <number>2</number>
-   </property>
-   <item row="0" column="0">
-    <widget class="QLabel" name="lblLatitude">
+   <item row="1" column="1">
+    <widget class="QDoubleSpinBox" name="dspbLongitude">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="font">
-      <font>
-       <pointsize>9</pointsize>
-      </font>
+     <property name="decimals">
+      <number>6</number>
      </property>
-     <property name="text">
-      <string>Latitude</string>
+     <property name="minimum">
+      <double>-180.000000000000000</double>
      </property>
-     <property name="textInteractionFlags">
-      <set>Qt::NoTextInteraction</set>
+     <property name="maximum">
+      <double>180.000000000000000</double>
      </property>
-     <property name="buddy">
-      <cstring>dspbLatitude</cstring>
+     <property name="singleStep">
+      <double>0.000100000000000</double>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
     <widget class="QDoubleSpinBox" name="dspbLatitude">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -93,53 +88,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="lblLongitude">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Longitude</string>
-     </property>
-     <property name="textInteractionFlags">
-      <set>Qt::NoTextInteraction</set>
-     </property>
-     <property name="buddy">
-      <cstring>dspbLongitude</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QDoubleSpinBox" name="dspbLongitude">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="decimals">
-      <number>6</number>
-     </property>
-     <property name="minimum">
-      <double>-180.000000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>180.000000000000000</double>
-     </property>
-     <property name="singleStep">
-      <double>0.000100000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
+   <item row="3" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="bboxOkCancel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -155,6 +104,45 @@
      </property>
      <property name="centerButtons">
       <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="lblLatitude">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Latitude:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lblLongitude">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Longitude:</string>
      </property>
     </widget>
    </item>

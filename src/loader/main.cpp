@@ -75,6 +75,7 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	int newSize=16*scale;
     QString chBoxStyle=QString("QCheckBox::indicator {width: %1px; height: %2px; spacing: %3px;}")
             .arg(newSize).arg(newSize).arg(4);
+
     QString radBotSyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
             .arg(newSize).arg(newSize).arg(4);
     app.setStyleSheet(QString("%1 %2").arg(chBoxStyle).arg(radBotSyle));

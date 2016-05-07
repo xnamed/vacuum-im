@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QPainter>
 #include "optionsdialogmobile.h"
-#include <utils/iconstorage.h>	// *** <<< eyeCU <<< ***
+#include <utils/iconstorage.h>		// *** <<< eyeCU <<< ***
 
 OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
 
@@ -36,6 +36,7 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 //! ---for scaScroll ----
 	scaScroll = new OptionsScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
+
     QWidget *scrollAreaWidgetContents = new QWidget();
 	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
     scaScroll->setWidget(scrollAreaWidgetContents);

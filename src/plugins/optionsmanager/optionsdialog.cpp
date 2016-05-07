@@ -46,8 +46,8 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
     FNodeItemSizeHint.setHeight(1.5*16*IconStorage::scale());
     //! Set styles for OptionsDialog
 	FStyleOn=true;
-	FTrvNodesStyle=QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
-	FScaStyle     =QString("background-color:#F4F0F0;");// color:white; #0ac525 #4cb9f2
+	FTrvNodesStyle=QString("background-color:#F4F0F0;");
+	FScaStyle     =QString("background-color:#F4F0F0;");
 //    if(FStyleOn)  setStyleSheet(FTrvNodesStyle);
 	showMaximized();
 #else

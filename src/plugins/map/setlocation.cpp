@@ -8,7 +8,7 @@ SetLocation::SetLocation(const MercatorCoordinates &ACoordinates, const QIcon &A
     ui->setupUi(this);
     setWindowIcon(AIcon);
     ui->dspbLatitude->setValue(ACoordinates.latitude());
-    ui->dspbLongitude->setValue(ACoordinates.longitude());
+	ui->dspbLongitude->setValue(ACoordinates.longitude());
 }
 
 SetLocation::~SetLocation()

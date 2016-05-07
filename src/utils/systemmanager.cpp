@@ -270,6 +270,17 @@ QString SystemManager::osVersion()
             osver = "Unknown OS/2 or eComStation Version";
             break;
         }
+#elif defined(Q_OS_ANDROID)
+//		switch (QSysInfo::)
+//		{
+//		case QSysInfo::OV_ECS_2_2:
+//			osver = "Android 4.4.2";
+//			break;
+//		default:
+//			osver = "Unknown Android Version";
+//		}
+// productVersion()
+		osver = "Android 4.4.2";
 #else
 		osver = "Unknown OS";
 #endif
