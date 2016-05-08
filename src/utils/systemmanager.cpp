@@ -271,16 +271,7 @@ QString SystemManager::osVersion()
             break;
         }
 #elif defined(Q_OS_ANDROID)
-//		switch (QSysInfo::)
-//		{
-//		case QSysInfo::OV_ECS_2_2:
-//			osver = "Android 4.4.2";
-//			break;
-//		default:
-//			osver = "Unknown Android Version";
-//		}
-// productVersion()
-		osver = "Android 4.4.2";
+		osver = QString("%1 %2").arg(QSysInfo::productType()).arg(QSysInfo::productVersion());
 #else
 		osver = "Unknown OS";
 #endif

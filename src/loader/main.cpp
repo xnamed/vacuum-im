@@ -2,8 +2,14 @@
 #include <QScreen>
 #include <QLibrary>
 #include <QApplication>
-#include <QStyleFactory>		// *** <<< eyeCU <<< ***
-#include <utils/iconstorage.h>	// *** <<< eyeCU <<< ***
+
+// *** <<< eyeCU <<< ***
+#include <QStyleFactory>
+#include <utils/iconstorage.h>
+//#include <utils/options.h>
+//#include <definitions/optionvalues.h>
+// *** >>> eyeCU >>> ***
+
 #include "pluginmanager.h"
 
 int main(int argc, char *argv[])
@@ -62,8 +68,8 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-	scale=2.0;			//2.0
-	newPointSizeF=16;	//16
+	 scale=2.0;			//2.0
+	 newPointSizeF=16;	//16
 #endif
 //!---- delete Later-------
 
@@ -80,11 +86,15 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
             .arg(newSize).arg(newSize).arg(4);
     app.setStyleSheet(QString("%1 %2").arg(chBoxStyle).arg(radBotSyle));
     app.style()->setObjectName("Fusion");
+
+//! -- app.setAttribute(Qt::AA_DontShowIconsInMenus);
+//qDebug()<<"MAIN-OPV_SIMPLE_MENU="<<Options::node(OPV_SIMPLE_MENU).value().toBool();
+
 	//!----------------
 	QFont font = app.font();
 	font.setPointSizeF(newPointSizeF);
 	app.setFont(font);
-	//!----------------
+
 	IconStorage::setScale(scale);
 	IconStorage::setFontPointSize(newPointSizeF);
 #else
@@ -95,6 +105,7 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 
 	QLibrary utils(app.applicationDirPath()+"/utils",&app);
 	utils.load();
+
 	PluginManager pm(&app);
 	pm.restart();
 	return app.exec();

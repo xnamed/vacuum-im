@@ -22,7 +22,7 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 #ifdef EYECU_MOBILE
 	QScreen *screen  = qApp->primaryScreen();
     QString aboutDevice=QString("<b>Device Settings</b><br>"
-								"Logical  Dots Per Inch: %1 ;[%2x%3]<br>"
+								"Logical  Dots Per Inch: %1 [%2x%3]<br>"
 								"Physical Dots Per Inch: %4 [%5x%6]<br>"
 								"Screen's physical size: [%7x%8]mm<br>"
 								"Screen's resolution: [%9x%10]pixel<br>"
@@ -39,6 +39,7 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
         .arg(screen->size().height()/screen->physicalSize().height())
         .arg(screen->size().width()/screen->physicalSize().width()*screen->size().height()/screen->physicalSize().height())
         .arg(qApp->font().pointSizeF());
+//	QSysInfo::
     ui.lblDevice->setText(aboutDevice);
 
 	QString allStyles;
