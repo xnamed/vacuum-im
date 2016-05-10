@@ -95,6 +95,10 @@ void OptionsDialogWidget::apply()
 		else
 			FValue = FLineEdit->text();
 	}
+    else if (FTextEdit != NULL)
+    {
+        FValue = FTextEdit->toPlainText();
+    }
 	else if (FFontComboBox != NULL)
 	{
 		FValue = FFontComboBox->currentFont();
@@ -148,7 +152,11 @@ void OptionsDialogWidget::reset()
 			FLineEdit->setText(Options::decrypt(FValue.toByteArray()).toString());
 		else
 			FLineEdit->setText(FValue.toString());
-	}
+    }
+    else if (FTextEdit != NULL)
+    {
+        FTextEdit->setText(FValue.toString());
+    }
 	else if (FFontComboBox != NULL)
 	{
 		FFontComboBox->setCurrentFont(FValue.value<QFont>());
@@ -183,7 +191,7 @@ void OptionsDialogWidget::reset()
 
 bool OptionsDialogWidget::eventFilter(QObject *AWatched, QEvent *AEvent)
 {
-	if (FValue.type()==QVariant::KeySequence && AWatched==FLineEdit && AEvent->type()==QEvent::KeyPress)
+    if (FValue.type()==QVariant::KeySequence && (AWatched==FLineEdit || AWatched==FTextEdit) && AEvent->type()==QEvent::KeyPress)
 	{
 		static const int extKeyMask = 0x01000000;
 		static const int modifMask = Qt::META|Qt::SHIFT|Qt::CTRL|Qt::ALT;
@@ -200,7 +208,10 @@ bool OptionsDialogWidget::eventFilter(QObject *AWatched, QEvent *AEvent)
 			return true;
 
 		QKeySequence keySeq((keyEvent->modifiers() & modifMask) | keyEvent->key());
-		FLineEdit->setText(keySeq.toString(QKeySequence::NativeText));
+        if(AWatched==FLineEdit)
+            FLineEdit->setText(keySeq.toString(QKeySequence::NativeText));
+        else if(AWatched==FTextEdit)
+            FTextEdit->setText(keySeq.toString(QKeySequence::NativeText));
 		return true;
 	}
 	return QWidget::eventFilter(AWatched,AEvent);
@@ -246,7 +257,7 @@ void OptionsDialogWidget::rigisterEditor(const OptionsNode &ANode, const QString
 
 	FCheckBox = qobject_cast<QCheckBox *>(AEditor);
 	FLineEdit = qobject_cast<QLineEdit *>(AEditor);
-
+    FTextEdit = qobject_cast<QTextEdit *>(AEditor);
 	FComboBox = qobject_cast<QComboBox *>(AEditor);
 	FFontComboBox = qobject_cast<QFontComboBox *>(AEditor);
 
@@ -282,7 +293,15 @@ void OptionsDialogWidget::rigisterEditor(const OptionsNode &ANode, const QString
 
 		connect(FLineEdit,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
 		insertEditor(ACaption,FLineEdit,hlayout);
-	}
+    }
+    else if(FTextEdit != NULL )
+    {
+        if (FValue.type() == QVariant::KeySequence)
+            FTextEdit->installEventFilter(this);
+        FTextEdit->setText(FValue.toString());
+        connect(FTextEdit,SIGNAL(textChanged()),SIGNAL(modified()));
+        insertEditor(ACaption,FTextEdit,hlayout);
+    }
 	else if (FFontComboBox != NULL)
 	{
 		FFontComboBox->setCurrentFont(FValue.value<QFont>());

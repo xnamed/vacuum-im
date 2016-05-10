@@ -7,6 +7,7 @@
 #include <QTimeEdit>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QComboBox>
 #include <QFontComboBox>
 #include <QDateTimeEdit>
@@ -50,6 +51,7 @@ private:
 	QLabel *FCaption;
 	QCheckBox *FCheckBox;
 	QLineEdit *FLineEdit;
+    QTextEdit *FTextEdit;               // *** <<< eyeCU <<< ***
 	QComboBox *FComboBox;
 	QFontComboBox *FFontComboBox;       // inherits QComboBox
 	QSpinBox *FSpinBox;

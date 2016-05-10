@@ -45,6 +45,7 @@ OptionsManager::OptionsManager()
 	FPluginManager = NULL;
 	FTrayManager = NULL;
 	FMainWindowPlugin = NULL;
+    FMacTypeMenu=false;         // *** <<< eyeCU >>> ***
 
 	FAutoSaveTimer.setSingleShot(false);
 	FAutoSaveTimer.setInterval(AUTO_SAVE_TIMEOUT);
@@ -172,7 +173,7 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 #endif
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-		widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu"), AParent)); // *** <<< eyeCU >>> ***
+        widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu (Need restart)"), AParent)); // *** <<< eyeCU >>> ***
 #endif
 // *** >>> eyeCU >>> ***
 		widgets.insertMulti(OHO_COMMON_LOCALIZATION, newOptionsDialogHeader(tr("Localization"),AParent));
@@ -831,7 +832,18 @@ void OptionsManager::onOptionsChanged(const OptionsNode &ANode)
 	}
 	else if (ANode.path() == OPV_SIMPLE_MENU)
 	{
+        if(ANode.value().toBool() && !FMacTypeMenu){
+            qApp->setAttribute(Qt::AA_DontShowIconsInMenus);
+            FMacTypeMenu=true;
+        }
+        else if(!ANode.value().toBool() && FMacTypeMenu)
+        {
+            if(QMessageBox::question(NULL, tr("Options mode changed"),
+                 tr("To switch options mode, %1 needs to be restarted.\nDo you want to restart %1 now?").arg(CLIENT_NAME),
+                     QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes)
+            qApp->exit(0);
 
+        }
 	}
 // *** >>> eyeCU >>> ***
 	LOG_DEBUG(QString("Options node value changed, node=%1, value=%2").arg(ANode.path(),ANode.value().toString()));
@@ -875,6 +887,15 @@ void OptionsManager::onOptionsOpened()
 		QTimer::singleShot(100, this, SLOT(onNewProfileOpened()));
 	else
 		FAdvanced = Options::node(OPV_COMMON_ADVANCED).value().toBool();
+
+    if(Options::node(OPV_SIMPLE_MENU).value().toBool())
+    {
+        //if(!FMacTypeMenu)
+        {
+            FMacTypeMenu=Options::node(OPV_SIMPLE_MENU).value().toBool();
+            qApp->setAttribute(Qt::AA_DontShowIconsInMenus);
+        }
+    }
 }
 
 void OptionsManager::onNewProfileOpened()

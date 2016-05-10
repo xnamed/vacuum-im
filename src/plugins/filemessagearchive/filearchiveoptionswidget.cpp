@@ -11,11 +11,15 @@ FileArchiveOptionsWidget::FileArchiveOptionsWidget(IPluginManager *APluginManage
 
 	ui.lneLocation->setEnabled(ui.chbLocation->isChecked());
 	ui.tlbLocation->setEnabled(ui.chbLocation->isChecked());
-
 	connect(ui.chbLocation,SIGNAL(toggled(bool)),SIGNAL(modified()));
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	connect(ui.lneLocation,SIGNAL(textChanged()),SIGNAL(modified()));
+#else
+// *** >>> eyeCU >>> ***
 	connect(ui.lneLocation,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
+#endif
 	connect(ui.chbDatabaseSync,SIGNAL(toggled(bool)),SIGNAL(modified()));
-
 	connect(ui.tlbLocation,SIGNAL(clicked()),SLOT(onSelectLocationFolder()));
 	connect(ui.chbLocation,SIGNAL(toggled(bool)),ui.lneLocation,SLOT(setEnabled(bool)));
 	connect(ui.chbLocation,SIGNAL(toggled(bool)),ui.tlbLocation,SLOT(setEnabled(bool)));
@@ -30,7 +34,13 @@ FileArchiveOptionsWidget::~FileArchiveOptionsWidget()
 
 void FileArchiveOptionsWidget::apply()
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	Options::node(OPV_FILEARCHIVE_HOMEPATH).setValue(ui.chbLocation->isChecked() ? ui.lneLocation->toPlainText() : QString(""));
+#else
+// *** >>> eyeCU >>> ***
 	Options::node(OPV_FILEARCHIVE_HOMEPATH).setValue(ui.chbLocation->isChecked() ? ui.lneLocation->text() : QString(""));
+#endif
 	Options::node(OPV_FILEARCHIVE_DATABASESYNC).setValue(ui.chbDatabaseSync->isChecked());
 	emit childApply();
 }

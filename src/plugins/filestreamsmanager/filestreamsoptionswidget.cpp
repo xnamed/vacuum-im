@@ -11,14 +11,21 @@ FileStreamsOptionsWidget::FileStreamsOptionsWidget(IFileStreamsManager *AFileMan
 	FFileManager = AFileManager;
 
 	connect(ui.tlbDirectory, SIGNAL(clicked()), SLOT(onDirectoryButtonClicked()));
-	connect(ui.lneDirectory,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
-
+#ifdef EYECU_MOBILE
+    connect(ui.lneDirectory,SIGNAL(textChanged()),SIGNAL(modified()));
+#else
+    connect(ui.lneDirectory,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
+#endif
 	reset();
 }
 
 void FileStreamsOptionsWidget::apply()
 {
-	Options::node(OPV_FILESTREAMS_DEFAULTDIR).setValue(ui.lneDirectory->text());
+#ifdef EYECU_MOBILE
+    Options::node(OPV_FILESTREAMS_DEFAULTDIR).setValue(ui.lneDirectory->toPlainText());
+#else
+    Options::node(OPV_FILESTREAMS_DEFAULTDIR).setValue(ui.lneDirectory->text());
+#endif
 	emit childApply();
 }
 
@@ -30,7 +37,11 @@ void FileStreamsOptionsWidget::reset()
 
 void FileStreamsOptionsWidget::onDirectoryButtonClicked()
 {
-	QString dir = QFileDialog::getExistingDirectory(this,tr("Select default directory"), ui.lneDirectory->text());
-	if (!dir.isEmpty())
+#ifdef EYECU_MOBILE
+    QString dir = QFileDialog::getExistingDirectory(this,tr("Select default directory"), ui.lneDirectory->toPlainText());
+#else
+    QString dir = QFileDialog::getExistingDirectory(this,tr("Select default directory"), ui.lneDirectory->text());
+#endif
+    if (!dir.isEmpty())
 		ui.lneDirectory->setText(dir);
 }

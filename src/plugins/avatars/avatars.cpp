@@ -1,6 +1,9 @@
 #include "avatars.h"
-#include "avataroptionswidget.h" /*** <<< eyeCU >>> ***/
-
+//*** <<< eyeCU <<< ***/
+#ifndef EYECU_MOBILE
+#include "avataroptionswidget.h"
+#endif
+//*** >>> eyeCU >>> ***/
 #include <QFile>
 #include <QBuffer>
 #include <QDataStream>
@@ -423,7 +426,24 @@ QMultiMap<int, IOptionsDialogWidget *> Avatars::optionsDialogWidgets(const QStri
 	{
 		widgets.insertMulti(OHO_ROSTER_AVATARS, FOptionsManager->newOptionsDialogHeader(tr("Avatars"), AParent));
 		if (Options::node(OPV_COMMON_ADVANCED).value().toBool())
+		{
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+            QComboBox *cmbAPosit=new QComboBox(AParent);
+            cmbAPosit->clear();
+            cmbAPosit->addItem(tr("At Right"),RightPosit);
+            cmbAPosit->addItem(tr("At Left"),LeftPosit);
+            widgets.insertMulti(OWO_ROSTER_AVATARS, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_AVATARS_POSITION), tr("Avatar position"),cmbAPosit,AParent));
+            cmbAPosit->setCurrentIndex(FAvatarPosition);
+
+			widgets.insertMulti(OWO_ROSTER_AVATARS, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_AVATARS_DISPLAYGRAY), tr("Display avatars for offline contacts grayscaled"), AParent));
+			widgets.insertMulti(OWO_ROSTER_AVATARS, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_AVATARS_DISPLAYEMPTY), tr("Display empty avatars"), AParent));
+			widgets.insertMulti(OWO_ROSTER_AVATARS, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_ROSTER_AVATARS_DISPLAY), tr("Display avatars"), AParent));
+#else
+// *** >>> eyeCU >>> ***
 			widgets.insertMulti(OWO_ROSTER_AVATARS, new AvatarOptionsWidget(AParent));
+#endif
+		}
 	}
 	return widgets;
 }
@@ -960,8 +980,8 @@ void Avatars::onOptionsOpened()
 /*** <<< eyeCU <<< ***/
 	onOptionsChanged(Options::node(Options::node(OPV_COMMON_ADVANCED).value().toBool()?OPV_ROSTER_AVATARS_DISPLAY:OPV_ROSTER_VIEWMODE));
 	onOptionsChanged(Options::node(OPV_ROSTER_AVATARS_POSITION));
-	onOptionsChanged(Options::node(OPV_ROSTER_AVATARS_DISPLAYGRAY));
-	onOptionsChanged(Options::node(OPV_ROSTER_AVATARS_DISPLAYEMPTY));
+    onOptionsChanged(Options::node(OPV_ROSTER_AVATARS_DISPLAYGRAY));
+    onOptionsChanged(Options::node(OPV_ROSTER_AVATARS_DISPLAYEMPTY));
 /*** >>> eyeCU >>> ***/
 }
 

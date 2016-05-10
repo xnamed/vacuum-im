@@ -6,8 +6,6 @@
 // *** <<< eyeCU <<< ***
 #include <QStyleFactory>
 #include <utils/iconstorage.h>
-//#include <utils/options.h>
-//#include <definitions/optionvalues.h>
 // *** >>> eyeCU >>> ***
 
 #include "pluginmanager.h"
@@ -86,9 +84,6 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
             .arg(newSize).arg(newSize).arg(4);
     app.setStyleSheet(QString("%1 %2").arg(chBoxStyle).arg(radBotSyle));
     app.style()->setObjectName("Fusion");
-
-//! -- app.setAttribute(Qt::AA_DontShowIconsInMenus);
-//qDebug()<<"MAIN-OPV_SIMPLE_MENU="<<Options::node(OPV_SIMPLE_MENU).value().toBool();
 
 	//!----------------
 	QFont font = app.font();

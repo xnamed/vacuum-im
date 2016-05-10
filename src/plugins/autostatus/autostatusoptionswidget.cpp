@@ -24,7 +24,12 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	connect(ui.chbAwayEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
 	connect(ui.cmbAwayStatus,SIGNAL(currentIndexChanged(int)),SIGNAL(modified()));
 	connect(ui.spbAwayTime,SIGNAL(valueChanged(int)),SIGNAL(modified()));
-	connect(ui.lneAwayText,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
+#ifdef EYECU_MOBILE
+        connect(ui.lneAwayText,SIGNAL(textChanged()),SIGNAL(modified()));
+#else
+        connect(ui.lneAwayText,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
+#endif
+
 	connect(ui.chbOfflineEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
 
 	reset();
@@ -35,8 +40,12 @@ void AutoStatusOptionsWidget::apply()
 	QUuid awayId = Options::node(OPV_AUTOSTARTUS_AWAYRULE).value().toString();
 	IAutoStatusRule awayRule = FAutoStatus->ruleValue(awayId);
 	awayRule.time = ui.spbAwayTime->value() * 60;
-	awayRule.show = ui.cmbAwayStatus->itemData(ui.cmbAwayStatus->currentIndex()).toInt();
-	awayRule.text = ui.lneAwayText->text();
+        awayRule.show = ui.cmbAwayStatus->itemData(ui.cmbAwayStatus->currentIndex()).toInt();
+#ifdef EYECU_MOBILE
+        awayRule.text = ui.lneAwayText->toPlainText();
+#else
+        awayRule.text = ui.lneAwayText->text();
+#endif
 	FAutoStatus->updateRule(awayId,awayRule);
 	FAutoStatus->setRuleEnabled(awayId,ui.chbAwayEnable->isChecked());
 
@@ -159,5 +168,5 @@ void AutoStatusOptionsWidget::onShowRulesLinkActivayed()
 
 	AutoRulesOptionsDialog *dialog = new AutoRulesOptionsDialog(FAutoStatus,FStatusChanger,this);
 	connect(dialog,SIGNAL(accepted()),SLOT(reset()));
-	dialog->show();
+    dialog->show();
 }

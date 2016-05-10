@@ -8,13 +8,7 @@ AvatarOptionsWidget::AvatarOptionsWidget(QWidget *parent) :
     ui(new Ui::AvatarOptionsWidget)
 {
     ui->setupUi(this);
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-    ui->verticalLayout->setSpacing(1);
-#else
-    ui->verticalLayout->setSpacing(10);
-#endif
-// *** >>> eyeCU >>> ***
+
     reset();
 	connect(ui->cbShow, SIGNAL(stateChanged(int)), SIGNAL(modified()));
 	connect(ui->cbGrayscaledOffline, SIGNAL(stateChanged(int)), SIGNAL(modified()));

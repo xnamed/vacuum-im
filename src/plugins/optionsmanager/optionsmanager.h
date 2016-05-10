@@ -131,7 +131,8 @@ private:
 	Action *FShowOptionsDialogAction;
 	QList<IOptionsDialogHolder *> FOptionsHolders;
 	QMap<QString, IOptionsDialogNode> FOptionsDialogNodes;
-	bool FAdvanced; // *** <<< eyeCU >>> ***
+    bool FAdvanced;     // *** <<< eyeCU >>> ***
+    bool FMacTypeMenu;  // *** <<< eyeCU >>> ***
 };
 
 #endif // OPTIONSMANAGER_H

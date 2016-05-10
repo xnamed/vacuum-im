@@ -122,6 +122,10 @@ private:
 /*** <<< eyeCU <<< ***/
 	quint32 FAvatarRightLabelId;
 	quint32 FAvatarLeftLabelId;
+    enum{
+        RightPosit,
+        LeftPosit
+    };
 /*** >>> eyeCU >>> ***/
 	QDir FAvatarsDir;
 	QImage FEmptyAvatar;
