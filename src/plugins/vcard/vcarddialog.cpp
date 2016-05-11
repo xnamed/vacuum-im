@@ -16,11 +16,16 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-	setWindowTitle(tr("Profile - %1").arg(AContactJid.uFull()));
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_VCARD,0,0,"windowIcon");
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
+	ui.lblIcon->clear();
+	QPixmap pixmap = QPixmap::fromImage(QImageReader(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_VCARD)).read());
+	ui.lblIcon->setPixmap(pixmap);
+	ui.lblTitle->setText(tr("Profile - %1").arg(AContactJid.uFull()));
 	showMaximized();
+#else
+	setWindowTitle(tr("Profile - %1").arg(AContactJid.uFull()));
+	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_VCARD,0,0,"windowIcon");
 #endif
 // *** >>> eyeCU >>> ***
 	FContactJid = AContactJid;

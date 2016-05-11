@@ -53,11 +53,14 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 	connect(pbtEdit,SIGNAL(clicked()),SLOT(onEditStyleButtonClicked()));
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
+	pbtEdit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+	lblType->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+	cmbStyle->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 	QGridLayout *grdLayout = new QGridLayout(this);
 	grdLayout->setMargin(0);
 	grdLayout->addWidget(lblType,0,0,Qt::AlignLeft);
 	grdLayout->addWidget(cmbStyle,0,1,Qt::AlignRight);
-	grdLayout->addWidget(pbtEdit,1,1,Qt::AlignRight);
+	grdLayout->addWidget(pbtEdit,1,1,Qt::AlignLeft);
 #else
 // *** >>> eyeCU >>> ***
 	QHBoxLayout *hblLayout = new QHBoxLayout(this);
@@ -97,5 +100,10 @@ void StyleSelectOptionsWidget::onEditStyleButtonClicked()
 
 	OptionsNode styleNode = Options::node(OPV_MESSAGESTYLE_MTYPE_ITEM,QString::number(FMessageType)).node("context").node("engine",engineId).node("style",styleId);
 	QDialog *dialog = new StyleEditOptionsDialog(FMessageStyleManager,styleNode,this);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	dialog->showMaximized();
+#endif
+// *** >>> eyeCU >>> ***
 	WidgetManager::showActivateRaiseWindow(dialog);
 }

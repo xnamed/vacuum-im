@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
+    <width>308</width>
     <height>373</height>
    </rect>
   </property>
@@ -30,6 +30,30 @@
     <number>5</number>
    </property>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="lblIcon">
+       <property name="text">
+        <string>icon</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblTitle">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QToolBox" name="twtVCard">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -42,8 +66,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>230</width>
-        <height>186</height>
+        <width>298</width>
+        <height>165</height>
        </rect>
       </property>
       <attribute name="label">
@@ -147,7 +171,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>213</width>
+        <width>273</width>
         <height>222</height>
        </rect>
       </property>
@@ -316,7 +340,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>213</width>
+        <width>273</width>
         <height>302</height>
        </rect>
       </property>
@@ -521,7 +545,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>213</width>
+        <width>273</width>
         <height>238</height>
        </rect>
       </property>
@@ -690,8 +714,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>230</width>
-        <height>186</height>
+        <width>273</width>
+        <height>166</height>
        </rect>
       </property>
       <attribute name="label">
@@ -897,8 +921,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>230</width>
-        <height>186</height>
+        <width>290</width>
+        <height>157</height>
        </rect>
       </property>
       <attribute name="label">

@@ -537,6 +537,7 @@ Poi::Poi():
          tr("Public transport");
          tr("Vehicle");
     }
+
 }
 
 Poi::~Poi()
@@ -1573,7 +1574,7 @@ Jid Poi::findStreamJid(const QString &bareJid) const
     for (QList<IAccount *>::const_iterator it=FPoiAccounts.constBegin(); it!=FPoiAccounts.constEnd(); it++)
         if ((*it)->streamJid().bare()==bareJid)
             return (*it)->streamJid();
-    return Jid(QString());
+	return Jid(QString());
 }
 
 QIcon Poi::getIcon(const QString &AType) const
@@ -2330,6 +2331,7 @@ void Poi::onPrivateStorageClosed(const Jid &AStreamJid)
         emit poisRemoved(bareJid);
     }
 }
+
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_poi, Poi)
 #endif
