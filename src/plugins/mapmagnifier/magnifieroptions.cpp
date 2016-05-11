@@ -101,7 +101,6 @@ void MagnifierOptions::reset()
 
 void MagnifierOptions::onShadowColorButtonClicked()
 {
-//    QColor color=QColorDialog::getColor(FShadowColor, this, tr("Choose shadow color"));
 	QColorDialog *colorDialog = new QColorDialog (FShadowColor,this);
 	colorDialog->setToolTip(tr("Choose shadow color"));
 #ifdef EYECU_MOBILE

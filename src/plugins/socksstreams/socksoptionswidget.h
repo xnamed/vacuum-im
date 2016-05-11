@@ -6,7 +6,14 @@
 #include <interfaces/iconnectionmanager.h>
 #include <interfaces/ioptionsmanager.h>
 #include <utils/options.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_socksoptionswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_socksoptionswidget.h"
+#endif
 
 class SocksOptionsWidget :
 	public QWidget,

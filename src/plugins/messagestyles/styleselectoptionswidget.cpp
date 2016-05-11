@@ -51,13 +51,21 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 	QPushButton *pbtEdit = new QPushButton(this);
 	pbtEdit->setText(tr("Settings..."));
 	connect(pbtEdit,SIGNAL(clicked()),SLOT(onEditStyleButtonClicked()));
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QGridLayout *grdLayout = new QGridLayout(this);
+	grdLayout->setMargin(0);
+	grdLayout->addWidget(lblType,0,0,Qt::AlignLeft);
+	grdLayout->addWidget(cmbStyle,0,1,Qt::AlignRight);
+	grdLayout->addWidget(pbtEdit,1,1,Qt::AlignRight);
+#else
+// *** >>> eyeCU >>> ***
 	QHBoxLayout *hblLayout = new QHBoxLayout(this);
 	hblLayout->setMargin(0);
 	hblLayout->addWidget(lblType,2);
 	hblLayout->addWidget(cmbStyle,10);
 	hblLayout->addWidget(pbtEdit,1);
-
+#endif
 	reset();
 }
 

@@ -54,9 +54,26 @@ void FileArchiveOptionsWidget::reset()
 	emit childReset();
 }
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+void FileArchiveOptionsWidget::onSelectLocationFolder()
+{
+	QFileDialog *dialog=new QFileDialog(this);
+	dialog->setToolTip(tr("Select the location for the file archive"));
+	dialog->showMaximized();
+	if(dialog->exec()==QFileDialog::Accepted)
+	{
+		QString path=dialog->getExistingDirectory();
+		if (!path.isEmpty())
+			ui.lneLocation->setText(path);
+	}
+}
+#else
+// *** >>> eyeCU >>> ***
 void FileArchiveOptionsWidget::onSelectLocationFolder()
 {
 	QString path = QFileDialog::getExistingDirectory(this,tr("Select the location for the file archive"));
 	if (!path.isEmpty())
 		ui.lneLocation->setText(path);
 }
+#endif

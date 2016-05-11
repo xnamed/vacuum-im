@@ -1,5 +1,7 @@
 FORMS = socksoptionswidget.ui \
-    $$PWD/advancedsocksoptionswidget.ui
+    $$PWD/advancedsocksoptionswidget.ui \
+    $$PWD/advancedsocksoptionswidget2.ui \
+    $$PWD/socksoptionswidget2.ui
 
 HEADERS = socksstream.h \
           socksstreams.h \
