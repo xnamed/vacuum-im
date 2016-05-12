@@ -4,7 +4,12 @@
 #include <QWidget>
 #include <interfaces/iemoticons.h>
 #include <interfaces/ioptionsmanager.h>
+
+#ifdef EYECU_MOBILE
+#include "ui_emoticonsoptions2.h"
+#else
 #include "ui_emoticonsoptions.h"
+#endif
 
 class EmoticonsOptions :
 	public QWidget,

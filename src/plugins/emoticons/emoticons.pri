@@ -9,4 +9,5 @@ SOURCES = selecticonwidget.cpp \
     $$PWD/emoticonsoptions.cpp
 
 FORMS += \
-    $$PWD/emoticonsoptions.ui
+    $$PWD/emoticonsoptions.ui \
+    $$PWD/emoticonsoptions2.ui

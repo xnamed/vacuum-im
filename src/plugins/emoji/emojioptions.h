@@ -4,7 +4,12 @@
 #include <QWidget>
 #include <interfaces/iemoji.h>
 #include <interfaces/ioptionsmanager.h>
+
+#ifdef EYECU_MOBILE
+#include "ui_emojioptions2.h"
+#else
 #include "ui_emojioptions.h"
+#endif
 
 class EmojiOptions :
 	public QWidget,

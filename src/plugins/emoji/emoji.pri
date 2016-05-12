@@ -12,4 +12,5 @@ SOURCES = selecticonwidget.cpp \
     $$PWD/iconsizespinbox.cpp \
     $$PWD/iconsetdelegate.cpp
 
-FORMS +=  emojioptions.ui
+FORMS +=  emojioptions.ui \
+    $$PWD/emojioptions2.ui
