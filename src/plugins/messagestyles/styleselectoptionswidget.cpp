@@ -14,6 +14,7 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 	FMessageStyleManager = AMessageStyleManager;
 
 	lblType = new QLabel(this);
+
 	switch (AMessageType)
 	{
 	case Message::Chat:
@@ -51,16 +52,20 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 	QPushButton *pbtEdit = new QPushButton(this);
 	pbtEdit->setText(tr("Settings..."));
 	connect(pbtEdit,SIGNAL(clicked()),SLOT(onEditStyleButtonClicked()));
+
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	pbtEdit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+	pbtEdit->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 	lblType->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 	cmbStyle->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
-	QGridLayout *grdLayout = new QGridLayout(this);
-	grdLayout->setMargin(0);
-	grdLayout->addWidget(lblType,0,0,Qt::AlignLeft);
-	grdLayout->addWidget(cmbStyle,0,1,Qt::AlignRight);
-	grdLayout->addWidget(pbtEdit,1,1,Qt::AlignLeft);
+	lblType->setWordWrap(true);
+	QVBoxLayout *verLayout = new QVBoxLayout(this);
+	QHBoxLayout *hblLayout = new QHBoxLayout;
+	hblLayout->setMargin(0);
+	hblLayout->addWidget(lblType,0);
+	hblLayout->addWidget(pbtEdit,0);//1
+	verLayout->addLayout(hblLayout,0);
+	verLayout->addWidget(cmbStyle,0);//10
 #else
 // *** >>> eyeCU >>> ***
 	QHBoxLayout *hblLayout = new QHBoxLayout(this);

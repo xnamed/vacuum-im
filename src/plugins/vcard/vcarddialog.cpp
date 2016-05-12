@@ -20,6 +20,7 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
 #ifdef EYECU_MOBILE
 	ui.lblIcon->clear();
 	QPixmap pixmap = QPixmap::fromImage(QImageReader(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_VCARD)).read());
+	pixmap.scaled(IconStorage::scale()*16,IconStorage::scale()*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 	ui.lblIcon->setPixmap(pixmap);
 	ui.lblTitle->setText(tr("Profile - %1").arg(AContactJid.uFull()));
 	showMaximized();
