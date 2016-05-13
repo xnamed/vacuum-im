@@ -55,17 +55,17 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	pbtEdit->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+	pbtEdit->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Preferred);
 	lblType->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
-	cmbStyle->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+	cmbStyle->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Preferred);//Expanding
 	lblType->setWordWrap(true);
 	QVBoxLayout *verLayout = new QVBoxLayout(this);
 	QHBoxLayout *hblLayout = new QHBoxLayout;
 	hblLayout->setMargin(0);
 	hblLayout->addWidget(lblType,0);
-	hblLayout->addWidget(pbtEdit,0);//1
+	hblLayout->addWidget(pbtEdit,0);
 	verLayout->addLayout(hblLayout,0);
-	verLayout->addWidget(cmbStyle,0);//10
+	verLayout->addWidget(cmbStyle,0,Qt::AlignRight);
 #else
 // *** >>> eyeCU >>> ***
 	QHBoxLayout *hblLayout = new QHBoxLayout(this);

@@ -12,7 +12,11 @@ EmoticonsOptions::EmoticonsOptions(IEmoticons *AEmoticons, QWidget *AParent) : Q
 	QStyle *style = QApplication::style();
 	ui.tbtUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui.tbtDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	ui.lwtEmoticons->setIconSize(QSize(IconStorage::scale()*16,IconStorage::scale()*16));
+#endif
+// *** >>> eyeCU >>> ***
 	FEmoticons = AEmoticons;
 	ui.lwtEmoticons->setItemDelegate(new IconsetDelegate(ui.lwtEmoticons));
 	connect(ui.lwtEmoticons,SIGNAL(itemChanged(QListWidgetItem *)),SIGNAL(modified()));

@@ -60,7 +60,13 @@ void IconsetDelegate::paint(QPainter *APainter, const QStyleOptionViewItem &AOpt
 
 		if (!AIndex.data(IDR_HIDE_STORAGE_NAME).toBool())
 		{
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+			QRect ceckRect(drawRect.topLeft(),checkButtonRect(indexOption,drawRect,AIndex.data(Qt::CheckStateRole)).size()*IconStorage::scale());
+#else
+// *** >>> eyeCU >>> ***
 			QRect ceckRect(drawRect.topLeft(),checkButtonRect(indexOption,drawRect,AIndex.data(Qt::CheckStateRole)).size());
+#endif
 			drawCheckButton(APainter,indexOption,ceckRect,static_cast<Qt::CheckState>(AIndex.data(Qt::CheckStateRole).toInt()));
 			drawRect.setLeft(ceckRect.right()+space);
 
@@ -256,7 +262,6 @@ void IconsetDelegate::drawCheckButton(QPainter *APainter, const QStyleOptionView
 		QStyleOptionViewItem checkOption(AIndexOption);
 		checkOption.rect = ARect;
 		checkOption.state = checkOption.state & ~QStyle::State_HasFocus;
-
 		switch (AState)
 		{
 		case Qt::Unchecked:

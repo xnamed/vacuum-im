@@ -34,11 +34,27 @@ void TuneListenerFileOptions::reset()
     emit childReset();
 }
 
+#ifdef EYECU_MOBILE
 void TuneListenerFileOptions::onBrowseClicked()
 {
     QString format=ui->cmbFileFormat->currentIndex()==TuneListenerFile::Plain?tr("Plain text (*.txt *.log)")
-                                                                             :tr("XML (*.xml)");
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Please, select file to read"), ui->ledFilePath->text(), format);
-    if (!fileName.isEmpty())
-        ui->ledFilePath->setText(fileName);
+																					:tr("XML (*.xml)");
+	QFileDialog *dialog=new QFileDialog;
+	dialog->showMaximized();
+	if(dialog->exec()==QFileDialog::Accepted)
+	{
+		QString fileName = dialog->getOpenFileName(this, tr("Please, select file to read"), ui->ledFilePath->text(), format);
+		if (!fileName.isEmpty())
+			ui->ledFilePath->setText(fileName);
+	}
 }
+#else
+void TuneListenerFileOptions::onBrowseClicked()
+{
+	QString format=ui->cmbFileFormat->currentIndex()==TuneListenerFile::Plain?tr("Plain text (*.txt *.log)")
+																			 :tr("XML (*.xml)");
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Please, select file to read"), ui->ledFilePath->text(), format);
+	if (!fileName.isEmpty())
+		ui->ledFilePath->setText(fileName);
+}
+#endif
