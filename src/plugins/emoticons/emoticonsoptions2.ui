@@ -50,7 +50,7 @@
      <item>
       <widget class="QListWidget" name="lwtEmoticons">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -82,7 +82,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QToolButton" name="tbtUp">
+         <widget class="QPushButton" name="tbtUp">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -117,7 +117,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QToolButton" name="tbtDown">
+         <widget class="QPushButton" name="tbtDown">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>

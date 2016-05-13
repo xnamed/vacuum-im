@@ -54,8 +54,13 @@ void IconsetDelegate::paint(QPainter *APainter, const QStyleOptionViewItem &AOpt
 		APainter->setClipRect(indexOption.rect);
 
 		drawBackground(APainter,indexOption);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		int space = 2*IconStorage::scale();
+#else
+// *** >>> eyeCU >>> ***
 		int space = 2;
+#endif
 		QRect drawRect = indexOption.rect.adjusted(space,space,-space,-space);
 
 		if (!AIndex.data(IDR_HIDE_STORAGE_NAME).toBool())
@@ -72,7 +77,6 @@ void IconsetDelegate::paint(QPainter *APainter, const QStyleOptionViewItem &AOpt
 
 			QString displayText = storage->storageProperty(FILE_STORAGE_NAME,name+"/"+subdir);
 			QRect textRect(drawRect.topLeft(),indexOption.fontMetrics.size(Qt::TextSingleLine,displayText));
-
 			QPalette::ColorGroup cg = indexOption.state & QStyle::State_Enabled ? QPalette::Normal : QPalette::Disabled;
 			if (cg == QPalette::Normal && !(indexOption.state & QStyle::State_Active))
 				cg = QPalette::Inactive;
@@ -193,8 +197,13 @@ bool IconsetDelegate::editorEvent(QEvent *AEvent, QAbstractItemModel *AModel, co
 	{
 		int space = 2;
 		QRect drawRect = AOption.rect.adjusted(space,space,-space,-space);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		QRect checkRect(drawRect.topLeft(),checkButtonRect(AOption, AOption.rect, Qt::Checked).size()*IconStorage::scale());
+#else
+// *** >>> eyeCU >>> ***
 		QRect checkRect(drawRect.topLeft(),checkButtonRect(AOption, AOption.rect, Qt::Checked).size());
-
+#endif
 		if (!checkRect.contains(static_cast<QMouseEvent*>(AEvent)->pos()))
 			return false;
 
