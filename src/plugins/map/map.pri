@@ -11,7 +11,8 @@ SOURCES = map.cpp \
 FORMS = mapform.ui \
     setlocation.ui \
     mapoptions.ui \
-	mapsources.ui
+	mapsources.ui \
+    $$PWD/mapoptions2.ui
 
 
 

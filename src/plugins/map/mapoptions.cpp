@@ -1,9 +1,13 @@
 #include <QFontDialog>
 #include <QColorDialog>
 
-#include "mapoptions.h"
-#include "ui_mapoptions.h"
 #include "definitions/optionvalues.h"
+#include "mapoptions.h"
+#ifdef EYECU_MOBILE
+#include "ui_mapoptions2.h"
+#else
+#include "ui_mapoptions.h"
+#endif
 
 MapOptions::MapOptions(QWidget *parent) :
     QWidget(parent),
