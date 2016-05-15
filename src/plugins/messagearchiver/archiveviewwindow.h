@@ -17,7 +17,14 @@
 #include <interfaces/imessageprocessor.h>
 #include <interfaces/ifilemessagearchive.h>
 #include <interfaces/iurlprocessor.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_archiveviewwindow2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_archiveviewwindow.h"
+#endif
 
 enum RequestStatus {
 	RequestFinished,

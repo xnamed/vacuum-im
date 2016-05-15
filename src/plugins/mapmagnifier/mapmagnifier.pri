@@ -6,4 +6,5 @@ SOURCES = \
     magnifieroptions.cpp
 
 FORMS += \
-    magnifieroptions.ui
+    magnifieroptions.ui \
+    magnifieroptions2.ui

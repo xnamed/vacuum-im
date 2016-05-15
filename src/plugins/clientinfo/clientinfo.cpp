@@ -443,6 +443,12 @@ void ClientInfo::showClientInfo(const Jid &AStreamJid, const Jid &AContactJid, i
 			connect(dialog,SIGNAL(clientInfoDialogClosed(const Jid &)),SLOT(onClientInfoDialogClosed(const Jid &)));
 			FClientInfoDialogs.insert(AContactJid,dialog);
 			dialog->show();
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+			dialog->showMaximized();
+			//dialog->resize(QSize(256,256));
+#endif
+// *** >>> eyeCU >>> ***
 		}
 		else
 		{

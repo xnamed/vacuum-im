@@ -69,7 +69,7 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 {
 	REPORT_VIEW;
 	ui.setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose, true);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PLUGINMANAGER_SETUP,0,0,"windowIcon");
 
 	FPluginManager = APluginManager;
@@ -342,7 +342,10 @@ void SetupPluginsDialog::onDisabledCheckButtonClicked()
 	ui.chbWithErrors->setChecked(false);
 	FProxy.setErrorsOnly(false);
 	FProxy.setDisabledOnly(ui.chbDisabled->isChecked());
-	FProxy.invalidate();
+    FProxy.invalidate();
+#ifdef EYECU_MOBILE
+    ui.tbvPlugins->resizeRowsToContents();      // *** <<< eyeCU <<< ***
+#endif
 }
 
 void SetupPluginsDialog::onWithErrorsCheckButtonClicked()
@@ -351,4 +354,7 @@ void SetupPluginsDialog::onWithErrorsCheckButtonClicked()
 	FProxy.setDisabledOnly(false);
 	FProxy.setErrorsOnly(ui.chbWithErrors->isChecked());
 	FProxy.invalidate();
+#ifdef EYECU_MOBILE
+    ui.tbvPlugins->resizeRowsToContents();      // *** <<< eyeCU <<< ***
+#endif
 }

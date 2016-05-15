@@ -1,5 +1,6 @@
 FORMS = archiveaccountoptionswidget.ui \
-        archiveviewwindow.ui
+        archiveviewwindow.ui \
+    $$PWD/archiveviewwindow2.ui
 
 HEADERS = archiveaccountoptionswidget.h \ 
           chatwindowmenu.h \

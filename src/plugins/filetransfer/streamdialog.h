@@ -6,7 +6,14 @@
 #include <interfaces/ifiletransfer.h>
 #include <interfaces/ifilestreamsmanager.h>
 #include <interfaces/idatastreamsmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_streamdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_streamdialog.h"
+#endif
 
 class StreamDialog :
 	public QDialog

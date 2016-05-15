@@ -66,8 +66,8 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-	 scale=2.0;			//2.0
-	 newPointSizeF=16;	//16
+     scale=2.0;
+     newPointSizeF=16;
 #endif
 //!---- delete Later-------
 
@@ -79,10 +79,17 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 	int newSize=16*scale;
     QString chBoxStyle=QString("QCheckBox::indicator {width: %1px; height: %2px; spacing: %3px;}")
             .arg(newSize).arg(newSize).arg(4);
-
-    QString radBotSyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
+    QString radBotStyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
             .arg(newSize).arg(newSize).arg(4);
-    app.setStyleSheet(QString("%1 %2").arg(chBoxStyle).arg(radBotSyle));
+    QString sliderStyle=QString(""
+        "QSlider::groove:horizontal {border: 1px 1px solid #999999;;height: 8px; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
+        "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #05BB04, stop:1 #07D606); border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}"
+//        "QSlider::add-page:horizontal {background: white;}"     //after
+//        "QSlider::sub-page:horizontal {background: #039302;}"   //befor
+     );
+	QString spiBoxSyle=QString("QSpinBox {max-width: 152px; }");//padding-right: 35px;max-height: 48px;
+
+    app.setStyleSheet(QString().append(chBoxStyle).append(radBotStyle).append(sliderStyle).append(spiBoxSyle));
     app.style()->setObjectName("Fusion");
 
 	//!----------------

@@ -1,7 +1,9 @@
 #include <QDebug>
 #include <QPainter>
 #include "optionsdialogmobile.h"
+#include <definitions/optionvalues.h>
 #include <utils/iconstorage.h>		// *** <<< eyeCU <<< ***
+#include <utils/options.h>			// *** <<< eyeCU <<< ***
 
 OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
 
@@ -33,7 +35,7 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
 	verticalLayout->addWidget(dbbButtons);
 
-//! ---for scaScroll ----
+//! ---for scaScroll ---- OWO_OPTION_SCRLBAR
 	scaScroll = new OptionsScrollArea;
 	scaScroll->setObjectName(QStringLiteral("scaScroll"));
 
@@ -59,10 +61,9 @@ void OptionsDialogMobile::retranslateUi(QDialog *OptionsDialogClass)
 OptionsScrollArea::OptionsScrollArea()
 {
 	setWidgetResizable(true);
-//    bool statusPolicy=true;
-//    setVerticalScrollBarPolicy(statusPolicy ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	bool statusPolicy=Options::node(OPV_OPTION_SCRLBAR).value().toBool();
+	setVerticalScrollBarPolicy(statusPolicy ? Qt::ScrollBarAsNeeded :Qt::ScrollBarAlwaysOff);
+	setHorizontalScrollBarPolicy(statusPolicy ? Qt::ScrollBarAsNeeded :Qt::ScrollBarAlwaysOff);
     FPressedPos = QPoint();
 }
 

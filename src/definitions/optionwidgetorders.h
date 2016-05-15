@@ -6,6 +6,7 @@
 // *** <<< eyeCU <<< ***
 #  define OWO_COMMON_ADVANCED                     105
 #  define OWO_SIMPLE_MENU                         107
+#  define OWO_OPTION_SCRLBAR                      108
 // *** <<< eyeCU <<< ***
 #  define OWO_COMMON_AUTOSTART                    110
 #  define OWO_COMMON_SENDSTATISTICS               120

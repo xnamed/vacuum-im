@@ -1,5 +1,6 @@
 FORMS   = \
-    setuppluginsdialog.ui
+    setuppluginsdialog.ui \
+    setuppluginsdialog2.ui
 
 anonymous:  FORMS += aboutbox_anonymous.ui
 !anonymous: FORMS += aboutbox.ui

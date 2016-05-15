@@ -213,12 +213,20 @@ ArchiveViewWindow::ArchiveViewWindow(IMessageArchiver *AArchiver, const QMultiMa
 	connect(FArchiver->instance(),SIGNAL(collectionsRemoved(const QString &, const IArchiveRequest &)),
 		SLOT(onArchiveCollectionsRemoved(const QString &, const IArchiveRequest &)));
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    int size=16*IconStorage::scale();
+    ui.trvHeaders->setIconSize(QSize(size,size));
+    showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 	if (!restoreGeometry(Options::fileValue("history.archiveview.geometry").toByteArray()))
 		setGeometry(WidgetManager::alignGeometry(QSize(960,640),this));
-	if (!ui.sprSplitter->restoreState(Options::fileValue("history.archiveview.splitter-state").toByteArray()))
-		ui.sprSplitter->setSizes(QList<int>() << 50 << 150);
+    if (!ui.sprSplitter->restoreState(Options::fileValue("history.archiveview.splitter-state").toByteArray()))
+        ui.sprSplitter->setSizes(QList<int>() << 50 << 150);
 	restoreState(Options::fileValue("history.archiveview.state").toByteArray());
-	
+#endif
+
 	setAddresses(AAddresses);
 }
 

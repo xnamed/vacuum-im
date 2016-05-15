@@ -15,7 +15,7 @@ MapOptions::MapOptions(QWidget *parent) :
 {
     ui->setupUi(this);
     reset();
-
+//    grabMouse();
     connect(ui->cmbBoxShape,SIGNAL(currentIndexChanged(int)),SIGNAL(modified()));
     connect(ui->cmbBoxShadow,SIGNAL(currentIndexChanged(int)),SIGNAL(modified()));
     connect(ui->cbBoxBgTransparent,SIGNAL(toggled(bool)),SIGNAL(modified()));

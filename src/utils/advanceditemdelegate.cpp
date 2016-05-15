@@ -1065,9 +1065,13 @@ QSize AdvancedItemDelegate::itemSizeHint(const AdvancedDelegateItem &AItem, cons
 	case AdvancedDelegateItem::CheckBox:
 		{
 			QStyle *style = AItemOption.widget!=NULL ? AItemOption.widget->style() : QApplication::style();
-			int width = style->proxy()->pixelMetric(QStyle::PM_IndicatorWidth, &AItemOption, AItemOption.widget);
-			int height = style->proxy()->pixelMetric(QStyle::PM_IndicatorHeight, &AItemOption, AItemOption.widget);
-			return QSize(width,height);
+            int width  = style->proxy()->pixelMetric(QStyle::PM_IndicatorWidth, &AItemOption, AItemOption.widget);
+            int height = style->proxy()->pixelMetric(QStyle::PM_IndicatorHeight, &AItemOption, AItemOption.widget);
+#ifdef EYECU_MOBILE
+            width*=IconStorage::scale();
+            height*=IconStorage::scale();
+#endif
+            return QSize(width,height);
 		}
 	case AdvancedDelegateItem::CustomWidget:
 		{

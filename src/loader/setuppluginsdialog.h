@@ -6,7 +6,14 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <interfaces/ipluginmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_setuppluginsdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_setuppluginsdialog.h"
+#endif
 
 class PluginsFilterProxyModel :
 	public QSortFilterProxyModel

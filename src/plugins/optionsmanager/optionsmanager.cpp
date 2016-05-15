@@ -131,6 +131,7 @@ bool OptionsManager::initSettings()
 	Options::setDefaultValue(OPV_COMMON_AUTOSTART,false);
 	Options::setDefaultValue(OPV_COMMON_LANGUAGE,QString());
 	Options::setDefaultValue(OPV_SIMPLE_MENU,false);
+	Options::setDefaultValue(OPV_OPTION_SCRLBAR,false);
 
 	if (profiles().count() == 0)
 		addProfile(DEFAULT_PROFILE, QString::null);
@@ -174,6 +175,7 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu (Need restart)"), AParent)); // *** <<< eyeCU >>> ***
+		widgets.insertMulti(OWO_OPTION_SCRLBAR, newOptionsDialogWidget(Options::node(OPV_OPTION_SCRLBAR), tr("Line scrolling if necessary"), AParent)); // *** <<< eyeCU >>> ***
 #endif
 // *** >>> eyeCU >>> ***
 		widgets.insertMulti(OHO_COMMON_LOCALIZATION, newOptionsDialogHeader(tr("Localization"),AParent));

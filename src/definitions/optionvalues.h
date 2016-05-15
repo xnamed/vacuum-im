@@ -200,6 +200,7 @@
 #define OPV_COMMON_ADVANCED                             "common.advanced"
 #define OPV_COMMON_AUTOSTART                            "common.autostart"
 #define OPV_SIMPLE_MENU                                 "common.simplemenu"
+#define OPV_OPTION_SCRLBAR                              "common.optoinscrolbar"
 // ClientInfo
 #define OPV_COMMON_SHAREOSVERSION                       "common.share-os-version"
 // Statistics

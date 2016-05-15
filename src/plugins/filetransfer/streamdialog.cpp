@@ -28,16 +28,28 @@ StreamDialog::StreamDialog(IDataStreamsManager *ADataManager, IFileStreamsManage
 
 	ui.pgbPrgress->setMinimum(0);
 	ui.pgbPrgress->setMaximum(100);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
+// *** >>> eyeCU >>> ***
 	if (FFileStream->streamKind() == IFileStream::SendFile)
 	{
 		setWindowTitle(tr("Send File - %1").arg(FFileStream->streamJid().uFull()));
+#ifdef EYECU_MOBILE
+		ui.grBoxContactLabel->setTitle(tr("To:"));
+#else
 		ui.lblContactLabel->setText(tr("To:"));
+#endif
 	}
 	else
 	{
 		setWindowTitle(tr("Receive File - %1").arg(FFileStream->streamJid().uFull()));
+#ifdef EYECU_MOBILE
+		ui.grBoxContactLabel->setTitle(tr("Receive File - %1").arg(FFileStream->streamJid().uFull()));
+#else
 		ui.lblContactLabel->setText(tr("From:"));
+#endif
 	}
 
 	if (!AFileStream->methodNS().isEmpty())

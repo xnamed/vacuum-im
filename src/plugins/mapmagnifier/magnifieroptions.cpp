@@ -3,7 +3,12 @@
 #include <QPalette>
 #include <definitions/optionvalues.h>
 #include "magnifieroptions.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_magnifieroptions2.h"
+#else
 #include "ui_magnifieroptions.h"
+#endif
 
 MagnifierOptions::MagnifierOptions(QWidget *parent) :
     QWidget(parent),

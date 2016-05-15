@@ -9,6 +9,7 @@
 #include <QSizePolicy>
 #include <QStyleOption>
 #include <QStyledItemDelegate>
+#include <utils/iconstorage.h>      // *** <<< eyeCU <<< ***
 #include "utilsexport.h"
 
 #define ADVANCED_DELEGATE_EDITOR_VALUE_PROPERTY "AdvanceDelegateEditorValue"

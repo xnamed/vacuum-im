@@ -62,9 +62,9 @@ protected:
     void setWidgetColor(QWidget *AWidget, const QColor &AColor);
 #ifdef EYECU_MOBILE
 protected:
-	void mousePressEvent(QMouseEvent *AEvent){QWidget::mousePressEvent(AEvent);}
-	void mouseMoveEvent(QMouseEvent *AEvent){QWidget::mouseMoveEvent(AEvent);}
-	void mouseReleaseEvent(QMouseEvent *AEvent){QWidget::mouseReleaseEvent(AEvent);}
+//    void mousePressEvent(QMouseEvent *AEvent){QWidget::mousePressEvent(AEvent);}
+//    void mouseMoveEvent(QMouseEvent *AEvent){QWidget::mouseMoveEvent(AEvent);}
+//    void mouseReleaseEvent(QMouseEvent *AEvent){QWidget::mouseReleaseEvent(AEvent);}
 #endif
 private:
     Ui::MapOptions *ui;
