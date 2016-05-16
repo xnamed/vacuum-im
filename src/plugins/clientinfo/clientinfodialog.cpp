@@ -15,6 +15,7 @@ ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJ
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	showMaximized();
+	//resize(QSize(256,256));
 #endif
 // *** >>> eyeCU >>> ***
 	FClientInfo = AClientInfo;

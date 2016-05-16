@@ -217,7 +217,6 @@ ArchiveViewWindow::ArchiveViewWindow(IMessageArchiver *AArchiver, const QMultiMa
 #ifdef EYECU_MOBILE
     int size=16*IconStorage::scale();
     ui.trvHeaders->setIconSize(QSize(size,size));
-    showMaximized();
 #else
 // *** >>> eyeCU >>> ***
 	if (!restoreGeometry(Options::fileValue("history.archiveview.geometry").toByteArray()))
@@ -256,8 +255,13 @@ void ArchiveViewWindow::setAddresses(const QMultiMap<Jid,Jid> &AAddresses)
 				namesList.append(contactName(it.key(),it.value(),isConferencePrivateChat(it.value())));
 		}
 		namesList = namesList.toSet().toList(); qSort(namesList);
+		// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		ui.lblCaption->setText(tr("Conversation History") + (!namesList.isEmpty() ? " - " + namesList.join(", ") : QString::null));
+#else
+// *** >>> eyeCU >>> ***
 		setWindowTitle(tr("Conversation History") + (!namesList.isEmpty() ? " - " + namesList.join(", ") : QString::null));
-
+#endif
 		FArchiveSearchEnabled = false;
 		foreach(const Jid &streamJid, FAddresses.uniqueKeys())
 		{

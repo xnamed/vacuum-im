@@ -16,11 +16,7 @@ EditProfilesDialog::EditProfilesDialog(IOptionsManager *AOptionsManager, QWidget
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_EDIT_PROFILES,0,0,"windowIcon");
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-    showMaximized();
-#endif
-// *** >>> eyeCU >>> ***
+
 	FOptionsManager = AOptionsManager;
 	ui.lstProfiles->addItems(FOptionsManager->profiles());
 	ui.lstProfiles->setItemSelected(ui.lstProfiles->item(0),true);

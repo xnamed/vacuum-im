@@ -155,7 +155,16 @@ void AdiumOptionsWidget::onImageLayoutChanged(int AIndex)
 
 void AdiumOptionsWidget::onImageChangeClicked()
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QFileDialog dialog;
+	dialog->showMaximized();
+	QString fileName = dialog.getOpenFileName(this, tr("Select background image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+	dialog.showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select background image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+#endif
 	if (!fileName.isEmpty())
 	{
 		FStyleOptions.extended.insert(MSO_BG_IMAGE_FILE,fileName);

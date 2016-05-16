@@ -49,9 +49,6 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	FTrvNodesStyle=QString("background-color:#F4F0F0;");
 	FScaStyle     =QString("background-color:#F4F0F0;");
 //    if(FStyleOn)  setStyleSheet(FTrvNodesStyle);
-#ifndef Q_OS_WIN    //!---DEBUGING-----strig delete later--
-    showMaximized();
-#endif              //!---DEBUGING-----strig delete later--
 
 #else
     FNodeItemIconSize.setWidth(16);

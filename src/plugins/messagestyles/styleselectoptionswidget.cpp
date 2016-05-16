@@ -105,10 +105,5 @@ void StyleSelectOptionsWidget::onEditStyleButtonClicked()
 
 	OptionsNode styleNode = Options::node(OPV_MESSAGESTYLE_MTYPE_ITEM,QString::number(FMessageType)).node("context").node("engine",engineId).node("style",styleId);
 	QDialog *dialog = new StyleEditOptionsDialog(FMessageStyleManager,styleNode,this);
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-	dialog->showMaximized();
-#endif
-// *** >>> eyeCU >>> ***
 	WidgetManager::showActivateRaiseWindow(dialog);
 }

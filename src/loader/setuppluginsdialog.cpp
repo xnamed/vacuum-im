@@ -98,9 +98,7 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 	connect(ui.lblDependsFor, SIGNAL(linkActivated(const QString &)),SLOT(onDependsLinkActivated(const QString &)));
 	connect(ui.tbvPlugins->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentPluginChanged(const QModelIndex &, const QModelIndex &)));
 
-#ifdef EYECU_MOBILE
-    showMaximized();
-#else
+#ifndef EYECU_MOBILE
 	restoreGeometry(Options::fileValue("misc.setup-plugins-dialog.geometry").toByteArray());
 #endif
 

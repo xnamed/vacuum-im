@@ -39,7 +39,7 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
         .arg(screen->size().height()/screen->physicalSize().height())
         .arg(screen->size().width()/screen->physicalSize().width()*screen->size().height()/screen->physicalSize().height())
         .arg(qApp->font().pointSizeF());
-//	QSysInfo::
+
     ui.lblDevice->setText(aboutDevice);
 
 	QString allStyles;
@@ -48,10 +48,8 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 	QString aboutStyles=QString("Current style: <b>%1</b> of %2")
 			.arg(qApp->style()->objectName()).arg(allStyles);
 	ui.lblStyles->setText(aboutStyles);
-//!----------
     connect(ui.lblPosv,SIGNAL(linkActivated(const QString &)),SLOT(onLinkActivated()));
-//!----------
-	showMaximized();
+
 #else
     ui.lblDevice->setVisible(false);
 	ui.lblStyles->setVisible(false);

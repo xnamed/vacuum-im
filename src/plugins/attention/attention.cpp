@@ -555,9 +555,6 @@ void Attention::onNotificationAppended(int ANotifyId, const INotification &ANoti
     {
 		AttentionDialog *dialog=new AttentionDialog(ANotifyId, ANotification, FNotifications);
 		FAttentionDialogs.insert(ANotifyId, dialog);
-#ifdef EYECU_MOBILE
-		dialog->showMaximized();
-#endif
 		WidgetManager::showActivateRaiseWindow(dialog);
     }
 }

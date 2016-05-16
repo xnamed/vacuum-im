@@ -178,20 +178,23 @@ bool WidgetManager::isActiveWindow(const QWidget *AWindow)
 
 void WidgetManager::showActivateRaiseWindow(QWidget *AWindow)
 {
-	if (AWindow->isVisible())
+#ifndef EYECU_MOBILE
+	if(AWindow->isVisible())
 	{
-		if (AWindow->isMinimized())
+		if(AWindow->isMinimized())
 		{
-			if (AWindow->isMaximized())
-				AWindow->showMaximized();
-			else
-				AWindow->showNormal();
+			if(AWindow->isMaximized())
+		else
+			AWindow->showNormal();
 		}
 	}
 	else
 	{
-		AWindow->show();
+		AWindow->show();y
 	}
+#else
+	AWindow->showMaximized();
+#endif
 	AWindow->activateWindow();
 	WidgetManager::raiseWidget(AWindow);
 }

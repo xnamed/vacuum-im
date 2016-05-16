@@ -23,7 +23,6 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
 	pixmap.scaled(IconStorage::scale()*16,IconStorage::scale()*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 	ui.lblIcon->setPixmap(pixmap);
 	ui.lblTitle->setText(tr("Profile - %1").arg(AContactJid.uFull()));
-	showMaximized();
 #else
 	setWindowTitle(tr("Profile - %1").arg(AContactJid.uFull()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_VCARD,0,0,"windowIcon");

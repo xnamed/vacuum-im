@@ -922,7 +922,17 @@ void Avatars::onSetAvatarByAction(bool)
 	Action *action = qobject_cast<Action *>(sender());
 	if (action)
 	{
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+//		QFileDialog dialog;
+//		QString fileName = dialog.getOpenFileName(NULL, tr("Select avatar image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+//		dialog.showMaximized();
+
+
+#else
+// *** >>> eyeCU >>> ***
 		QString fileName = QFileDialog::getOpenFileName(NULL, tr("Select avatar image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+#endif
 		if (!fileName.isEmpty())
 		{
 			QByteArray data = loadFromFile(fileName);
