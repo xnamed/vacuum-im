@@ -923,15 +923,14 @@ void Avatars::onSetAvatarByAction(bool)
 	if (action)
 	{
 // *** <<< eyeCU <<< ***
+		QString format=tr("Image Files (*.png *.jpg *.bmp *.gif)");
 #ifdef EYECU_MOBILE
-//		QFileDialog dialog;
-//		QString fileName = dialog.getOpenFileName(NULL, tr("Select avatar image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+		QFileDialog dialog;
 //		dialog.showMaximized();
-
-
+		QString  fileName=dialog.getOpenFileName(NULL,tr("Select avatar image"),QDir::currentPath(),format);
 #else
 // *** >>> eyeCU >>> ***
-		QString fileName = QFileDialog::getOpenFileName(NULL, tr("Select avatar image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+		QString fileName = QFileDialog::getOpenFileName(NULL, tr("Select avatar image"),QString::null,format);
 #endif
 		if (!fileName.isEmpty())
 		{

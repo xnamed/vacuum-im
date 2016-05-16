@@ -4,7 +4,14 @@
 #include <QItemDelegate>
 #include <interfaces/imessagearchiver.h>
 #include <interfaces/ioptionsmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_archiveaccountoptionswidget2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_archiveaccountoptionswidget.h"
+#endif
 
 class ArchiveDelegate :
 	public QItemDelegate

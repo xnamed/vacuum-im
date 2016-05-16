@@ -38,14 +38,11 @@ void FileStreamsOptionsWidget::reset()
 #ifdef EYECU_MOBILE
 void FileStreamsOptionsWidget::onDirectoryButtonClicked()
 {
-	QFileDialog *dialog=new QFileDialog(this,tr("Select default directory"),ui.lneDirectory->toPlainText());
-	dialog->showMaximized();
-	if(dialog->exec()==QFileDialog::Accepted)
-	{
-		QString dir=dialog->getExistingDirectory();
-		if (!dir.isEmpty())
-			ui.lneDirectory->setText(dir);
-	}
+	QFileDialog dialog;
+//	dialog.showMaximized();
+	QString dir=dialog.getExistingDirectory(this,tr("Select default directory"),ui.lneDirectory->toPlainText());
+	if (!dir.isEmpty())
+		ui.lneDirectory->setText(dir);
 }
 #else
 void FileStreamsOptionsWidget::onDirectoryButtonClicked()
