@@ -247,10 +247,22 @@ void PlaceView::onViewActionTriggered()
 
 void PlaceView::onSaveFile(QString fileName)
 {
-    QFileDialog dialog;
     QImage image;
     image.load(fileName);
-    QString nameNew =dialog.getSaveFileName(NULL,tr("Save file"), "PlaceViewImage.jpg", "JPEG fles (*.jpg *.jpeg)");
+//  QString nameNew =dialog.getSaveFileName(NULL,tr("Save file"), "PlaceViewImage.jpg", "JPEG fles (*.jpg *.jpeg)");
+	QString nameNew;
+	QFileDialog dialog(NULL,tr("Save file"), "PlaceViewImage.jpg", "JPEG fles (*.jpg *.jpeg)");
+	dialog.setFileMode(QFileDialog::AnyFile);
+#ifdef EYECU_MOBILE
+	dialog.showMaximized();
+#endif
+	if (dialog.exec())
+	{
+		QStringList lst=dialog.selectedFiles();
+		fileName=lst[0];
+	}
+	else
+		fileName.clear();
     if (!nameNew.isEmpty())
         image.save(nameNew);
 }

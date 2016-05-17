@@ -349,9 +349,24 @@ void InsertImage::onButtonBrowse()
             fileTypes.append(" ");
         fileTypes.append("*.").append(QString(*it));
     }
-    QString fileName = QFileDialog::getOpenFileName(this,
-						tr("Please, choose image file"), Options::node(OPV_XHTML_IMAGEOPENDIRECTORY).value().toString(),tr("Images (%1)").arg(fileTypes));
-    if (!fileName.isNull())
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QString fileName;
+	QFileDialog dialog(this,tr("Please, choose image file"), Options::node(OPV_XHTML_IMAGEOPENDIRECTORY).value().toString(),tr("Images (%1)").arg(fileTypes));
+	dialog.setFileMode(QFileDialog::AnyFile);
+	dialog.showMaximized();
+	if (dialog.exec())
+	{
+		QStringList lst=dialog.selectedFiles();
+		fileName=lst[0];
+	}
+	else
+		fileName.clear();
+#else
+// *** >>> eyeCU >>> ***
+	QString fileName = QFileDialog::getOpenFileName(this,tr("Please, choose image file"), Options::node(OPV_XHTML_IMAGEOPENDIRECTORY).value().toString(),tr("Images (%1)").arg(fileTypes));
+#endif
+	if (!fileName.isNull())
     {
 		Options::node(OPV_XHTML_IMAGEOPENDIRECTORY).setValue(QFileInfo(fileName).filePath());
         QUrl url = QUrl::fromLocalFile(fileName);

@@ -12,12 +12,7 @@ ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJ
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	setWindowTitle(tr("Client info - %1").arg(AContactName));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_CLIENTINFO,0,0,"windowIcon");
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-	showMaximized();
-	//resize(QSize(256,256));
-#endif
-// *** >>> eyeCU >>> ***
+
 	FClientInfo = AClientInfo;
 	FStreamJid = AStreamJid;
 	FContactJid = AContactJid;

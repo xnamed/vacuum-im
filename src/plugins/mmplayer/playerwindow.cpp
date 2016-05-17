@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
@@ -464,15 +465,23 @@ void PlayerWindow::onOpenClicked()
 	}
 	else
 	{
-		QString filter = Options::node(OPV_MMPLAYER_FILTER).value().toString();
+		QString selectedFilter = Options::node(OPV_MMPLAYER_FILTER).value().toString();
+#ifdef EYECU_MOBILE
+		FPlayList = QFileDialog::getOpenFileNames(this, tr("Select file"), Options::node(OPV_MMPLAYER_DIRECTORY).value().toString(),
+			tr("All Supported Formats") + QString(" (%1 %2);;").arg(FSupportedAudioFormats).arg(FSupportedVideoFormats) +
+			tr("Audio") + QString(" (%1);;").arg(FSupportedAudioFormats) +
+			tr("Video") + QString(" (%1);;").arg(FSupportedVideoFormats) +
+			tr("All Files")+" *;;", &selectedFilter);
+#else
         FPlayList = QFileDialog::getOpenFileNames(this, tr("Select file"), Options::node(OPV_MMPLAYER_DIRECTORY).value().toString(),
             tr("All Supported Formats") + QString(" (%1 %2);;").arg(FSupportedAudioFormats).arg(FSupportedVideoFormats) +
             tr("Audio") + QString(" (%1);;").arg(FSupportedAudioFormats) +
             tr("Video") + QString(" (%1);;").arg(FSupportedVideoFormats) +
-            tr("All Files")+" *;;", &filter);
+			tr("All Files")+" *;;", &selectedFilter);
+#endif
 		if(!FPlayList.isEmpty())
 		{
-			Options::node(OPV_MMPLAYER_FILTER).setValue(filter);
+			Options::node(OPV_MMPLAYER_FILTER).setValue(selectedFilter);
 			FPlayList.sort();
 			newTrackPlay(PLAY_WITH_DELETE);
 		}

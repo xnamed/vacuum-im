@@ -300,6 +300,54 @@ void StreamDialog::onStreamDestroyed()
 	close();
 }
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+void StreamDialog::onFileButtonClicked(bool)
+{
+	if (FFileStream->streamState() == IFileStream::Creating)
+	{
+		static QString lastSelectedPath = QDir::homePath();
+		QString file = QDir(lastSelectedPath).absoluteFilePath(FFileStream->fileName());
+		if (FFileStream->streamKind() == IFileStream::ReceiveFile)
+		{
+			//file = QFileDialog::getSaveFileName(this,tr("Select file for receive"),file,QString::null,NULL,QFileDialog::DontConfirmOverwrite);
+			QFileDialog dialog(this,tr("Select file for receive"),file,QString::null);
+			dialog.setOptions(QFileDialog::DontConfirmOverwrite);
+			dialog.setFileMode(QFileDialog::AnyFile);
+			dialog.setViewMode(QFileDialog::List);//List Detail
+			dialog.showMaximized();
+			if (dialog.exec())
+			{
+				QStringList lst=dialog.selectedFiles();
+				file=lst[0];
+			}
+			else
+				file.clear();
+		}
+		else
+		{
+			//file = QFileDialog::getOpenFileName(this,tr("Select file to send"),file);
+			QFileDialog dialog(this,tr("Select file to send"),file);
+			dialog.setFileMode(QFileDialog::AnyFile);
+			dialog.setViewMode(QFileDialog::List);//List Detail
+			dialog.showMaximized();
+			if (dialog.exec())
+			{
+				QStringList lst=dialog.selectedFiles();
+				file=lst[0];
+			}
+			else
+				file.clear();
+		}
+		if (!file.isEmpty())
+		{
+			lastSelectedPath = QFileInfo(file).absolutePath();
+			FFileStream->setFileName(file);
+		}
+	}
+}
+#else
+// *** >>> eyeCU >>> ***
 void StreamDialog::onFileButtonClicked(bool)
 {
 	if (FFileStream->streamState() == IFileStream::Creating)
@@ -319,7 +367,7 @@ void StreamDialog::onFileButtonClicked(bool)
 		}
 	}
 }
-
+#endif
 void StreamDialog::onDialogButtonClicked(QAbstractButton *AButton)
 {
 	if (ui.bbxButtons->standardButton(AButton) ==  QDialogButtonBox::Ok)

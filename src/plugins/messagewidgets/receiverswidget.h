@@ -110,6 +110,10 @@ protected slots:
 protected slots:
 	void onDeleteDelayedItems();
 	void onStartSearchContacts();
+protected slots:
+#ifdef EYECU_MOBILE
+	void onFileSelected(QString ANameFile){FSelFileName=ANameFile;}	 // *** <<< eyeCU >>> ***
+#endif
 private:
 	Ui::ReceiversWidgetClass ui;
 private:
@@ -131,6 +135,7 @@ private:
 	QMap<Jid, QStandardItem *> FStreamItems;
 	QMap<Jid, QMap<QString, QStandardItem *> > FGroupItems;
 	QMap<Jid, QMultiHash<Jid, QStandardItem *> > FContactItems;
+	QString FSelFileName;	/*** <<< eyeCU >>> ***/
 };
 
 Q_DECLARE_METATYPE(QList<QStandardItem *>)

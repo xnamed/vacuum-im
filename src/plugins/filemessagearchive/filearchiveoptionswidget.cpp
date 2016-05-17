@@ -58,9 +58,20 @@ void FileArchiveOptionsWidget::reset()
 #ifdef EYECU_MOBILE
 void FileArchiveOptionsWidget::onSelectLocationFolder()
 {
-	QFileDialog dialog;
-	dialog.showMaximized();
-	QString path=dialog.getExistingDirectory(this,tr("Select the location for the file archive"));
+	QString path;
+	FSelDirName.clear();
+	QFileDialog *dialog=new QFileDialog(NULL,tr("Select the location for the file archive"));
+	dialog->setFileMode(QFileDialog::DirectoryOnly);
+	dialog->setViewMode(QFileDialog::List);//List Detail
+//	connect(dialog,SIGNAL(directoryEntered(QString)),this,SLOT(onDirectoryEntered(QString)));
+	dialog->showMaximized();
+	if (dialog->exec()==QDialog::Accepted)
+	{
+		//path=FSelDirName;
+		path=dialog->directory().absolutePath();//! need
+	}
+	else
+		path.clear();
 	if (!path.isEmpty())
 		ui.lneLocation->setText(path);
 }

@@ -964,9 +964,45 @@ void ReceiversWidget::onRosterItemReceived(IRoster *ARoster, const IRosterItem &
 
 void ReceiversWidget::onSelectionLast()
 {
+
 	selectionLoad(Options::fileValue("messagewidgets.receiverswidget.last-selection").toString());
 }
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+void ReceiversWidget::onSelectionLoad()
+{
+	FSelFileName.clear();
+	QFileDialog *fileDialog = new QFileDialog(this,tr("Load Contacts from File"),QString::null,"*.cts");
+	fileDialog->showMaximized();
+	connect(fileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+	if (fileDialog->exec()==QDialog::Accepted)
+	{
+		//! this empty
+	}
+	else
+		FSelFileName.clear();
+	selectionLoad(FSelFileName);
+	fileDialog->deleteLater();
+}
+
+void ReceiversWidget::onSelectionSave()
+{
+	FSelFileName.clear();
+	QFileDialog *fileDialog = new QFileDialog(this,tr("Save Contacts to File"),QString::null,"*.cts");
+	fileDialog->showMaximized();
+	connect(fileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+	if (fileDialog->exec()==QDialog::Accepted)
+	{
+		//! this empty
+	}
+	else
+		FSelFileName.clear();
+	selectionSave(FSelFileName);
+	fileDialog->deleteLater();
+}
+#else
+// *** >>> eyeCU >>> ***
 void ReceiversWidget::onSelectionLoad()
 {
 	selectionLoad(QFileDialog::getOpenFileName(this,tr("Load Contacts from File"),QString::null,"*.cts"));
@@ -976,6 +1012,7 @@ void ReceiversWidget::onSelectionSave()
 {
 	selectionSave(QFileDialog::getSaveFileName(this,tr("Save Contacts to File"),QString::null,"*.cts"));
 }
+#endif
 
 void ReceiversWidget::onSelectAllContacts()
 {

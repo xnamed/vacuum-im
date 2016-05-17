@@ -151,6 +151,9 @@ protected slots:
 protected slots:
 	void onRosterActiveChanged(IRoster *ARoster, bool AActive);
 	void onRosterStreamJidChanged(IRoster *ARoster, const Jid &ABefore);
+#ifdef EYECU_MOBILE
+	void onFileSelected(QString ANameFile){FSelFileName=ANameFile;}	 // *** <<< eyeCU >>> ***
+#endif
 private:
 	Ui::ArchiveViewWindowClass ui;
 private:
@@ -191,6 +194,7 @@ private:
 	QTimer FTextHilightTimer;
 	bool FArchiveSearchEnabled;
 	QMap<int,QTextEdit::ExtraSelection> FSearchResults;
+	QString FSelFileName;	/*** <<< eyeCU >>> ***/
 };
 
 #endif // ARCHIVEVIEWWINDOW_H

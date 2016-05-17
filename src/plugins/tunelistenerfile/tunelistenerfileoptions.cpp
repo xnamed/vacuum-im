@@ -38,9 +38,18 @@ void TuneListenerFileOptions::reset()
 void TuneListenerFileOptions::onBrowseClicked()
 {
 	QString format=ui->cmbFileFormat->currentIndex()==TuneListenerFile::Plain?tr("Plain text (*.txt *.log)"):tr("XML (*.xml)");
-	QFileDialog dialog;
-//	dialog.showMaximized();
-	QString fileName = dialog.getOpenFileName(this, tr("Please, select file to read"), ui->ledFilePath->text(), format);
+	QString fileName;
+	QFileDialog dialog(this, tr("Please, select file to read"), ui->ledFilePath->text(), format);
+	dialog.setFileMode(QFileDialog::AnyFile);
+	dialog.showMaximized();
+	if (dialog.exec())
+	{
+		QStringList lst=dialog.selectedFiles();
+		fileName=lst[0];
+	}
+	else
+		fileName.clear();
+//	QString fileName = dialog.getOpenFileName(this, tr("Please, select file to read"), ui->ledFilePath->text(), format);
 	if (!fileName.isEmpty())
 		ui->ledFilePath->setText(fileName);
 }

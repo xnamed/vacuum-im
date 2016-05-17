@@ -93,6 +93,9 @@ protected slots:
 	void onOptionsOpened();
 	void onOptionsClosed();
 	void onOptionsChanged(const OptionsNode &ANode);
+#ifdef EYECU_MOBILE
+	void onFileSelected(QString ANameFile){FSelFileName=ANameFile;}	 // *** <<< eyeCU >>> ***
+#endif
 private:
 	IPluginManager *FPluginManager;
 	IXmppStreamManager *FXmppStreamManager;
@@ -126,6 +129,7 @@ private:
         RightPosit,
         LeftPosit
     };
+	QString FSelFileName;	/*** <<< eyeCU >>> ***/
 /*** >>> eyeCU >>> ***/
 	QDir FAvatarsDir;
 	QImage FEmptyAvatar;

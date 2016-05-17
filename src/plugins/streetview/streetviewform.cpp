@@ -254,9 +254,23 @@ void StreetViewForm::onCopyClicked()
 
 void StreetViewForm::onSaveClicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-								tr("Save file"), QDir(Options::node(OPV_MAP_STREETVIEW_IMAGEDIRECTORY).value().toString()).absoluteFilePath("StreetViewImage.jpg"), tr("JPEG fles (*.jpg *.jpeg)"));
-    if (!fileName.isEmpty())
+//    QString fileName = QFileDialog::getSaveFileName(this,
+//								tr("Save file"), QDir(Options::node(OPV_MAP_STREETVIEW_IMAGEDIRECTORY).value().toString()).absoluteFilePath("StreetViewImage.jpg"),
+//													tr("JPEG fles (*.jpg *.jpeg)"));
+	QString fileName;
+	QFileDialog dialog(this,tr("Save file"), QDir(Options::node(OPV_MAP_STREETVIEW_IMAGEDIRECTORY).value().toString()).absoluteFilePath("StreetViewImage.jpg"),tr("JPEG fles (*.jpg *.jpeg)"));
+	dialog.setFileMode(QFileDialog::AnyFile);
+#ifdef EYECU_MOBILE
+	dialog.showMaximized();
+#endif
+	if (dialog.exec())
+	{
+		QStringList lst=dialog.selectedFiles();
+		fileName=lst[0];
+	}
+	else
+		fileName.clear();
+	if (!fileName.isEmpty())
     {
 		Options::node(OPV_MAP_STREETVIEW_IMAGEDIRECTORY).setValue(QFileInfo(fileName).absolutePath());
         QFile file(fileName);

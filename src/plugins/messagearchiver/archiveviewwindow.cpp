@@ -1372,7 +1372,25 @@ void ArchiveViewWindow::onExportConversationsByAction()
 	{
 		bool isHtml = action->data(ADR_EXPORT_AS_HTML).toBool();
 		QString filter = isHtml ? tr("HTML file (*.html)") : tr("Text file (*.txt)");
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		FSelFileName.clear();
+		QString fileName;
+		QFileDialog *fileDialog = new QFileDialog(this, tr("Save Conversations to File"),QString::null,filter);
+		fileDialog->setFileMode(QFileDialog::AnyFile);
+		fileDialog->showMaximized();
+		connect(fileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+		if (fileDialog->exec()==QDialog::Accepted)
+		{
+			fileName=FSelFileName;
+		}
+		else
+			fileName.clear();
+		fileDialog->deleteLater();
+#else
+// *** >>> eyeCU >>> ***
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Save Conversations to File"),QString::null,filter);
+#endif
 		if (!fileName.isEmpty())
 		{
 			QFile file(fileName);

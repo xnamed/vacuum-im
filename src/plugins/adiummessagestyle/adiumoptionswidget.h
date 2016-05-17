@@ -37,12 +37,16 @@ protected slots:
 	void onImageLayoutChanged(int AIndex);
 	void onImageChangeClicked();
 	void onImageResetClicked();
+#ifdef EYECU_MOBILE
+	void onFileSelected(QString ANameFile){FSelFileName=ANameFile;}	 // *** <<< eyeCU >>> ***
+#endif
 private:
 	Ui::AdiumOptionsWidgetClass ui;
 private:
 	OptionsNode FStyleNode;
 	IMessageStyleOptions FStyleOptions;
 	AdiumMessageStyleEngine *FStyleEngine;
+	QString FSelFileName;	/*** <<< eyeCU >>> ***/
 };
 
 #endif // ADIUMOPTIONSWIDGET_H

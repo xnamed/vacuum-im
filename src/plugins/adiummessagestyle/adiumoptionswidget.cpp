@@ -157,9 +157,18 @@ void AdiumOptionsWidget::onImageChangeClicked()
 {
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	QFileDialog dialog;
+	FSelFileName.clear();
+	QString fileName;
+	QFileDialog *fileDialog = new QFileDialog(NULL,tr("Select avatar image"),QDir::currentPath(),tr("Image Files (*.png *.jpg *.bmp *.gif)"));
 	dialog.showMaximized();
-	QString fileName = dialog.getOpenFileName(this, tr("Select background image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+	connect(fileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+	if (fileDialog->exec()==QDialog::Accepted)
+	{
+		fileName=FSelFileName;
+	}
+	else
+		fileName.clear();
+	fileDialog->deleteLater();
 #else
 // *** >>> eyeCU >>> ***
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select background image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));

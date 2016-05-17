@@ -369,7 +369,22 @@ void VCardDialog::onPhotoSaveClicked()
 	{
 		QString format = getImageFormat(FPhoto).toLower();
 		QString filename = QString("%1_photo.%2").arg(FContactJid.uNode()).arg(format);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		QFileDialog dialog(this,tr("Save image"),filename,tr("Image Files (*.%1)").arg(format));
+		dialog.setFileMode(QFileDialog::AnyFile);
+		dialog.showMaximized();
+		if (dialog.exec())
+		{
+			QStringList lst=dialog.selectedFiles();
+			filename=lst[0];
+		}
+		else
+			filename.clear();
+#else
+// *** >>> eyeCU >>> ***
 		filename = QFileDialog::getSaveFileName(this,tr("Save image"),filename,tr("Image Files (*.%1)").arg(format));
+#endif
 		if (!filename.isEmpty())
 			saveToFile(filename,FPhoto);
 	}
@@ -377,7 +392,23 @@ void VCardDialog::onPhotoSaveClicked()
 
 void VCardDialog::onPhotoLoadClicked()
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QString filename;
+	QFileDialog dialog(this,tr("Open image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+	dialog.setFileMode(QFileDialog::AnyFile);
+	dialog.showMaximized();
+	if (dialog.exec())
+	{
+		QStringList lst=dialog.selectedFiles();
+		filename=lst[0];
+	}
+	else
+		filename.clear();
+#else
+// *** >>> eyeCU >>> ***
 	QString filename = QFileDialog::getOpenFileName(this,tr("Open image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+#endif
 	if (!filename.isEmpty())
 		setPhoto(loadFromFile(filename));
 }
@@ -393,7 +424,22 @@ void VCardDialog::onLogoSaveClicked()
 	{
 		QString format = getImageFormat(FPhoto).toLower();
 		QString filename = QString("%1_logo.%2").arg(FContactJid.uNode()).arg(format);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		QFileDialog fileDialog(this,tr("Save image"),filename,tr("Image Files (*.%1)").arg(format));
+		fileDialog.setFileMode(QFileDialog::AnyFile);
+		fileDialog.showMaximized();
+		if (fileDialog.exec())
+		{
+			QStringList lst=fileDialog.selectedFiles();
+			filename=lst[0];
+		}
+		else
+			filename.clear();
+#else
+// *** >>> eyeCU >>> ***
 		filename = QFileDialog::getSaveFileName(this,tr("Save image"),filename,tr("Image Files (*.%1)").arg(format));
+#endif
 		if (!filename.isEmpty())
 			saveToFile(filename,FLogo);
 	}
@@ -401,7 +447,23 @@ void VCardDialog::onLogoSaveClicked()
 
 void VCardDialog::onLogoLoadClicked()
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QString filename;
+	QFileDialog fileDialog(this,tr("Open image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+	fileDialog.setFileMode(QFileDialog::AnyFile);
+	fileDialog.showMaximized();
+	if (fileDialog.exec())
+	{
+		QStringList lst=fileDialog.selectedFiles();
+		filename=lst[0];
+	}
+	else
+		filename.clear();
+#else
+// *** >>> eyeCU >>> ***
 	QString filename = QFileDialog::getOpenFileName(this,tr("Open image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+#endif
 	if (!filename.isEmpty())
 		setLogo(loadFromFile(filename));
 }

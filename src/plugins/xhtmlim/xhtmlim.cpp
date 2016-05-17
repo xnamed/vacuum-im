@@ -2086,7 +2086,22 @@ void XhtmlIm::onImageSave()
 		if (index<0)
 			index=0;
 		QString fileName = path.right(path.length()-1-index);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+		QFileDialog dialog(NULL, tr("Please, choose image file"), QDir(Options::node(OPV_XHTML_IMAGESAVEDIRECTORY).value().toString()).absoluteFilePath(fileName));
+		dialog.setFileMode(QFileDialog::AnyFile);
+		dialog.showMaximized();
+		if (dialog.exec())
+		{
+			QStringList lst=dialog.selectedFiles();
+			fileName=lst[0];
+		}
+		else
+			fileName.clear();
+#else
+// *** >>> eyeCU >>> ***
 		fileName = QFileDialog::getSaveFileName(NULL, tr("Please, choose image file"), QDir(Options::node(OPV_XHTML_IMAGESAVEDIRECTORY).value().toString()).absoluteFilePath(fileName));
+#endif
 		if (!fileName.isNull())
 		{
 			Options::node(OPV_XHTML_IMAGESAVEDIRECTORY).setValue(QFileInfo(fileName).absolutePath());

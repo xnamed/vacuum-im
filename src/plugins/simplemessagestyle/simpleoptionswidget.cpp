@@ -137,7 +137,23 @@ void SimpleOptionsWidget::onColorChanged(int AIndex)
 
 void SimpleOptionsWidget::onImageChangeClicked()
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QString fileName;
+	QFileDialog dialog(this, tr("Select background image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+	dialog.setFileMode(QFileDialog::AnyFile);
+	dialog.showMaximized();
+	if (dialog.exec())
+	{
+		QStringList lst=dialog.selectedFiles();
+		fileName=lst[0];
+	}
+	else
+		fileName.clear();
+#else
+// *** >>> eyeCU >>> ***
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select background image"),QString::null,tr("Image Files (*.png *.jpg *.bmp *.gif)"));
+#endif
 	if (!fileName.isEmpty())
 	{
 		FStyleOptions.extended.insert(MSO_BG_IMAGE_FILE,fileName);
