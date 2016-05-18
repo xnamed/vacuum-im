@@ -441,7 +441,7 @@ void ClientInfo::showClientInfo(const Jid &AStreamJid, const Jid &AContactJid, i
 			dialog = new ClientInfoDialog(this,AStreamJid,AContactJid,!contactName.isEmpty() ? contactName : AContactJid.uFull(),AInfoTypes);
 			connect(dialog,SIGNAL(clientInfoDialogClosed(const Jid &)),SLOT(onClientInfoDialogClosed(const Jid &)));
 			FClientInfoDialogs.insert(AContactJid,dialog);
-			dialog->show();//dialog->showMaximized();
+			dialog->show();
 		}
 		else
 		{
