@@ -30,9 +30,8 @@ signals:
 	void childReset();
 protected slots:
 	void onSelectLocationFolder();
-protected slots:
 #ifdef EYECU_MOBILE
-	void onDirectoryEntered(QString ANameFile){FSelDirName=ANameFile;}	 // *** <<< eyeCU >>> ***
+    void onFileSelected(QString ANameDir){FSelDirName=ANameDir;}	 // *** <<< eyeCU >>> ***
 #endif
 private:
 	Ui::FileArchiveOptionsClass ui;

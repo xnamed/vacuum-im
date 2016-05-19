@@ -160,7 +160,7 @@ void AdiumOptionsWidget::onImageChangeClicked()
 	FSelFileName.clear();
 	QString fileName;
 	QFileDialog *fileDialog = new QFileDialog(NULL,tr("Select avatar image"),QDir::currentPath(),tr("Image Files (*.png *.jpg *.bmp *.gif)"));
-	dialog.showMaximized();
+    fileDialog->showMaximized();
 	connect(fileDialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
 	if (fileDialog->exec()==QDialog::Accepted)
 	{

@@ -1,5 +1,5 @@
 #include "filearchiveoptionswidget.h"
-
+#include <QDebug>
 #include <QFileDialog>
 #include <definitions/optionvalues.h>
 #include <utils/options.h>
@@ -58,28 +58,22 @@ void FileArchiveOptionsWidget::reset()
 #ifdef EYECU_MOBILE
 void FileArchiveOptionsWidget::onSelectLocationFolder()
 {
-	QString path;
 	FSelDirName.clear();
-	QFileDialog *dialog=new QFileDialog(NULL,tr("Select the location for the file archive"));
-	dialog->setFileMode(QFileDialog::DirectoryOnly);
-	dialog->setViewMode(QFileDialog::List);//List Detail
-//	connect(dialog,SIGNAL(directoryEntered(QString)),this,SLOT(onDirectoryEntered(QString)));
-	dialog->showMaximized();
-	if (dialog->exec()==QDialog::Accepted)
-	{
-		//path=FSelDirName;
-		path=dialog->directory().absolutePath();//! need
-	}
-	else
-		path.clear();
-	if (!path.isEmpty())
-		ui.lneLocation->setText(path);
+    QFileDialog dialog(NULL,tr("Select the location for the file archive"));
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setViewMode(QFileDialog::List);
+    connect(&dialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
+    dialog.showMaximized();
+    if (dialog.exec()!=QDialog::Accepted)
+        FSelDirName.clear();
+    if (!FSelDirName.isEmpty())
+        ui.lneLocation->setText(FSelDirName);
 }
 #else
 // *** >>> eyeCU >>> ***
 void FileArchiveOptionsWidget::onSelectLocationFolder()
 {
-	QString path = QFileDialog::getExistingDirectory(this,tr("Select the location for the file archive"));
+    QString path = QFileDialog::getExistingDirectory(this,tr("Select the location for the file archive"));
 	if (!path.isEmpty())
 		ui.lneLocation->setText(path);
 }

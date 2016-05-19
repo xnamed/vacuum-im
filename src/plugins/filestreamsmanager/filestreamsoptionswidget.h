@@ -33,10 +33,14 @@ signals:
 	void childReset();
 protected slots:
 	void onDirectoryButtonClicked();
+#ifdef EYECU_MOBILE
+    void onFileSelected(QString ANameDir){FSelDirName=ANameDir;}	 // *** <<< eyeCU >>> ***
+#endif
 private:
 	Ui::FileStreamsOptionsWidgetClass ui;
 private:
 	IFileStreamsManager *FFileManager;
+    QString FSelDirName;	/*** <<< eyeCU >>> ***/
 };
 
 #endif // FILESTREAMSOPTIONS_H

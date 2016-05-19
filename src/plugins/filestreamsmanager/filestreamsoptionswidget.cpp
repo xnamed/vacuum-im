@@ -39,19 +39,16 @@ void FileStreamsOptionsWidget::reset()
 #ifdef EYECU_MOBILE
 void FileStreamsOptionsWidget::onDirectoryButtonClicked()
 {
-	QString dir;
+    FSelDirName.clear();
 	QFileDialog dialog(this,tr("Select default directory"),ui.lneDirectory->toPlainText());
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
-	dialog.setViewMode(QFileDialog::List);//List Detail
+    dialog.setViewMode(QFileDialog::List);
+    connect(&dialog,SIGNAL(fileSelected(QString)),this,SLOT(onFileSelected(QString)));
 	dialog.showMaximized();
-	if (dialog.exec())
-	{
-		dir=dialog.directory().absolutePath();
-	}
-	else
-		dir.clear();
-	if (!dir.isEmpty())
-		ui.lneDirectory->setText(dir);
+    if (dialog.exec()!=QDialog::Accepted)
+        FSelDirName.clear();
+    if (!FSelDirName.isEmpty())
+        ui.lneDirectory->setText(FSelDirName);
 }
 #else
 // *** >>> eyeCU >>> ***
