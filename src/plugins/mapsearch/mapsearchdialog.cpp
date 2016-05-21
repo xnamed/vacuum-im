@@ -12,7 +12,12 @@
 #include <definitions/shortcuts.h>
 #include <definitions/shortcutgrouporders.h>
 #include "mapsearchdialog.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_mapsearchdialog2.h"
+#else
 #include "ui_mapsearchdialog.h"
+#endif
 
 MapSearchDialog::MapSearchDialog(QHash<QUuid, IMapSearchProvider *> AProviders, IMap *AMap, IPoi *APoi, IOptionsManager *AOptionsManager, IConnectionManager *AConnectionManager, QWidget *AParent) :
     QDialog(AParent),

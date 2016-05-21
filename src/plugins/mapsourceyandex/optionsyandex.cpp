@@ -9,6 +9,9 @@ OptionsYandex::OptionsYandex(QWidget *parent) :
 {
     ui->setupUi(this);
     reset();
+#ifndef EYECU_MOBILE
+	ui->lblTitle->setVisible(false);
+#endif
     connect(ui->ledSatellitePhotoVersion, SIGNAL(textChanged(QString)), SIGNAL(modified()));
     connect(ui->ledSchemeVersion, SIGNAL(textChanged(QString)), SIGNAL(modified()));
 }

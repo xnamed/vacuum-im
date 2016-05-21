@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>160</width>
-    <height>61</height>
+    <height>65</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,19 +21,19 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>2</number>
+    <number>4</number>
    </property>
    <property name="leftMargin">
     <number>4</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>4</number>
    </property>
    <property name="rightMargin">
     <number>4</number>
    </property>
    <property name="bottomMargin">
-    <number>2</number>
+    <number>4</number>
    </property>
    <item>
     <widget class="QGroupBox" name="gpb2Gis">
@@ -45,16 +45,19 @@
        <number>4</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="rightMargin">
        <number>4</number>
       </property>
       <property name="bottomMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
-      <property name="spacing">
-       <number>2</number>
+      <property name="horizontalSpacing">
+       <number>4</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>6</number>
       </property>
       <item row="0" column="1">
        <widget class="QRadioButton" name="rbtFirm">

@@ -4,4 +4,5 @@ SOURCES = mapsourcegoogle.cpp \
     settingsgoogle.cpp
 
 FORMS += \
-    settingsgoogle.ui
+    settingsgoogle.ui \
+    settingsgoogle2.ui

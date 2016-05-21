@@ -1,14 +1,21 @@
 #include <definitions/optionvalues.h>
 #include <utils/options.h>
 #include "settingsgoogle.h"
-#include "ui_settingsgoogle.h"
 
+#ifdef EYECU_MOBILE
+#include "ui_settingsgoogle2.h"
+#else
+#include "ui_settingsgoogle.h"
+#endif
 SettingsGoogle::SettingsGoogle(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SettingsGoogle)
 {
     ui->setupUi(this);
     reset();
+#ifndef EYECU_MOBILE
+	ui->lblTitle->setVisible(false);
+#endif
     connect(ui->spbSatelliteVersion, SIGNAL(valueChanged(int)), SIGNAL(modified()));
     connect(ui->spbMapVersion, SIGNAL(valueChanged(int)), SIGNAL(modified()));
     connect(ui->spbTerrainVersionRoads, SIGNAL(valueChanged(int)), SIGNAL(modified()));

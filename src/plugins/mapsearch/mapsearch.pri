@@ -9,4 +9,5 @@ SOURCES = \
 
 FORMS += \
     mapsearchdialog.ui \
-    mapsearchoptions.ui
+    mapsearchoptions.ui \
+    mapsearchdialog2.ui
