@@ -23,6 +23,7 @@ SubscriptionDialog::SubscriptionDialog(IRosterChanger *ARosterChanger, const Jid
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
+	showMaximized();
 #else
 // *** >>> eyeCU >>> ***
     toolBar->setIconSize(QSize(16,16));

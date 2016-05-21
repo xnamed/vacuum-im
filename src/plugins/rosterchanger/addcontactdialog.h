@@ -7,7 +7,12 @@
 #include <interfaces/irosterchanger.h>
 #include <interfaces/irostermanager.h>
 #include <interfaces/ivcardmanager.h>
+
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+#include "ui_addcontactdialog2.h"
+#else		// *** >>> eyeCU >>> ***
 #include "ui_addcontactdialog.h"
+#endif
 
 class AddContactDialog :
 	public QDialog,

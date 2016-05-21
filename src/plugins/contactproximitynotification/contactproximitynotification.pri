@@ -6,4 +6,5 @@ SOURCES = \
     contactproximitynotificationoptions.cpp
 
 FORMS += \
-    contactproximitynotificationoptions.ui
+    contactproximitynotificationoptions.ui \
+    contactproximitynotificationoptions2.ui

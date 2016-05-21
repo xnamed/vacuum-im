@@ -4,7 +4,14 @@
 #include <QDialog>
 #include <interfaces/irostermanager.h>
 #include <interfaces/irosteritemexchange.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_exchangeapprovedialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_exchangeapprovedialog.h"
+#endif
 
 class ExchangeApproveDialog : 
 	public QDialog

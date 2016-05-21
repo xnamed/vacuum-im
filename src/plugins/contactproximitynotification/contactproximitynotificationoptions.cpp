@@ -1,6 +1,11 @@
 #include <definitions/optionvalues.h>
 #include "contactproximitynotificationoptions.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_contactproximitynotificationoptions2.h"
+#else
 #include "ui_contactproximitynotificationoptions.h"
+#endif
 
 ContactProximityNotificationOptions::ContactProximityNotificationOptions(QWidget *parent) :
     QWidget(parent),

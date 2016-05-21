@@ -1,4 +1,5 @@
-FORMS = exchangeapprovedialog.ui
+FORMS = exchangeapprovedialog.ui \
+    $$PWD/exchangeapprovedialog2.ui
 
 HEADERS = rosteritemexchange.h \
           exchangeapprovedialog.h

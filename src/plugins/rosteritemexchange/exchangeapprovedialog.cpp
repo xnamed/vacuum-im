@@ -23,6 +23,11 @@ ExchangeApproveDialog::ExchangeApproveDialog(IRoster *ARoster, const IRosterExch
 
 	setWindowTitle(tr("Roster Modification - %1").arg(ARoster->streamJid().uBare()));
 	setWindowIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_ROSTEREXCHANGE_REQUEST));
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	showMaximized();
+#endif
+// *** >>> eyeCU >>> ***
 
 	ui.lblNotice->setText(tr("Contact '%1' offers you to make the following changes in your contact list:").arg(contactName(ARequest.contactJid)));
 

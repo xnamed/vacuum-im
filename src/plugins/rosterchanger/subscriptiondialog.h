@@ -7,7 +7,14 @@
 #include <interfaces/irosterchanger.h>
 #include <interfaces/irostermanager.h>
 #include <interfaces/ivcardmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_subscriptiondialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_subscriptiondialog.h"
+#endif
 
 class SubscriptionDialog :
 	public QDialog,
