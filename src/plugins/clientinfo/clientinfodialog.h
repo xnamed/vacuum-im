@@ -3,7 +3,12 @@
 
 #include <QDialog>
 #include <interfaces/iclientinfo.h>
+
+#ifdef EYECU_MOBILE
+#include "ui_clientinfodialog2.h"
+#else
 #include "ui_clientinfodialog.h"
+#endif
 
 class ClientInfoDialog :
 	public QDialog

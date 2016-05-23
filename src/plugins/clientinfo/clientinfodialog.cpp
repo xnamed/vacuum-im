@@ -4,15 +4,24 @@
 #include <utils/iconstorage.h>
 #include <utils/logger.h>
 #include <utils/qt4qt5compat.h>
-
+#include <QDebug>
 ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJid, const Jid &AContactJid, const QString &AContactName, int AInfoTypes, QWidget *AParent) : QDialog(AParent)
 {
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_CLIENTINFO);
+	QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
+	ui.lblIcon->setPixmap(pixmap.scaled(16*IconStorage::scale(),16*IconStorage::scale(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+	ui.lblTitle->setText(tr("Client info - %1").arg(AContactName));
+	ui.vboxLayout->setMargin(16*IconStorage::scale());
+#else
 	setWindowTitle(tr("Client info - %1").arg(AContactName));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_CLIENTINFO,0,0,"windowIcon");
-
+#endif
+// *** >>> eyeCU >>> ***
 	FClientInfo = AClientInfo;
 	FStreamJid = AStreamJid;
 	FContactJid = AContactJid;
@@ -146,7 +155,14 @@ void ClientInfoDialog::updateText()
 	}
 
 	ui.tedText->setHtml(html);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+//	showMaximized();
 	this->adjustSize();
+#else
+// *** >>> eyeCU >>> ***
+	this->adjustSize();
+#endif
 }
 
 QString ClientInfoDialog::secsToString(int ASecs) const

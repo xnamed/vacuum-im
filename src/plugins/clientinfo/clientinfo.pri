@@ -1,4 +1,5 @@
-FORMS = clientinfodialog.ui
+FORMS = clientinfodialog.ui \
+    $$PWD/clientinfodialog2.ui
 
 HEADERS = clientinfo.h \
           clientinfodialog.h
