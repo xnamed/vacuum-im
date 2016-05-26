@@ -36,9 +36,9 @@ NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAcc
 
 #ifdef EYECU_MOBILE
 	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_POI_ADD);
-	QPixmap pixmap  = IconStorage::getStoragePixmap(fileName);
 	ui->lblIcon->setPixmap(IconStorage::getStoragePixmap(fileName));
 	ui->lblTitle->setText(ATitle);
+	ui->selectLocation->hide();//  ->setVisible(false);
 
 #ifndef Q_OS_WIN	//!---FOR DEBUG ----
 	showMaximized();
@@ -71,20 +71,40 @@ void NewPoi::onNameEdited(const QString &AComboBox)
     ui->buttonBox->button(QDialogButtonBox::Save)->setDisabled(AComboBox.isEmpty() && !FEmptyNameAllowed);
 }
 
+#ifdef EYECU_MOBILE
 void NewPoi::onMoreClicked()
 {
     if((FExtendedView=!FExtendedView)){
-        ui->gpbAddress->show();
-        ui->grpBoxTimeStamp->show();
-        ui->grpBoxURI->show();
-
+		ui->gpbAddress->setEnabled(true);
+		ui->grpBoxTimeStamp->setEnabled(true);
+		ui->grpBoxURI->setEnabled(true);
+		ui->pbMore->setText(tr("Less"));
     }
     else {
-        ui->gpbAddress->hide();
-        ui->grpBoxTimeStamp->hide();
-        ui->grpBoxURI->hide();
+		ui->gpbAddress->setDisabled(true);
+		ui->grpBoxTimeStamp->setDisabled(true);
+		ui->grpBoxURI->setDisabled(true);
+		ui->pbMore->setText(tr("More"));
     }
 }
+#else
+void NewPoi::onMoreClicked()
+{
+	if((FExtendedView=!FExtendedView)){
+		ui->gpbAddress->show();
+		ui->grpBoxTimeStamp->show();
+		ui->grpBoxURI->show();
+		ui->pbMore->setText(tr("Less"));
+	}
+	else {
+		ui->gpbAddress->hide();
+		ui->grpBoxTimeStamp->hide();
+		ui->grpBoxURI->hide();
+		ui->pbMore->setText(tr("More"));
+	}
+}
+#endif
+
 
 void NewPoi::init()
 {

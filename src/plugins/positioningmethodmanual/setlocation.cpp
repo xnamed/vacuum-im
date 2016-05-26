@@ -1,5 +1,10 @@
 #include "setlocation.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_setlocation2.h"
+#else
 #include "ui_setlocation.h"
+#endif
 
 SetLocation::SetLocation(const MercatorCoordinates &ACoordinates, const QIcon &AIcon, QWidget *parent) :
     QDialog(parent),

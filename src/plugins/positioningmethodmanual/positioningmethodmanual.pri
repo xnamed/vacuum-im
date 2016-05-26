@@ -1,13 +1,14 @@
 HEADERS = \ 
     positioningmethodmanual.h \
     positioningmethodmanualoptions.h \
-    $$PWD/setlocation.h
+    setlocation.h
 SOURCES = \ 
     positioningmethodmanual.cpp \
     positioningmethodmanualoptions.cpp \
-    $$PWD/setlocation.cpp
+    setlocation.cpp
 
 FORMS += \
     positioningmethodmanualoptions.ui \
-    $$PWD/setlocation.ui \
-    $$PWD/positioningmethodmanualoptions2.ui
+    setlocation.ui \
+    positioningmethodmanualoptions2.ui \
+    setlocation2.ui
