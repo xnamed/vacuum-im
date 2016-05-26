@@ -38,7 +38,7 @@ NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAcc
 	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_POI_ADD);
 	ui->lblIcon->setPixmap(IconStorage::getStoragePixmap(fileName));
 	ui->lblTitle->setText(ATitle);
-	ui->selectLocation->hide();//  ->setVisible(false);
+//	ui->selectLocation->hide();
 
 #ifndef Q_OS_WIN	//!---FOR DEBUG ----
 	showMaximized();
