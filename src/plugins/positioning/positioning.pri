@@ -6,4 +6,5 @@ SOURCES = \
     positioningoptions.cpp
 
 FORMS += \
-    positioningoptions.ui
+    positioningoptions.ui \
+    positioningoptions2.ui

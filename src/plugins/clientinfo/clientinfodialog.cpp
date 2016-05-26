@@ -13,9 +13,10 @@ ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJ
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_CLIENTINFO);
-	QPixmap pixmap = QPixmap::fromImage(QImageReader(fileName).read());
-	ui.lblIcon->setPixmap(pixmap.scaled(16*IconStorage::scale(),16*IconStorage::scale(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-	ui.lblTitle->setText(tr("Client info - %1").arg(AContactName));
+    QPixmap pixmap=IconStorage::getStoragePixmap(fileName);
+    if(!pixmap.isNull())
+        ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Client info - %1").arg(AContactName));
 	ui.vboxLayout->setMargin(16*IconStorage::scale());
 #else
 	setWindowTitle(tr("Client info - %1").arg(AContactName));

@@ -106,6 +106,33 @@ void SimpleOptionsWidget::onVariantChanged(int AIndex)
 	emit modified();
 }
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+void SimpleOptionsWidget::onFontChangeClicked()
+{
+    bool ok;
+    QFont font(FStyleOptions.extended.value(MSO_FONT_FAMILY,QFont().family()).toString(),FStyleOptions.extended.value(MSO_FONT_SIZE,QFont().pointSize()).toInt());
+    QFontDialog *fontDialog=new QFontDialog(font, this);
+    fontDialog->setToolTip(tr("Select font family and size"));
+    fontDialog->showMaximized();
+    if(fontDialog->exec()==QDialog::Accepted)
+    {
+        font=fontDialog->currentFont();
+        ok=true;
+    }
+    else
+        ok=false;
+    if (ok)
+    {
+        FStyleOptions.extended.insert(MSO_FONT_FAMILY,font.family());
+        FStyleOptions.extended.insert(MSO_FONT_SIZE,font.pointSize());
+        updateOptionsWidgets();
+        emit modified();
+    }
+    fontDialog->deleteLater();
+}
+#else
+// *** >>> eyeCU >>> ***
 void SimpleOptionsWidget::onFontChangeClicked()
 {
 	bool ok;
@@ -119,6 +146,7 @@ void SimpleOptionsWidget::onFontChangeClicked()
 		emit modified();
 	}
 }
+#endif
 
 void SimpleOptionsWidget::onFontResetClicked()
 {

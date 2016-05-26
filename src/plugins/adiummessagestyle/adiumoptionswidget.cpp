@@ -118,11 +118,22 @@ void AdiumOptionsWidget::onVariantChanged(int AIndex)
 	emit modified();
 }
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 void AdiumOptionsWidget::onFontChangeClicked()
 {
-	bool ok;
+    bool ok=false;
 	QFont font(FStyleOptions.extended.value(MSO_FONT_FAMILY).toString(),FStyleOptions.extended.value(MSO_FONT_SIZE).toInt());
-	font = QFontDialog::getFont(&ok,font,this,tr("Select font family and size"));
+    QFontDialog *fontDialog=new QFontDialog(font, this);
+    fontDialog->setToolTip(tr("Select font family and size"));
+    fontDialog->showMaximized();
+    if(fontDialog->exec()==QDialog::Accepted)
+    {
+        font=fontDialog->currentFont();
+        ok=true;
+    }
+    else
+        ok=false;
 	if (ok)
 	{
 		FStyleOptions.extended.insert(MSO_FONT_FAMILY,font.family());
@@ -130,7 +141,24 @@ void AdiumOptionsWidget::onFontChangeClicked()
 		updateOptionsWidgets();
 		emit modified();
 	}
+    fontDialog->deleteLater();
 }
+#else
+// *** >>> eyeCU >>> ***
+void AdiumOptionsWidget::onFontChangeClicked()
+{
+    bool ok;
+    QFont font(FStyleOptions.extended.value(MSO_FONT_FAMILY).toString(),FStyleOptions.extended.value(MSO_FONT_SIZE).toInt());
+    font = QFontDialog::getFont(&ok,font,this,tr("Select font family and size"));
+    if (ok)
+    {
+        FStyleOptions.extended.insert(MSO_FONT_FAMILY,font.family());
+        FStyleOptions.extended.insert(MSO_FONT_SIZE,font.pointSize());
+        updateOptionsWidgets();
+        emit modified();
+    }
+}
+#endif
 
 void AdiumOptionsWidget::onFontResetClicked()
 {

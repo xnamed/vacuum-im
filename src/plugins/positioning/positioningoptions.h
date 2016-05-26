@@ -10,7 +10,11 @@
 #include <definitions/optionvalues.h>
 #include <utils/options.h>
 
+#ifdef EYECU_MOBILE
+#include "ui_positioningoptions2.h"
+#else
 #include "ui_positioningoptions.h"
+#endif
 
 namespace Ui {
     class PositioningOptions;

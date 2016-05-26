@@ -9,7 +9,12 @@
 #include "definitions/mapicons.h"
 
 #include "newpoi.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_newpoi2.h"
+#else
 #include "ui_newpoi.h"
+#endif
 
 #define  ID_ENGLISH 100
 #define  FOLDER_ICON        "folder"
@@ -28,11 +33,26 @@ NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAcc
     FSchemes(QStringList() << "http" << "https" << "ftp" << "xmpp" << "mailto" << "tel" << "native")
 {
     ui->setupUi(this);
-    setWindowTitle(ATitle);
-    setWindowIcon(APoi->getIcon(MNI_POI_ADD));
+
+#ifdef EYECU_MOBILE
+	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_POI_ADD);
+	QPixmap pixmap  = IconStorage::getStoragePixmap(fileName);
+	ui->lblIcon->setPixmap(IconStorage::getStoragePixmap(fileName));
+	ui->lblTitle->setText(ATitle);
+
+#ifndef Q_OS_WIN	//!---FOR DEBUG ----
+	showMaximized();
+#endif	//!---FOR DEBUG ----
+
+#else
+	setWindowTitle(ATitle);
+	setWindowIcon(APoi->getIcon(MNI_POI_ADD));
+#endif
+
     init();
     if (!APoiData.isEmpty())
         setEditPoi(APoiData);
+
     onMoreClicked();
 
     if (FMapLocationSelector)
@@ -53,10 +73,17 @@ void NewPoi::onNameEdited(const QString &AComboBox)
 
 void NewPoi::onMoreClicked()
 {
-    if((FExtendedView=!FExtendedView))
-		ui->gpbAddress->show();
-    else
-		ui->gpbAddress->hide();
+    if((FExtendedView=!FExtendedView)){
+        ui->gpbAddress->show();
+        ui->grpBoxTimeStamp->show();
+        ui->grpBoxURI->show();
+
+    }
+    else {
+        ui->gpbAddress->hide();
+        ui->grpBoxTimeStamp->hide();
+        ui->grpBoxURI->hide();
+    }
 }
 
 void NewPoi::init()
@@ -74,7 +101,7 @@ void NewPoi::init()
     for(QStringList::const_iterator it=keys.constBegin(); it!=keys.constEnd(); it++)
     {
         ui->boxCountry->addItem(FCountryCodeMap[*it], *it);
-        ui->boxCountryCode->addItem(FCountryIconStorage->getIcon(*it), *it);
+		ui->boxCountryCode->addItem(FCountryIconStorage->getIcon(*it), *it);
     }
 	ui->boxCountry->setCurrentIndex(0);
 
@@ -234,7 +261,6 @@ void NewPoi::setEditPoi(const GeolocElement &AElement)
 void NewPoi::hideEvent(QHideEvent *AEvent)
 {
 	Q_UNUSED(AEvent)
-
     if (FLocationSelect)
     {
         FLocationSelect=false;
@@ -294,9 +320,11 @@ void NewPoi::onCountryCodeSelected(int AIndex)
 		index=0;
 	ui->boxCountry->setCurrentIndex(index);
     ui->wgtFlag->load(FCountryIconStorage->fileFullName(code));
-    QSize ssizeHint = ui->wgtFlag->sizeHint();
-    ssizeHint.scale(48,48,Qt::KeepAspectRatio);
+#ifndef EYECU_MOBILE
+	QSize ssizeHint = ui->wgtFlag->sizeHint();
+	ssizeHint.scale(48,48,Qt::KeepAspectRatio);
 	ui->wgtFlag->resize(ssizeHint);
+#endif
 }
 
 void NewPoi::onComboBoxEdited(const QString &AText)
@@ -359,14 +387,14 @@ void NewPoi::setTimestamp(const QDateTime &ATimeStamp)
     if (ATimeStamp.isValid())
     {
         ui->dteTimestamp->setDateTime(ATimeStamp);
-        ui->dteTimestamp->setVisible(true);
+        ui->dteTimestamp->setVisible(true);ui->lblNoTimestamp->setVisible(false);
         ui->pbTimestamp->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_EDIT_DELETE));
         ui->pbTimestamp->setToolTip(tr("Remove timestamp"));
     }
     else
     {
 		ui->dteTimestamp->clear();
-        ui->dteTimestamp->setVisible(false);
+        ui->dteTimestamp->setVisible(false);ui->lblNoTimestamp->setVisible(true);
         ui->pbTimestamp->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CLIENTINFO_TIME));
         ui->pbTimestamp->setToolTip(tr("Set current time"));
     }

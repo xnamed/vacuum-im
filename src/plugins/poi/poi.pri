@@ -17,7 +17,8 @@ SOURCES = \
 FORMS += \
     newpoi.ui \
     poioptions.ui \
-    poilist.ui
+    poilist.ui \
+    newpoi2.ui
 
 OTHER_FILES +=
 

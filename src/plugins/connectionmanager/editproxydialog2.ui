@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>208</width>
-    <height>290</height>
+    <width>212</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,25 +20,41 @@
    <string>Proxy Manager</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>4</number>
-   </property>
    <property name="leftMargin">
     <number>4</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>4</number>
    </property>
    <property name="rightMargin">
-    <number>2</number>
+    <number>4</number>
    </property>
-   <property name="bottomMargin">
-    <number>2</number>
-   </property>
+   <item>
+    <widget class="QLabel" name="lblTitle">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Proxy Manager</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QListWidget" name="ltwProxyList">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -141,6 +157,12 @@
       </item>
       <item row="3" column="1">
        <widget class="QSpinBox" name="spbPort">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximum">
          <number>65535</number>
         </property>
@@ -191,19 +213,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="pbtAdd">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Add</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -218,6 +227,19 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbtAdd">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pbtDelete">
@@ -249,9 +271,6 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="topMargin">
-      <number>3</number>
-     </property>
      <item>
       <widget class="QDialogButtonBox" name="btbButtons">
        <property name="sizePolicy">
@@ -259,6 +278,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
        <property name="standardButtons">
         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
