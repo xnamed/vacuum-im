@@ -48,7 +48,7 @@ void PoiOptions::createTypeWidget()
 	ui->treeWidget->setHeaderLabel(tr("POI filter"));
 #ifdef EYECU_MOBILE
 	int size=16*IconStorage::scale();
-	ui->treeWidget->setIconSize(QSize(size,size));
+    ui->treeWidget->setIconSize(QSize(size,size));
 #endif
     // Add "None" item
     QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);

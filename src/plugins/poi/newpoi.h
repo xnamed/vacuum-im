@@ -65,6 +65,7 @@ private:
     bool                    FLocationSelect;
     bool                    FExtendedView;
     bool                    FCountryCodeSet;
+    QSize                   FCurSize;
 
     const QStringList       FSchemes;
 };

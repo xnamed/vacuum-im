@@ -19,6 +19,7 @@
 #define  ID_ENGLISH 100
 #define  FOLDER_ICON        "folder"
 #define  FOLDEROPEN_ICON    "folderopen"
+#define  VAR                0
 
 NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAccount *> &AAccounts, const QString &ATitle, const GeolocElement &APoiData, QWidget *parent) :
     QDialog(parent),
@@ -34,12 +35,27 @@ NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAcc
 {
     ui->setupUi(this);
 
+    FCurSize.setWidth(16*IconStorage::scale());
+    FCurSize.setHeight(16*IconStorage::scale());
+    ui->pBTypeSel->setIconSize(FCurSize);
+    ui->selectLocation->setIconSize(FCurSize);
+    ui->pbTimestamp->setIconSize(FCurSize);
+
 #ifdef EYECU_MOBILE
 	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_POI_ADD);
 	ui->lblIcon->setPixmap(IconStorage::getStoragePixmap(fileName));
 	ui->lblTitle->setText(ATitle);
-//	ui->selectLocation->hide();
-
+//!------------------
+#if VAR
+    ui->pBTypeSel->show();ui->lblTypeIcon->show();ui->lblTypeName->show();
+    ui->lblTypeIcon->setPixmap(IconStorage::getStoragePixmap(fileName));//---test temp---
+    ui->pBTypeSel->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_JSEARCH));
+    ui->lblType->hide();ui->boxType->hide();
+#else
+    ui->pBTypeSel->hide();ui->lblTypeIcon->hide();ui->lblTypeName->hide();
+    ui->lblType->show();ui->boxType->show();
+#endif
+//!------------------
 #ifndef Q_OS_WIN	//!---FOR DEBUG ----
 	showMaximized();
 #endif	//!---FOR DEBUG ----
@@ -109,7 +125,7 @@ void NewPoi::onMoreClicked()
 void NewPoi::init()
 {
     if (FMapLocationSelector)
-		ui->selectLocation->setIcon(IconStorage::staticStorage(RSR_STORAGE_MAPICONS)->getIcon(MPI_NEWCENTER));
+        ui->selectLocation->setIcon(IconStorage::staticStorage(RSR_STORAGE_MAPICONS)->getIcon(MPI_NEWCENTER));
     ui->pbTimestamp->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CLIENTINFO_TIME));
 
     fillCountryMap();

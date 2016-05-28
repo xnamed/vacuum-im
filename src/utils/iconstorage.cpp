@@ -114,6 +114,8 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
                     if(file.exists())
                         pixmap = QPixmap::fromImage(QImageReader(AFileName).read());
                 }
+                if (pixmap.isNull())
+                    return pixmap;      //! not scaled if pixmap== NULL
                 return (pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap;
             }
         }

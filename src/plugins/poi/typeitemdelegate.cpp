@@ -34,9 +34,15 @@ void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     painter->save();
     if(!flag)
     {
-		QRect backgroundRect(option.rect.x(), option.rect.y(), size+2, size+2);//18,18
-        QPixmap pix = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(CONNECT_ICON);
-        style->drawItemPixmap(painter,backgroundRect,Qt::AlignLeft,pix);
+#ifdef EYECU_MOBILE
+        QRect backgroundRect(option.rect.x(), option.rect.y(), size+2*IconStorage::scale(), size+2*IconStorage::scale());
+        QString name = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(CONNECT_ICON);
+        QPixmap pixmap = IconStorage::getStoragePixmap(name);
+#else
+        QRect backgroundRect(option.rect.x(), option.rect.y(), size+2, size+2);//18,18
+        QPixmap pixmap = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(CONNECT_ICON);
+#endif
+        style->drawItemPixmap(painter,backgroundRect,Qt::AlignLeft,pixmap);
     }
 
     QPalette::ColorGroup cg = opt.state & QStyle::State_Enabled ? QPalette::Normal : QPalette::Disabled;
@@ -74,8 +80,13 @@ void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 QSize TypeItemDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
     QSize result = QStyledItemDelegate::sizeHint(option, index);
+#ifdef EYECU_MOBILE
+    result.setHeight(result.height()+2*IconStorage::scale());
+    result.setWidth(result.width()+2*IconStorage::scale());
+#else
     if(result.height()<16)
         result.setHeight(16);
 	result.setHeight(result.height()*1.15);
+#endif
     return result;
 }

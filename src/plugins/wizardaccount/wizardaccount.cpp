@@ -66,7 +66,7 @@ QWizard * WizardAccount::startWizard(QWidget *AParent)
 {
 //	FOptionsManager->showOptionsDialog()->accept();
 	ConnectionWizard *wizard = new ConnectionWizard(AParent);
-	wizard->show();
+    wizard->show();
 	return wizard;
 }
 
