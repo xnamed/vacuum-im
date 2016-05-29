@@ -66,7 +66,6 @@ IconStorage::~IconStorage()
 }
 
 // *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
 QPixmap IconStorage::getStoragePixmap(const QString AFileName)
 {
     QStringList partsName = AFileName.split(".");
@@ -128,7 +127,6 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
     }
     return QPixmap();
 }
-#endif
 // *** >>> eyeCU >>> ***
 
 QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const

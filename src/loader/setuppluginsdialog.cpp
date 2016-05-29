@@ -70,7 +70,15 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 	REPORT_VIEW;
 	ui.setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PLUGINMANAGER_SETUP,0,0,"windowIcon");
+
+#ifdef EYECU_MOBILE
+    QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_PLUGINMANAGER_SETUP);
+    QPixmap pixmap=IconStorage::getStoragePixmap(fileName);
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Setup Plugins"));
+#else
+    IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PLUGINMANAGER_SETUP,0,0,"windowIcon");
+#endif
 
 	FPluginManager = APluginManager;
 	FPluginsSetup = APluginsSetup;
@@ -107,7 +115,9 @@ SetupPluginsDialog::SetupPluginsDialog(IPluginManager *APluginManager, QDomDocum
 
 SetupPluginsDialog::~SetupPluginsDialog()
 {
+#ifndef EYECU_MOBILE
 	Options::setFileValue(saveGeometry(),"misc.setup-plugins-dialog.geometry");
+#endif
 }
 
 void SetupPluginsDialog::updatePlugins()
@@ -152,8 +162,8 @@ void SetupPluginsDialog::updatePlugins()
 		pluginItem->setData(dependsOn, PDR_DEPENDS_ON);
 		pluginItem->setData(dependsFor, PDR_DEPENDS_FOR);
 		pluginItem->setData(file+" "+name+" "+descr+" "+error, PDR_FILTER);
-		pluginItem->setData(pluginItem->data(PDR_DESCR), Qt::ToolTipRole);
-		
+        pluginItem->setData(pluginItem->data(PDR_DESCR), Qt::ToolTipRole);
+
 		AdvancedDelegateItem nameLabel(AdvancedDelegateItem::DisplayId);
 		nameLabel.d->kind = AdvancedDelegateItem::Display;
 		nameLabel.d->data = pluginItem->data(PDR_NAME);
@@ -165,12 +175,14 @@ void SetupPluginsDialog::updatePlugins()
 
 		AdvancedDelegateItem descrLabel(AdvancedDelegateItem::makeId(AdvancedDelegateItem::Bottom,129,10));
 		descrLabel.d->kind = AdvancedDelegateItem::CustomData;
-		descrLabel.d->data = pluginItem->data(PDR_DESCR);
+        descrLabel.d->data = pluginItem->data(PDR_DESCR);
 
 		AdvancedDelegateItems labels;
 		labels.insert(nameLabel.d->id, nameLabel);
 		labels.insert(versionLabel.d->id, versionLabel);
-		labels.insert(descrLabel.d->id, descrLabel);
+#ifndef EYECU_MOBILE
+        labels.insert(descrLabel.d->id, descrLabel);
+#endif
 		pluginItem->setData(QVariant::fromValue<AdvancedDelegateItems>(labels), PDR_LABELS);
 
 		if (!isEnabled)
@@ -181,9 +193,12 @@ void SetupPluginsDialog::updatePlugins()
 		else if (!isLoaded)
 		{
 			errorsCount++;
-//			descrLabel.d->hints.insert(AdvancedDelegateItem::Foreground, Qt::red);
-			descrLabel.d->hints.insert(AdvancedDelegateItem::Foreground, QColor(Qt::red));
-			nameLabel.d->hints.insert(AdvancedDelegateItem::Foreground, ui.tbvPlugins->palette().color(QPalette::Disabled, QPalette::Text));
+#ifndef EYECU_MOBILE
+            descrLabel.d->hints.insert(AdvancedDelegateItem::Foreground, QColor(Qt::red));
+            nameLabel.d->hints.insert(AdvancedDelegateItem::Foreground, ui.tbvPlugins->palette().color(QPalette::Disabled, QPalette::Text));
+#else
+            nameLabel.d->hints.insert(AdvancedDelegateItem::Foreground, QColor(Qt::red));
+#endif
 		}
 
 		pluginItem->setCheckable(true);

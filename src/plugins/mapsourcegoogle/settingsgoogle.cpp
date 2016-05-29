@@ -13,7 +13,7 @@ SettingsGoogle::SettingsGoogle(QWidget *parent) :
 {
     ui->setupUi(this);
     reset();
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
 	ui->lblTitle->setVisible(false);
 #endif
     connect(ui->spbSatelliteVersion, SIGNAL(valueChanged(int)), SIGNAL(modified()));

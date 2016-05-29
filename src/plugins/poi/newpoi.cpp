@@ -35,25 +35,30 @@ NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAcc
 {
     ui->setupUi(this);
 
+#ifdef EYECU_MOBILE
     FCurSize.setWidth(16*IconStorage::scale());
     FCurSize.setHeight(16*IconStorage::scale());
     ui->pBTypeSel->setIconSize(FCurSize);
+    ui->boxType->setIconSize(FCurSize);
     ui->selectLocation->setIconSize(FCurSize);
     ui->pbTimestamp->setIconSize(FCurSize);
-
-#ifdef EYECU_MOBILE
-	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_POI_ADD);
+    ui->boxCountryCode->setIconSize(FCurSize);
+//! --temp---now not worked !!!!
+    ui->selectLocation->setDisabled(true);
+//! --temp
+//!
+    QString fileName = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_POI_ADD);
 	ui->lblIcon->setPixmap(IconStorage::getStoragePixmap(fileName));
-	ui->lblTitle->setText(ATitle);
+    ui->gpbAccount->setTitle(ATitle);
 //!------------------
 #if VAR
     ui->pBTypeSel->show();ui->lblTypeIcon->show();ui->lblTypeName->show();
-    ui->lblTypeIcon->setPixmap(IconStorage::getStoragePixmap(fileName));//---test temp---
+ui->lblTypeIcon->setPixmap(IconStorage::getStoragePixmap(fileName));//---for test temp---
     ui->pBTypeSel->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_JSEARCH));
-    ui->lblType->hide();ui->boxType->hide();
+    ui->boxType->hide();
 #else
     ui->pBTypeSel->hide();ui->lblTypeIcon->hide();ui->lblTypeName->hide();
-    ui->lblType->show();ui->boxType->show();
+    ui->boxType->show();
 #endif
 //!------------------
 #ifndef Q_OS_WIN	//!---FOR DEBUG ----
@@ -87,40 +92,29 @@ void NewPoi::onNameEdited(const QString &AComboBox)
     ui->buttonBox->button(QDialogButtonBox::Save)->setDisabled(AComboBox.isEmpty() && !FEmptyNameAllowed);
 }
 
-#ifdef EYECU_MOBILE
 void NewPoi::onMoreClicked()
 {
     if((FExtendedView=!FExtendedView)){
+#ifdef EYECU_MOBILE
 		ui->gpbAddress->setEnabled(true);
 		ui->grpBoxTimeStamp->setEnabled(true);
 		ui->grpBoxURI->setEnabled(true);
+#else
+		ui->gpbAddress->show();
+#endif
 		ui->pbMore->setText(tr("Less"));
     }
     else {
+#ifdef EYECU_MOBILE
 		ui->gpbAddress->setDisabled(true);
 		ui->grpBoxTimeStamp->setDisabled(true);
 		ui->grpBoxURI->setDisabled(true);
+#else
+		ui->gpbAddress->hide();
+#endif
 		ui->pbMore->setText(tr("More"));
     }
 }
-#else
-void NewPoi::onMoreClicked()
-{
-	if((FExtendedView=!FExtendedView)){
-		ui->gpbAddress->show();
-		ui->grpBoxTimeStamp->show();
-		ui->grpBoxURI->show();
-		ui->pbMore->setText(tr("Less"));
-	}
-	else {
-		ui->gpbAddress->hide();
-		ui->grpBoxTimeStamp->hide();
-		ui->grpBoxURI->hide();
-		ui->pbMore->setText(tr("More"));
-	}
-}
-#endif
-
 
 void NewPoi::init()
 {
@@ -137,7 +131,11 @@ void NewPoi::init()
     for(QStringList::const_iterator it=keys.constBegin(); it!=keys.constEnd(); it++)
     {
         ui->boxCountry->addItem(FCountryCodeMap[*it], *it);
-		ui->boxCountryCode->addItem(FCountryIconStorage->getIcon(*it), *it);
+#ifdef EYECU_MOBILE
+        ui->boxCountryCode->addItem(*it);
+#else
+        ui->boxCountryCode->addItem(FCountryIconStorage->getIcon(*it), *it);
+#endif
     }
 	ui->boxCountry->setCurrentIndex(0);
 
