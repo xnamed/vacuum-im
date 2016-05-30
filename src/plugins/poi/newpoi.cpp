@@ -19,7 +19,7 @@
 #define  ID_ENGLISH 100
 #define  FOLDER_ICON        "folder"
 #define  FOLDEROPEN_ICON    "folderopen"
-#define  VAR                1
+#define  VAR                0
 
 NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAccount *> &AAccounts, const QString &ATitle, const GeolocElement &APoiData, QWidget *parent) :
     QDialog(parent),

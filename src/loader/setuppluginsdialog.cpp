@@ -241,11 +241,14 @@ void SetupPluginsDialog::onCurrentPluginChanged(const QModelIndex &ACurrent, con
 	Q_UNUSED(APrevious);
 	if (ACurrent.isValid())
 	{
+#ifdef EYECU_MOBILE
+		ui.lblName->setText(QString("Library: <b>%1</b>. ").arg(ACurrent.data(PDR_FILE).toString()));
+#else
 		ui.lblName->setText(QString("<b>%1</b> %2 (%3)").arg(
 			HTML_ESCAPE(ACurrent.data(PDR_NAME).toString()),
 			ACurrent.data(PDR_VERSION).toString(),
 			ACurrent.data(PDR_FILE).toString()));
-
+#endif
 		ui.lblHomePage->setText(QString("<a href='%1'>%2</a>").arg(
 			ACurrent.data(PDR_HOMEPAGE).toString(),
 			HTML_ESCAPE(ACurrent.data(PDR_HOMEPAGE).toString())));
