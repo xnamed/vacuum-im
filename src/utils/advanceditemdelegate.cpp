@@ -1049,8 +1049,13 @@ bool AdvancedItemDelegate::isItemVisible(const AdvancedDelegateItem &AItem, cons
 QSize AdvancedItemDelegate::itemSizeHint(const AdvancedDelegateItem &AItem, const QStyleOptionViewItemV4 &AItemOption)
 {
 	static const QSize zeroSize = QSize(0,0);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	static const QSize branchSize = QSize(12*IconStorage::scale(),12*IconStorage::scale());
+#else
 	static const QSize branchSize = QSize(12,12);
-
+#endif
+// *** >>> eyeCU >>> ***
 	switch (AItem.d->kind)
 	{
 	case AdvancedDelegateItem::Null:
@@ -1067,10 +1072,12 @@ QSize AdvancedItemDelegate::itemSizeHint(const AdvancedDelegateItem &AItem, cons
 			QStyle *style = AItemOption.widget!=NULL ? AItemOption.widget->style() : QApplication::style();
             int width  = style->proxy()->pixelMetric(QStyle::PM_IndicatorWidth, &AItemOption, AItemOption.widget);
             int height = style->proxy()->pixelMetric(QStyle::PM_IndicatorHeight, &AItemOption, AItemOption.widget);
+// *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
             width*=IconStorage::scale();
             height*=IconStorage::scale();
 #endif
+// *** >>> eyeCU >>> ***
             return QSize(width,height);
 		}
 	case AdvancedDelegateItem::CustomWidget:

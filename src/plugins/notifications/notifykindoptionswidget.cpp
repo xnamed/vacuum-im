@@ -6,6 +6,7 @@
 #include <definitions/menuicons.h>
 #include <utils/iconstorage.h>
 #include "utils/qt4qt5compat.h"
+#include <utils/advanceditemdelegate.h>
 
 enum NotifiesTableColumn {
 	NTC_TYPE,
@@ -36,6 +37,14 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 	tbwNotifies->verticalHeader()->setVisible(false);
 	tbwNotifies->horizontalHeader()->setHighlightSections(false);
 	tbwNotifies->setSelectionMode(QTableWidget::NoSelection);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	int size=16*IconStorage::scale();
+	tbwNotifies->horizontalHeader()->setIconSize(QSize(size,size));
+	tbwNotifies->setIconSize(QSize(size,size));
+	tbwNotifies->setItemDelegate(new AdvancedItemDelegate(tbwNotifies));
+#endif
+// *** >>> eyeCU >>> ***
 	connect(tbwNotifies,SIGNAL(itemChanged(QTableWidgetItem *)),SIGNAL(modified()));
 
 	tbwNotifies->setColumnCount(NTC__COUNT);
