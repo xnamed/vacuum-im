@@ -155,7 +155,13 @@ ArchiveViewWindow::ArchiveViewWindow(IMessageArchiver *AArchiver, const QMultiMa
 	FProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
 	QFont messagesFont = ui.tbrMessages->font();
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	messagesFont.setPointSize(Options::node(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE_MOB).value().toInt());
+#else
+// *** >>> eyeCU >>> ***
 	messagesFont.setPointSize(Options::node(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE).value().toInt());
+#endif
 	ui.tbrMessages->setFont(messagesFont);
 
 	QPalette palette = ui.tbrMessages->palette();
@@ -234,7 +240,13 @@ ArchiveViewWindow::~ArchiveViewWindow()
 	Options::setFileValue(saveState(),"history.archiveview.state");
 	Options::setFileValue(saveGeometry(),"history.archiveview.geometry");
 	Options::setFileValue(ui.sprSplitter->saveState(),"history.archiveview.splitter-state");
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	Options::node(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE_MOB).setValue(ui.tbrMessages->font().pointSize());
+#else
+// *** >>> eyeCU >>> ***
 	Options::node(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE).setValue(ui.tbrMessages->font().pointSize());
+#endif
 }
 
 QMultiMap<Jid,Jid> ArchiveViewWindow::addresses() const

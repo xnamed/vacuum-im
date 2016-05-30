@@ -266,8 +266,13 @@ bool MessageArchiver::initSettings()
 	Options::setDefaultValue(OPV_HISTORY_ENGINE_ENABLED,true);
 	Options::setDefaultValue(OPV_HISTORY_ENGINE_REPLICATEAPPEND,true);
 	Options::setDefaultValue(OPV_HISTORY_ENGINE_REPLICATEREMOVE,true);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	Options::setDefaultValue(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE_MOB,10*IconStorage::scale());
+#else
+// *** >>> eyeCU >>> ***
 	Options::setDefaultValue(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE,10);
-
+#endif
 	Options::setDefaultValue(OPV_ACCOUNT_HISTORYREPLICATE,false);
 	Options::setDefaultValue(OPV_ACCOUNT_HISTORYDUPLICATE,false);
 

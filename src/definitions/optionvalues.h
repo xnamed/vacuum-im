@@ -166,6 +166,9 @@
 #define OPV_HISTORY_ENGINE_REPLICATEAPPEND              "history.engine.replicate-append"
 #define OPV_HISTORY_ENGINE_REPLICATEREMOVE              "history.engine.replicate-remove"
 #define OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE           "history.archiveview.font-point-size"
+// *** <<< eyeCU <<< ***
+#define OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE_MOB       "history.archiveview.font-point-size-mob"
+// *** >>> eyeCU >>> ***
 // FileMessageArchive
 #define OPV_FILEARCHIVE_HOMEPATH                        "history.file-archive.home-path"
 #define OPV_FILEARCHIVE_DATABASESYNC                    "history.file-archive.database-sync"

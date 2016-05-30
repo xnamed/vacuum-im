@@ -41,6 +41,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 #ifdef EYECU_MOBILE
 	int size=16*IconStorage::scale();
 	tbwNotifies->horizontalHeader()->setIconSize(QSize(size,size));
+	tbwNotifies->setWordWrap(true);
 	tbwNotifies->setIconSize(QSize(size,size));
 	tbwNotifies->setItemDelegate(new AdvancedItemDelegate(tbwNotifies));
 #endif
