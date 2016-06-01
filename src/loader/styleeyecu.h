@@ -16,6 +16,15 @@ class StyleEyecu :public QObject
 public:
 	StyleEyecu(QApplication *APpl);
 	void init();
+	QString saveStyle();
+protected:
+	QString spinBox(int ASize);
+	QString checkBox(int ASize);
+	QString radioBot(int ASize);
+	QString slider(int ASize);
+
+private:
+	qreal FScale;
 };
 
 #endif // STYLEEYECU_H

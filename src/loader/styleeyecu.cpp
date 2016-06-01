@@ -18,7 +18,6 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 
 #include "styleeyecu.h"
 
-
 StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
 {
 #ifdef EYECU_MOBILE
@@ -26,19 +25,19 @@ StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
 	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
 	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
-	qreal scale;					//! PointSizeF=96
+	//! PointSizeF=96
 	float newPointSizeF;
-		 if(midleDotsPerInch<=110)                          {scale=1.0; newPointSizeF= 8.0;}
-	else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{scale=1.5; newPointSizeF=12.0;}
-	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{scale=2.0; newPointSizeF=18.0;}
-	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{scale=2.5; newPointSizeF=20.0;}
-	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{scale=3.0; newPointSizeF=24.0;}
-	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{scale=3.5; newPointSizeF=28.0;}
-	else if(midleDotsPerInch>640)							{scale=4.5;	newPointSizeF=36.0;}
+		 if(midleDotsPerInch<=110)                          {FScale=1.0; newPointSizeF= 8.0;}
+	else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=1.5; newPointSizeF=12.0;}
+	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.0; newPointSizeF=18.0;}
+	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; newPointSizeF=20.0;}
+	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; newPointSizeF=24.0;}
+	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; newPointSizeF=28.0;}
+	else if(midleDotsPerInch>640)							{FScale=4.5; newPointSizeF=36.0;}
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-	 scale=2.0;
+	 FScale=2.0;
 	 newPointSizeF=18;
 #endif
 //!---- delete Later-------
@@ -47,21 +46,7 @@ StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
 	QStringList styles=QStyleFactory::keys();	// "Android","Windows", "Fusion"
 	if(styles.contains("Fusion"))//Qt::CaseInsensitive
 		APpl->setStyle(QStyleFactory::create("Fusion"));
-	//! Style modify
-	int newSize=16*scale;
-	QString chBoxStyle=QString("QCheckBox::indicator {width: %1px; height: %2px; spacing: %3px;}")
-			.arg(newSize).arg(newSize).arg(4);
-	QString radBotStyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
-			.arg(newSize).arg(newSize).arg(4);
-	QString sliderStyle=QString(""
-		"QSlider::groove:horizontal {border: 1px 1px solid #999999;;height: 8px; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
-		"QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #05BB04, stop:1 #07D606); border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}"
-//        "QSlider::add-page:horizontal {background: white;}"     //after
-//        "QSlider::sub-page:horizontal {background: #039302;}"   //befor
-	 );
-	QString spiBoxSyle=QString("QSpinBox {max-width: 152px; }");//padding-right: 35px;max-height: 48px;
-
-	APpl->setStyleSheet(QString().append(chBoxStyle).append(radBotStyle).append(sliderStyle).append(spiBoxSyle));
+	APpl->setStyleSheet(saveStyle());
 	APpl->style()->setObjectName("Fusion");
 
 	//!----------------
@@ -69,17 +54,59 @@ StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
 	font.setPointSizeF(newPointSizeF);
 	APpl->setFont(font);
 
-	IconStorage::setScale(scale);
+	IconStorage::setScale(FScale);
 	IconStorage::setFontPointSize(newPointSizeF);
 #else
 	IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
 	IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---
 #endif
-
-
 }
 
 void StyleEyecu::init()
 {
 
+}
+
+QString StyleEyecu::saveStyle()
+{
+	//! Style modify
+	int newSize=16*FScale;
+	QString all=QString().append(checkBox(newSize))
+						 .append(radioBot(newSize))
+						 .append(slider(newSize))
+						 .append(spinBox(newSize));
+	return all;
+}
+
+QString StyleEyecu::spinBox(int ASize)
+{
+	Q_UNUSED(ASize)
+	QString spinBoxSyle=QString("QSpinBox {max-width: 152px; }");//padding-right: 35px;max-height: 48px;
+	return spinBoxSyle;
+}
+
+QString StyleEyecu::checkBox(int ASize)
+{
+	QString chBoxStyle=QString("QCheckBox::indicator {width: %1px; height: %2px; spacing: %3px;}")
+			.arg(ASize).arg(ASize).arg(4);
+	return chBoxStyle;
+}
+
+QString StyleEyecu::radioBot(int ASize)
+{
+	QString radBotStyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
+			.arg(ASize).arg(ASize).arg(4);
+	return radBotStyle;
+}
+
+QString StyleEyecu::slider(int ASize)
+{
+	Q_UNUSED(ASize)
+	QString sliderStyle=QString(""
+		"QSlider::groove:horizontal {border: 1px 1px solid #999999;;height: 8px; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
+		"QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #05BB04, stop:1 #07D606); border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}"
+//        "QSlider::add-page:horizontal {background: white;}"     //after
+//        "QSlider::sub-page:horizontal {background: #039302;}"   //befor
+	 );
+	return sliderStyle;
 }
