@@ -8,10 +8,12 @@ anonymous:  FORMS += aboutbox_anonymous.ui
 HEADERS = \
     pluginmanager.h \
     aboutbox.h \
-    setuppluginsdialog.h
+    setuppluginsdialog.h \
+    $$PWD/styleeyecu.h
 
 SOURCES = \
     main.cpp \
     pluginmanager.cpp \
     aboutbox.cpp \
-    setuppluginsdialog.cpp
+    setuppluginsdialog.cpp \
+    $$PWD/styleeyecu.cpp
