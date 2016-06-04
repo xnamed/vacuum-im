@@ -19,6 +19,7 @@ public:
 	QString saveStyle();
 protected:
     QString spinBox();
+	QString doubleSpinBox();
     QString checkBox();
     QString radioBottom();
     QString slider();

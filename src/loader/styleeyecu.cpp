@@ -71,7 +71,8 @@ void StyleEyecu::init()
 //! Style modify
 QString StyleEyecu::saveStyle()
 {
-	return QString().append(checkBox()).append(radioBottom()).append(slider()).append(spinBox());
+	return QString().append(checkBox()).append(radioBottom()).append(slider())
+			.append(spinBox().append(doubleSpinBox()));
 }
 
 QString StyleEyecu::spinBox()
@@ -91,7 +92,27 @@ QString StyleEyecu::spinBox()
         "QSpinBox::down-arrow {image: url(:spindown_arrow.png) 1;width: %2px; height: %2px;}"
         "QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off {image: url(:spindown_arrow_disabled.png);}")
         .arg(FSize).arg(FSize/2);
-    return style;
+	return style;
+}
+
+QString StyleEyecu::doubleSpinBox()
+{
+	QString style=QString(""
+		"QDoubleSpinBox {padding-right: %1px; padding-left: %2px; border-image: url(:spinframe.png) 3; border-width: 3;}"
+		"QDoubleSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %1px;"
+							 "border-image: url(:spinup.png) 1; border-width: 1px;}"
+		"QDoubleSpinBox::up-button:hover {border-image: url(:spinup_hover.png) 1;}"
+		"QDoubleSpinBox::up-button:pressed {border-image: url(:spinup_pressed.png) 1;}"
+		"QDoubleSpinBox::up-arrow {image: url(:spinup_arrow.png) 1;width: %2px; height: %2px;}"
+		"QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off {image: url(:spinup_arrow_disabled.png);}"
+		"QDoubleSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %1px;"
+							  "border-image: url(:spindown.png) 1; border-width: 1px;}"
+		"QDoubleSpinBox::down-button:hover {border-image: url(:spindown_hover.png) 1;}"
+		"QDoubleSpinBox::down-button:pressed {border-image: url(:spindown_pressed.png) 1;}"
+		"QDoubleSpinBox::down-arrow {image: url(:spindown_arrow.png) 1;width: %2px; height: %2px;}"
+		"QDoubleSpinBox::down-arrow:disabled,QDoubleSpinBox::down-arrow:off {image: url(:spindown_arrow_disabled.png);}")
+		.arg(FSize).arg(FSize/2);
+	return style;
 }
 
 QString StyleEyecu::checkBox()
