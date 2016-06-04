@@ -81,12 +81,26 @@ StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
 	IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
 	IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---
 #endif
+}
 
 }
 
-void StyleEyecu::init()
+QString StyleEyecu::saveStyle()
 {
+	//! Style modify
+	int newSize=16*FScale;
+	QString all=QString().append(checkBox(newSize))
+						 .append(radioBot(newSize))
+						 .append(slider(newSize))
+						 .append(spinBox(newSize));
+	return all;
+}
 
+QString StyleEyecu::spinBox(int ASize)
+{
+	Q_UNUSED(ASize)
+	QString spinBoxSyle=QString("QSpinBox {max-width: 152px; }");//padding-right: 35px;max-height: 48px;
+	return spinBoxSyle;
 }
 
 QString StyleEyecu::saveStyle()
