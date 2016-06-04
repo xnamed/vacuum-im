@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>spinup_pressed.png</file>
+        <file>spindown.png</file>
+        <file>spindown_arrow.png</file>
+        <file>spindown_arrow_disabled.png</file>
+        <file>spindown_hover.png</file>
+        <file>spindown_off.png</file>
+        <file>spindown_pressed.png</file>
+        <file>spinframe.png</file>
+        <file>spinup.png</file>
+        <file>spinup_arrow.png</file>
+        <file>spinup_arrow_disabled.png</file>
+        <file>spinup_hover.png</file>
+        <file>spinup_off.png</file>
+    </qresource>
+</RCC>

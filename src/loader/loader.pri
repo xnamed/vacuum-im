@@ -9,11 +9,14 @@ HEADERS = \
     pluginmanager.h \
     aboutbox.h \
     setuppluginsdialog.h \
-    $$PWD/styleeyecu.h
+    styleeyecu.h
 
 SOURCES = \
     main.cpp \
     pluginmanager.cpp \
     aboutbox.cpp \
     setuppluginsdialog.cpp \
-    $$PWD/styleeyecu.cpp
+    styleeyecu.cpp
+
+RESOURCES += \
+    stylesapp/styleseyecu.qrc

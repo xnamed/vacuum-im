@@ -1,4 +1,4 @@
-//#include <QLibrary>
+
 #include <QApplication>
 
 #include "styleeyecu.h"		// *** <<< eyeCU <<< ***
@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
 		// https://bugreports.qt-project.org/browse/QTBUG-40833
 		QFont::insertSubstitution(".Helvetica Neue DeskInterface", "Helvetica Neue");
 	}
+// *** <<< eyeCU <<< ***
+    app.setAttribute(Qt::AA_DontShowIconsInMenus);  //Icons on the menu are not used in Mac
+// *** >>> eyeCU >>> ***
 #endif
 
 	QApplication app(argc, argv);
@@ -26,12 +29,8 @@ int main(int argc, char *argv[])
 	pm.restart();
 
 // *** <<< eyeCU <<< ***
-#ifdef Q_OS_MACX
-	//Icons on the menu are not used in Mac
-	app.setAttribute(Qt::AA_DontShowIconsInMenus);
-#endif
-	StyleEyecu curStyle(&app);
-	curStyle.init();
+    StyleEyecu curStyle(&app);
+    curStyle.init();
 // *** >>> eyeCU >>> ***
 
 	return app.exec();

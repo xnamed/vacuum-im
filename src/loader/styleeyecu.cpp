@@ -17,27 +17,11 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 */
 
 #include <QDebug>
+#include <QDir>
+
 #include "styleeyecu.h"
 
-#define FRAME			"spin_frame"
-#define SPINUP			"spinup"
-#define SPINUPHOV		"spinup_hover"
-#define SPINUPPRES		"spinup_pressed"
-#define SPINUPARROW		"spin_up_arrow"
-#define SPINUPARDIS		"spin_up_arrow_dis"
-#define SPINUPAROFF		"spinup_off"
-
-#define SPINDWN			"spindown"
-#define SPINDWNHOV		"spindown_hover"
-#define SPINDWNPRES		"spindown_pressed"
-#define SPINDWNARROW	"spin_down_arrow"
-#define SPINDWNARDIS	"spin_down_arrow_dis"
-#define SPINDWNOFF		"spindown_off"
-
-#define RESOURCE	"IconStorage::staticStorage(RSR_STORAGE_STYLEEYECU)"
-
-
-StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
+StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 {
 #ifdef EYECU_MOBILE
 	QScreen *screen = qApp->primaryScreen();
@@ -45,136 +29,100 @@ StyleEyecu::StyleEyecu(QApplication *APpl): QObject(APpl)
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
 	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
 	//! PointSizeF=96
-	float newPointSizeF;
-		 if(midleDotsPerInch<=110)                          {FScale=1.0; newPointSizeF= 8.0;}
-	else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=1.5; newPointSizeF=12.0;}
-	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.0; newPointSizeF=18.0;}
-	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; newPointSizeF=20.0;}
-	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; newPointSizeF=24.0;}
-	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; newPointSizeF=28.0;}
-	else if(midleDotsPerInch>640)							{FScale=4.5; newPointSizeF=36.0;}
+    if(midleDotsPerInch<=110)                               {FScale=1.0; FPointSizeF= 8.0;}
+    else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=1.5; FPointSizeF=12.0;}
+    else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.0; FPointSizeF=18.0;}
+    else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; FPointSizeF=20.0;}
+    else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; FPointSizeF=24.0;}
+    else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; FPointSizeF=28.0;}
+    else if(midleDotsPerInch>640)							{FScale=4.5; FPointSizeF=36.0;}
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
      FScale=2.0;
-     newPointSizeF=16;
+     FPointSizeF=16;
 #endif
 //!---- delete Later-------
 
-
     FSize=16*FScale;
-	// -- select style for APP ---
-	QStringList styles=QStyleFactory::keys();	// "Android","Windows", "Fusion"
-	if(styles.contains("Fusion"))//Qt::CaseInsensitive
-		APpl->setStyle(QStyleFactory::create("Fusion"));
-	APpl->setStyleSheet(saveStyle());
-	APpl->style()->setObjectName("Fusion");
-
-	//!----------------
-	QFont font = APpl->font();
-	font.setPointSizeF(newPointSizeF);
-	APpl->setFont(font);
-
 	IconStorage::setScale(FScale);
-	IconStorage::setFontPointSize(newPointSizeF);
+    IconStorage::setFontPointSize(FPointSizeF);
 #else
 	IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
 	IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---
 #endif
 }
 
+void StyleEyecu::init()
+{
+#ifdef EYECU_MOBILE
+    QStringList styles=QStyleFactory::keys();	// "Android","Windows", "Fusion"
+    if(styles.contains("Fusion"))               //Qt::CaseInsensitive
+        FAPpl->setStyle(QStyleFactory::create("Fusion"));
+    FAPpl->setStyleSheet(saveStyle());
+    FAPpl->style()->setObjectName("Fusion");
+
+    QFont font = FAPpl->font();
+    font.setPointSizeF(FPointSizeF);
+    FAPpl->setFont(font);
+#endif
 }
 
+//! Style modify
 QString StyleEyecu::saveStyle()
 {
-	//! Style modify
-	int newSize=16*FScale;
-	QString all=QString().append(checkBox(newSize))
-						 .append(radioBot(newSize))
-						 .append(slider(newSize))
-						 .append(spinBox(newSize));
-	return all;
+	return QString().append(checkBox()).append(radioBottom()).append(slider()).append(spinBox());
 }
 
-QString StyleEyecu::spinBox(int ASize)
-{
-	Q_UNUSED(ASize)
-	QString spinBoxSyle=QString("QSpinBox {max-width: 152px; }");//padding-right: 35px;max-height: 48px;
-	return spinBoxSyle;
-}
-
-QString StyleEyecu::saveStyle()
-{
-	//! Style modify
-    QString all=QString().append(checkBox())
-                         .append(radioBot())
-                         .append(slider())
-                         .append(spinBox());
-	return all;
-}
-
-//"D:/Appl/Work/eyecu-mobile-Qt_5_5_0_MinGW_32bit-Debug"   width: %3px; height: %4px;
-/*
-if(dir.cd(RSR_STORAGE_STYLEEYECU))
-if(dir.cd(FILE_STORAGE_SHARED_DIR))
-*/
 QString StyleEyecu::spinBox()
 {
-	IconStorage	*FIconStorage;
-	FIconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
-
-qDebug()<<"QString StyleEyecu::spinBox()/name"<< FIconStorage->resourcesDirs();
-    /* place for button */
-
-    QString spinBoxStyle=QString(""
-		"QSpinBox {padding-right: %1px; padding-left: %2px; border-image: url(%5) 3; border-width: 3;}"
-		"QSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %2px; border-image: url(%6) 1; border-width: 1px;}"
-		"QSpinBox::up-button:hover {border-image: url(%7) 1;}"
-		"QSpinBox::up-button:pressed {border-image: url(%8) 1;}"
-		"QSpinBox::up-arrow {image: url(%9) 1;width: %3px; height: %4px;}"
-		"QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off {image: url(%10);}"
-		"QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %2px; border-image: url(%11) 1; border-width: 1px;}"
-		"QSpinBox::down-button:hover {border-image: url(%12) 1;}"
-		"QSpinBox::down-button:pressed {border-image: url(%13) 1;}"
-		"QSpinBox::down-arrow {image: url(%14) 1;width: %3px; height: %4px;}"
-		"QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off {image: url(%15);}")
-			.arg(FSize).arg(FSize).arg(FSize/2).arg(FSize/2)
-			.arg(FIconStorage->fileFullName(FRAME))
-			.arg(FIconStorage->fileFullName(SPINUP))
-			.arg(FIconStorage->fileFullName(SPINUPHOV))
-			.arg(FIconStorage->fileFullName(SPINUPPRES))
-			.arg(FIconStorage->fileFullName(SPINUPARROW))
-			.arg(FIconStorage->fileFullName(SPINUPARDIS))
-			.arg(FIconStorage->fileFullName(SPINDWN))
-			.arg(FIconStorage->fileFullName(SPINDWNHOV))
-			.arg(FIconStorage->fileFullName(SPINDWNPRES))
-			.arg(FIconStorage->fileFullName(SPINDWNARROW))
-			.arg(FIconStorage->fileFullName(SPINDWNARDIS));
-
-    return spinBoxStyle;
+    QString style=QString(""
+        "QSpinBox {padding-right: %1px; padding-left: %2px; border-image: url(:spinframe.png) 3; border-width: 3;}"
+        "QSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %1px;"
+                             "border-image: url(:spinup.png) 1; border-width: 1px;}"
+        "QSpinBox::up-button:hover {border-image: url(:spinup_hover.png) 1;}"
+        "QSpinBox::up-button:pressed {border-image: url(:spinup_pressed.png) 1;}"
+        "QSpinBox::up-arrow {image: url(:spinup_arrow.png) 1;width: %2px; height: %2px;}"
+        "QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off {image: url(:spinup_arrow_disabled.png);}"
+        "QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %1px;"
+                              "border-image: url(:spindown.png) 1; border-width: 1px;}"
+        "QSpinBox::down-button:hover {border-image: url(:spindown_hover.png) 1;}"
+        "QSpinBox::down-button:pressed {border-image: url(:spindown_pressed.png) 1;}"
+        "QSpinBox::down-arrow {image: url(:spindown_arrow.png) 1;width: %2px; height: %2px;}"
+        "QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off {image: url(:spindown_arrow_disabled.png);}")
+        .arg(FSize).arg(FSize/2);
+    return style;
 }
 
 QString StyleEyecu::checkBox()
 {
-	QString chBoxStyle=QString("QCheckBox::indicator {width: %1px; height: %2px; spacing: %3px;}")
-            .arg(FSize).arg(FSize).arg(4);
-	return chBoxStyle;
+    QString style=QString("QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px;}")
+            .arg(FSize).arg(FSize/8);
+    return style;
 }
 
-QString StyleEyecu::radioBot()
+QString StyleEyecu::radioBottom()
 {
-	QString radBotStyle=QString("QRadioButton::indicator {width: %1px; height: %2px; spacing: %3px;}")
-            .arg(FSize).arg(FSize).arg(4);
-	return radBotStyle;
+    QString style=QString("QRadioButton::indicator {width: %1px; height: %1px; spacing: %2px;}")
+            .arg(FSize).arg(FSize/8);
+    return style;
 }
 
 QString StyleEyecu::slider()
 {
-	QString sliderStyle=QString(""
-		"QSlider::groove:horizontal {border: 1px 1px solid #999999;;height: 8px; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
-		"QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #05BB04, stop:1 #07D606); border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}"
+    QString style=QString(""
+        "QSlider::groove:horizontal {border: 1px 1px solid #999999;;height: %1px;"
+                "background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
+        "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #05BB04, stop:1 #07D606);"
+                "border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}")
+        .arg(FSize/4);
+    return style;
+}
 //        "QSlider::add-page:horizontal {background: white;}"     //after
 //        "QSlider::sub-page:horizontal {background: #039302;}"   //befor
-	 );
-	return sliderStyle;
+
+QString StyleEyecu::treeView()
+{
+    QString style;
+    return style;
 }

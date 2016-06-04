@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
+    <width>305</width>
     <height>58</height>
    </rect>
   </property>
@@ -34,7 +34,7 @@
      <item>
       <widget class="QLabel" name="lblBlockSize">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -53,7 +53,7 @@
      <item>
       <widget class="QSpinBox" name="spbBlockSize">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
