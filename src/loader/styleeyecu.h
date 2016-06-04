@@ -7,7 +7,9 @@
 #include <QStyle>
 #include <QScreen>
 #include <QFont>
+#include <QDir>
 
+#include <definitions/resources.h>
 #include <utils/iconstorage.h>
 
 class StyleEyecu :public QObject
@@ -16,6 +18,16 @@ class StyleEyecu :public QObject
 public:
 	StyleEyecu(QApplication *APpl);
 	void init();
+	QString saveStyle();
+protected:
+    QString spinBox();
+    QString checkBox();
+    QString radioBot();
+    QString slider();
+
+private:
+    qreal   FScale;
+    int     FSize;
 };
 
 #endif // STYLEEYECU_H

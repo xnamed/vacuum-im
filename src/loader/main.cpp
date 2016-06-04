@@ -19,6 +19,12 @@ int main(int argc, char *argv[])
 	app.addLibraryPath(app.applicationDirPath());
 	app.setApplicationName(CLIENT_NAME);
 
+	QLibrary utils(app.applicationDirPath()+"/utils",&app);
+	utils.load();
+
+	PluginManager pm(&app);
+	pm.restart();
+
 // *** <<< eyeCU <<< ***
 #ifdef Q_OS_MACX
 	//Icons on the menu are not used in Mac
@@ -28,10 +34,5 @@ int main(int argc, char *argv[])
 	curStyle.init();
 // *** >>> eyeCU >>> ***
 
-	QLibrary utils(app.applicationDirPath()+"/utils",&app);
-	utils.load();
-
-	PluginManager pm(&app);
-	pm.restart();
 	return app.exec();
 }
