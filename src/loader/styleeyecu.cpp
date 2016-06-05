@@ -72,7 +72,7 @@ void StyleEyecu::init()
 QString StyleEyecu::saveStyle()
 {
 	return QString().append(checkBox()).append(radioBottom()).append(slider())
-			.append(spinBox().append(doubleSpinBox()));
+					.append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView());
 }
 
 QString StyleEyecu::spinBox()
@@ -117,10 +117,21 @@ QString StyleEyecu::doubleSpinBox()
 
 QString StyleEyecu::checkBox()
 {
-    QString style=QString("QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px;}")
-            .arg(FSize).arg(FSize/8);
+	QString style=QString("QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px;}"
+		"QCheckBox::indicator:unchecked {image: url(:checkbox_unchecked.png);}"
+		"QCheckBox::indicator:unchecked:hover {image: url(:checkbox_unchecked_hover.png);}"
+		"QCheckBox::indicator:unchecked:pressed {image: url(:checkbox_unchecked_pressed.png);}"
+		"QCheckBox::indicator:checked {image: url(:checkbox_checked.png);}"
+		"QCheckBox::indicator:checked:hover {image: url(:checkbox_checked_hover.png);}"
+		"QCheckBox::indicator:checked:pressed {image: url(:checkbox_checked_pressed.png);}"
+	).arg(FSize).arg(FSize/8);
     return style;
 }
+/*
+"QCheckBox::indicator:indeterminate:hover {image: url(:checkbox_indeterminate_hover.png);}"
+"QCheckBox::indicator:indeterminate:pressed {image: url(:checkbox_indeterminate_pressed.png);}"
+*/
+
 
 QString StyleEyecu::radioBottom()
 {
@@ -142,8 +153,84 @@ QString StyleEyecu::slider()
 //        "QSlider::add-page:horizontal {background: white;}"     //after
 //        "QSlider::sub-page:horizontal {background: #039302;}"   //befor
 
+QString StyleEyecu::treeWidget()
+{
+	QString style=QString(""
+		"QTreeWidget::branch:has-siblings:!adjoins-item {border-image: url(:vline.png) 0;}"
+		"QTreeWidget::branch:has-siblings:adjoins-item {border-image: url(:branch-more.png) 0;}"
+		"QTreeWidget::branch:!has-children:!has-siblings:adjoins-item {border-image: url(:branch-end.png) 0;}"
+		"QTreeWidget::branch:has-children:!has-siblings:closed,"
+		"QTreeWidget::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png);}"
+		"QTreeWidget::branch:open:has-children:!has-siblings,"
+		"QTreeWidget::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png);}"
+	);
+	return style;
+}
+
 QString StyleEyecu::treeView()
 {
-    QString style;
-    return style;
+	QString style=QString(""
+		"QTreeView::branch:has-siblings:!adjoins-item {border-image: url(:vline.png) 0;}"
+		"QTreeView::branch:has-siblings:adjoins-item {border-image: url(:branch-more.png) 0;}"
+		"QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: url(:branch-end.png) 0;}"
+		"QTreeView::branch:has-children:!has-siblings:closed,"
+		"QTreeView::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png);}"
+		"QTreeView::branch:open:has-children:!has-siblings,"
+		"QTreeView::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png);}"
+	);
+	return style;
 }
+
+
+QString StyleEyecu::progressBar()
+{
+	QString style;
+	return style;
+}
+
+QString StyleEyecu::scrollBar()
+{
+	QString style;
+	return style;
+}
+
+
+
+/*
+#define SPINFRAME           "spinframe"
+#define SPINUP              "spinup"
+#define SPINUPHOVER         "spinup_hover"
+#define SPINUPPRESS         "spinup_pressed"
+#define SPINUPARROW         "spinup_arrow"
+#define SPINUPARROWDIS      "spinup_arrow_dis"
+#define SPINUPOFF           "spinup_off"
+#define SPINDOWN            "spindown"
+#define SPINDOWNHOVER       "spindown_hover"
+#define SPINDOWNPRESS       "spindown_pressed"
+#define SPINDOWNARROW       "spindown_arrow"
+#define SPINDOWNARROWDIS    "spindown_arrow_dis"
+#define SPINDOWNOFF         "spindown_off"
+
+#define SPINFRAME           spinframe.png
+#define SPINUP              spinup.png
+#define SPINUPHOVER         spinup_hover.png
+#define SPINUPPRESS         spinup_pressed.png
+#define SPINUPARROW         spinup_arrow.png
+#define SPINUPARROWDIS      spinup_arrow_dis.png
+#define SPINUPOFF           spinup_off.png
+#define SPINDOWN            spindown.png
+#define SPINDOWNHOVER       spindown_hover.png
+#define SPINDOWNPRESS       spindown_pressed.png
+#define SPINDOWNARROW       spindown_arrow.png
+#define SPINDOWNARROWDIS    spindown_arrow_dis.png
+#define SPINDOWNOFF         spindown_off.png
+
+#define CHBOXUNCH			checkbox_unchecked.png
+#define CHBOXUNCHHOVER		checkbox_unchecked_hover.png
+#define CHBOXUNCHPRESS		checkbox_unchecked_pressed.png
+#define CHBOXCHECKED		checkbox_checked.png
+#define CHBOXCHHOVER		checkbox_checked_hover.png
+#define CHBOXCHPRESS		checkbox_checked_pressed.png
+#define CHBOXITREMHOVER		checkbox_indeterminate_hover.png
+#define CHBOXITERMPRESS		checkbox_indeterminate_pressed.png
+*/

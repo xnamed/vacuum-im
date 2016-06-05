@@ -13,5 +13,16 @@
         <file>spinup_arrow_disabled.png</file>
         <file>spinup_hover.png</file>
         <file>spinup_off.png</file>
+        <file>checkbox_unchecked_pressed.png</file>
+        <file>checkbox_checked.png</file>
+        <file>checkbox_checked_hover.png</file>
+        <file>checkbox_checked_pressed.png</file>
+        <file>checkbox_unchecked.png</file>
+        <file>checkbox_unchecked_hover.png</file>
+        <file>vline.png</file>
+        <file>branch-closed.png</file>
+        <file>branch-end.png</file>
+        <file>branch-more.png</file>
+        <file>branch-open.png</file>
     </qresource>
 </RCC>

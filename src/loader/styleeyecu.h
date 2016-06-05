@@ -23,8 +23,10 @@ protected:
     QString checkBox();
     QString radioBottom();
     QString slider();
-    QString treeView();
-
+	QString treeWidget();
+	QString progressBar();
+	QString scrollBar();
+	QString treeView();
 private:
     QApplication *FAPpl;
     qreal   FScale;
