@@ -29,8 +29,10 @@ int main(int argc, char *argv[])
 	pm.restart();
 
 // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
     StyleEyecu curStyle(&app);
     curStyle.init();
+#endif
 // *** >>> eyeCU >>> ***
 
 	return app.exec();

@@ -183,8 +183,8 @@ QString StyleEyecu::treeView()
 
 
 QString StyleEyecu::progressBar()
-{
-	QString style;
+{	//A margin can be included to obtain more visible chunks.
+	QString style=QString("QProgressBar::chunk {background-color: #CD96CD; width: 10px; margin: 0.5px;}");
 	return style;
 }
 
@@ -225,12 +225,12 @@ QString StyleEyecu::scrollBar()
 #define SPINDOWNARROWDIS    spindown_arrow_dis.png
 #define SPINDOWNOFF         spindown_off.png
 
-#define CHBOXUNCH			checkbox_unchecked.png
+#define CHBOXUNCHECKED		checkbox_unchecked.png
 #define CHBOXUNCHHOVER		checkbox_unchecked_hover.png
 #define CHBOXUNCHPRESS		checkbox_unchecked_pressed.png
 #define CHBOXCHECKED		checkbox_checked.png
-#define CHBOXCHHOVER		checkbox_checked_hover.png
-#define CHBOXCHPRESS		checkbox_checked_pressed.png
+#define CHBOXCHECHOVER		checkbox_checked_hover.png
+#define CHBOXCHECPRESS		checkbox_checked_pressed.png
 #define CHBOXITREMHOVER		checkbox_indeterminate_hover.png
 #define CHBOXITERMPRESS		checkbox_indeterminate_pressed.png
 */
