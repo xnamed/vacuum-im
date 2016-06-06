@@ -24,5 +24,7 @@
         <file>branch-end.png</file>
         <file>branch-more.png</file>
         <file>branch-open.png</file>
+        <file>checkbox_unchecked_disabled.png</file>
+        <file>checkbox_checked_disabled.png</file>
     </qresource>
 </RCC>

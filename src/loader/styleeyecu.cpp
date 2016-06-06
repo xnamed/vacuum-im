@@ -39,8 +39,8 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-     FScale=2.0;
-     FPointSizeF=16;
+     FScale=4.0;
+     FPointSizeF=30;
 #endif
 //!---- delete Later-------
 
@@ -71,8 +71,8 @@ void StyleEyecu::init()
 //! Style modify
 QString StyleEyecu::saveStyle()
 {
-	return QString().append(checkBox()).append(radioBottom()).append(slider())
-					.append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView());
+    return QString().append(checkBox()).append(radioBottom()).append(slider()).append(scrollBar())
+            .append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView());
 }
 
 QString StyleEyecu::spinBox()
@@ -115,23 +115,22 @@ QString StyleEyecu::doubleSpinBox()
 	return style;
 }
 
+/*! Base size = 16px*/
 QString StyleEyecu::checkBox()
 {
-	QString style=QString("QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px;}"
-		"QCheckBox::indicator:unchecked {image: url(:checkbox_unchecked.png);}"
-		"QCheckBox::indicator:unchecked:hover {image: url(:checkbox_unchecked_hover.png);}"
-		"QCheckBox::indicator:unchecked:pressed {image: url(:checkbox_unchecked_pressed.png);}"
-		"QCheckBox::indicator:checked {image: url(:checkbox_checked.png);}"
-		"QCheckBox::indicator:checked:hover {image: url(:checkbox_checked_hover.png);}"
-		"QCheckBox::indicator:checked:pressed {image: url(:checkbox_checked_pressed.png);}"
-	).arg(FSize).arg(FSize/8);
+    QString style=QString(""
+        "QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px;}"
+        "QCheckBox::indicator:unchecked {border-image: url(:checkbox_unchecked.png);}"
+        "QCheckBox::indicator:unchecked:hover {border-image: url(:checkbox_unchecked_hover.png);}"
+        "QCheckBox::indicator:unchecked:pressed {border-image: url(:checkbox_unchecked_pressed.png);}"
+        "QCheckBox::indicator:checked {border-image: url(:checkbox_checked.png);}"
+        "QCheckBox::indicator:checked:hover {border-image: url(:checkbox_checked_hover.png);}"
+        "QCheckBox::indicator:checked:pressed {border-image: url(:checkbox_checked_pressed.png);}"
+        "QCheckBox::indicator:unchecked:disabled {border-image: url(:checkbox_unchecked_disabled.png);}"
+        "QCheckBox::indicator:checked:disabled {border-image: url(:checkbox_checked_disabled.png);}"
+         ).arg(FSize).arg(FSize/8);
     return style;
 }
-/*
-"QCheckBox::indicator:indeterminate:hover {image: url(:checkbox_indeterminate_hover.png);}"
-"QCheckBox::indicator:indeterminate:pressed {image: url(:checkbox_indeterminate_pressed.png);}"
-*/
-
 
 QString StyleEyecu::radioBottom()
 {
@@ -143,11 +142,11 @@ QString StyleEyecu::radioBottom()
 QString StyleEyecu::slider()
 {
     QString style=QString(""
-        "QSlider::groove:horizontal {border: 1px 1px solid #999999;;height: %1px;"
+        "QSlider::groove:horizontal {border: 1px 1px solid #999999;height: %1px;"
                 "background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4); margin: 2px 0;}"
         "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #05BB04, stop:1 #07D606);"
-                "border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}")
-        .arg(FSize/4);
+                "border: 1px solid #039702; width: 18px; margin: -4px 0;border-radius: 3px;}"
+        ).arg(FSize/4);
     return style;
 }
 //        "QSlider::add-page:horizontal {background: white;}"     //after
@@ -156,45 +155,59 @@ QString StyleEyecu::slider()
 QString StyleEyecu::treeWidget()
 {
 	QString style=QString(""
-		"QTreeWidget::branch:has-siblings:!adjoins-item {border-image: url(:vline.png) 0;}"
-		"QTreeWidget::branch:has-siblings:adjoins-item {border-image: url(:branch-more.png) 0;}"
-		"QTreeWidget::branch:!has-children:!has-siblings:adjoins-item {border-image: url(:branch-end.png) 0;}"
+        "QTreeWidget::branch:has-siblings:!adjoins-item {border-image: url(:vline.png) 1;}"
+        "QTreeWidget::branch:has-siblings:adjoins-item {border-image: url(:branch-more.png) 1;}"
+        "QTreeWidget::branch:!has-children:!has-siblings:adjoins-item {border-image: url(:branch-end.png) 1;}"
 		"QTreeWidget::branch:has-children:!has-siblings:closed,"
-		"QTreeWidget::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png);}"
+        "QTreeWidget::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png) 1;}"
 		"QTreeWidget::branch:open:has-children:!has-siblings,"
-		"QTreeWidget::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png);}"
-	);
+        "QTreeWidget::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png) 1;}")
+        .arg(FSize);
 	return style;
 }
 
 QString StyleEyecu::treeView()
 {
 	QString style=QString(""
-		"QTreeView::branch:has-siblings:!adjoins-item {border-image: url(:vline.png) 0;}"
-		"QTreeView::branch:has-siblings:adjoins-item {border-image: url(:branch-more.png) 0;}"
-		"QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: url(:branch-end.png) 0;}"
+        "QTreeView::branch:has-siblings:!adjoins-item {border-image: url(:vline.png) 1;}"
+        "QTreeView::branch:has-siblings:adjoins-item {border-image: url(:branch-more.png) 1;}"
+        "QTreeView::branch:!has-children:!has-siblings:adjoins-item {border-image: url(:branch-end.png) 1;}"
 		"QTreeView::branch:has-children:!has-siblings:closed,"
-		"QTreeView::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png);}"
+        "QTreeView::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png) 1;}"
 		"QTreeView::branch:open:has-children:!has-siblings,"
-		"QTreeView::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png);}"
-	);
+        "QTreeView::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png) 1;}")
+        .arg(FSize);
 	return style;
 }
 
 
 QString StyleEyecu::progressBar()
-{	//A margin can be included to obtain more visible chunks.
+{
+    //A margin can be included to obtain more visible chunks.
 	QString style=QString("QProgressBar::chunk {background-color: #CD96CD; width: 10px; margin: 0.5px;}");
 	return style;
 }
 
+/*! Base size = 10 px*/
 QString StyleEyecu::scrollBar()
 {
-	QString style;
+    QString style=QString(""
+        "QScrollBar:vertical {border: %2px solid #%4; background: #%5; width: %1px; margin-top: %1px; margin-bottom: %1px;}"
+        "QScrollBar::handle:vertical {background: #%6; min-height: %3px;}"
+        "QScrollBar::add-line:vertical {height: %1px; subcontrol-position: bottom; subcontrol-origin: margin;}"
+        "QScrollBar::sub-line:vertical {height: %1px; subcontrol-position: top; subcontrol-origin: margin;}"
+        "QScrollBar:horizontal {border: %2px solid #%4; background: #%5; height: %1px; margin-right: %1px; margin-left: %1px;}"
+        "QScrollBar::handle:horizontal {background: #%6; min-width: %3px;}"
+        "QScrollBar::add-line:horizontal {width: %1px; subcontrol-position: right; subcontrol-origin: margin;}"
+        "QScrollBar::sub-line:horizontal {width: %1px; subcontrol-position: left; subcontrol-origin: margin;}"
+        ).arg(10*FScale).arg(FScale).arg(10*2*FScale).arg("919086").arg("C2C0B5").arg("F6F4E9");
 	return style;
 }
+/*
+    "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 2px solid #919086; width: 3px;height: 3px;background:white;}"
+    "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: none;}"
 
-
+*/
 
 /*
 #define SPINFRAME           "spinframe"
