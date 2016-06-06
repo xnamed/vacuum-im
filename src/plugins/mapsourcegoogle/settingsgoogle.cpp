@@ -1,5 +1,9 @@
 #include <definitions/optionvalues.h>
 #include <utils/options.h>
+#include <utils/iconstorage.h>
+#include <definitions/menuicons.h>
+#include <definitions/resources.h>
+
 #include "settingsgoogle.h"
 
 #ifdef EYECU_MOBILE
@@ -12,14 +16,19 @@ SettingsGoogle::SettingsGoogle(QWidget *parent) :
     ui(new Ui::SettingsGoogle)
 {
     ui->setupUi(this);
-    reset();
 #ifdef EYECU_MOBILE
-	ui->lblTitle->setVisible(false);
+//	ui->lblTitle->setText("GOOGLE");
+	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MAP_GOOGLE);
+	QPixmap pixmap=IconStorage::getStoragePixmap(fileName);
+	if(!pixmap.isNull())
+		ui->lblIcon->setPixmap(pixmap);
 #endif
     connect(ui->spbSatelliteVersion, SIGNAL(valueChanged(int)), SIGNAL(modified()));
     connect(ui->spbMapVersion, SIGNAL(valueChanged(int)), SIGNAL(modified()));
     connect(ui->spbTerrainVersionRoads, SIGNAL(valueChanged(int)), SIGNAL(modified()));
     connect(ui->spbTerrainVersionTerrain, SIGNAL(valueChanged(int)), SIGNAL(modified()));
+
+	reset();
 }
 
 SettingsGoogle::~SettingsGoogle()

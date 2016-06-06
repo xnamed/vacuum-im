@@ -22,4 +22,6 @@ FORMS += \
     insertimage.ui \
     addlink.ui \
     settooltip.ui \
-    $$PWD/xhtmloptions.ui
+    $$PWD/xhtmloptions.ui \
+    $$PWD/insertimage2.ui \
+    $$PWD/addlink2.ui
