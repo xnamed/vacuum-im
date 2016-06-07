@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <utils/shortcuts.h>
 #include <definitions/shortcuts.h>
+#include <utils/iconstorage.h>
 #include "addlink.h"
 
 AddLink::AddLink(const QIcon &AIcon, const QUrl &AHref, const QString &ADescription, QWidget *parent) :
@@ -11,8 +12,15 @@ AddLink::AddLink(const QIcon &AIcon, const QUrl &AHref, const QString &ADescript
     FOriginalDescription(ADescription),
     ui(new Ui::AddLink)
 {
-    setWindowIcon(AIcon);
     ui->setupUi(this);
+
+#ifdef EYECU_MOBILE
+    int size=16*IconStorage::scale();
+    ui->verLayout->setMargin(size);
+    ui->lblIcon->setPixmap(AIcon.pixmap(QSize(size,size)));
+#else
+    setWindowIcon(AIcon);
+#endif
 
 	ui->buttonBox->button(QDialogButtonBox::Yes)->setText(tr("Add"));
 	ui->buttonBox->button(QDialogButtonBox::No)->setText(tr("Remove"));

@@ -6,7 +6,11 @@
 #include <definitions/optionvalues.h>
 #include <utils/options.h>
 
+#ifdef EYECU_MOBILE
+#include "ui_xhtmloptions2.h"
+#else
 #include "ui_xhtmloptions.h"
+#endif
 
 namespace Ui {
 class XhtmlOptions;

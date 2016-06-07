@@ -1,12 +1,12 @@
 #include "newlink.h"
 
-
 #include <QDebug>
 #include <QApplication>
 #include <QClipboard>
 
 #include <utils/shortcuts.h>
 #include <definitions/shortcuts.h>
+#include <utils/iconstorage.h>
 
 NewLink::NewLink(const QString &ATitle, const QIcon &AIcon, QUrl AUrl, QString ADescription, QWidget *parent) :
     QDialog(parent),
@@ -15,9 +15,17 @@ NewLink::NewLink(const QString &ATitle, const QIcon &AIcon, QUrl AUrl, QString A
     FDescription(ADescription),
     FSchemeMasks(QStringList() << "http" << "https" << "ftp" << "xmpp" << "mailto" << "tel" << "native")
 {
+    ui->setupUi(this);
+#ifdef EYECU_MOBILE
+    int size=16*IconStorage::scale();
+    ui->verLayout->setMargin(size);
+    ui->lblIcon->setPixmap(AIcon.pixmap(QSize(size,size)));
+    ui->lblTitlel->setText(ATitle);
+#else
     setWindowIcon(AIcon);
     setWindowTitle(ATitle);
-    ui->setupUi(this);
+
+#endif
 
     if (FUrl.isValid())
         ui->ledUrl->setText(FUrl.toString());
@@ -29,7 +37,6 @@ NewLink::NewLink(const QString &ATitle, const QIcon &AIcon, QUrl AUrl, QString A
     }
 
     ui->tedDescription->setText(FDescription);
-
     ui->ledUrl->selectAll();
     ui->ledUrl->setFocus();
     Shortcuts::bindObjectShortcut(SCT_MESSAGEWINDOWS_LINKDIALOG_OK, ui->pbOk);

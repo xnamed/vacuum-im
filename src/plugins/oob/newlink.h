@@ -3,7 +3,11 @@
 
 #include <QUrl>
 
+#ifdef EYECU_MOBILE
+#include "ui_newlink2.h"
+#else
 #include "ui_newlink.h"
+#endif
 
 namespace Ui {
     class NewLink;

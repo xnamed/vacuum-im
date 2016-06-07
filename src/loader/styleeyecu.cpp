@@ -39,8 +39,8 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-     FScale=4.0;
-     FPointSizeF=30;
+     FScale=2.0;
+     FPointSizeF=18;
 #endif
 //!---- delete Later-------
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddLink</class>
- <widget class="QDialog" name="AddLink">
+ <class>NewLink</class>
+ <widget class="QDialog" name="NewLink">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>449</width>
-    <height>197</height>
+    <width>500</width>
+    <height>199</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Insert link</string>
+   <string>New link</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -36,7 +36,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="lblIcon">
           <property name="text">
@@ -45,7 +45,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lblTitle">
+         <widget class="QLabel" name="lblTitlel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -59,7 +59,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Insert link</string>
+           <string>Title</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -72,12 +72,6 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QComboBox" name="cmbScheme">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="toolTip">
            <string notr="true"/>
           </property>
@@ -136,52 +130,26 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="ledPath">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
+         <widget class="QLineEdit" name="ledUrl"/>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QLabel" name="label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QLabel" name="lblDescription">
         <property name="text">
          <string>Description</string>
-        </property>
-        <property name="buddy">
-         <cstring>tedDesc</cstring>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="tedDesc">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
+       <widget class="QTextEdit" name="tedDescription">
+        <property name="font">
+         <font>
+          <pointsize>6</pointsize>
+         </font>
+        </property>
+        <property name="tabChangesFocus">
+         <bool>true</bool>
         </property>
         <property name="acceptRichText">
          <bool>false</bool>
@@ -189,23 +157,68 @@
        </widget>
       </item>
       <item>
-       <widget class="QDialogButtonBox" name="buttonBox">
-        <property name="standardButtons">
-         <set>QDialogButtonBox::No|QDialogButtonBox::Yes</set>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbOk">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Ok</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>cmbScheme</tabstop>
+  <tabstop>ledUrl</tabstop>
+  <tabstop>tedDescription</tabstop>
+  <tabstop>pbOk</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
+   <sender>pbOk</sender>
+   <signal>clicked()</signal>
+   <receiver>NewLink</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>44</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>62</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>cmbScheme</sender>
    <signal>currentIndexChanged(int)</signal>
-   <receiver>AddLink</receiver>
+   <receiver>NewLink</receiver>
    <slot>onSchemeChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -214,31 +227,15 @@
     </hint>
     <hint type="destinationlabel">
      <x>189</x>
-     <y>51</y>
+     <y>62</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>tedDesc</sender>
-   <signal>textChanged()</signal>
-   <receiver>AddLink</receiver>
-   <slot>onTextChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>225</x>
-     <y>50</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>189</x>
-     <y>51</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ledPath</sender>
+   <sender>ledUrl</sender>
    <signal>textChanged(QString)</signal>
-   <receiver>AddLink</receiver>
-   <slot>onTextChanged()</slot>
+   <receiver>NewLink</receiver>
+   <slot>onUrlChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>225</x>
@@ -246,30 +243,30 @@
     </hint>
     <hint type="destinationlabel">
      <x>189</x>
-     <y>51</y>
+     <y>62</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>clicked(QAbstractButton*)</signal>
-   <receiver>AddLink</receiver>
-   <slot>onButtonClicked(QAbstractButton*)</slot>
+   <sender>tedDescription</sender>
+   <signal>textChanged()</signal>
+   <receiver>NewLink</receiver>
+   <slot>onDescriptionChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>189</x>
-     <y>114</y>
+     <x>225</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
      <x>189</x>
-     <y>65</y>
+     <y>62</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>onSchemeChanged(int)</slot>
-  <slot>onTextChanged()</slot>
-  <slot>onButtonClicked(QAbstractButton*)</slot>
+  <slot>onUrlChanged(QString)</slot>
+  <slot>onDescriptionChanged()</slot>
  </slots>
 </ui>

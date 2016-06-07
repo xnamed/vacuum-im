@@ -8,4 +8,5 @@ SOURCES = \
     ooblinklist.cpp
 
 FORMS += \
-    newlink.ui
+    newlink.ui \
+    newlink2.ui

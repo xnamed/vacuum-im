@@ -6,7 +6,11 @@
 #include <QBuffer>
 #include <interfaces/ibitsofbinary.h>
 
+#ifdef EYECU_MOBILE
+#include "ui_insertimage2.h"
+#else
 #include "ui_insertimage.h"
+#endif
 
 class XhtmlIm;
 

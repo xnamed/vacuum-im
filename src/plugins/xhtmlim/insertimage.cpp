@@ -30,6 +30,13 @@ InsertImage::InsertImage(XhtmlIm *AXhtmlIm, QNetworkAccessManager *ANetworkAcces
 {
     ui->setupUi(this);
 
+#ifdef EYECU_MOBILE
+    ui->lblIcon->clear();
+    showMaximized();
+#else
+
+#endif
+
     ui->lblInfo->text().clear();
     ui->pbLoad->setDisabled(true);
 
@@ -52,7 +59,6 @@ InsertImage::InsertImage(XhtmlIm *AXhtmlIm, QNetworkAccessManager *ANetworkAcces
 		case XhtmlIm::Minutes: maxAge /= 60;
 		case XhtmlIm::Seconds: break;
 	}
-
 
 	ui->spbMaxAge->setValue(maxAge);
 	ui->cmbMaxAgeUnits->setCurrentIndex(units);

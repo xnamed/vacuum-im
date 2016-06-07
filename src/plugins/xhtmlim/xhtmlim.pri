@@ -6,7 +6,7 @@ HEADERS = xhtmlim.h \
     savequery.h \
     imageopenthread.h \
     settooltip.h \
-    $$PWD/xhtmloptions.h
+    xhtmloptions.h
 
 SOURCES = xhtmlim.cpp \
     edithtml.cpp \
@@ -16,12 +16,14 @@ SOURCES = xhtmlim.cpp \
     savequery.cpp \
     imageopenthread.cpp \
     settooltip.cpp \
-    $$PWD/xhtmloptions.cpp
+    xhtmloptions.cpp
 
 FORMS += \
     insertimage.ui \
     addlink.ui \
     settooltip.ui \
-    $$PWD/xhtmloptions.ui \
-    $$PWD/insertimage2.ui \
-    $$PWD/addlink2.ui
+    xhtmloptions.ui \
+    xhtmloptions2.ui \
+    insertimage2.ui \
+    addlink2.ui \
+    settooltip2.ui
