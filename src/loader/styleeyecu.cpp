@@ -39,8 +39,8 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-     FScale=2.0;
-     FPointSizeF=18;
+	 FScale=2.0;
+	 FPointSizeF=16;
 #endif
 //!---- delete Later-------
 
@@ -78,40 +78,40 @@ QString StyleEyecu::saveStyle()
 QString StyleEyecu::spinBox()
 {
     QString style=QString(""
-        "QSpinBox {padding-right: %1px; padding-left: %2px; border-image: url(:spinframe.png) 3; border-width: 3;}"
+		"QSpinBox {padding-right: %1px; padding-left: %1px; border-image: url(:spinframe.png) 3; border-width: 3;}"
         "QSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %1px;"
-                             "border-image: url(:spinup.png) 1; border-width: 1px;}"
+							 "border-image: url(:spinup.png) 1; border-width: 2px;}"
         "QSpinBox::up-button:hover {border-image: url(:spinup_hover.png) 1;}"
         "QSpinBox::up-button:pressed {border-image: url(:spinup_pressed.png) 1;}"
-        "QSpinBox::up-arrow {image: url(:spinup_arrow.png) 1;width: %2px; height: %2px;}"
-        "QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off {image: url(:spinup_arrow_disabled.png);}"
+		"QSpinBox::up-arrow {border-image: url(:spinup_arrow.png) 1;}"
+		"QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off {border-image: url(:spinup_arrow_disabled.png) 1;}"
         "QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %1px;"
                               "border-image: url(:spindown.png) 1; border-width: 1px;}"
         "QSpinBox::down-button:hover {border-image: url(:spindown_hover.png) 1;}"
         "QSpinBox::down-button:pressed {border-image: url(:spindown_pressed.png) 1;}"
-        "QSpinBox::down-arrow {image: url(:spindown_arrow.png) 1;width: %2px; height: %2px;}"
-        "QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off {image: url(:spindown_arrow_disabled.png);}")
-        .arg(FSize).arg(FSize/2);
+		"QSpinBox::down-arrow {border-image: url(:spindown_arrow.png) 1;}"
+		"QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off {border-image: url(:spindown_arrow_disabled.png) 1;}")
+		.arg(FSize);
 	return style;
 }
 
 QString StyleEyecu::doubleSpinBox()
 {
 	QString style=QString(""
-		"QDoubleSpinBox {padding-right: %1px; padding-left: %2px; border-image: url(:spinframe.png) 3; border-width: 3;}"
+		"QDoubleSpinBox {padding-right: %1px; padding-left: %1px; border-image: url(:spinframe.png) 3; border-width: 3;}"
 		"QDoubleSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %1px;"
 							 "border-image: url(:spinup.png) 1; border-width: 1px;}"
 		"QDoubleSpinBox::up-button:hover {border-image: url(:spinup_hover.png) 1;}"
 		"QDoubleSpinBox::up-button:pressed {border-image: url(:spinup_pressed.png) 1;}"
-		"QDoubleSpinBox::up-arrow {image: url(:spinup_arrow.png) 1;width: %2px; height: %2px;}"
-		"QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off {image: url(:spinup_arrow_disabled.png);}"
+		"QDoubleSpinBox::up-arrow {border-image: url(:spinup_arrow.png) 1;}"
+		"QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off {border-image: url(:spinup_arrow_disabled.png) 1;}"
 		"QDoubleSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %1px;"
 							  "border-image: url(:spindown.png) 1; border-width: 1px;}"
 		"QDoubleSpinBox::down-button:hover {border-image: url(:spindown_hover.png) 1;}"
 		"QDoubleSpinBox::down-button:pressed {border-image: url(:spindown_pressed.png) 1;}"
-		"QDoubleSpinBox::down-arrow {image: url(:spindown_arrow.png) 1;width: %2px; height: %2px;}"
-		"QDoubleSpinBox::down-arrow:disabled,QDoubleSpinBox::down-arrow:off {image: url(:spindown_arrow_disabled.png);}")
-		.arg(FSize).arg(FSize/2);
+		"QDoubleSpinBox::down-arrow {border-image: url(:spindown_arrow.png) 1;}"
+		"QDoubleSpinBox::down-arrow:disabled,QDoubleSpinBox::down-arrow:off {border-image: url(:spindown_arrow_disabled.png) 1;}")
+		.arg(FSize);
 	return style;
 }
 
@@ -150,7 +150,7 @@ QString StyleEyecu::slider()
     return style;
 }
 //        "QSlider::add-page:horizontal {background: white;}"     //after
-//        "QSlider::sub-page:horizontal {background: #039302;}"   //befor
+//        "QSlider::sub-page:horizontal {background: #039302;}"   //befor 039702
 
 QString StyleEyecu::treeWidget()
 {
@@ -161,8 +161,7 @@ QString StyleEyecu::treeWidget()
 		"QTreeWidget::branch:has-children:!has-siblings:closed,"
         "QTreeWidget::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png) 1;}"
 		"QTreeWidget::branch:open:has-children:!has-siblings,"
-        "QTreeWidget::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png) 1;}")
-        .arg(FSize);
+		"QTreeWidget::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png) 1;}");
 	return style;
 }
 
@@ -175,8 +174,7 @@ QString StyleEyecu::treeView()
 		"QTreeView::branch:has-children:!has-siblings:closed,"
         "QTreeView::branch:closed:has-children:has-siblings {border-image: none;image: url(:branch-closed.png) 1;}"
 		"QTreeView::branch:open:has-children:!has-siblings,"
-        "QTreeView::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png) 1;}")
-        .arg(FSize);
+		"QTreeView::branch:open:has-children:has-siblings{border-image: none;image: url(:branch-open.png) 1;}");
 	return style;
 }
 
@@ -196,14 +194,18 @@ QString StyleEyecu::scrollBar()
         "QScrollBar::handle:vertical {background: #%6; min-height: %3px;}"
         "QScrollBar::add-line:vertical {height: %1px; subcontrol-position: bottom; subcontrol-origin: margin;}"
         "QScrollBar::sub-line:vertical {height: %1px; subcontrol-position: top; subcontrol-origin: margin;}"
+		"QScrollBar::up-arrow:vertical {border-image: url(:arrow_up.png) 1;}"
+		"QScrollBar::down-arrow:vertical {border-image: url(:arrow_down.png) 1;}"
         "QScrollBar:horizontal {border: %2px solid #%4; background: #%5; height: %1px; margin-right: %1px; margin-left: %1px;}"
         "QScrollBar::handle:horizontal {background: #%6; min-width: %3px;}"
         "QScrollBar::add-line:horizontal {width: %1px; subcontrol-position: right; subcontrol-origin: margin;}"
         "QScrollBar::sub-line:horizontal {width: %1px; subcontrol-position: left; subcontrol-origin: margin;}"
-        ).arg(10*FScale).arg(FScale).arg(10*2*FScale).arg("919086").arg("C2C0B5").arg("F6F4E9");
+		"QScrollBar::left-arrow:horizontal {border-image: url(:arrow_left.png) 1;}"
+		"QScrollBar::right-arrow:horizontal {border-image: url(:arrow_right.png) 1;}"
+		).arg(10*FScale).arg(FScale).arg(10*2*FScale).arg("919086").arg("039702").arg("F6F4E9");
 	return style;
 }
-/*
+/* 039702  //old - 919086  C2C0B5  F6F4E9
     "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 2px solid #919086; width: 3px;height: 3px;background:white;}"
     "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: none;}"
 
