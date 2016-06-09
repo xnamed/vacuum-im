@@ -21,6 +21,7 @@ protected:
     QString spinBox();
 	QString doubleSpinBox();
     QString checkBox();
+	QString comboBox();
     QString radioBottom();
     QString slider();
 	QString treeWidget();

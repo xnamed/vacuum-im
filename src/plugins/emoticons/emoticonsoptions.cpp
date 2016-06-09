@@ -8,21 +8,25 @@
 EmoticonsOptions::EmoticonsOptions(IEmoticons *AEmoticons, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
-//	IconStorage *storage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	int size=IconStorage::scale()*16;
+	ui.lwtEmoticons->setIconSize(QSize(size,size));
+	ui.tbtUp->setVisible(false);
+	ui.tbtDown->setVisible(false);
+#else
 	QStyle *style = QApplication::style();
 	ui.tbtUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui.tbtDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-	ui.lwtEmoticons->setIconSize(QSize(IconStorage::scale()*16,IconStorage::scale()*16));
 #endif
 // *** >>> eyeCU >>> ***
 	FEmoticons = AEmoticons;
 	ui.lwtEmoticons->setItemDelegate(new IconsetDelegate(ui.lwtEmoticons));
 	connect(ui.lwtEmoticons,SIGNAL(itemChanged(QListWidgetItem *)),SIGNAL(modified()));
+#ifndef EYECU_MOBILE
 	connect(ui.tbtUp,SIGNAL(clicked()),SLOT(onUpButtonClicked()));
 	connect(ui.tbtDown,SIGNAL(clicked()),SLOT(onDownButtonClicked()));
-
+#endif
 	reset();
 }
 

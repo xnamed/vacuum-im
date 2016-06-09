@@ -61,15 +61,11 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 	lblType->setWordWrap(true);
 	cmbStyle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);//Expanding
 
-	QVBoxLayout *verLayout = new QVBoxLayout(this);
-	verLayout->setMargin(0);
-	QHBoxLayout *hblLayout = new QHBoxLayout;
-	hblLayout->setMargin(0);
-	hblLayout->setSpacing(0);
-	hblLayout->addWidget(cmbStyle,0,Qt::AlignLeft);
-	hblLayout->addWidget(pbtEdit,0,Qt::AlignRight);
-	verLayout->addWidget(lblType,0,Qt::AlignLeft);
-	verLayout->addLayout(hblLayout,0);
+	QGridLayout *gridLayout=new QGridLayout(this);
+	gridLayout->setMargin(0);
+	gridLayout->addWidget(lblType,0,0,Qt::AlignLeft);
+	gridLayout->addWidget(pbtEdit,0,1,Qt::AlignRight);
+	gridLayout->addWidget(cmbStyle,1,0,1,2,Qt::AlignRight);
 #else
 // *** >>> eyeCU >>> ***
 	QHBoxLayout *hblLayout = new QHBoxLayout(this);
