@@ -2,6 +2,7 @@
 
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QGroupBox>
 #include <definitions/optionvalues.h>
 #include <utils/widgetmanager.h>
 #include "styleeditoptionsdialog.h"
@@ -55,17 +56,20 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	pbtEdit->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Preferred);
+	pbtEdit->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
 	lblType->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
-	cmbStyle->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Preferred);//Expanding
 	lblType->setWordWrap(true);
+	cmbStyle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);//Expanding
+
 	QVBoxLayout *verLayout = new QVBoxLayout(this);
+	verLayout->setMargin(0);
 	QHBoxLayout *hblLayout = new QHBoxLayout;
 	hblLayout->setMargin(0);
-	hblLayout->addWidget(lblType,0);
-	hblLayout->addWidget(pbtEdit,0);
+	hblLayout->setSpacing(0);
+	hblLayout->addWidget(cmbStyle,0,Qt::AlignLeft);
+	hblLayout->addWidget(pbtEdit,0,Qt::AlignRight);
+	verLayout->addWidget(lblType,0,Qt::AlignLeft);
 	verLayout->addLayout(hblLayout,0);
-	verLayout->addWidget(cmbStyle,0,Qt::AlignRight);
 #else
 // *** >>> eyeCU >>> ***
 	QHBoxLayout *hblLayout = new QHBoxLayout(this);
