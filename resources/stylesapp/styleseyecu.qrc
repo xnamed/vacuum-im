@@ -35,5 +35,6 @@
         <file>arrow_left_disabled.png</file>
         <file>arrow_right_disabled.png</file>
         <file>arrow_cmbbox.png</file>
+        <file>cmb-down-arrow.png</file>
     </qresource>
 </RCC>

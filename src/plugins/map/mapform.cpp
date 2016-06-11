@@ -16,7 +16,11 @@
 #include "map.h"
 #include "setlocation.h"
 
+#ifdef EYECU_MOBILE
+#include "ui_mapform2.h"
+#else
 #include "ui_mapform.h"
+#endif
 
 #define SENSITIVITY_ADD		1.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
 #define SENSITIVITY_SUB		1.0		//
@@ -49,17 +53,12 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->frmLocation->raise();
 	ui->frmMapCenter->raise();
 	ui->frmSelection->raise();
-	ui->frmScale->raise();
     ui->frmMapType->raise();
-    ui->frmJoystick->raise();
-	ui->mapScale->raise();
+
     FMapFontScale=IconStorage::scale();
 
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
-    ui->frmJoystick->setVisible(false);
-	ui->frmScale->setVisible(false);
-    ui->mapScale->setVisible(false);
-
+    ui->lcdScale->setVisible(true);
 	int newSize=16*IconStorage::scale();
 	QSize size(newSize,newSize);
     ui->lblReload->setVisible(false);
@@ -80,25 +79,31 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FSizePixmap=newSize;
 
 #else
+    ui->frmScale->raise();
+    ui->frmJoystick->raise();
+    ui->mapScale->raise();
     ui->btnReload2->setVisible(false);
     ui->lblReload->setVisible(false);
     FSizePixmap=16;
 #endif
 
-	QStyle *style = QApplication::style();
+    QStyle *style = QApplication::style();
+#ifdef EYECU_MOBILE
+    ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
+    ui->toolButUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
+    ui->toolButDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
+#else
 	ui->btnDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
 	ui->btnLeft->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
 	ui->btnUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
-    ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 	ui->btnRight->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
-
 	Shortcuts::bindObjectShortcut(SCT_MAP_REFRESH, ui->btnReload);
 	Shortcuts::bindObjectShortcut(SCT_MAP_MOVE_LEFT, ui->btnLeft);
 	Shortcuts::bindObjectShortcut(SCT_MAP_MOVE_RIGHT, ui->btnRight);
 	Shortcuts::bindObjectShortcut(SCT_MAP_MOVE_UP, ui->btnUp);
 	Shortcuts::bindObjectShortcut(SCT_MAP_MOVE_DOWN, ui->btnDown);
-
+#endif
 	ui->frmMapCenter->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
 	ui->lblMapCenter->setAttribute(Qt::WA_TransparentForMouseEvents, true);
@@ -152,16 +157,16 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->lblSelectionLon->setGraphicsEffect(new QGraphicsDropShadowEffect());
 
 	ui->frmSelection->hide();
-
+#ifndef EYECU_MOBILE
 	ui->mapScale->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-
+#endif
 //----
 	QString selectStyleSheet = "color: rgb(0,215,127);";
 	ui->lblSelection->setStyleSheet(selectStyleSheet);
 	ui->lblSelectionLat->setStyleSheet(selectStyleSheet);
 	ui->lblSelectionLon->setStyleSheet(selectStyleSheet);
 //----
-
+#ifndef EYECU_MOBILE
 	connect(ui->sldScale, SIGNAL(valueChanged(int)), FMap, SLOT(onSliderValueChanged(int)));
 	connect(ui->sldScale, SIGNAL(valueChanged(int)), ui->lcdScale, SLOT(display(int)));
 	connect(ui->sldScale, SIGNAL(sliderMoved(int)), ui->lcdScale, SLOT(display(int)));
@@ -171,6 +176,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->btnRight, SIGNAL(clicked()), SLOT(onStepRight()));
 	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
 	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
+#endif
 #ifdef EYECU_MOBILE
 	connect(ui->btnReload2, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 #else
@@ -417,10 +423,12 @@ void MapForm::setOsdBoxColor(QPalette::ColorRole ARole, QColor AColor)
 	FBoxPalette.setColor(ARole, AColor);
 	ui->frmLocation->setPalette(FBoxPalette);
 	ui->frmMapCenter->setPalette(FBoxPalette);
+#ifndef EYECU_MOBILE
 	ui->frmJoystick->setPalette(FBoxPalette);
+    ui->frmScale->setPalette(FBoxPalette);
+#endif
     ui->frmMapType->setPalette(FBoxPalette);
 	ui->frmSelection->setPalette(FBoxPalette);
-	ui->frmScale->setPalette(FBoxPalette);
 }
 
 void MapForm::setOsdBoxShape(int AShape)
@@ -428,10 +436,12 @@ void MapForm::setOsdBoxShape(int AShape)
 	QFrame::Shape shape=(QFrame::Shape)AShape;
 	ui->frmLocation->setFrameShape(shape);
 	ui->frmMapCenter->setFrameShape(shape);
+#ifndef EYECU_MOBILE
 	ui->frmJoystick->setFrameShape(shape);
+    ui->frmScale->setFrameShape(shape);
+#endif
     ui->frmMapType->setFrameShape(shape);
 	ui->frmSelection->setFrameShape(shape);
-	ui->frmScale->setFrameShape(shape);
 }
 
 void MapForm::setOsdBoxShadow(int AShadow)
@@ -439,20 +449,24 @@ void MapForm::setOsdBoxShadow(int AShadow)
 	QFrame::Shadow shadow=(QFrame::Shadow)AShadow;
 	ui->frmLocation->setFrameShadow(shadow);
 	ui->frmMapCenter->setFrameShadow(shadow);
+#ifndef EYECU_MOBILE
 	ui->frmJoystick->setFrameShadow(shadow);
+    ui->frmScale->setFrameShadow(shadow);
+#endif
     ui->frmMapType->setFrameShadow(shadow);
 	ui->frmSelection->setFrameShadow(shadow);
-	ui->frmScale->setFrameShadow(shadow);
 }
 
 void MapForm::setOsdBoxBgTransparent(bool ATransparent)
 {
 	ui->frmLocation->setAutoFillBackground(!ATransparent);
 	ui->frmMapCenter->setAutoFillBackground(!ATransparent);
+#ifndef EYECU_MOBILE
 	ui->frmJoystick->setAutoFillBackground(!ATransparent);
+    ui->frmScale->setAutoFillBackground(!ATransparent);
+#endif
     ui->frmMapType->setAutoFillBackground(!ATransparent);
 	ui->frmSelection->setAutoFillBackground(!ATransparent);
-	ui->frmScale->setAutoFillBackground(!ATransparent);
 }
 
 void MapForm::setOsdControlColor(QPalette::ColorRole ARole, const QColor &AColor)
@@ -464,8 +478,10 @@ void MapForm::setOsdControlColor(QPalette::ColorRole ARole, const QColor &AColor
 	ui->rbtMode4->setPalette(FControlPalette);
 	ui->rbtMode4->setPalette(FControlPalette);
 	ui->lcdScale->setPalette(FControlPalette);
+#ifndef EYECU_MOBILE
 	ui->sldScale->setPalette(FControlPalette);
 	ui->mapScale->setPalette(FControlPalette);
+#endif
 }
 
 void MapForm::setOsdControlBgTransparent(bool ATransparent)
@@ -476,8 +492,10 @@ void MapForm::setOsdControlBgTransparent(bool ATransparent)
 	ui->rbtMode4->setAutoFillBackground(!ATransparent);
 	ui->rbtMode4->setAutoFillBackground(!ATransparent);
 	ui->lcdScale->setAutoFillBackground(!ATransparent);
+#ifndef EYECU_MOBILE
 	ui->sldScale->setAutoFillBackground(!ATransparent);
 	ui->mapScale->setAutoFillBackground(!ATransparent);
+#endif
 }
 
 //---shadow---
@@ -589,7 +607,9 @@ void MapForm::setOsdCenterMarkerVisible(bool AVisible)
 
 void MapForm::setZoomSliderTracknig(bool AEnable)
 {
+#ifndef EYECU_MOBILE
 	ui->sldScale->setTracking(AEnable);
+#endif
 }
 
 void MapForm::saveWindowGeometry()
@@ -662,8 +682,10 @@ void MapForm::setMapMode(qint8 AMode)
 	FMapScene->selectMode(AMode);
 	FMapScene->updateMercatorType();
 	FMapScene->updateZoom();
+#ifndef EYECU_MOBILE
 	ui->sldScale->setMinimum(FMapScene->zoomMin());
 	ui->sldScale->setMaximum(FMapScene->zoomMax());
+#endif
 	updateMapTitle();
 }
 
@@ -990,8 +1012,10 @@ void MapForm::selectMapMode(qint8 AMode)
 
 void MapForm::onMppChanged(double mpp)
 {
+#ifndef EYECU_MOBILE
 	ui->mapScale->setMpp(mpp);
 	adjustCentralRulers(FMapScene->center());
+#endif
 }
 
 void MapForm::onSceneRectChanged(QRectF rect)
@@ -1007,6 +1031,7 @@ void MapForm::onStepDown(int delta){ FMapScene->shiftMap(0, delta); FMap->stopFo
 
 void MapForm::adjustCentralRulers(const QPointF &ACenter)
 {
+#ifndef EYECU_MOBILE
 	int     l=ui->mapScale->length();
 	FLineX->setPos(ACenter.x(), ACenter.y());        FLineX->setLine(-ACenter.x(), -0, ACenter.x(), 0);
 	FLine1X->setPos(ACenter.x()-l/2, ACenter.y());
@@ -1019,6 +1044,7 @@ void MapForm::adjustCentralRulers(const QPointF &ACenter)
 	FLine2Y->setPos(ACenter.x(), ACenter.y()-l);
 	FLineY1->setPos(ACenter.x(), ACenter.y()+l/2);
 	FLineY2->setPos(ACenter.x(), ACenter.y()+l);
+#endif
 }
 //----------------
 

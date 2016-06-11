@@ -146,22 +146,19 @@ bool RostersViewPlugin::initObjects()
 		FShowOfflineAction = new Action(this);
 		FShowOfflineAction->setIcon(RSR_STORAGE_MENUICONS, MNI_ROSTERVIEW_HIDE_OFFLINE);
 		FShowOfflineAction->setToolTip(tr("Show/Hide disconnected contacts"));
-        FShowOfflineAction->setText(tr("Show/Hide disconnected contacts")); // *** <<< eyeCU >>> ***
-#ifndef EYECU_MOBILE // *** <<< eyeCU <<< ***
-		FShowOfflineAction->setShortcutId(SCT_ROSTERVIEW_TOGGLESHOWOFFLINE);
+#ifndef EYECU_MOBILE        // *** <<< eyeCU <<< ***
+        FShowOfflineAction->setShortcutId(SCT_ROSTERVIEW_TOGGLESHOWOFFLINE);
 #endif
 		connect(FShowOfflineAction,SIGNAL(triggered(bool)),SLOT(onShowOfflineContactsAction(bool)));
-
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
 		FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
-
 #else
+// *** >>> eyeCU >>> ***
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);
 		FMainWindowPlugin->mainWindow()->mainTabWidget()->insertTabPage(MWTP_ROSTERSVIEW,FRostersView);
 #endif
-// *** >>> eyeCU >>> ***        
 	}
 
 	if (FRostersModel)
@@ -861,7 +858,10 @@ void RostersViewPlugin::onOptionsChanged(const OptionsNode &ANode)
 	if (ANode.path() == OPV_ROSTER_SHOWOFFLINE)
 	{
 		FShowOfflineAction->setIcon(RSR_STORAGE_MENUICONS, ANode.value().toBool() ? MNI_ROSTERVIEW_SHOW_OFFLINE : MNI_ROSTERVIEW_HIDE_OFFLINE);
-		FSortFilterProxyModel->invalidate();
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+        FShowOfflineAction->setText(ANode.value().toBool() ? tr("Hide disconnected contacts"):tr("Show disconnected contacts"));
+#endif        // *** <<< eyeCU <<< ***
+        FSortFilterProxyModel->invalidate();
 		if (ANode.value().toBool())
 			restoreExpandState();
 	}

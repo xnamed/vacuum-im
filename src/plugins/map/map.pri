@@ -13,7 +13,8 @@ FORMS = mapform.ui \
     mapoptions.ui \
     mapsources.ui \
     mapoptions2.ui \
-    setlocation2.ui
+    setlocation2.ui \
+    $$PWD/mapform2.ui
 
 
 

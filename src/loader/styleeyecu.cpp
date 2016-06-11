@@ -39,8 +39,8 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-	 FScale=2.0;
-	 FPointSizeF=16;
+     FScale=2.0;
+     FPointSizeF=16;
 #endif
 //!---- delete Later-------
 
@@ -69,11 +69,13 @@ void StyleEyecu::init()
 }
 
 //! Style modify
+//! Base color #039702
+//!
 QString StyleEyecu::saveStyle()
 {
     return QString().append(checkBox()).append(radioBottom()).append(slider()).append(scrollBar())
-			.append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView())
-			.append(comboBox());
+            .append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView())
+            .append(comboBox());
 }
 
 QString StyleEyecu::spinBox()
@@ -120,7 +122,7 @@ QString StyleEyecu::doubleSpinBox()
 QString StyleEyecu::checkBox()
 {
     QString style=QString(""
-        "QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px;}"
+        "QCheckBox::indicator {width: %1px; height: %1px; spacing: %2px; background-color: white;}"
         "QCheckBox::indicator:unchecked {border-image: url(:checkbox_unchecked.png);}"
         "QCheckBox::indicator:unchecked:hover {border-image: url(:checkbox_unchecked_hover.png);}"
         "QCheckBox::indicator:unchecked:pressed {border-image: url(:checkbox_unchecked_pressed.png);}"
@@ -136,17 +138,11 @@ QString StyleEyecu::checkBox()
 QString StyleEyecu::comboBox()
 {
 	QString style=QString(""
-		"QComboBox {border: 0px solid gray; border-radius: 3px;}"
-		"QComboBox::down-arrow {border-image: url(:branch-open.png); border: 0px;}"
-	);
+        "QComboBox::down-arrow {border-image: url(:cmb-down-arrow.png);}"
+        "QComboBox::drop-down {border-left: 1px solid grey;}"
+    );
 	return style;
 }
-/*
-"QComboBox::down-arrow:on {top: 1px; left: 1px;}"
-"QComboBox {border: 1px solid gray; border-radius: 3px; padding: 1px 18px 1px 3px; min-width: 6em;}"
-"QComboBox:on {padding-top: 3px;padding-left: 4px;}"
-*/
-
 
 QString StyleEyecu::radioBottom()
 {
