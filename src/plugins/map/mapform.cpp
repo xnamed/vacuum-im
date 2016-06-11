@@ -1021,7 +1021,7 @@ void MapForm::selectMapMode(qint8 AMode)
 void MapForm::onMppChanged(double mpp)
 {
 #ifdef EYECU_MOBILE
-	Q_UNUSED(mpp)
+	Q_UNUSED(mpp)//temp
 #else
 	ui->mapScale->setMpp(mpp);
 #endif
@@ -1042,7 +1042,7 @@ void MapForm::onStepDown(int delta){ FMapScene->shiftMap(0, delta); FMap->stopFo
 void MapForm::adjustCentralRulers(const QPointF &ACenter)
 {
 #ifdef EYECU_MOBILE
-	int     l=0;
+	int     l=0;//temp
 #else
 	int     l=ui->mapScale->length();
 #endif
