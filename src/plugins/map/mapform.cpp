@@ -50,17 +50,26 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FGraphicsView->setFrameStyle(QFrame::Sunken|QFrame::StyledPanel);
 	FGraphicsView->setMouseTracking(true);
 
+#ifdef EYECU_MOBILE
 	ui->frmLocation->raise();
 	ui->frmMapCenter->raise();
 	ui->frmSelection->raise();
     ui->frmMapType->raise();
-
+#else
+	ui->frmScale->raise();
+    ui->frmJoystick->raise();
+	ui->mapScale->raise();
+	ui->frmJoystick->setVisible(false);
+	ui->frmScale->setVisible(false);
+	ui->mapScale->setVisible(false);
+#endif
     FMapFontScale=IconStorage::scale();
 
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
-    ui->lcdScale->setVisible(true);
-	int newSize=16*IconStorage::scale();
+	int newSize=16*FMapFontScale;
+	FSizePixmap=newSize;
 	QSize size(newSize,newSize);
+
     ui->lblReload->setVisible(false);
 	ui->btnReload2->setIconSize(size);
 	ui->lblType1->setBaseSize(size);
@@ -75,29 +84,24 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
     ui->lblType2->text().clear();
     ui->lblType3->text().clear();
     ui->lblType4->text().clear();
-
-	FSizePixmap=newSize;
-
 #else
-    ui->frmScale->raise();
-    ui->frmJoystick->raise();
-    ui->mapScale->raise();
     ui->btnReload2->setVisible(false);
     ui->lblReload->setVisible(false);
     FSizePixmap=16;
 #endif
 
-    QStyle *style = QApplication::style();
+	QStyle *style = QApplication::style();
+	ui->btnScaleUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
+	ui->btnScaleDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
 #ifdef EYECU_MOBILE
-    ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
-    ui->toolButUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
-    ui->toolButDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
+	ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 #else
-	ui->btnDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
 	ui->btnLeft->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
-	ui->btnUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 	ui->btnRight->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
+	ui->btnUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
+	ui->btnDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
+
 	Shortcuts::bindObjectShortcut(SCT_MAP_REFRESH, ui->btnReload);
 	Shortcuts::bindObjectShortcut(SCT_MAP_MOVE_LEFT, ui->btnLeft);
 	Shortcuts::bindObjectShortcut(SCT_MAP_MOVE_RIGHT, ui->btnRight);
@@ -157,7 +161,9 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->lblSelectionLon->setGraphicsEffect(new QGraphicsDropShadowEffect());
 
 	ui->frmSelection->hide();
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+
+#else
 	ui->mapScale->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 #endif
 //----
@@ -166,20 +172,18 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->lblSelectionLat->setStyleSheet(selectStyleSheet);
 	ui->lblSelectionLon->setStyleSheet(selectStyleSheet);
 //----
-#ifndef EYECU_MOBILE
-	connect(ui->sldScale, SIGNAL(valueChanged(int)), FMap, SLOT(onSliderValueChanged(int)));
-	connect(ui->sldScale, SIGNAL(valueChanged(int)), ui->lcdScale, SLOT(display(int)));
-	connect(ui->sldScale, SIGNAL(sliderMoved(int)), ui->lcdScale, SLOT(display(int)));
-	connect(FMap, SIGNAL(zoomChanged(int)), ui->sldScale, SLOT(setValue(int)));
 
-	connect(ui->btnLeft, SIGNAL(clicked()), SLOT(onStepLeft()));
-	connect(ui->btnRight, SIGNAL(clicked()), SLOT(onStepRight()));
-	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
-	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
-#endif
 #ifdef EYECU_MOBILE
 	connect(ui->btnReload2, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 #else
+	connect(FMap, SIGNAL(zoomChanged(int)), ui->sldScale, SLOT(setValue(int)));
+	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
+	connect(ui->btnDown, SIGNAL(clicked()), SLOT(onStepDown()));
+	connect(ui->sldScale, SIGNAL(valueChanged(int)), FMap, SLOT(onSliderValueChanged(int)));
+	connect(ui->sldScale, SIGNAL(valueChanged(int)), ui->lcdScale, SLOT(display(int)));
+	connect(ui->sldScale, SIGNAL(sliderMoved(int)), ui->lcdScale, SLOT(display(int)));
+	connect(ui->btnLeft, SIGNAL(clicked()), SLOT(onStepLeft()));
+	connect(ui->btnRight, SIGNAL(clicked()), SLOT(onStepRight()));
 	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 #endif
 
@@ -423,12 +427,12 @@ void MapForm::setOsdBoxColor(QPalette::ColorRole ARole, QColor AColor)
 	FBoxPalette.setColor(ARole, AColor);
 	ui->frmLocation->setPalette(FBoxPalette);
 	ui->frmMapCenter->setPalette(FBoxPalette);
-#ifndef EYECU_MOBILE
-	ui->frmJoystick->setPalette(FBoxPalette);
-    ui->frmScale->setPalette(FBoxPalette);
-#endif
     ui->frmMapType->setPalette(FBoxPalette);
 	ui->frmSelection->setPalette(FBoxPalette);
+#ifndef EYECU_MOBILE
+	ui->frmJoystick->setPalette(FBoxPalette);
+	ui->frmScale->setPalette(FBoxPalette);
+#endif
 }
 
 void MapForm::setOsdBoxShape(int AShape)
@@ -436,12 +440,12 @@ void MapForm::setOsdBoxShape(int AShape)
 	QFrame::Shape shape=(QFrame::Shape)AShape;
 	ui->frmLocation->setFrameShape(shape);
 	ui->frmMapCenter->setFrameShape(shape);
-#ifndef EYECU_MOBILE
-	ui->frmJoystick->setFrameShape(shape);
-    ui->frmScale->setFrameShape(shape);
-#endif
     ui->frmMapType->setFrameShape(shape);
 	ui->frmSelection->setFrameShape(shape);
+#ifndef EYECU_MOBILE
+	ui->frmJoystick->setFrameShape(shape);
+	ui->frmScale->setFrameShape(shape);
+#endif
 }
 
 void MapForm::setOsdBoxShadow(int AShadow)
@@ -449,24 +453,24 @@ void MapForm::setOsdBoxShadow(int AShadow)
 	QFrame::Shadow shadow=(QFrame::Shadow)AShadow;
 	ui->frmLocation->setFrameShadow(shadow);
 	ui->frmMapCenter->setFrameShadow(shadow);
-#ifndef EYECU_MOBILE
-	ui->frmJoystick->setFrameShadow(shadow);
-    ui->frmScale->setFrameShadow(shadow);
-#endif
     ui->frmMapType->setFrameShadow(shadow);
 	ui->frmSelection->setFrameShadow(shadow);
+#ifndef EYECU_MOBILE
+	ui->frmJoystick->setFrameShadow(shadow);
+	ui->frmScale->setFrameShadow(shadow);
+#endif
 }
 
 void MapForm::setOsdBoxBgTransparent(bool ATransparent)
 {
 	ui->frmLocation->setAutoFillBackground(!ATransparent);
 	ui->frmMapCenter->setAutoFillBackground(!ATransparent);
-#ifndef EYECU_MOBILE
-	ui->frmJoystick->setAutoFillBackground(!ATransparent);
-    ui->frmScale->setAutoFillBackground(!ATransparent);
-#endif
     ui->frmMapType->setAutoFillBackground(!ATransparent);
 	ui->frmSelection->setAutoFillBackground(!ATransparent);
+#ifndef EYECU_MOBILE
+	ui->frmJoystick->setAutoFillBackground(!ATransparent);
+	ui->frmScale->setAutoFillBackground(!ATransparent);
+#endif
 }
 
 void MapForm::setOsdControlColor(QPalette::ColorRole ARole, const QColor &AColor)
@@ -607,7 +611,9 @@ void MapForm::setOsdCenterMarkerVisible(bool AVisible)
 
 void MapForm::setZoomSliderTracknig(bool AEnable)
 {
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+	Q_UNUSED(AEnable)
+#else
 	ui->sldScale->setTracking(AEnable);
 #endif
 }
@@ -682,7 +688,9 @@ void MapForm::setMapMode(qint8 AMode)
 	FMapScene->selectMode(AMode);
 	FMapScene->updateMercatorType();
 	FMapScene->updateZoom();
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+
+#else
 	ui->sldScale->setMinimum(FMapScene->zoomMin());
 	ui->sldScale->setMaximum(FMapScene->zoomMax());
 #endif
@@ -1012,10 +1020,12 @@ void MapForm::selectMapMode(qint8 AMode)
 
 void MapForm::onMppChanged(double mpp)
 {
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+	Q_UNUSED(mpp)
+#else
 	ui->mapScale->setMpp(mpp);
-	adjustCentralRulers(FMapScene->center());
 #endif
+	adjustCentralRulers(FMapScene->center());
 }
 
 void MapForm::onSceneRectChanged(QRectF rect)
@@ -1031,8 +1041,11 @@ void MapForm::onStepDown(int delta){ FMapScene->shiftMap(0, delta); FMap->stopFo
 
 void MapForm::adjustCentralRulers(const QPointF &ACenter)
 {
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+	int     l=0;
+#else
 	int     l=ui->mapScale->length();
+#endif
 	FLineX->setPos(ACenter.x(), ACenter.y());        FLineX->setLine(-ACenter.x(), -0, ACenter.x(), 0);
 	FLine1X->setPos(ACenter.x()-l/2, ACenter.y());
 	FLine2X->setPos(ACenter.x()-l, ACenter.y());
@@ -1044,7 +1057,6 @@ void MapForm::adjustCentralRulers(const QPointF &ACenter)
 	FLine2Y->setPos(ACenter.x(), ACenter.y()-l);
 	FLineY1->setPos(ACenter.x(), ACenter.y()+l/2);
 	FLineY2->setPos(ACenter.x(), ACenter.y()+l);
-#endif
 }
 //----------------
 
