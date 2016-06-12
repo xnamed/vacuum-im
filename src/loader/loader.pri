@@ -19,5 +19,5 @@ SOURCES = \
     styleeyecu.cpp
 
 RESOURCES += \
-    $$PWD/../../resources/stylesapp/styleseyecu.qrc
+    ../../resources/stylesapp/shared/styleseyecu.qrc
 

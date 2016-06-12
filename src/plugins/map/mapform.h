@@ -116,6 +116,8 @@ protected slots:
 	void onStepRight(int delta = DELTA_JST);
 	void onStepUp(int delta = DELTA_JST);
 	void onStepDown(int delta = DELTA_JST);
+    void onBtnScaleUp();
+    void onBtnScaleDown();
 
 signals:
 	// IMainCentralPage

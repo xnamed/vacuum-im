@@ -22,6 +22,6 @@
 #define RSR_STORAGE_CLIENTICONS             "clienticons"
 #define RSR_STORAGE_ABBREVIATIONS           "abbreviations"
 #define RSR_STORAGE_WIZARDS                 "wizards"
-#define RSR_STORAGE_STYLEEYECU              "styleeyecu"
+#define RSR_STORAGE_APPSTYLE                "stylesapp"
 // *** >>> eyeCU >>> ***
 #endif

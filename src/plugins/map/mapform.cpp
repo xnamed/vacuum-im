@@ -24,6 +24,8 @@
 
 #define SENSITIVITY_ADD		1.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
 #define SENSITIVITY_SUB		1.0		//
+#define SCALEUP             "spinup_arrow"
+#define SCALEDOWN           "spindown_arrow"
 
 //-----------------
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
@@ -50,18 +52,14 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	FGraphicsView->setFrameStyle(QFrame::Sunken|QFrame::StyledPanel);
 	FGraphicsView->setMouseTracking(true);
 
-#ifdef EYECU_MOBILE
-	ui->frmLocation->raise();
-	ui->frmMapCenter->raise();
-	ui->frmSelection->raise();
+    ui->frmLocation->raise();
+    ui->frmMapCenter->raise();
+    ui->frmSelection->raise();
     ui->frmMapType->raise();
-#else
+#ifndef EYECU_MOBILE
 	ui->frmScale->raise();
     ui->frmJoystick->raise();
 	ui->mapScale->raise();
-	ui->frmJoystick->setVisible(false);
-	ui->frmScale->setVisible(false);
-	ui->mapScale->setVisible(false);
 #endif
     FMapFontScale=IconStorage::scale();
 
@@ -69,9 +67,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	int newSize=16*FMapFontScale;
 	FSizePixmap=newSize;
 	QSize size(newSize,newSize);
-
-    ui->lblReload->setVisible(false);
-	ui->btnReload2->setIconSize(size);
+    ui->btnReload->setIconSize(size);
 	ui->lblType1->setBaseSize(size);
 	ui->rbtMode1->setIconSize(size);
 	ui->lblType2->setBaseSize(size);
@@ -80,24 +76,23 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->rbtMode3->setIconSize(size);
 	ui->rbtMode4->setIconSize(size);
 	ui->lblType4->setBaseSize(size);
+    ui->btnScaleUp->setIconSize(size);
+    ui->btnScaleDown->setIconSize(size);
+
     ui->lblType1->text().clear();
     ui->lblType2->text().clear();
     ui->lblType3->text().clear();
     ui->lblType4->text().clear();
 #else
-    ui->btnReload2->setVisible(false);
-    ui->lblReload->setVisible(false);
     FSizePixmap=16;
 #endif
-
 	QStyle *style = QApplication::style();
-	ui->btnScaleUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
-	ui->btnScaleDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
+    ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 #ifdef EYECU_MOBILE
-	ui->btnReload2->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
+    ui->btnScaleUp->setIcon(IconStorage::staticStorage(RSR_STORAGE_APPSTYLE)->getIcon(QString(SCALEUP)));
+    ui->btnScaleDown->setIcon(IconStorage::staticStorage(RSR_STORAGE_APPSTYLE)->getIcon(QString(SCALEDOWN)));
 #else
 	ui->btnLeft->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
-	ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 	ui->btnRight->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
 	ui->btnUp->setIcon(style->standardIcon(QStyle::SP_ArrowUp));
 	ui->btnDown->setIcon(style->standardIcon(QStyle::SP_ArrowDown));
@@ -161,9 +156,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->lblSelectionLon->setGraphicsEffect(new QGraphicsDropShadowEffect());
 
 	ui->frmSelection->hide();
-#ifdef EYECU_MOBILE
-
-#else
+#ifndef EYECU_MOBILE
 	ui->mapScale->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 #endif
 //----
@@ -174,7 +167,8 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 //----
 
 #ifdef EYECU_MOBILE
-	connect(ui->btnReload2, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
+    connect(ui->btnScaleUp, SIGNAL(clicked()), SLOT(onBtnScaleUp()));
+    connect(ui->btnScaleDown, SIGNAL(clicked()), SLOT(onBtnScaleDown()));
 #else
 	connect(FMap, SIGNAL(zoomChanged(int)), ui->sldScale, SLOT(setValue(int)));
 	connect(ui->btnUp, SIGNAL(clicked()), SLOT(onStepUp()));
@@ -184,9 +178,8 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	connect(ui->sldScale, SIGNAL(sliderMoved(int)), ui->lcdScale, SLOT(display(int)));
 	connect(ui->btnLeft, SIGNAL(clicked()), SLOT(onStepLeft()));
 	connect(ui->btnRight, SIGNAL(clicked()), SLOT(onStepRight()));
-	connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 #endif
-
+    connect(ui->btnReload, SIGNAL(clicked()), FMapScene->instance(), SLOT(reloadMap()));
 	connect(ui->rbtMode1, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
 	connect(ui->rbtMode2, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
 	connect(ui->rbtMode3, SIGNAL(clicked(bool)),this,SLOT(onTypeSelected(bool)));
@@ -481,8 +474,8 @@ void MapForm::setOsdControlColor(QPalette::ColorRole ARole, const QColor &AColor
 	ui->rbtMode3->setPalette(FControlPalette);
 	ui->rbtMode4->setPalette(FControlPalette);
 	ui->rbtMode4->setPalette(FControlPalette);
-	ui->lcdScale->setPalette(FControlPalette);
 #ifndef EYECU_MOBILE
+    ui->lcdScale->setPalette(FControlPalette);
 	ui->sldScale->setPalette(FControlPalette);
 	ui->mapScale->setPalette(FControlPalette);
 #endif
@@ -495,8 +488,8 @@ void MapForm::setOsdControlBgTransparent(bool ATransparent)
 	ui->rbtMode3->setAutoFillBackground(!ATransparent);
 	ui->rbtMode4->setAutoFillBackground(!ATransparent);
 	ui->rbtMode4->setAutoFillBackground(!ATransparent);
-	ui->lcdScale->setAutoFillBackground(!ATransparent);
 #ifndef EYECU_MOBILE
+    ui->lcdScale->setAutoFillBackground(!ATransparent);
 	ui->sldScale->setAutoFillBackground(!ATransparent);
 	ui->mapScale->setAutoFillBackground(!ATransparent);
 #endif
@@ -665,6 +658,9 @@ void MapForm::addMapSource(const QString &AName, const QIcon &AIcon, const QUuid
 void MapForm::selectMapSource(const QUuid &AUuid)
 {
 	ui->cmbMapSource->setCurrentIndex(ui->cmbMapSource->findData(AUuid.toString()));
+#ifdef EYECU_MOBILE
+    ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+#endif
 }
 
 void MapForm::setMapSource(IMapSource *AMapSource)
@@ -688,9 +684,7 @@ void MapForm::setMapMode(qint8 AMode)
 	FMapScene->selectMode(AMode);
 	FMapScene->updateMercatorType();
 	FMapScene->updateZoom();
-#ifdef EYECU_MOBILE
-
-#else
+#ifndef EYECU_MOBILE
 	ui->sldScale->setMinimum(FMapScene->zoomMin());
 	ui->sldScale->setMaximum(FMapScene->zoomMax());
 #endif
@@ -1038,6 +1032,18 @@ void MapForm::onStepLeft(int delta){ FMapScene->shiftMap(-delta, 0); FMap->stopF
 void MapForm::onStepRight(int delta){ FMapScene->shiftMap(delta, 0); FMap->stopFollowing();}
 void MapForm::onStepUp(int delta){ FMapScene->shiftMap(0, -delta); FMap->stopFollowing();}
 void MapForm::onStepDown(int delta){ FMapScene->shiftMap(0, delta); FMap->stopFollowing();}
+
+void MapForm::onBtnScaleUp()
+{
+    FMap->zoomIn();
+    ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+}
+
+void MapForm::onBtnScaleDown()
+{
+    FMap->zoomOut();
+    ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+}
 
 void MapForm::adjustCentralRulers(const QPointF &ACenter)
 {

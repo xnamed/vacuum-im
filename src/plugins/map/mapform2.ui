@@ -823,60 +823,60 @@
         <item>
          <widget class="QToolButton" name="btnScaleUp">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Scale Up</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgba(154, 154, 154, 255);</string>
+          </property>
           <property name="text">
-           <string>+</string>
+           <string/>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLCDNumber" name="lcdScale">
+         <widget class="QLabel" name="lblScale">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="toolTip">
-           <string>Indicator</string>
-          </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Plain</enum>
           </property>
-          <property name="lineWidth">
-           <number>1</number>
+          <property name="text">
+           <string>Sc</string>
           </property>
-          <property name="digitCount">
-           <number>2</number>
-          </property>
-          <property name="segmentStyle">
-           <enum>QLCDNumber::Flat</enum>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="btnScaleDown">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="toolTip">
+           <string>Scale Down</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgba(154, 154, 154, 255);</string>
+          </property>
           <property name="text">
-           <string>+</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -890,7 +890,7 @@
         <item row="1" column="1">
          <widget class="QRadioButton" name="rbtMode2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -909,7 +909,7 @@
         <item row="1" column="2">
          <widget class="QRadioButton" name="rbtMode3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -927,6 +927,12 @@
         </item>
         <item row="0" column="2">
          <widget class="QLabel" name="lblType3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string notr="true">L3</string>
           </property>
@@ -934,6 +940,12 @@
         </item>
         <item row="0" column="3">
          <widget class="QLabel" name="lblType4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="lineWidth">
            <number>1</number>
           </property>
@@ -942,15 +954,14 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4">
-         <widget class="QLabel" name="lblReload">
-          <property name="text">
-           <string>RL</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="lblType1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string notr="true">L1</string>
           </property>
@@ -958,6 +969,12 @@
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="lblType2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string notr="true">L2</string>
           </property>
@@ -966,7 +983,7 @@
         <item row="1" column="3">
          <widget class="QRadioButton" name="rbtMode4">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -985,7 +1002,7 @@
         <item row="1" column="0">
          <widget class="QRadioButton" name="rbtMode1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -1002,7 +1019,7 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QToolButton" name="btnReload2">
+         <widget class="QToolButton" name="btnReload">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
