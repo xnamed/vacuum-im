@@ -79,6 +79,9 @@
         <property name="inputMethodHints">
          <set>Qt::ImhDigitsOnly</set>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="maximum">
          <number>2147483647</number>
         </property>
@@ -187,6 +190,9 @@
           <width>16777215</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="maximum">
          <number>65535</number>

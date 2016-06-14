@@ -837,6 +837,9 @@ void Map::zoomIn()
 	{
 		zoom++;
 		Options::node(OPV_MAP_ZOOM).setValue(zoom);
+#ifdef EYECU_MOBILE
+		FMapForm->updateLblScale();
+#endif
 	}
 }
 
@@ -847,6 +850,9 @@ void Map::zoomOut()
 	{
 		zoom--;
 		Options::node(OPV_MAP_ZOOM).setValue(zoom);
+#ifdef EYECU_MOBILE
+		FMapForm->updateLblScale();
+#endif
 	}
 }
 

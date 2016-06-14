@@ -36,4 +36,6 @@
 	<icon><key>arrow_right_disabled</key><object mime="image/png">arrow_right_disabled.png</object></icon>
 	<icon><key>arrow_cmbbox</key><object mime="image/png">arrow_cmbbox.png</object></icon>
 	<icon><key>cmb-down-arrow</key><object mime="image/png">cmb-down-arrow.png</object></icon>
+	<icon><key>scale_down</key><object mime="image/png">scale_down.png</object></icon>
+	<icon><key>scale_up</key><object mime="image/png">scale_up.png</object></icon>
 </icondef>

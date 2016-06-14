@@ -24,8 +24,8 @@
 
 #define SENSITIVITY_ADD		1.0		// M.B.- {0.5,1.0,2.0,3.0,4.0}
 #define SENSITIVITY_SUB		1.0		//
-#define SCALEUP             "spinup_arrow"
-#define SCALEDOWN           "spindown_arrow"
+#define SCALEUP             "scale_up"
+#define SCALEDOWN           "scale_down"
 
 //-----------------
 MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
@@ -659,8 +659,13 @@ void MapForm::selectMapSource(const QUuid &AUuid)
 {
 	ui->cmbMapSource->setCurrentIndex(ui->cmbMapSource->findData(AUuid.toString()));
 #ifdef EYECU_MOBILE
-    ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+	updateLblScale();
 #endif
+}
+
+void MapForm::updateLblScale()
+{
+	ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
 }
 
 void MapForm::setMapSource(IMapSource *AMapSource)
@@ -814,6 +819,9 @@ void MapForm::pinchTriggered(QPinchGesture *AGesture)
 					FMap->zoomOut();					//! zoom out--
 				}
 			}
+#ifdef EYECU_MOBILE
+			updateLblScale();
+#endif
 		}
 		//!---RESERVE----------------
 		if (changeFlags & QPinchGesture::CenterPointChanged)
@@ -1036,13 +1044,13 @@ void MapForm::onStepDown(int delta){ FMapScene->shiftMap(0, delta); FMap->stopFo
 void MapForm::onBtnScaleUp()
 {
     FMap->zoomIn();
-    ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+	updateLblScale();
 }
 
 void MapForm::onBtnScaleDown()
 {
     FMap->zoomOut();
-    ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+	updateLblScale();
 }
 
 void MapForm::adjustCentralRulers(const QPointF &ACenter)
