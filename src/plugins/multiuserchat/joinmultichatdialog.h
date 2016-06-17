@@ -3,7 +3,14 @@
 
 #include <interfaces/imultiuserchat.h>
 #include <interfaces/ixmppstreammanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_joinmultichatdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_joinmultichatdialog.h"
+#endif
 
 struct RoomParams {
 	RoomParams() {

@@ -15,13 +15,18 @@ DiscoInfoWindow::DiscoInfoWindow(IServiceDiscovery *ADiscovery, const Jid &AStre
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-	setWindowTitle(tr("Discovery Info - %1").arg(AContactJid.uFull()));
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_SDISCOVERY_DISCOINFO,0,0,"windowIcon");
+
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	showMaximized();
-#endif
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_SDISCOVERY_DISCOINFO));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Discovery Info - %1").arg(AContactJid.uFull()));
+#else
 // *** >>> eyeCU >>> ***
+	setWindowTitle(tr("Discovery Info - %1").arg(AContactJid.uFull()));
+	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_SDISCOVERY_DISCOINFO,0,0,"windowIcon");
+#endif
+
 	FNode = ANode;
 	FFormMenu = NULL;
 	FStreamJid = AStreamJid;

@@ -5,7 +5,14 @@
 #include <QPushButton>
 #include <interfaces/icommands.h>
 #include <interfaces/idataforms.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_commanddialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_commanddialog.h"
+#endif
 
 class CommandDialog :
 	public QDialog,

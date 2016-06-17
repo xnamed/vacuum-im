@@ -7,7 +7,14 @@
 #include <interfaces/iservicediscovery.h>
 #include <interfaces/irosterchanger.h>
 #include <interfaces/ivcardmanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_searchdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_searchdialog.h"
+#endif
 
 class SearchDialog :
 	public QDialog

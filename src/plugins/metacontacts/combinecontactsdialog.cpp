@@ -19,12 +19,19 @@ CombineContactsDialog::CombineContactsDialog(IMetaContacts *AMetaContacts, const
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_METACONTACTS_COMBINE,0,0,"windowIcon");
+
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     QSize avatarSize(1.5*16*IconStorage::scale(),1.5*16*IconStorage::scale());
-#endif
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_METACONTACTS_COMBINE));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Combine Contacts Dialog"));
+//    ui.verticalLayout->setMargin(16*IconStorage::scale());
+#else
 // *** >>> eyeCU >>> ***
+    IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_METACONTACTS_COMBINE,0,0,"windowIcon");
+#endif
+
 	FMetaContacts = AMetaContacts;
 	connect(FMetaContacts->instance(),SIGNAL(metaContactsClosed(const Jid &)),SLOT(onMetaContactsClosed(const Jid &)));
 

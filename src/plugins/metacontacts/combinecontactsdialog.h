@@ -5,7 +5,14 @@
 #include <interfaces/irostermanager.h>
 #include <interfaces/iavatars.h>
 #include <interfaces/imetacontacts.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_combinecontactsdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_combinecontactsdialog.h"
+#endif
 
 class CombineContactsDialog : 
 	public QDialog

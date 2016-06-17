@@ -386,7 +386,13 @@ void Bookmarks::showEditBookmarksDialog(const Jid &AStreamJid)
 			FDialogs.insert(AStreamJid,dialog);
 			connect(dialog,SIGNAL(dialogDestroyed()),SLOT(onEditBookmarksDialogDestroyed()));
 		}
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+        dialog->showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 		dialog->show();
+#endif
 	}
 }
 

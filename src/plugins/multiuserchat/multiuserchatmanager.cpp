@@ -836,7 +836,13 @@ void MultiUserChatManager::showJoinMultiChatDialog(const Jid &AStreamJid, const 
 	if (isReady(AStreamJid))
 	{
 		JoinMultiChatDialog *dialog = new JoinMultiChatDialog(this,AStreamJid,ARoomJid,ANick,APassword);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+        dialog->showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 		dialog->show();
+#endif
 	}
 }
 

@@ -1,4 +1,5 @@
-FORMS = commanddialog.ui
+FORMS = commanddialog.ui \
+        commanddialog2.ui
 
 HEADERS = commanddialog.h \
           commands.h

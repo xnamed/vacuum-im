@@ -3,7 +3,14 @@
 
 #include <QDialog>
 #include <interfaces/ibookmarks.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_editbookmarkdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_editbookmarkdialog.h"
+#endif
 
 class EditBookmarkDialog :
 	public QDialog

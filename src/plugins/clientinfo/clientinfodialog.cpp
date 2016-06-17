@@ -12,17 +12,17 @@ ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJ
 	setAttribute(Qt::WA_DeleteOnClose,true);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	QString fileName= IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_CLIENTINFO);
-    QPixmap pixmap=IconStorage::getStoragePixmap(fileName);
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_CLIENTINFO));
     if(!pixmap.isNull())
         ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Client info - %1").arg(AContactName));
 	ui.vboxLayout->setMargin(16*IconStorage::scale());
 #else
+// *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Client info - %1").arg(AContactName));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_CLIENTINFO,0,0,"windowIcon");
 #endif
-// *** >>> eyeCU >>> ***
+
 	FClientInfo = AClientInfo;
 	FStreamJid = AStreamJid;
 	FContactJid = AContactJid;

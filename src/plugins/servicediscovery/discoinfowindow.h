@@ -3,7 +3,14 @@
 
 #include <QDialog>
 #include <interfaces/iservicediscovery.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_discoinfowindow2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_discoinfowindow.h"
+#endif
 
 class DiscoInfoWindow :
 	public QDialog

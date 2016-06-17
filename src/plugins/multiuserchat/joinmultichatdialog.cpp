@@ -29,8 +29,17 @@ JoinMultiChatDialog::JoinMultiChatDialog(IMultiUserChatManager *AChatPlugin, con
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MUC_JOIN));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Join conference"));
+#else
+// *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Join conference"));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_MUC_JOIN,0,0,"windowIcon");
+#endif
 
 	FMultiChatManager = AChatPlugin;
 

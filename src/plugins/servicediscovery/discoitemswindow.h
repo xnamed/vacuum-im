@@ -9,7 +9,14 @@
 #include <interfaces/irosterchanger.h>
 #include <interfaces/ivcardmanager.h>
 #include "discoitemsmodel.h"
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_discoitemswindow2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_discoitemswindow.h"
+#endif
 
 class SortFilterProxyModel :
 	public QSortFilterProxyModel

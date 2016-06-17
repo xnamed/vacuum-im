@@ -1,5 +1,7 @@
 FORMS = editbookmarkdialog.ui \
-        editbookmarksdialog.ui
+        editbookmarksdialog.ui \
+        editbookmarksdialog2.ui \
+        editbookmarkdialog2.ui
 
 HEADERS = editbookmarkdialog.h \
           editbookmarksdialog.h \

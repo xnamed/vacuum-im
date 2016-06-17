@@ -516,7 +516,13 @@ bool Commands::executeCommand(const Jid &AStreamJid, const Jid &ACommandJid, con
 		CommandDialog *dialog = new CommandDialog(this,FDataForms,AStreamJid,ACommandJid,ANode,NULL);
 		connect(stream->instance(),SIGNAL(closed()),dialog,SLOT(reject()));
 		dialog->executeCommand();
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+        dialog->showMaximized();
+// *** >>> eyeCU >>> ***
+#else
 		dialog->show();
+#endif
 		return true;
 	}
 	return false;

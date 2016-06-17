@@ -2211,7 +2211,13 @@ void MultiUserChatWindow::onAffiliationListReceived(const QString &AAffiliation,
 	dialog->setTitle(listName.arg(contactJid().uBare()));
 	connect(dialog,SIGNAL(accepted()),SLOT(onAffiliationListDialogAccepted()));
 	connect(FMultiChat->instance(),SIGNAL(chatClosed()),dialog,SLOT(reject()));
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    dialog->showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 	dialog->show();
+#endif
 }
 
 void MultiUserChatWindow::onConfigFormReceived(const IDataForm &AForm)

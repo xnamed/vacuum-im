@@ -24,7 +24,16 @@ SearchDialog::SearchDialog(IJabberSearch *ASearch, const Jid &AStreamJid, const 
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_JSEARCH));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Search Dialog For %1").arg(AStreamJid.bare()));
+#else
+// *** >>> eyeCU >>> ***
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_JSEARCH,0,0,"windowIcon");
+#endif
 
 	FSearch = ASearch;
 	FStreamJid = AStreamJid;
@@ -38,9 +47,11 @@ SearchDialog::SearchDialog(IJabberSearch *ASearch, const Jid &AStreamJid, const 
 	FVCardManager = PluginHelper::pluginInstance<IVCardManager>();
 
 	QToolBar *toolBar = new QToolBar(this);
+// *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
 #else
+// *** >>> eyeCU >>> ***
 		toolBar->setIconSize(QSize(16,16));
 #endif
 	FToolBarChanger = new ToolBarChanger(toolBar);

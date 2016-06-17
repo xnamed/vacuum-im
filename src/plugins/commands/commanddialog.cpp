@@ -12,8 +12,16 @@ CommandDialog::CommandDialog(ICommands *ACommands, IDataForms *ADataForms, const
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_COMMANDS,0,0,"windowIcon");
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_COMMANDS));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Command Dialog - %1").arg(AStreamJid.bare()));
+#else
+// *** >>> eyeCU >>> ***
+	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_COMMANDS,0,0,"windowIcon");
+#endif
 	ui.wdtForm->setLayout(new QVBoxLayout);
 	ui.wdtForm->layout()->setMargin(0);
 

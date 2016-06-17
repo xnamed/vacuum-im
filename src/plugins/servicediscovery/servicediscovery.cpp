@@ -505,7 +505,13 @@ void ServiceDiscovery::showDiscoInfo(const Jid &AStreamJid, const Jid &AContactJ
 		DiscoInfoWindow *infoWindow = new DiscoInfoWindow(this,AStreamJid,AContactJid,ANode,AParent);
 		connect(infoWindow,SIGNAL(destroyed(QObject *)),SLOT(onDiscoInfoWindowDestroyed(QObject *)));
 		FDiscoInfoWindows.insert(AContactJid,infoWindow);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+       infoWindow->showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 		infoWindow->show();
+#endif
 	}
 }
 
@@ -519,7 +525,13 @@ void ServiceDiscovery::showDiscoItems(const Jid &AStreamJid, const Jid &AContact
 		FDiscoItemsWindows.append(itemsWindow);
 		emit discoItemsWindowCreated(itemsWindow);
 		itemsWindow->discover(AContactJid,ANode);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+        itemsWindow->showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 		itemsWindow->show();
+#endif
 	}
 }
 

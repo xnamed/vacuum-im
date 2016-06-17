@@ -29,9 +29,17 @@ EditBookmarksDialog::EditBookmarksDialog(IBookmarks *ABookmarks, const Jid &AStr
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_BOOKMARKS_EDIT));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Edit bookmarks - %1").arg(AStreamJid.uBare()));
+#else
+// *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Edit bookmarks - %1").arg(AStreamJid.uBare()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_BOOKMARKS_EDIT,0,0,"windowIcon");
-
+#endif
 	FBookmarks = ABookmarks;
 	FStreamJid = AStreamJid;
 

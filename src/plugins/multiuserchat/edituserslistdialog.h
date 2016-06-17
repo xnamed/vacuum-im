@@ -3,7 +3,14 @@
 
 #include <QDialog>
 #include <interfaces/imultiuserchat.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_edituserslistdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_edituserslistdialog.h"
+#endif
 
 class EditUsersListDialog :
 	public QDialog

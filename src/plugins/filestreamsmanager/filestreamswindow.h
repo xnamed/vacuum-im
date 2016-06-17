@@ -6,9 +6,16 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <interfaces/ifilestreamsmanager.h>
-#include "ui_filestreamswindow.h"
 #include <utils/statusbarchanger.h>
 #include <utils/toolbarchanger.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_filestreamswindow2.h"
+#else
+// *** >>> eyeCU >>> ***
+#include "ui_filestreamswindow.h"
+#endif
 
 class FileStreamsWindow :
 	public QMainWindow

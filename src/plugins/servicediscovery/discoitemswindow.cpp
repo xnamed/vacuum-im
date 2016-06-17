@@ -47,8 +47,17 @@ DiscoItemsWindow::DiscoItemsWindow(IServiceDiscovery *ADiscovery, const Jid &ASt
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_SDISCOVERY_DISCOVER));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Service Discovery - %1").arg(AStreamJid.uFull()));
+#else
+// *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Service Discovery - %1").arg(AStreamJid.uFull()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_SDISCOVERY_DISCOVER,0,0,"windowIcon");
+#endif
 
 	FCurrentStep = -1;
 	FStreamJid = AStreamJid;

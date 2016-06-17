@@ -78,7 +78,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->lblType4->setBaseSize(size);
     ui->btnScaleUp->setIconSize(size);
     ui->btnScaleDown->setIconSize(size);
-
+ui->line->setVisible(false);   //! TEMP --????--
     ui->lblType1->text().clear();
     ui->lblType2->text().clear();
     ui->lblType3->text().clear();

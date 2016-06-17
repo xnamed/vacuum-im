@@ -17,9 +17,22 @@ EditUsersListDialog::EditUsersListDialog(const QString &AAffiliation, const QLis
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-
 	FAffiliation = AAffiliation;
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap;
+    if (AAffiliation == MUC_AFFIL_OUTCAST)
+        pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MUC_EDIT_BAN_LIST));
+    else if (AAffiliation == MUC_AFFIL_MEMBER)
+        pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MUC_EDIT_MEMBERS_LIST));
+    else if (AAffiliation == MUC_AFFIL_ADMIN)
+        pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MUC_EDIT_ADMINS_LIST));
+    else if (AAffiliation == MUC_AFFIL_OWNER)
+        pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MUC_EDIT_OWNERS_LIST));
+    ui.lblIcon->setPixmap(pixmap);
+#else
+// *** >>> eyeCU >>> ***
 	if (AAffiliation == MUC_AFFIL_OUTCAST)
 		IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_MUC_EDIT_BAN_LIST,0,0,"windowIcon");
 	else if (AAffiliation == MUC_AFFIL_MEMBER)
@@ -28,6 +41,7 @@ EditUsersListDialog::EditUsersListDialog(const QString &AAffiliation, const QLis
 		IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_MUC_EDIT_ADMINS_LIST,0,0,"windowIcon");
 	else if (AAffiliation == MUC_AFFIL_OWNER)
 		IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_MUC_EDIT_OWNERS_LIST,0,0,"windowIcon");
+#endif
 
 	int row = 0;
 	ui.tbwTable->setRowCount(AList.count());
@@ -102,7 +116,13 @@ QList<IMultiUserListItem> EditUsersListDialog::deltaList() const
 
 void EditUsersListDialog::setTitle(const QString &ATitle)
 {
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    ui.lblTitle->setText(ATitle);
+#else
+// *** >>> eyeCU >>> ***
 	setWindowTitle(ATitle);
+#endif
 }
 
 void EditUsersListDialog::onAddClicked()

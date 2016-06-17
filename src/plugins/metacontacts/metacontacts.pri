@@ -1,4 +1,5 @@
-FORMS = combinecontactsdialog.ui
+FORMS = combinecontactsdialog.ui \
+        combinecontactsdialog2.ui
 
 HEADERS = metacontacts.h \
           metasortfilterproxymodel.h \

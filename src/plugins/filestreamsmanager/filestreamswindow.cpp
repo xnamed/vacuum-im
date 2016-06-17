@@ -35,8 +35,16 @@ FileStreamsWindow::FileStreamsWindow(IFileStreamsManager *AManager, QWidget *APa
 
 	FManager = AManager;
 
-	setWindowTitle(tr("File Transfers"));
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_FILESTREAMSMANAGER));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("File Transfers"));
+#else
+// *** >>> eyeCU >>> ***
+    setWindowTitle(tr("File Transfers"));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_FILESTREAMSMANAGER,0,0,"windowIcon");
+#endif
 
 	FToolBarChanger = new ToolBarChanger(ui.tlbToolBar);
 	FStatusBarChanger = new StatusBarChanger(ui.stbStatusBar);

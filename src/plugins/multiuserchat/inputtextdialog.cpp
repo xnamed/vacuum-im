@@ -6,8 +6,15 @@ InputTextDialog::InputTextDialog(QWidget *AParent, const QString &ATitle, const 
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose, true);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    ui.lblIcon->clear();
+    ui.lblTitle->setText(ATitle);
+    showMaximized();
+#else
+// *** >>> eyeCU >>> ***
 	setWindowTitle(ATitle);
+#endif
 	ui.lblCaptionl->setText(ALabel);
 	ui.pteText->setPlainText(AText);
 

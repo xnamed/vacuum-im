@@ -1,4 +1,5 @@
-FORMS = searchdialog.ui
+FORMS = searchdialog.ui \
+        searchdialog2.ui
 
 HEADERS = searchdialog.h \
           jabbersearch.h

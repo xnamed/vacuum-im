@@ -2,7 +2,13 @@
 #define INPUTTEXTDIALOG_H
 
 #include <QDialog>
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_inputtextdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_inputtextdialog.h"
+#endif
 
 class InputTextDialog :
 	public QDialog
