@@ -18,7 +18,14 @@
 #include "edituserslistdialog.h"
 #include "inputtextdialog.h"
 #include "usersproxymodel.h"
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_multiuserchatwindow2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_multiuserchatwindow.h"
+#endif
 
 struct WindowStatus {
 	QDateTime startTime;

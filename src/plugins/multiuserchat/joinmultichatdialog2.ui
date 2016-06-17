@@ -6,23 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>250</height>
+    <width>291</width>
+    <height>347</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>2</number>
-   </property>
-   <property name="topMargin">
-    <number>2</number>
-   </property>
-   <property name="rightMargin">
-    <number>2</number>
-   </property>
-   <property name="bottomMargin">
-    <number>2</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -51,19 +39,36 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="hltIdentity">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="lblIdentity">
-       <property name="text">
-        <string>Identity:</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
-       </property>
-       <property name="buddy">
-        <cstring>cmbStreamJid</cstring>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="lblIdentity">
+         <property name="text">
+          <string>Identity:</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="buddy">
+          <cstring>cmbStreamJid</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QComboBox" name="cmbStreamJid">
@@ -88,21 +93,8 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="hltHistory">
-     <item>
-      <widget class="QLabel" name="lblHistory">
-       <property name="text">
-        <string>History:</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
-       </property>
-       <property name="buddy">
-        <cstring>cmbHistory</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="1">
       <widget class="QComboBox" name="cmbHistory">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -115,24 +107,75 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QToolButton" name="tlbDeleteHistory">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblHistory">
        <property name="text">
-        <string>Delete</string>
+        <string>History:</string>
        </property>
-       <property name="autoRaise">
-        <bool>true</bool>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="buddy">
+        <cstring>cmbHistory</cstring>
        </property>
       </widget>
+     </item>
+     <item row="1" column="1">
+      <layout class="QHBoxLayout" name="hltHistory">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QToolButton" name="tlbDeleteHistory">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QGroupBox" name="grbConference">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Conference Parameters</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>4</number>
+      </property>
+      <property name="spacing">
+       <number>4</number>
+      </property>
       <item row="0" column="0">
        <widget class="QLabel" name="lblRoom">
         <property name="text">
@@ -140,10 +183,10 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1" colspan="2">
+      <item row="1" column="0" colspan="3">
        <widget class="QLineEdit" name="lneRoom"/>
       </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="lblService">
         <property name="text">
          <string>Service:</string>
@@ -156,10 +199,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QLineEdit" name="lneService"/>
-      </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="lblNick">
         <property name="text">
          <string>Nick:</string>
@@ -172,10 +212,10 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <widget class="QLineEdit" name="lneNick"/>
       </item>
-      <item row="2" column="2">
+      <item row="3" column="2">
        <widget class="QToolButton" name="tlbResolveNick">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -191,7 +231,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="lblPassword">
         <property name="text">
          <string>Password:</string>
@@ -204,15 +244,31 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="2">
+      <item row="4" column="1">
        <widget class="QLineEdit" name="lnePassword">
         <property name="echoMode">
          <enum>QLineEdit::PasswordEchoOnEdit</enum>
         </property>
        </widget>
       </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QLineEdit" name="lneService"/>
+      </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>17</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="btbButtons">
@@ -231,9 +287,6 @@
   <tabstop>tlbResolveNick</tabstop>
   <tabstop>lnePassword</tabstop>
   <tabstop>btbButtons</tabstop>
-  <tabstop>cmbStreamJid</tabstop>
-  <tabstop>cmbHistory</tabstop>
-  <tabstop>tlbDeleteHistory</tabstop>
  </tabstops>
  <resources/>
  <connections>
