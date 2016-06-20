@@ -4,6 +4,9 @@
 #include <QTimer>
 #include <QSound>
 #include <QPointer>
+#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+#include <QtAndroidExtras/QAndroidJniObject>
+#endif					// *** >>> eyeCU >>> ***
 #include <interfaces/ipluginmanager.h>
 #include <interfaces/inotifications.h>
 #include <interfaces/irostersview.h>
@@ -100,6 +103,10 @@ protected:
 	int notifyIdByWidget(NotifyWidget *AWidget) const;
 	bool showNotifyByHandler(ushort AKind, int ANotifyId, const INotification &ANotification) const;
 	void removeInvisibleNotification(int ANotifyId);
+#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+	void updateAndroidNotification(QString AMessage, QString ATitle, int AId, bool ASound);
+	void deleteAndroidNotification(int AId);
+#endif					// *** >>> eyeCU >>> ***
 protected slots:
 	void onDelayedRemovals();
 	void onDelayedActivations();

@@ -186,10 +186,10 @@ message("2.CUR QT_VERSION" = $$QT_VERSION)
 message("2.ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
 }
 
-
 DISTFILES += \
     android/AndroidManifest.xml \
     android/res/values/libs.xml \
-    android/build.gradle
+    android/build.gradle \
+    android/src/rws/eyecu/NotificationClient.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

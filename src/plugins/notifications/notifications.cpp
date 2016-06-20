@@ -869,7 +869,38 @@ void Notifications::onSpinBoxValueChanged(int value)
 {
 	qobject_cast<QSpinBox *>(sender())->setSuffix(" "+tr("second(s)", "", value));
 }
+
+#ifdef Q_OS_ANDROID
+///!
+//! \brief AndroidTimer::updateAndroidNotification
+//! \param AMessage		-Message text
+//! \param ATitle		-The headline of the message
+//! \param AId			-The object identifier
+//! \param ASound		-Sound accompaniment (1-sound,2-vibration,3-all,otherwise nothing)
+//!
+void AndroidTimer::updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ASound)
+{
+	QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
+	QAndroidJniObject JTitle   = QAndroidJniObject::fromString(ATitle);
+	QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
+	QAndroidJniObject JSound   = QAndroidJniObject::fromString(QString().setNum(ASound));
+	QAndroidJniObject::callStaticMethod<void>("rws/eyecu/NotificationClient","notify",
+			"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+			JMessage.object<jstring>(),JTitle.object<jstring>(),JId.object<jstring>(),JSound.object<jstring>());
+}
+
+//!
+//! \brief AndroidTimer::deleteAndroidNotification
+//! \param AId - The object identifier for deleting
+//!
+
+void AndroidTimer::deleteAndroidNotification(int AId)
+{
+	QAndroidJniObject::callStaticMethod<void>("rws/eyecu/NotificationClient","notifydelete","(I)V",AId);
+}
+
 // *** >>> eyeCU >>> ***
+
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_notifications, Notifications)
 #endif
