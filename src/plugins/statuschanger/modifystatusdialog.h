@@ -4,7 +4,14 @@
 #include <QDialog>
 #include <interfaces/istatuschanger.h>
 #include <interfaces/ipresencemanager.h>
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#include "ui_modifystatusdialog2.h"
+#else
+// *** >>> eyeCU >>> ***
 #include "ui_modifystatusdialog.h"
+#endif
 
 class ModifyStatusDialog :
 	public QDialog

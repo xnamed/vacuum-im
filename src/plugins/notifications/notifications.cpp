@@ -32,7 +32,9 @@ Notifications::Notifications()
 	FRosterManager = NULL;
 	FStatusIcons = NULL;
 	FStatusChanger = NULL;
+#ifndef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 	FTrayManager = NULL;
+#endif                  // *** <<< eyeCU <<< ***
 	FRostersModel = NULL;
 	FRostersViewPlugin = NULL;
 	FOptionsManager = NULL;
@@ -69,7 +71,11 @@ void Notifications::pluginInfo(IPluginInfo *APluginInfo)
 bool Notifications::initConnections(IPluginManager *APluginManager, int &AInitOrder)
 {
 	Q_UNUSED(AInitOrder);
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    IPlugin *plugin = APluginManager->pluginInterface("IRostersViewPlugin").value(0,NULL);
+#else
+// *** >>> eyeCU >>> ***
 	IPlugin *plugin = APluginManager->pluginInterface("ITrayManager").value(0,NULL);
 	if (plugin)
 	{
@@ -81,8 +87,8 @@ bool Notifications::initConnections(IPluginManager *APluginManager, int &AInitOr
 			connect(FTrayManager->instance(),SIGNAL(notifyRemoved(int)),SLOT(onTrayNotifyRemoved(int)));
 		}
 	}
-
-	plugin = APluginManager->pluginInterface("IRostersViewPlugin").value(0,NULL);
+    plugin = APluginManager->pluginInterface("IRostersViewPlugin").value(0,NULL);
+#endif
 	if (plugin)
 	{
 		FRostersViewPlugin = qobject_cast<IRostersViewPlugin *>(plugin->instance());
@@ -180,13 +186,18 @@ bool Notifications::initObjects()
 	FNotifyMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_NOTIFICATIONS);
 	FNotifyMenu->menuAction()->setVisible(false);
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+
+#else
+// *** >>> eyeCU >>> ***
 	if (FTrayManager)
 	{
 		FTrayManager->contextMenu()->addAction(FActivateLast,AG_TMTM_NOTIFICATIONS_LAST,false);
 		FTrayManager->contextMenu()->addAction(FRemoveAll,AG_TMTM_NOTIFICATIONS_MENU,false);
 		FTrayManager->contextMenu()->addAction(FNotifyMenu->menuAction(),AG_TMTM_NOTIFICATIONS_MENU,false);
 	}
-
+#endif
 	if (FMainWindowPlugin)
 	{
 // *** <<< eyeCU <<< ***
@@ -249,9 +260,14 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 		widgets.insertMulti(OWO_NOTIFICATIONS_FORCESOUND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_FORCESOUND),tr("Play notification sound when received a message in the active window"),AParent));
 		widgets.insertMulti(OWO_NOTIFICATIONS_EXPANDGROUPS,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_EXPANDGROUPS),tr("Expand contact groups in roster"),AParent));
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+
+#else
+// *** >>> eyeCU >>> ***
 		if (FTrayManager && FTrayManager->isMessagesSupported())
 			widgets.insertMulti(OWO_NOTIFICATIONS_NATIVEPOPUPS,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_NATIVEPOPUPS),tr("Use native popup notifications"),AParent));
-
+#endif
 // *** <<< eyeCU <<< ***
 		if (Options::node(OPV_COMMON_ADVANCED).value().toBool())
 			widgets.insertMulti(OWO_NOTIFICATIONS_ANIMATIONENABLE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_ANIMATIONENABLE),tr("Enable animation"),AParent));
@@ -342,6 +358,11 @@ int Notifications::appendNotification(const INotification &ANotification)
 	{
 		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
 		{
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+
+#else
+// *** >>> eyeCU >>> ***
 			if (Options::node(OPV_NOTIFICATIONS_NATIVEPOPUPS).value().toBool() && FTrayManager && FTrayManager->isMessagesSupported())
 			{
 				QString title = record.notification.data.value(NDR_POPUP_TITLE).toString();
@@ -351,6 +372,7 @@ int Notifications::appendNotification(const INotification &ANotification)
 				FTrayManager->showMessage(QString("%1 - %2").arg(title,caption),text,QSystemTrayIcon::Information,timeout);
 			}
 			else
+#endif
 			{
 				record.popupWidget = new NotifyWidget(record.notification);
 				connect(record.popupWidget,SIGNAL(notifyActivated()),SLOT(onWindowNotifyActivated()));
@@ -366,6 +388,11 @@ int Notifications::appendNotification(const INotification &ANotification)
 		}
 	}
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+
+#else
+// *** >>> eyeCU >>> ***
 	if (FTrayManager && (record.notification.kinds & INotification::TrayNotify)>0)
 	{
 		if (!showNotifyByHandler(INotification::TrayNotify,notifyId,record.notification))
@@ -393,7 +420,7 @@ int Notifications::appendNotification(const INotification &ANotification)
 			FNotifyMenu->addAction(record.trayAction);
 		}
 	}
-
+#endif
 	if (!isSilent && (record.notification.kinds & INotification::SoundPlay)>0)
 	{
 		if (!showNotifyByHandler(INotification::SoundPlay,notifyId,record.notification))
@@ -495,10 +522,16 @@ void Notifications::removeNotification(int ANotifyId)
 		{
 			record.popupWidget->deleteLater();
 		}
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+
+#else
+        // *** >>> eyeCU >>> ***
 		if (FTrayManager && record.trayId!=0)
 		{
 			FTrayManager->removeNotify(record.trayId);
 		}
+#endif
 		if (!record.trayAction.isNull())
 		{
 			FNotifyMenu->removeAction(record.trayAction);
@@ -864,6 +897,7 @@ void Notifications::onShortcutActivated(const QString &AId, QWidget *AWidget)
 		}
 	}
 }
+
 // *** <<< eyeCU <<< ***
 void Notifications::onSpinBoxValueChanged(int value)
 {
@@ -876,17 +910,19 @@ void Notifications::onSpinBoxValueChanged(int value)
 //! \param AMessage		-Message text
 //! \param ATitle		-The headline of the message
 //! \param AId			-The object identifier
-//! \param ASound		-Sound accompaniment (1-sound,2-vibration,3-all,otherwise nothing)
+//! \param ARegim		-Sound accompaniment (1-sound,2-VIBRATE,3-LIGHTS,9-all,0-nothing)
 //!
-void AndroidTimer::updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ASound)
+void Notifications::updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim)
 {
-	QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
 	QAndroidJniObject JTitle   = QAndroidJniObject::fromString(ATitle);
+	QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
 	QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
-	QAndroidJniObject JSound   = QAndroidJniObject::fromString(QString().setNum(ASound));
+	QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
+
 	QAndroidJniObject::callStaticMethod<void>("rws/eyecu/NotificationClient","notify",
-			"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
-			JMessage.object<jstring>(),JTitle.object<jstring>(),JId.object<jstring>(),JSound.object<jstring>());
+			  "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+			  JMessage.object<jstring>(),JTitle.object<jstring>(),
+			  JId.object<jstring>(),JRegim.object<jstring>());
 }
 
 //!
@@ -894,11 +930,11 @@ void AndroidTimer::updateAndroidNotification(QString AMessage,QString ATitle,int
 //! \param AId - The object identifier for deleting
 //!
 
-void AndroidTimer::deleteAndroidNotification(int AId)
+void Notifications::deleteAndroidNotification(int AId)
 {
 	QAndroidJniObject::callStaticMethod<void>("rws/eyecu/NotificationClient","notifydelete","(I)V",AId);
 }
-
+#endif
 // *** >>> eyeCU >>> ***
 
 #if QT_VERSION < 0x050000

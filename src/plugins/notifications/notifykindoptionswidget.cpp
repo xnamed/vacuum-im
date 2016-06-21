@@ -34,27 +34,25 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 
 	tbwNotifies = new QTableWidget(this);
 	tbwNotifies->setWordWrap(true);
-	tbwNotifies->verticalHeader()->setVisible(false);
+    tbwNotifies->verticalHeader()->setVisible(false);
 	tbwNotifies->horizontalHeader()->setHighlightSections(false);
 	tbwNotifies->setSelectionMode(QTableWidget::NoSelection);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	int size=16*IconStorage::scale();
-	tbwNotifies->horizontalHeader()->setIconSize(QSize(size,size));
-	tbwNotifies->setWordWrap(true);
-	tbwNotifies->setIconSize(QSize(size,size));
+    tbwNotifies->setIconSize(QSize(size,size));
 	tbwNotifies->setItemDelegate(new AdvancedItemDelegate(tbwNotifies));
 #endif
 // *** >>> eyeCU >>> ***
 	connect(tbwNotifies,SIGNAL(itemChanged(QTableWidgetItem *)),SIGNAL(modified()));
 
-	tbwNotifies->setColumnCount(NTC__COUNT);
+    tbwNotifies->setColumnCount(NTC__COUNT);
 	tbwNotifies->setHorizontalHeaderLabels(QStringList() << tr("Event") << "" << "" << "" << "" );
 	tbwNotifies->horizontalHeader()->SETRESIZEMODE(NTC_TYPE,QHeaderView::Stretch);
 
 	tbwNotifies->horizontalHeader()->SETRESIZEMODE(NTC_SOUND,QHeaderView::ResizeToContents);
 	tbwNotifies->horizontalHeaderItem(NTC_SOUND)->setToolTip(tr("Play sound at the notification"));
-	tbwNotifies->horizontalHeaderItem(NTC_SOUND)->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_NOTIFICATIONS_SOUNDPLAY));
+    tbwNotifies->horizontalHeaderItem(NTC_SOUND)->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_NOTIFICATIONS_SOUNDPLAY));
 
 	tbwNotifies->horizontalHeader()->SETRESIZEMODE(NTC_POPUP,QHeaderView::ResizeToContents);
 	tbwNotifies->horizontalHeaderItem(NTC_POPUP)->setToolTip(tr("Display a notification in popup window"));

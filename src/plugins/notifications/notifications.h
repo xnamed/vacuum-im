@@ -104,7 +104,7 @@ protected:
 	bool showNotifyByHandler(ushort AKind, int ANotifyId, const INotification &ANotification) const;
 	void removeInvisibleNotification(int ANotifyId);
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
-	void updateAndroidNotification(QString AMessage, QString ATitle, int AId, bool ASound);
+	void updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim);
 	void deleteAndroidNotification(int AId);
 #endif					// *** >>> eyeCU >>> ***
 protected slots:
@@ -130,7 +130,13 @@ private:
 	IRosterManager *FRosterManager;
 	IStatusIcons *FStatusIcons;
 	IStatusChanger *FStatusChanger;
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+
+#else
+// *** >>> eyeCU >>> ***
 	ITrayManager *FTrayManager;
+#endif
 	IRostersModel *FRostersModel;
 	IRostersViewPlugin *FRostersViewPlugin;
 	IOptionsManager *FOptionsManager;

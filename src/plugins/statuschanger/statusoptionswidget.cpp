@@ -180,7 +180,7 @@ StatusOptionsWidget::StatusOptionsWidget(IStatusChanger *AStatusChanger, QWidget
 	tbwStatus->horizontalHeader()->SETRESIZEMODE(STC_PRIORITY,QHeaderView::ResizeToContents);
 
 	QHBoxLayout *hltlayout = new QHBoxLayout;
-	hltlayout->setMargin(0);
+    hltlayout->setMargin(0);
 	hltlayout->addStretch();
 	hltlayout->addWidget(pbtAdd);
 	hltlayout->addWidget(pbtDelete);

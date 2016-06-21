@@ -1,4 +1,5 @@
-FORMS = modifystatusdialog.ui
+FORMS = modifystatusdialog.ui \
+        modifystatusdialog2.ui
 
 HEADERS = statuschanger.h \
           modifystatusdialog.h \

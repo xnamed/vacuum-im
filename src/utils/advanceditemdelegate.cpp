@@ -1106,7 +1106,7 @@ QSize AdvancedItemDelegate::itemSizeHint(const AdvancedDelegateItem &AItem, cons
 				{
 					QIcon icon = qvariant_cast<QIcon>(AItem.c->value);
 					if (!icon.isNull())
-						return icon.actualSize(AItemOption.decorationSize);
+                        return icon.actualSize(AItemOption.decorationSize);
 					break;
 				}
 			default:

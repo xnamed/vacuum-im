@@ -10,8 +10,18 @@ ModifyStatusDialog::ModifyStatusDialog(IStatusChanger *AStatusChanger, int AStat
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose, true);
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_SCHANGER_MODIFY_STATUS,0,0,"windowIcon");
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_SCHANGER_MODIFY_STATUS));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Modify Status for - %1").arg(AStreamJid.bare()));
+    ui.vboxLayout->setMargin(16*IconStorage::scale());
+    showMaximized();
+#else
+// *** <<< eyeCU <<< ***
+    IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_SCHANGER_MODIFY_STATUS,0,0,"windowIcon");
+#endif
 	FStatusChanger = AStatusChanger;
 	FStatusId = AStatusId;
 	FStreamJid = AStreamJid;
