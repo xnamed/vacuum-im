@@ -1,4 +1,5 @@
-FORMS = editlistsdialog.ui
+FORMS = editlistsdialog.ui \
+        editlistsdialog2.ui
 
 HEADERS = editlistsdialog.h \
           privacylists.h

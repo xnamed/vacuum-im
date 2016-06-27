@@ -4,7 +4,12 @@
 #include <QDialog>
 #include <interfaces/iregistraton.h>
 #include <interfaces/idataforms.h>
+
+#ifdef EYECU_MOBILE
+#include "ui_registerdialog2.h"
+#else
 #include "ui_registerdialog.h"
+#endif
 
 class RegisterDialog :
 	public QDialog

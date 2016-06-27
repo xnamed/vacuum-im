@@ -153,6 +153,12 @@
 #define MNI_NOTIFICATIONS               "notifications"
 #define MNI_NOTIFICATIONS_SOUND_ON      "notificationsSoundOn"
 #define MNI_NOTIFICATIONS_SOUND_OFF     "notificationsSoundOff"
+// <<< *** eyeCU *** <<<
+#define MNI_NOTIFICATIONS_VIBRO_ON      "notificationsVibroOn"
+#define MNI_NOTIFICATIONS_VIBRO_OFF     "notificationsVibroOff"
+#define MNI_NOTIFICATIONS_LIGHTS_ON     "notificationsLightsOn"
+#define MNI_NOTIFICATIONS_LIGHTS_OFF    "notificationsLightsOff"
+// >>> *** eyeCU *** >>>
 #define MNI_NOTIFICATIONS_REMOVE_ALL    "notificationsRemoveAll"
 #define MNI_NOTIFICATIONS_ACTIVATE_ALL  "notificationsActivateAll"
 #define MNI_NOTIFICATIONS_SOUNDPLAY     "notificationsSoundPlay"

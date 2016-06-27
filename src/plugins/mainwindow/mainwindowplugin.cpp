@@ -15,11 +15,11 @@
 MainWindowPlugin::MainWindowPlugin()
 {
 	FPluginManager = NULL;
-// *** <<< eyeCU >>> ***
-#ifndef Q_OS_SYMBIAN
+
+#ifndef EYECU_MOBILE    // *** <<< eyeCU >>> ***
+//#ifndef Q_OS_SYMBIAN
 	FTrayManager = NULL;
-// *** <<< eyeCU >>> ***
-#endif
+#endif          // *** <<< eyeCU >>> ***
 	FStartShowLoopCount = 0;
 
 	FActivationChanged = QTime::currentTime();
@@ -49,7 +49,8 @@ bool MainWindowPlugin::initConnections(IPluginManager *APluginManager, int &AIni
 	FPluginManager = APluginManager;
 	connect(FPluginManager->instance(),SIGNAL(shutdownStarted()),SLOT(onApplicationShutdownStarted()));
 // *** <<< eyeCU >>> ***
-#ifndef Q_OS_SYMBIAN
+#ifndef EYECU_MOBILE
+//#ifndef Q_OS_SYMBIAN
 	IPlugin *plugin = APluginManager->pluginInterface("ITrayManager").value(0,NULL);
 	if (plugin)
 	{
@@ -81,7 +82,7 @@ bool MainWindowPlugin::initObjects()
 	quitAction->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_QUIT);
 	connect(quitAction,SIGNAL(triggered()),FPluginManager->instance(),SLOT(quit()));
 	FMainWindow->mainMenu()->addAction(quitAction,AG_MMENU_MAINWINDOW,true);
-
+#ifndef EYECU_MOBILE    // *** <<< eyeCU >>> ***
 	if (FTrayManager)
 	{
 		Action *showRosterAction = new Action(this);		
@@ -90,7 +91,7 @@ bool MainWindowPlugin::initObjects()
 		connect(showRosterAction,SIGNAL(triggered(bool)),SLOT(onShowMainWindowByAction(bool)));
 		FTrayManager->contextMenu()->addAction(showRosterAction,AG_TMTM_MAINWINDOW,true);
 	}
-
+#endif          // *** <<< eyeCU >>> ***
 	return true;
 }
 

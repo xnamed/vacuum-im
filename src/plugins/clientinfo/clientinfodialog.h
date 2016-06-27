@@ -31,6 +31,8 @@ protected:
 protected slots:
 	void onClientInfoChanged(const Jid &AConatctJid);
 private:
+	virtual void showEvent(QShowEvent *AEvent);
+private:
 	Ui::ClientInfoDialogClass ui;
 private:
 	IClientInfo *FClientInfo;

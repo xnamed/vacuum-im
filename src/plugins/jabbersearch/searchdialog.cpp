@@ -24,14 +24,15 @@ SearchDialog::SearchDialog(IJabberSearch *ASearch, const Jid &AStreamJid, const 
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
     QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_JSEARCH));
     ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Search Dialog For %1").arg(AStreamJid.bare()));
-#else
-// *** >>> eyeCU >>> ***
+//    ui.stwWidgets->setTabText(0,tr("Fields"));
+//    ui.stwWidgets->setTabIcon(0,icon);
+//    ui.stwWidgets->setTabText(1,tr("Result"));
+//    ui.stwWidgets->setTabText(2,tr("Form"));
+#else           // *** >>> eyeCU >>> ***
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_JSEARCH,0,0,"windowIcon");
 #endif
 

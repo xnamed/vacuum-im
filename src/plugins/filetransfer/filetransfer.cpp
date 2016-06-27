@@ -163,7 +163,11 @@ bool FileTransfer::initObjects()
 		notifyType.order = NTO_FILETRANSFER_NOTIFY;
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_FILETRANSFER_RECEIVE);
 		notifyType.title = tr("When receiving a prompt to accept the file");
-		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::ShowMinimized|INotification::AutoActivate;
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibrate|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#else				// *** >>> eyeCU >>> ***
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#endif
 		notifyType.kindDefs = notifyType.kindMask & ~(INotification::AutoActivate);
 		FNotifications->registerNotificationType(NNT_FILETRANSFER,notifyType);
 	}
@@ -516,7 +520,11 @@ void FileTransfer::notifyStream(IFileStream *AStream, bool ANewStream)
 			case IFileStream::Transfering:
 				if (ANewStream)
 				{
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+					notify.kinds &= ~INotification::Vibrate;
+#else				// *** >>> eyeCU >>> ***
 					notify.kinds &= ~INotification::TrayNotify;
+#endif
 					if (AStream->streamKind() == IFileStream::SendFile)
 					{
 						notify.data.insert(NDR_TOOLTIP,tr("Auto sending file: %1").arg(file));

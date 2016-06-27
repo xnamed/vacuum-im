@@ -897,7 +897,11 @@ QDialog *PrivacyLists::showEditListsDialog(const Jid &AStreamJid, QWidget *APare
 			connect(dialog,SIGNAL(destroyed(const Jid &)),SLOT(onEditListsDialogDestroyed(const Jid &)));
 			FEditListsDialogs.insert(AStreamJid,dialog);
 		}
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+        dialog->showMaximized();
+#else               // *** >>> eyeCU >>> ***
 		dialog->show();
+#endif
 	}
 	return dialog;
 }

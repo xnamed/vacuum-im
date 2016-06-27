@@ -465,7 +465,12 @@ QDialog *Registration::showRegisterDialog(const Jid &AStreamJid, const Jid &ASer
 	{
 		RegisterDialog *dialog = new RegisterDialog(this,FDataForms,AStreamJid,AServiceJid,AOperation,AParent);
 		connect(presence->instance(),SIGNAL(closed()),dialog,SLOT(reject()));
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+        dialog->showMaximized();
+#else       // *** >>> eyeCU >>> ***
 		dialog->show();
+#endif
+
 		return dialog;
 	}
 	return NULL;

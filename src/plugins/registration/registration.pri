@@ -1,4 +1,5 @@
-FORMS = registerdialog.ui
+FORMS = registerdialog.ui \
+        registerdialog2.ui
 
 HEADERS = registration.h \
           registerdialog.h \

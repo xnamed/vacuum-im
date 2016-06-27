@@ -21,9 +21,15 @@ EditListsDialog::EditListsDialog(IPrivacyLists *APrivacyLists, IRoster *ARoster,
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_PRIVACYLISTS));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Edit Privacy Lists - %1").arg(AStreamJid.uBare()));
+    ui.vLayout->setMargin(16*IconStorage::scale());
+#else               // *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Edit Privacy Lists - %1").arg(AStreamJid.uBare()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PRIVACYLISTS,0,0,"windowIcon");
-
+#endif
 	FPrivacyLists = APrivacyLists;
 	FRoster = ARoster;
 	FStreamJid = AStreamJid;

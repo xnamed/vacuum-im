@@ -9,6 +9,7 @@ PoiList::PoiList(IPoi *APoi, QWidget *parent) :
 {
     ui->setupUi(this);
 #ifdef EYECU_MOBILE
+    ui->lblIcon->clear();
 	showMaximized();
 #endif
 

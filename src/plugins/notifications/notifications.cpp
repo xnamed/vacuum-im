@@ -164,9 +164,7 @@ bool Notifications::initObjects()
 	FSoundOnOff->setToolTip(tr("Enable/Disable notifications sound"));
     FSoundOnOff->setText(tr("Notifications sound"));
 	FSoundOnOff->setIcon(RSR_STORAGE_MENUICONS, MNI_NOTIFICATIONS_SOUND_ON);
-#ifndef EYECU_MOBILE // *** <<< eyeCU <<< ***
 	FSoundOnOff->setShortcutId(SCT_GLOBAL_TOGGLESOUND);
-#endif
 	connect(FSoundOnOff,SIGNAL(triggered(bool)),SLOT(onSoundOnOffActionTriggered(bool)));
 
 	FActivateLast = new Action(this);
@@ -743,7 +741,7 @@ void Notifications::removeInvisibleNotification(int ANotifyId)
 			invisible = false;
 		if (invisible)
 			removeNotification(ANotifyId);
-	}
+    }
 }
 
 void Notifications::onDelayedRemovals()
@@ -904,25 +902,24 @@ void Notifications::onSpinBoxValueChanged(int value)
 	qobject_cast<QSpinBox *>(sender())->setSuffix(" "+tr("second(s)", "", value));
 }
 
-#ifdef Q_OS_ANDROID
+#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
 ///!
 //! \brief AndroidTimer::updateAndroidNotification
 //! \param AMessage		-Message text
 //! \param ATitle		-The headline of the message
 //! \param AId			-The object identifier
-//! \param ARegim		-Sound accompaniment (1-sound,2-VIBRATE,3-LIGHTS,9-all,0-nothing)
+//! \param ARegim		-Sound accompaniment (1-SOUND,2-VIBRATE,4-LIGHTS,7-ALL,0-nothing)
 //!
 void Notifications::updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim)
 {
-	QAndroidJniObject JTitle   = QAndroidJniObject::fromString(ATitle);
-	QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
-	QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
-	QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
+    QAndroidJniObject JTitle   = QAndroidJniObject::fromString(ATitle);
+    QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
+    QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
+    QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
 
-	QAndroidJniObject::callStaticMethod<void>("rws/eyecu/NotificationClient","notify",
-			  "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
-			  JMessage.object<jstring>(),JTitle.object<jstring>(),
-			  JId.object<jstring>(),JRegim.object<jstring>());
+    QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","notify",
+              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+              JMessage.object<jstring>(),JTitle.object<jstring>(),JId.object<jstring>(),JRegim.object<jstring>());
 }
 
 //!
@@ -932,10 +929,10 @@ void Notifications::updateAndroidNotification(QString AMessage,QString ATitle,in
 
 void Notifications::deleteAndroidNotification(int AId)
 {
-	QAndroidJniObject::callStaticMethod<void>("rws/eyecu/NotificationClient","notifydelete","(I)V",AId);
+    QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","notifydelete","(I)V",AId);
 }
-#endif
-// *** >>> eyeCU >>> ***
+#endif      // *** >>> eyeCU >>> ***
+
 
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_notifications, Notifications)

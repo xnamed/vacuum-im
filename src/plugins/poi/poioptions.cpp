@@ -4,7 +4,6 @@
 
 #include <definitions/menuicons.h>
 #include "poioptions.h"
-#include "ui_poioptions.h"
 
 PoiOptions::PoiOptions(Poi *APoi,QWidget *parent) :
     QWidget(parent),
@@ -14,6 +13,7 @@ PoiOptions::PoiOptions(Poi *APoi,QWidget *parent) :
     ui->setupUi(this);
 
 #if EYECU_MOBILE
+    ui->lblIcon->clear();
 	showMaximized();
 #endif
     createTypeWidget();

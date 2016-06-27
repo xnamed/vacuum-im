@@ -223,7 +223,11 @@ bool ChatMessageHandler::initObjects()
 		notifyType.order = NTO_CHATHANDLER_MESSAGE;
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CHATMHANDLER_MESSAGE);
 		notifyType.title = tr("When receiving new chat message");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibrate|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#endif
 		notifyType.kindDefs = notifyType.kindMask & ~(INotification::AutoActivate);
 		FNotifications->registerNotificationType(NNT_CHAT_MESSAGE,notifyType);
 	}

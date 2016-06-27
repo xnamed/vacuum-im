@@ -4,7 +4,12 @@
 #include <QDialog>
 #include <interfaces/irostermanager.h>
 #include <interfaces/iprivacylists.h>
+
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+#include "ui_editlistsdialog2.h"
+#else               // *** >>> eyeCU >>> ***
 #include "ui_editlistsdialog.h"
+#endif
 
 class EditListsDialog :
 	public QDialog

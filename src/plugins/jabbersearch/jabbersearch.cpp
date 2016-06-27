@@ -286,11 +286,10 @@ void JabberSearch::showSearchDialog(const Jid &AStreamJid, const Jid &AServiceJi
 	{
 		SearchDialog *dialog = new SearchDialog(this,AStreamJid,AServiceJid,AParent);
 		connect(presence->instance(),SIGNAL(closed()),dialog,SLOT(reject()));
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
         dialog->showMaximized();
-#else
-// *** >>> eyeCU >>> ***
+#else           // *** >>> eyeCU >>> ***
 		dialog->show();
 #endif
 	}

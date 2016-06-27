@@ -104,8 +104,8 @@ protected:
 	bool showNotifyByHandler(ushort AKind, int ANotifyId, const INotification &ANotification) const;
 	void removeInvisibleNotification(int ANotifyId);
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
-	void updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim);
-	void deleteAndroidNotification(int AId);
+    void updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim);
+    void deleteAndroidNotification(int AId);
 #endif					// *** >>> eyeCU >>> ***
 protected slots:
 	void onDelayedRemovals();

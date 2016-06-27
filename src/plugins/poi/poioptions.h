@@ -8,7 +8,12 @@
 #include <definitions/resources.h>
 
 #include "poi.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_poioptions2.h"
+#else
 #include "ui_poioptions.h"
+#endif
 
 namespace Ui
 {

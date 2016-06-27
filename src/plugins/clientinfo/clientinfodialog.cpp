@@ -154,16 +154,8 @@ void ClientInfoDialog::updateText()
 		}
 		html += "<br>";
 	}
-
 	ui.tedText->setHtml(html);
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-//	showMaximized();
 	this->adjustSize();
-#else
-// *** >>> eyeCU >>> ***
-	this->adjustSize();
-#endif
 }
 
 QString ClientInfoDialog::secsToString(int ASecs) const
@@ -205,4 +197,10 @@ void ClientInfoDialog::onClientInfoChanged(const Jid &AConatctJid)
 {
 	if (FContactJid == AConatctJid)
 		updateText();
+}
+
+//#include <QDebug>
+void ClientInfoDialog::showEvent(QShowEvent *AEvent)
+{
+	QWidget::showEvent(AEvent);
 }

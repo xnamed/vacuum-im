@@ -1,5 +1,3 @@
-#include "vcarddialog.h"
-
 #include <QBuffer>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -11,6 +9,8 @@
 #include <utils/logger.h>
 #include <utils/qt4qt5compat.h>
 
+#include "vcarddialog.h"
+
 VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, const Jid &AContactJid, QWidget *AParent) : QDialog(AParent)
 {
 	REPORT_VIEW;
@@ -19,10 +19,18 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	ui.lblIcon->clear();
-	QPixmap pixmap = QPixmap::fromImage(QImageReader(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_VCARD)).read());
-	pixmap.scaled(IconStorage::scale()*16,IconStorage::scale()*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-	ui.lblIcon->setPixmap(pixmap);
+	IconStorage *iconStorage=IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
+    ui.lblIcon->setPixmap(iconStorage->getStoragePixmap(iconStorage->fileFullName(MNI_VCARD)));
 	ui.lblTitle->setText(tr("Profile - %1").arg(AContactJid.uFull()));
+
+    QIcon icon(iconStorage->getStoragePixmap(iconStorage->fileFullName(MNI_BOOKMARKS)));//temp icon-
+    ui.twtVCard->setItemIcon(0,icon);//tabGeneral
+	ui.twtVCard->setItemIcon(1,icon);//tabPersonal
+	ui.twtVCard->setItemIcon(2,icon);//tabAdress
+	ui.twtVCard->setItemIcon(3,icon);//tabContacts
+	ui.twtVCard->setItemIcon(4,icon);//tabPhoto
+	ui.twtVCard->setItemIcon(5,icon);//tabComments
+    ui.twtVCard->adjustSize();
 #else
 	setWindowTitle(tr("Profile - %1").arg(AContactJid.uFull()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_VCARD,0,0,"windowIcon");

@@ -35,13 +35,12 @@ FileStreamsWindow::FileStreamsWindow(IFileStreamsManager *AManager, QWidget *APa
 
 	FManager = AManager;
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
     QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_FILESTREAMSMANAGER));
     ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("File Transfers"));
-#else
-// *** >>> eyeCU >>> ***
+#else       // *** >>> eyeCU >>> ***
     setWindowTitle(tr("File Transfers"));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_FILESTREAMSMANAGER,0,0,"windowIcon");
 #endif
@@ -91,6 +90,10 @@ void FileStreamsWindow::initialize()
 #endif
 	foreach(IFileStream *stream, FManager->streams()) {
 		appendStream(stream); }
+
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    ui.tbvStreams->resizeColumnToContents(0);
+#endif      // *** >>> eyeCU >>> ***
 
 	FProxy.setSortRole(IDR_VALUE);
 	ui.tbvStreams->horizontalHeader()->setSortIndicator(CMN_FILENAME,Qt::AscendingOrder);

@@ -5,7 +5,7 @@ FORMS = joinmultichatdialog.ui \
         joinmultichatdialog2.ui \
         edituserslistdialog2.ui \
         inputtextdialog2.ui \
-    $$PWD/multiuserchatwindow2.ui
+        multiuserchatwindow2.ui
         
 HEADERS = multiuser.h \
           multiuserchat.h \

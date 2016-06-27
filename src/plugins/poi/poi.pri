@@ -18,7 +18,9 @@ FORMS += \
     newpoi.ui \
     poioptions.ui \
     poilist.ui \
-    newpoi2.ui
+    newpoi2.ui \
+    poilist2.ui \
+    poioptions2.ui
 
 OTHER_FILES +=
 

@@ -8,11 +8,9 @@
 #include <interfaces/irosterchanger.h>
 #include <interfaces/ivcardmanager.h>
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 #include "ui_searchdialog2.h"
-#else
-// *** >>> eyeCU >>> ***
+#else           // *** >>> eyeCU >>> ***
 #include "ui_searchdialog.h"
 #endif
 

@@ -115,6 +115,7 @@ greaterThan(QT_VERSION, 5.5) {
         C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Script.so \
         C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Sql.so \
         C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Svg.so \
+        C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5AndroidExtras.so \
         C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Util.so \
         C:/QT/Qt5.6/5.6/android_armv7/lib/libQt5Geo.so \
         C:/QT/Qt5.6/5.6/android_armv7/plugins/sqldrivers/libqsqlite.so
@@ -127,6 +128,7 @@ greaterThan(QT_VERSION, 5.5) {
     #    C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Script.so \
     #    C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Sql.so \
     #    C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Svg.so \
+    #    C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5AndroidExtras.so \
     #    C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Util.so \
     #    C:/QT/Qt5.6/5.6/android_armv5/lib/libQt5Geo.so \
     #    C:/QT/Qt5.6/5.6/android_armv5/plugins/sqldrivers/libqsqlite.so
@@ -139,6 +141,7 @@ greaterThan(QT_VERSION, 5.5) {
         C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Script.so \
         C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Sql.so \
         C:/QT/Qt5.6/5.6/android_86/lib/libQt5Svg.so \
+        C:/QT/Qt5.6/5.6/android_86/lib/libQt5AndroidExtras.so \
         C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Util.so \
         C:/QT/Qt5.6/5.6/android_x86/lib/libQt5Geo.so \
         C:/QT/Qt5.6/5.6/android_x86/plugins/sqldrivers/libqsqlite.so
@@ -154,6 +157,7 @@ message("1.ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
         C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Script.so \
         C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Sql.so \
         C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Svg.so \
+        C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5AndroidExtras.so \
         C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Util.so \
         C:/QT/Qt5.5.1/5.5/android_armv7/lib/libQt5Geo.so \
         C:/QT/Qt5.5.1/5.5/android_armv7/plugins/sqldrivers/libqsqlite.so
@@ -166,6 +170,7 @@ message("1.ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
         C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Script.so \
         C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Sql.so \
         C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Svg.so \
+        C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5AndroidExtras.so \
         C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Util.so \
         C:/QT/Qt5.5.1/5.5/android_armv5/lib/libQt5Geo.so \
         C:/QT/Qt5.5.1/5.5/android_armv5/plugins/sqldrivers/libqsqlite.so
@@ -178,6 +183,7 @@ message("1.ANDROID_TARGET_ARCH" = $$ANDROID_TARGET_ARCH)
     #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Script.so \
     #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Sql.so \
     #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Svg.so \
+    #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5AndroidExtras.so \
     #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Util.so \
     #    C:/QT/Qt5.5.1/5.5/android_x86/lib/libQt5Geo.so \
     #    C:/QT/Qt5.5.1/5.5/android_x86/plugins/sqldrivers/libqsqlite.so
@@ -190,6 +196,6 @@ DISTFILES += \
     android/AndroidManifest.xml \
     android/res/values/libs.xml \
     android/build.gradle \
-    android/src/rws/eyecu/NotificationClient.java
+    android/src/rws/org/eyecu/NotificationClient.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

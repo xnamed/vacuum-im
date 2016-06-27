@@ -14,7 +14,14 @@ RegisterDialog::RegisterDialog(IRegistration *ARegistration, IDataForms *ADataFo
 	REPORT_VIEW;
 	ui.setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose,true);
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_REGISTRATION));
+    ui.lblIcon->setPixmap(pixmap);
+    ui.lblTitle->setText(tr("Register Dialog info - %1").arg(AStremJid.bare()));
+    ui.verticalLayout->setMargin(16*IconStorage::scale());
+#else       // *** >>> eyeCU >>> ***
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_REGISTRATION,0,0,"windowIcon");
+#endif
 
 	ui.spgDataForm->setLayout(new QVBoxLayout);
 	ui.spgDataForm->layout()->setMargin(0);

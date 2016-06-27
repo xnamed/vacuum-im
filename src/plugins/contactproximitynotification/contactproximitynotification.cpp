@@ -113,8 +113,13 @@ bool ContactProximityNotification::initObjects()
         notifyType.order = NTO_CONTACTPROXIMITY;
         notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_PROXIMITY);
         notifyType.title = tr("When contact appears nearby");
-        notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay|INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction;
-        notifyType.kindDefs = notifyType.kindMask&~(INotification::TrayNotify|INotification::TrayAction);
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibrate|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+		notifyType.kindDefs = notifyType.kindMask&~(INotification::Vibrate|INotification::Lights);
+#else				// *** >>> eyeCU >>> ***
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+		notifyType.kindDefs = notifyType.kindMask&~(INotification::TrayNotify|INotification::TrayAction);
+#endif
         FNotifications->registerNotificationType(NNT_CONTACTPROXIMITY, notifyType);
     }
     return true;

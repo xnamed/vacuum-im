@@ -240,7 +240,11 @@ bool MultiUserChatManager::initObjects()
 		inviteType.order = NTO_MUC_INVITE_MESSAGE;
 		inviteType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MUC_INVITE);
 		inviteType.title = tr("When receiving an invitation to the conference");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		inviteType.kindMask = INotification::RosterNotify|INotification::Vibrate|INotification::Lights|INotification::PopupWindow|INotification::SoundPlay|INotification::AutoActivate;
+#else
 		inviteType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction|INotification::PopupWindow|INotification::SoundPlay|INotification::AutoActivate;
+#endif
 		inviteType.kindDefs = inviteType.kindMask & ~(INotification::AutoActivate);
 		FNotifications->registerNotificationType(NNT_MUC_MESSAGE_INVITE,inviteType);
 
@@ -248,7 +252,11 @@ bool MultiUserChatManager::initObjects()
 		privateType.order = NTO_MUC_PRIVATE_MESSAGE;
 		privateType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MUC_PRIVATE_MESSAGE);
 		privateType.title = tr("When receiving a new private message in conference");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		privateType.kindMask = INotification::RosterNotify|INotification::Vibrate|INotification::Lights|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#else				// *** >>> eyeCU >>> ***
 		privateType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#endif
 		privateType.kindDefs = privateType.kindMask & ~(INotification::AutoActivate);
 		FNotifications->registerNotificationType(NNT_MUC_MESSAGE_PRIVATE,privateType);
 
@@ -256,7 +264,11 @@ bool MultiUserChatManager::initObjects()
 		groupchatType.order = NTO_MUC_GROUPCHAT_MESSAGE;
 		groupchatType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MUC_MESSAGE);
 		groupchatType.title = tr("When receiving a new message in conference");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		groupchatType.kindMask = INotification::RosterNotify|INotification::Vibrate|INotification::Lights|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized;
+#else				// *** >>> eyeCU >>> ***
 		groupchatType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized;
+#endif
 		groupchatType.kindDefs = groupchatType.kindMask & ~(INotification::PopupWindow|INotification::ShowMinimized|INotification::AutoActivate);
 		FNotifications->registerNotificationType(NNT_MUC_MESSAGE_GROUPCHAT,groupchatType);
 
@@ -264,7 +276,11 @@ bool MultiUserChatManager::initObjects()
 		mentionType.order = NTO_MUC_MENTION_MESSAGE;
 		mentionType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MUC_MESSAGE);
 		mentionType.title = tr("When referring to you at the conference");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		mentionType.kindMask = INotification::Vibrate|INotification::Lights|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#else				// *** >>> eyeCU >>> ***
 		mentionType.kindMask = INotification::TrayNotify|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+#endif
 		mentionType.kindDefs = mentionType.kindMask & ~(INotification::AutoActivate);
 		FNotifications->registerNotificationType(NNT_MUC_MESSAGE_MENTION,mentionType);
 	}

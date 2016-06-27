@@ -5,7 +5,11 @@
 #include <definitions/menuicons.h>
 #include <utils/jid.h>
 
+#ifdef EYECU_MOBILE
+#include "ui_poilist2.h"
+#else
 #include "ui_poilist.h"
+#endif
 
 namespace Ui {
     class PoiList;
