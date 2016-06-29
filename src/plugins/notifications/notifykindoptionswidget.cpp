@@ -307,11 +307,9 @@ void NotifyKindOptionsWidget::reset()
     {
         QString typeId = tbwNotifies->item(row,NTC_TYPE)->data(NTR_TYPE).toString();
         ushort typeKinds = FNotifications->typeNotificationKinds(typeId);
-qDebug()<<"NotifyKindOptionsWidget::reset()/typeId"<<typeId << typeKinds;
         for (int col=1; col<tbwNotifies->columnCount(); col++)
         {
             ushort kind = tbwNotifies->item(row,col)->data(NTR_KIND).toInt();
-qDebug()<<"NotifyKindOptionsWidget::reset()kind"<<kind;
             tbwNotifies->item(row,col)->setCheckState(typeKinds & kind ? Qt::Checked : Qt::Unchecked);
 
         }

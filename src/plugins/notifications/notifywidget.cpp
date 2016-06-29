@@ -75,12 +75,7 @@ NotifyWidget::NotifyWidget(const INotification &ANotification)
 
 	QIcon icon = qvariant_cast<QIcon>(ANotification.data.value(NDR_ICON));
 	if (!icon.isNull())
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-        ui.lblIcon->setPixmap(icon.pixmap(QSize(32*IconStorage::scale(),32*IconStorage::scale())));
-#else
         ui.lblIcon->setPixmap(icon.pixmap(QSize(32,32)));
-#endif
 	else
 		ui.lblIcon->setVisible(false);
 

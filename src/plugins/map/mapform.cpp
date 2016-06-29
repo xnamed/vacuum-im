@@ -658,14 +658,14 @@ void MapForm::addMapSource(const QString &AName, const QIcon &AIcon, const QUuid
 void MapForm::selectMapSource(const QUuid &AUuid)
 {
 	ui->cmbMapSource->setCurrentIndex(ui->cmbMapSource->findData(AUuid.toString()));
-#ifdef EYECU_MOBILE
 	updateLblScale();
-#endif
 }
 
 void MapForm::updateLblScale()
 {
+#ifdef EYECU_MOBILE
 	ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
+#endif
 }
 
 void MapForm::setMapSource(IMapSource *AMapSource)

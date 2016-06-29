@@ -49,13 +49,16 @@ Notifications::Notifications()
 
 	FNotifyId = 0;
 	FSound = NULL;
+	FFlagAndroidNotify=false;	// *** <<< eyeCU <<< ***
 }
 
 Notifications::~Notifications()
 {
+#ifndef EYECU_MOBILE		// *** <<< eyeCU <<< ***
 	delete FActivateLast;
 	delete FRemoveAll;
 	delete FNotifyMenu;
+#endif
 	delete FSound;
 }
 
@@ -157,16 +160,18 @@ bool Notifications::initConnections(IPluginManager *APluginManager, int &AInitOr
 
 bool Notifications::initObjects()
 {
+#ifndef EYECU_MOBILE
 	Shortcuts::declareShortcut(SCT_GLOBAL_TOGGLESOUND, tr("Enable/Disable notifications sound"), QKeySequence::UnknownKey, Shortcuts::GlobalShortcut);
 	Shortcuts::declareShortcut(SCT_GLOBAL_ACTIVATELASTNOTIFICATION, tr("Activate notification"), QKeySequence::UnknownKey, Shortcuts::GlobalShortcut);
-
+#endif
 	FSoundOnOff = new Action(this);
 	FSoundOnOff->setToolTip(tr("Enable/Disable notifications sound"));
     FSoundOnOff->setText(tr("Notifications sound"));
 	FSoundOnOff->setIcon(RSR_STORAGE_MENUICONS, MNI_NOTIFICATIONS_SOUND_ON);
 	FSoundOnOff->setShortcutId(SCT_GLOBAL_TOGGLESOUND);
 	connect(FSoundOnOff,SIGNAL(triggered(bool)),SLOT(onSoundOnOffActionTriggered(bool)));
-
+// *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE
 	FActivateLast = new Action(this);
 	FActivateLast->setVisible(false);
 	FActivateLast->setText(tr("Activate Notification"));
@@ -184,11 +189,6 @@ bool Notifications::initObjects()
 	FNotifyMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_NOTIFICATIONS);
 	FNotifyMenu->menuAction()->setVisible(false);
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-
-#else
-// *** >>> eyeCU >>> ***
 	if (FTrayManager)
 	{
 		FTrayManager->contextMenu()->addAction(FActivateLast,AG_TMTM_NOTIFICATIONS_LAST,false);
@@ -196,15 +196,15 @@ bool Notifications::initObjects()
 		FTrayManager->contextMenu()->addAction(FNotifyMenu->menuAction(),AG_TMTM_NOTIFICATIONS_MENU,false);
 	}
 #endif
+// *** >>> eyeCU >>> ***
+
 	if (FMainWindowPlugin)
 	{
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FSoundOnOff,AG_MMENU_RI_SOUND,true);
-#else
+#else		// *** >>> eyeCU >>> ***
 		FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FSoundOnOff,TBG_MWTTB_NOTIFICATIONS_SOUND);
 #endif
-// *** >>> eyeCU >>> ***
 	}
 	FNetworkAccessManager = FUrlProcessor!=NULL ? FUrlProcessor->networkAccessManager() : new QNetworkAccessManager(this);
 	
@@ -223,6 +223,7 @@ bool Notifications::initSettings()
 	Options::setDefaultValue(OPV_NOTIFICATIONS_FORCESOUND,false);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_HIDEMESSAGE,false);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_POPUPTIMEOUT,8);
+	Options::setDefaultValue(OPV_NOTIFICATIONS_ANDROIDTIMEOUT,10);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_SOUNDCOMMAND,QString("aplay"));
 	Options::setDefaultValue(OPV_NOTIFICATIONS_TYPEKINDS_ITEM,0);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_KINDENABLED_ITEM,true);
@@ -258,14 +259,11 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 		widgets.insertMulti(OWO_NOTIFICATIONS_FORCESOUND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_FORCESOUND),tr("Play notification sound when received a message in the active window"),AParent));
 		widgets.insertMulti(OWO_NOTIFICATIONS_EXPANDGROUPS,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_EXPANDGROUPS),tr("Expand contact groups in roster"),AParent));
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-
-#else
-// *** >>> eyeCU >>> ***
+#ifndef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 		if (FTrayManager && FTrayManager->isMessagesSupported())
 			widgets.insertMulti(OWO_NOTIFICATIONS_NATIVEPOPUPS,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_NATIVEPOPUPS),tr("Use native popup notifications"),AParent));
 #endif
+
 // *** <<< eyeCU <<< ***
 		if (Options::node(OPV_COMMON_ADVANCED).value().toBool())
 			widgets.insertMulti(OWO_NOTIFICATIONS_ANIMATIONENABLE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_ANIMATIONENABLE),tr("Enable animation"),AParent));
@@ -274,8 +272,11 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 		spbPopupTimeout->setRange(0,120);
 // *** <<< eyeCU <<< ***
 		connect(spbPopupTimeout, SIGNAL(valueChanged(int)), SLOT(onSpinBoxValueChanged(int)));
-// *** >>> eyeCU >>> ***
+#ifdef EYECU_MOBILE
+		widgets.insertMulti(OWO_NOTIFICATIONS_POPUPTIMEOUT,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT),tr("Time to display a notification(0 - always visible):"),spbPopupTimeout,AParent));
+#else	// *** >>> eyeCU >>> ***
 		widgets.insertMulti(OWO_NOTIFICATIONS_POPUPTIMEOUT,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_POPUPTIMEOUT),tr("Time to display a pop-up window (0 - always visible):"),spbPopupTimeout,AParent));
+#endif
 
 #if defined Q_OS_X11 && 0
 		widgets.insertMulti(OWO_NOTIFICATIONS_SOUNDCOMMAND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_SOUNDCOMMAND),tr("System command to play sound:"),AParent));
@@ -352,15 +353,51 @@ int Notifications::appendNotification(const INotification &ANotification)
 		}
 	}
 
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 	if (!isSilent && (record.notification.kinds & INotification::PopupWindow)>0)
 	{
 		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
 		{
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+			int timeout		 = Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT).value().toInt();
+			FNotifyAndroid.insert(notifyId,timeout);
+			QString ATitle   = record.notification.data.value(NDR_POPUP_TITLE).toString();
+			QString AMessage = tr("Without text!");
+			QString htmlText = record.notification.data.value(NDR_POPUP_HTML).toString();
+			QString plainText = record.notification.data.value(NDR_POPUP_TEXT).toString();
+			if (!plainText.isEmpty() ){
+				AMessage=plainText;
+			}
+			else if(!htmlText.isEmpty()){
+				QTextDocument doc;
+				if (!htmlText.isEmpty())
+				{
+					doc.setHtml(htmlText);
+					AMessage=doc.toPlainText();
+				}
+			}
+
+#ifdef Q_OS_ANDROID
+			int sound = (record.notification.kinds & INotification::SoundPlay)	>0 ? 1 : 0;
+			int vibro = (record.notification.kinds & INotification::Vibrate)	>0 ? 2 : 0;
+			int light = (record.notification.kinds & INotification::Lights)		>0 ? 4 : 0;
+			int ARegim= sound + vibro + light;
+			updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
+#endif
+			if(!FFlagAndroidNotify){
+				QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
+				FFlagAndroidNotify=true;
+			}
+		}
+	}
 
 #else
 // *** >>> eyeCU >>> ***
+
+	if (!isSilent && (record.notification.kinds & INotification::PopupWindow)>0)
+	{
+		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
+		{
 			if (Options::node(OPV_NOTIFICATIONS_NATIVEPOPUPS).value().toBool() && FTrayManager && FTrayManager->isMessagesSupported())
 			{
 				QString title = record.notification.data.value(NDR_POPUP_TITLE).toString();
@@ -370,7 +407,6 @@ int Notifications::appendNotification(const INotification &ANotification)
 				FTrayManager->showMessage(QString("%1 - %2").arg(title,caption),text,QSystemTrayIcon::Information,timeout);
 			}
 			else
-#endif
 			{
 				record.popupWidget = new NotifyWidget(record.notification);
 				connect(record.popupWidget,SIGNAL(notifyActivated()),SLOT(onWindowNotifyActivated()));
@@ -386,11 +422,6 @@ int Notifications::appendNotification(const INotification &ANotification)
 		}
 	}
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-
-#else
-// *** >>> eyeCU >>> ***
 	if (FTrayManager && (record.notification.kinds & INotification::TrayNotify)>0)
 	{
 		if (!showNotifyByHandler(INotification::TrayNotify,notifyId,record.notification))
@@ -418,7 +449,7 @@ int Notifications::appendNotification(const INotification &ANotification)
 			FNotifyMenu->addAction(record.trayAction);
 		}
 	}
-#endif
+
 	if (!isSilent && (record.notification.kinds & INotification::SoundPlay)>0)
 	{
 		if (!showNotifyByHandler(INotification::SoundPlay,notifyId,record.notification))
@@ -437,6 +468,7 @@ int Notifications::appendNotification(const INotification &ANotification)
 			}
 		}
 	}
+#endif
 
 	if ((record.notification.kinds & INotification::ShowMinimized)>0)
 	{
@@ -485,9 +517,10 @@ int Notifications::appendNotification(const INotification &ANotification)
 		QTimer::singleShot(0,this,SLOT(onDelayedActivations()));
 	}
 
+#ifndef EYECU_MOBILE
 	FRemoveAll->setVisible(!FNotifyMenu->isEmpty());
 	FNotifyMenu->menuAction()->setVisible(!FNotifyMenu->isEmpty());
-
+#endif
 	FDelayedRemovals.append(notifyId);
 	QTimer::singleShot(0,this,SLOT(onDelayedRemovals()));
 
@@ -521,26 +554,29 @@ void Notifications::removeNotification(int ANotifyId)
 			record.popupWidget->deleteLater();
 		}
 // *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-
-#else
-        // *** >>> eyeCU >>> ***
+#ifndef EYECU_MOBILE
 		if (FTrayManager && record.trayId!=0)
 		{
 			FTrayManager->removeNotify(record.trayId);
 		}
-#endif
+
 		if (!record.trayAction.isNull())
 		{
 			FNotifyMenu->removeAction(record.trayAction);
 			record.trayAction->deleteLater();
 		}
+#endif
+// *** >>> eyeCU >>> ***
+
 		if (!record.tabPageNotifier.isNull())
 		{
 			IMessageTabPageNotifier *notifier =  qobject_cast<IMessageTabPageNotifier *>(record.tabPageNotifier);
 			if (notifier)
 				notifier->removeNotify(record.tabPageId);
 		}
+
+// *** <<< eyeCU <<< ***
+#ifndef EYECU_MOBILE
 		if (FTrayNotifies.contains(ANotifyId))
 		{
 			FTrayNotifies.removeAll(ANotifyId);
@@ -554,11 +590,14 @@ void Notifications::removeNotification(int ANotifyId)
 				FActivateLast->setVisible(false);
 			}
 		}
-		qDeleteAll(record.notification.actions);
+#endif
+// *** >>> eyeCU >>> ***
 
+		qDeleteAll(record.notification.actions);
+#ifndef EYECU_MOBILE
 		FRemoveAll->setVisible(!FNotifyMenu->isEmpty());
 		FNotifyMenu->menuAction()->setVisible(!FNotifyMenu->isEmpty());
-
+#endif
 		emit notificationRemoved(ANotifyId);
 	}
 }
@@ -741,8 +780,36 @@ void Notifications::removeInvisibleNotification(int ANotifyId)
 			invisible = false;
 		if (invisible)
 			removeNotification(ANotifyId);
-    }
+	}
 }
+
+// *** <<< eyeCU <<< ***
+void Notifications::onDeleteAndroidNotify()
+{
+	bool status=false;
+	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
+	while (it != FNotifyAndroid.constEnd())
+	{
+		if(it.value()>0)
+		{
+			status |= true;
+			int time=it.value()-1;
+			FNotifyAndroid.insert(it.key(),time);
+			if(time<=0)
+			{
+#ifdef Q_OS_ANDROID
+			deleteAndroidNotification(it.key());
+#endif
+			}
+		}
+		++it;
+	}
+	if(!status)
+		FFlagAndroidNotify=false;
+	if(FFlagAndroidNotify)
+		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
+}
+// *** >>> eyeCU >>> ***
 
 void Notifications::onDelayedRemovals()
 {

@@ -125,16 +125,13 @@ protected slots:
 	void onOptionsChanged(const OptionsNode &ANode);
 	void onShortcutActivated(const QString &AId, QWidget *AWidget);
 	void onSpinBoxValueChanged(int value);
+	void onDeleteAndroidNotify();	// *** <<< eyeCU <<< ***
 private:
 	IAvatars *FAvatars;
 	IRosterManager *FRosterManager;
 	IStatusIcons *FStatusIcons;
 	IStatusChanger *FStatusChanger;
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
-
-#else
-// *** >>> eyeCU >>> ***
+#ifndef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 	ITrayManager *FTrayManager;
 #endif
 	IRostersModel *FRostersModel;
@@ -158,6 +155,10 @@ private:
 	mutable QMap<QString, TypeRecord> FTypeRecords;
 	QMultiMap<int, INotificationHandler *> FHandlers;
 	QNetworkAccessManager *FNetworkAccessManager;
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+	QMap<int, long> FNotifyAndroid;
+	bool FFlagAndroidNotify;
+#endif
 };
 
 #endif // NOTIFICATIONS_H
