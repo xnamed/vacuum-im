@@ -48,6 +48,9 @@ protected slots:
 	void onPhoneDeleteClicked();
 	void onPhoneItemDoubleClicked(QListWidgetItem *AItem);
 	void onDialogButtonClicked(QAbstractButton *AButton);
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+	void onCurrentChanged(int index);
+#endif				// *** >>> eyeCU >>> ***
 private:
 	Ui::VCardDialogClass ui;
 private:

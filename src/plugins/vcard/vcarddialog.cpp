@@ -22,6 +22,7 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
 	IconStorage *iconStorage=IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
     ui.lblIcon->setPixmap(iconStorage->getStoragePixmap(iconStorage->fileFullName(MNI_VCARD)));
 	ui.lblTitle->setText(tr("Profile - %1").arg(AContactJid.uFull()));
+	connect(ui.twtVCard,SIGNAL(currentChanged(int)),SLOT(onCurrentChanged(int)));
 
     QIcon icon(iconStorage->getStoragePixmap(iconStorage->fileFullName(MNI_BOOKMARKS)));//temp icon-
     ui.twtVCard->setItemIcon(0,icon);//tabGeneral
@@ -582,3 +583,10 @@ void VCardDialog::onDialogButtonClicked(QAbstractButton *AButton)
 		}
 	}
 }
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+void VCardDialog::onCurrentChanged(int index)
+{
+	ui.twtVCard->widget(index)->adjustSize();
+	ui.twtVCard->widget(index)->resize(ui.twtVCard->widget(index)->width(),ui.twtVCard->widget(index)->minimumSizeHint().height());
+}
+#endif		// *** >>> eyeCU >>> ***

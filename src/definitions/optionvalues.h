@@ -393,6 +393,7 @@
 #define OPV_MAP_FOLLOWMYLOCATION                        "map.follow-my-location"
 #define OPV_MAP_PROXY                                   "map.proxy"
 #define OPV_MAP_LOADING                                 "map.loading"
+#define OPV_MAP_WDSCALE                                 "map.wd-scale"
 #define OPV_MAP_GEOMETRY                                "map.geometry"
 #define OPV_MAP_SHOWING                                 "map.showing"
 #define OPV_MAP_ATTACH_TO_ROSTER                        "map.attachtoroster"

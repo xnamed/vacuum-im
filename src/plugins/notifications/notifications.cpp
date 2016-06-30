@@ -54,7 +54,9 @@ Notifications::Notifications()
 
 Notifications::~Notifications()
 {
-#ifndef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+	destroyAndroidNotify();
+#else
 	delete FActivateLast;
 	delete FRemoveAll;
 	delete FNotifyMenu;
@@ -273,7 +275,7 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 // *** <<< eyeCU <<< ***
 		connect(spbPopupTimeout, SIGNAL(valueChanged(int)), SLOT(onSpinBoxValueChanged(int)));
 #ifdef EYECU_MOBILE
-		widgets.insertMulti(OWO_NOTIFICATIONS_POPUPTIMEOUT,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT),tr("Time to display a notification(0 - always visible):"),spbPopupTimeout,AParent));
+		widgets.insertMulti(OWO_NOTIFICATIONS_POPUPTIMEOUT,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT),tr("Time to display a notification:"),spbPopupTimeout,AParent));
 #else	// *** >>> eyeCU >>> ***
 		widgets.insertMulti(OWO_NOTIFICATIONS_POPUPTIMEOUT,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_POPUPTIMEOUT),tr("Time to display a pop-up window (0 - always visible):"),spbPopupTimeout,AParent));
 #endif
@@ -784,8 +786,11 @@ void Notifications::removeInvisibleNotification(int ANotifyId)
 }
 
 // *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 void Notifications::onDeleteAndroidNotify()
 {
+	if(!FFlagAndroidNotify)
+		return;
 	bool status=false;
 	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
 	while (it != FNotifyAndroid.constEnd())
@@ -809,6 +814,25 @@ void Notifications::onDeleteAndroidNotify()
 	if(FFlagAndroidNotify)
 		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
 }
+
+void Notifications::destroyAndroidNotify()
+{
+	FFlagAndroidNotify=false;
+	if(FNotifyAndroid.isEmpty())
+		return;
+	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
+	while (it != FNotifyAndroid.constEnd())
+	{
+		if(it.value()>0){
+			FNotifyAndroid.insert(it.key(),0);
+#ifdef Q_OS_ANDROID
+			deleteAndroidNotification(it.key());
+#endif
+		}
+	}
+	FNotifyAndroid.clear();
+}
+#endif
 // *** >>> eyeCU >>> ***
 
 void Notifications::onDelayedRemovals()

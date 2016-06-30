@@ -103,10 +103,13 @@ protected:
 	int notifyIdByWidget(NotifyWidget *AWidget) const;
 	bool showNotifyByHandler(ushort AKind, int ANotifyId, const INotification &ANotification) const;
 	void removeInvisibleNotification(int ANotifyId);
-#ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+// *** <<< eyeCU <<< ***
+#ifdef Q_OS_ANDROID
     void updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim);
     void deleteAndroidNotification(int AId);
-#endif					// *** >>> eyeCU >>> ***
+	void destroyAndroidNotify();
+#endif
+// *** >>> eyeCU >>> ***
 protected slots:
 	void onDelayedRemovals();
 	void onDelayedActivations();
@@ -125,7 +128,9 @@ protected slots:
 	void onOptionsChanged(const OptionsNode &ANode);
 	void onShortcutActivated(const QString &AId, QWidget *AWidget);
 	void onSpinBoxValueChanged(int value);
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 	void onDeleteAndroidNotify();	// *** <<< eyeCU <<< ***
+#endif
 private:
 	IAvatars *FAvatars;
 	IRosterManager *FRosterManager;

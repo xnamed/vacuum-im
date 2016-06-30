@@ -228,6 +228,7 @@ bool Map::initSettings()
 #ifdef EYECU_MOBILE
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, false);
     Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("MS Shell Dlg 2,16,-1,5,50,0,0,0,0,0"));
+	Options::setDefaultValue(OPV_MAP_WDSCALE, false);
 #else
 	Options::setDefaultValue(OPV_MAP_ATTACH_TO_ROSTER, true);
 	Options::setDefaultValue(OPV_MAP_OSD_FONT, QFont("DejaVu Sans Condensed,10,-1,5,50,0,0,0,0,0"));
@@ -253,7 +254,9 @@ void Map::onOptionsOpened()
 
 	onOptionsChanged(Options::node(OPV_MAP_PROXY));
 	onOptionsChanged(Options::node(OPV_MAP_LOADING));
-
+#ifdef EYECU_MOBILE
+	onOptionsChanged(Options::node(OPV_MAP_WDSCALE));
+#endif
 	onOptionsChanged(Options::node(OPV_MAP_OSD_CONTR_BACKGROUND_COLOR));
 	onOptionsChanged(Options::node(OPV_MAP_OSD_CONTR_BACKGROUND_TRANSPARENT));
 	onOptionsChanged(Options::node(OPV_MAP_OSD_CONTR_FOREGROUND));
@@ -603,6 +606,10 @@ void Map::onOptionsChanged(const OptionsNode &ANode)
 		FNetworkAccessManager->setProxy(FConnectionManager->proxyById(ANode.value().toString()).proxy);
 	else if (ANode.path()==OPV_MAP_LOADING)
 		MapTile::setDisplayLoading(ANode.value().toBool());
+#ifdef EYECU_MOBILE
+	else if (ANode.path()==OPV_MAP_WDSCALE)
+		FMapForm->wdScaleVisible();
+#endif
 }
 
 //----- 0-FMenuMap, 1-FMenuMap & FMenuToolbar, 2-FMenuToolbar -----
@@ -873,7 +880,9 @@ QMultiMap<int, IOptionsDialogWidget *> Map::optionsDialogWidgets(const QString &
 			widgets.insertMulti(OWO_MAP_CONNECTION, FConnectionManager->proxySettingsWidget(Options::node(OPV_MAP_PROXY), AParent));
 		widgets.insertMulti(OHO_MAP_GENERAL, FOptionsManager->newOptionsDialogHeader(tr("General"), AParent));
 		widgets.insertMulti(OWO_MAP_LOADING, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_LOADING), tr("Display \"Loading\" tiles"), AParent));
-#ifndef EYECU_MOBILE
+#ifdef EYECU_MOBILE
+		widgets.insertMulti(OWO_MAP_WIDGET_SCALE, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_WDSCALE), tr("Show the widget of scale"), AParent));
+#else
 		widgets.insertMulti(OWO_MAP_ATTACH_TO_ROSTER, FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MAP_ATTACH_TO_ROSTER), tr("Combine map window with contact list"), AParent));
 #endif
 		widgets.insertMulti(OHO_MAP_ZOOM, FOptionsManager->newOptionsDialogHeader(tr("Zoom"), AParent));

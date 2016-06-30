@@ -192,6 +192,7 @@
 #define OHO_MAP_GENERAL                           500
 #define   OWO_MAP_LOADING                         510
 #define   OWO_MAP_ATTACH_TO_ROSTER                520
+#define   OWO_MAP_WIDGET_SCALE                    530
 #define OHO_MAP_CONTACTS                          600
 #define   OWO_MAP_CONTACTS                        610
 #define OHO_MAP_MESSAGE                           700

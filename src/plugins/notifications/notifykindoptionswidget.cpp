@@ -23,76 +23,83 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 
 	QVBoxLayout *vblLayout = new QVBoxLayout(this);
     tlbNotifies=new QToolBox(this);
+	tlbNotifies->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	connect(tlbNotifies,SIGNAL(currentChanged(int)),SLOT(onCurrentChanged(int)));
+
 	QLabel *lblTitle = new QLabel(this);
 	lblTitle->setText(tr("Events"));
-	QFont font= lblTitle->font();font.setBold(true);lblTitle->setFont(font);
+	QFont font= lblTitle->font();
+	font.setBold(true);
+	lblTitle->setFont(font);
 	lblTitle->setAlignment(Qt::AlignHCenter);
 	vblLayout->addWidget(lblTitle);
 
 	for (QMultiMap<int, NotificationType>::const_iterator it=FOrderedTypes.constBegin(); it!=FOrderedTypes.constEnd(); ++it)
 	{
         QWidget *tabGeneral = new QWidget();
+		tabGeneral->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
 		QFormLayout *lotGeneral = new QFormLayout(tabGeneral);
 		lotGeneral->setObjectName(it->typeId);
 		//lotGeneral->setSpacing(size/4);
-		lotGeneral->setContentsMargins(size,5,5,5);
+		lotGeneral->setContentsMargins(size/2,0,5,0);
 		//!------------------
-		QCheckBox *chBoxSound = new QCheckBox;chBoxSound->setObjectName("chBoxSound");
+		QCheckBox *chBoxSound = new QCheckBox;
 		chBoxSound->setProperty("NTR_KIND",INotification::SoundPlay);
 		QLabel *lblBoxSound = new QLabel(tr("Play sound at the notification"));
 		lblBoxSound->setWordWrap(true);
 		if (it->kindMask & INotification::SoundPlay)
 			chBoxSound->setEnabled(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
 		else
-            chBoxSound->setEnabled(false);//Qt::ItemIsUserCheckable
+			chBoxSound->setEnabled(false);
 		chBoxSound->setCheckState(Qt::Unchecked);
 		lotGeneral->insertRow(NTC_SOUND,chBoxSound,lblBoxSound);
 		connect(chBoxSound,SIGNAL(clicked(bool)),SIGNAL(modified()));
 
-		QCheckBox *chBoxPopUp = new QCheckBox;chBoxPopUp->setObjectName("chBoxPopUp");
+		QCheckBox *chBoxPopUp = new QCheckBox;
 		chBoxPopUp->setProperty("NTR_KIND",INotification::PopupWindow);
 		QLabel *lblBoxPopUp = new QLabel(tr("Display a notification in popup window"));
 		lblBoxPopUp->setWordWrap(true);
 		if (it->kindMask & INotification::PopupWindow)
 			chBoxPopUp->setEnabled(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
 		else
-            chBoxPopUp->setEnabled(false);//Qt::ItemIsUserCheckable
+			chBoxPopUp->setEnabled(false);
 		chBoxPopUp->setCheckState(Qt::Unchecked);
 		lotGeneral->insertRow(NTC_POPUP,chBoxPopUp,lblBoxPopUp);
 		connect(chBoxPopUp,SIGNAL(clicked(bool)),SIGNAL(modified()));
 
-		QCheckBox *chBoxMinim = new QCheckBox;chBoxMinim->setObjectName("chBoxMinim");
+		QCheckBox *chBoxMinim = new QCheckBox;
 		chBoxMinim->setProperty("NTR_KIND",INotification::ShowMinimized);
 		QLabel *lblBoxMinim = new QLabel(tr("Show the corresponding window minimized in the taskbar"));
 		lblBoxMinim->setWordWrap(true);
 		if (it->kindMask & INotification::ShowMinimized)
 			chBoxMinim->setEnabled(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
 		else
-            chBoxMinim->setEnabled(false);//Qt::ItemIsUserCheckable
+			chBoxMinim->setEnabled(false);
 		chBoxMinim->setCheckState(Qt::Unchecked);
 		lotGeneral->insertRow(NTC_MINIMIZED,chBoxMinim,lblBoxMinim);
 		connect(chBoxMinim,SIGNAL(clicked(bool)),SIGNAL(modified()));
 
-		QCheckBox *chBoxVibration = new QCheckBox;chBoxVibration->setObjectName("chBoxVibration");
+		QCheckBox *chBoxVibration = new QCheckBox;
 		chBoxVibration->setProperty("NTR_KIND",INotification::Vibrate);
 		QLabel *lblVibration = new QLabel(tr("Vibration"));
 		lblVibration->setWordWrap(true);
 		if (it->kindMask & INotification::Vibrate)
 			chBoxVibration->setEnabled(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
         else
-            chBoxVibration->setEnabled(false);//Qt::ItemIsUserCheckable
+			chBoxVibration->setEnabled(false);
 		chBoxVibration->setCheckState(Qt::Unchecked);
         lotGeneral->insertRow(NTC_VIBRATION,chBoxVibration,lblVibration);
 		connect(chBoxVibration,SIGNAL(clicked(bool)),SIGNAL(modified()));
 
-		QCheckBox *chBoxLights = new QCheckBox;chBoxLights->setObjectName("chBoxLights");
+		QCheckBox *chBoxLights = new QCheckBox;
 		chBoxLights->setProperty("NTR_KIND",INotification::Lights);
 		QLabel *lblBoxLights = new QLabel(tr("Lights"));
 		lblBoxLights->setWordWrap(true);
 		if (it->kindMask & INotification::Lights)
 			chBoxLights->setEnabled(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
         else
-            chBoxLights->setEnabled(false);//Qt::ItemIsUserCheckable
+			chBoxLights->setEnabled(false);
 		chBoxLights->setCheckState(Qt::Unchecked);
         lotGeneral->insertRow(NTC_LIGHTS,chBoxLights,lblBoxLights);
 		connect(chBoxLights,SIGNAL(clicked(bool)),SIGNAL(modified()));
@@ -101,6 +108,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 		plugTypeId << it->typeId;
 	}
 
+	tlbNotifies->setCurrentWidget(0);
 	vblLayout->addWidget(tlbNotifies);
 	vblLayout->setMargin(0);
 
@@ -118,7 +126,13 @@ void NotifyKindOptionsWidget::registrOrderedTypes()
             notifyType.typeId = typeId;
             FOrderedTypes.insertMulti(notifyType.order,notifyType);
         }
-    }
+	}
+}
+
+void NotifyKindOptionsWidget::onCurrentChanged(int index)
+{
+	tlbNotifies->widget(index)->adjustSize();
+	tlbNotifies->widget(index)->resize(tlbNotifies->widget(index)->width(),tlbNotifies->widget(index)->minimumSizeHint().height());
 }
 
 void NotifyKindOptionsWidget::apply()

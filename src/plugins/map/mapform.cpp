@@ -76,9 +76,17 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 	ui->rbtMode3->setIconSize(size);
 	ui->rbtMode4->setIconSize(size);
 	ui->lblType4->setBaseSize(size);
-    ui->btnScaleUp->setIconSize(size);
-    ui->btnScaleDown->setIconSize(size);
-    ui->gridLayout->setHorizontalSpacing(8*IconStorage::scale());
+
+	if(Options::node(OPV_MAP_WDSCALE).value().toBool())
+	{
+		ui->btnScaleUp->setIconSize(size);
+		ui->btnScaleDown->setIconSize(size);
+		ui->gridLayout->setHorizontalSpacing(8*IconStorage::scale());
+	}else{
+		ui->btnScaleUp->setVisible(false);
+		ui->btnScaleDown->setVisible(false);
+		ui->lblScale->setVisible(false);
+	}
     ui->lblType1->text().clear();
     ui->lblType2->text().clear();
     ui->lblType3->text().clear();
@@ -86,6 +94,7 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
 #else
     FSizePixmap=16;
 #endif
+
 	QStyle *style = QApplication::style();
     ui->btnReload->setIcon(style->standardIcon(QStyle::SP_BrowserReload));
 #ifdef EYECU_MOBILE
@@ -666,6 +675,20 @@ void MapForm::updateLblScale()
 #ifdef EYECU_MOBILE
 	ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
 #endif
+}
+
+void MapForm::wdScaleVisible()
+{
+	if(Options::node(OPV_MAP_WDSCALE).value().toBool())
+	{
+		ui->btnScaleUp->setVisible(true);
+		ui->btnScaleDown->setVisible(true);
+		ui->lblScale->setVisible(true);
+	}else{
+		ui->btnScaleUp->setVisible(false);
+		ui->btnScaleDown->setVisible(false);
+		ui->lblScale->setVisible(false);
+	}
 }
 
 void MapForm::setMapSource(IMapSource *AMapSource)

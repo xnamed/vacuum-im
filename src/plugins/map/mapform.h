@@ -78,6 +78,7 @@ public:
 	void addMapSource(const QString &AName, const QIcon &AIcon = QIcon(), const QUuid &AUuid = QUuid());
 	void selectMapSource(const QUuid &AUuid = QUuid());
 	void updateLblScale();
+	void wdScaleVisible();
 
 protected: // Events
 	void changeEvent(QEvent *e);
