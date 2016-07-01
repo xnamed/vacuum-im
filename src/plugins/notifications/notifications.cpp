@@ -815,6 +815,7 @@ void Notifications::onDeleteAndroidNotify()
 		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
 }
 
+
 void Notifications::destroyAndroidNotify()
 {
 	FFlagAndroidNotify=false;
@@ -824,11 +825,12 @@ void Notifications::destroyAndroidNotify()
 	while (it != FNotifyAndroid.constEnd())
 	{
 		if(it.value()>0){
-			FNotifyAndroid.insert(it.key(),0);
 #ifdef Q_OS_ANDROID
 			deleteAndroidNotification(it.key());
 #endif
+			FNotifyAndroid.insert(it.key(),0);
 		}
+		++it;
 	}
 	FNotifyAndroid.clear();
 }
