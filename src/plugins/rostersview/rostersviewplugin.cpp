@@ -180,6 +180,19 @@ bool RostersViewPlugin::initObjects()
 	registerExpandableRosterIndexKind(RIK_GROUP_MY_RESOURCES,RDR_KIND);
 	registerExpandableRosterIndexKind(RIK_GROUP_AGENTS,RDR_KIND);
 
+#ifdef EYECU_MOBILE
+	Action *FRosterAction = new Action(this);
+	FRosterAction->setText(tr("Roster"));
+//	FRosterAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
+	FRosterAction->setEnabled(true);
+//	FRosterAction->setCheckable(true);
+	connect(FRosterAction,SIGNAL(triggered(bool)),SLOT(showRoster(bool)));
+//!----test---
+	QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()               // Get toolbar changer
+							->insertAction(FRosterAction, TBG_MWBTB_ROSTER);      // Add action as a button
+	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+#endif
+
 	return true;
 }
 
@@ -921,6 +934,12 @@ void RostersViewPlugin::onShowOfflineContactsAction(bool)
 {
 	OptionsNode node = Options::node(OPV_ROSTER_SHOWOFFLINE);
 	node.setValue(!node.value().toBool());
+}
+
+void RostersViewPlugin::showRoster(bool)
+{
+	//FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(0,FRostersView);
+	FMainWindowPlugin->mainWindow()->mainCentralWidget()->setCurrentCentralPage(FRostersView);
 }
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_rostersview, RostersViewPlugin)

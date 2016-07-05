@@ -129,9 +129,11 @@ protected slots:
 	void onOptionsOpened();
 	void onOptionsClosed();
 	void onOptionsChanged(const OptionsNode &ANode);
+	void showChart(bool);
 private:
 	IMainWindow *FMainWindow;
 	IOptionsManager *FOptionsManager;
+	IMessageTabWindow *FChatWindow;
 private:
 	QList<IMessageTabWindow *> FTabWindows;
 	QList<IMessageChatWindow *> FChatWindows;

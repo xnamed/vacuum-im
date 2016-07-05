@@ -168,13 +168,13 @@ bool Map::initObjects()
 	FMapAction->setText(tr("Map"));
 	FMapAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
 	FMapAction->setEnabled(true);
-	FMapAction->setCheckable(true);
+//	FMapAction->setCheckable(true);
 	connect(FMapAction,SIGNAL(triggered(bool)),SLOT(showMap(bool)));
-	FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
+//	FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
 //!----test---
-//	QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
-//							->insertAction(FMapAction, TBG_MWBTB_MAP);      // Add action as a button
-//	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+	QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
+							->insertAction(FMapAction, TBG_MWBTB_MAP);      // Add action as a button
+	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
 
 #endif
 

@@ -100,6 +100,19 @@ bool MessageWidgets::initObjects()
 	insertViewUrlHandler(MVUHO_MESSAGEWIDGETS_DEFAULT,this);
 	insertEditContentsHandler(MECHO_MESSAGEWIDGETS_COPY_INSERT,this);
 
+#ifdef EYECU_MOBILE
+	Action *FChatAction = new Action(this);
+	FChatAction->setText(tr("Chat"));
+//	FChatAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
+	FChatAction->setEnabled(true);
+//	FChatAction->setCheckable(true);
+	connect(FChatAction,SIGNAL(triggered(bool)),SLOT(showChart(bool)));
+//!----test---
+	QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
+							->insertAction(FChatAction, TBG_MWBTB_CHAT);    // Add action as a button
+	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+#endif
+
 	return true;
 }
 
@@ -809,38 +822,45 @@ void MessageWidgets::onOptionsChanged(const OptionsNode &ANode)
 		foreach(IMessageTabPage *page, FAssignedPages)
 			assignTabWindowPage(page);
 
-		IMessageTabWindow *window = ANode.value().toBool()
+		//IMessageTabWindow *
+				FChatWindow = ANode.value().toBool()
 			? getTabWindow(Options::node(OPV_MESSAGES_TABWINDOWS_DEFAULT).value().toString())
 			: findTabWindow(Options::node(OPV_MESSAGES_TABWINDOWS_DEFAULT).value().toString());
 
-		if (window != NULL)
+		if (FChatWindow != NULL)
 		{
 			if (ANode.value().toBool())
 			{
-				window->setTabBarVisible(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool());
-				window->setAutoCloseEnabled(false);
-				//FMainWindow->mainCentralWidget()->appendCentralPage(window);
-				FMainWindow->mainCentralWidget()->insertCentralPage(1,window);
+				FChatWindow->setTabBarVisible(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool());
+				FChatWindow->setAutoCloseEnabled(false);
+				//FMainWindow->mainCentralWidget()->appendCentralPage(FChatWindow);
+				FMainWindow->mainCentralWidget()->insertCentralPage(1,FChatWindow);
 			}
 			else if (Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool())
 			{
-				window->setTabBarVisible(true);
-				window->setAutoCloseEnabled(true);
-				FMainWindow->mainCentralWidget()->removeCentralPage(window);
-				if (window->tabPageCount() > 0)
-					window->showWindow();
+				FChatWindow->setTabBarVisible(true);
+				FChatWindow->setAutoCloseEnabled(true);
+				FMainWindow->mainCentralWidget()->removeCentralPage(FChatWindow);
+				if (FChatWindow->tabPageCount() > 0)
+					FChatWindow->showWindow();
 				else
-					window->instance()->deleteLater();
+					FChatWindow->instance()->deleteLater();
 			}
 			else
 			{
-				while(window->currentTabPage())
-					window->detachTabPage(window->currentTabPage());
-				window->instance()->deleteLater();
+				while(FChatWindow->currentTabPage())
+					FChatWindow->detachTabPage(FChatWindow->currentTabPage());
+				FChatWindow->instance()->deleteLater();
 			}
 		}
 	}
 }
+
+void MessageWidgets::showChart(bool)
+{
+	FMainWindow->mainCentralWidget()->setCurrentCentralPage(FChatWindow);
+}
+
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_messagewidgets, MessageWidgets)
 #endif

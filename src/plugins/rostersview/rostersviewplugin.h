@@ -83,6 +83,7 @@ protected slots:
 	void onOptionsChanged(const OptionsNode &ANode);
 	void onCopyToClipboardActionTriggered(bool);
 	void onShowOfflineContactsAction(bool AChecked);
+	void showRoster(bool);
 private:
 	IStatusIcons *FStatusIcons;
 	IRostersModel *FRostersModel;

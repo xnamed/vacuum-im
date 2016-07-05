@@ -87,8 +87,6 @@ protected slots:
 	void onCentralPageAddedOrRemoved(IMainCentralPage *APage);
 #endif
 	void onCurrentCentralPageChanged(IMainCentralPage *APage);
-	void onTestAction(bool St);
-	void onIndexChange(int AIndex);
 private:
 #ifdef EYECU_MOBILE
 	QList<IMainCentralPage *> FCentralPageOpenStack;

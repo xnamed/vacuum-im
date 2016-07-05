@@ -122,21 +122,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
     bottomChanger->setSeparatorsVisible(true);
     insertToolBarChanger(MWW_BOTTOM_TOOLBAR,bottomChanger);
-
-
-	Action *testAction= new Action(this);
-	testAction->setText(tr("TEST"));
-	testAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
-	testAction->setEnabled(true);
-	testAction->setCheckable(true);
-	connect(testAction,SIGNAL(triggered(bool)),SLOT(onTestAction(bool)));
-	QToolButton *butTest = bottomToolBarChanger()       // Get toolbar changer
-				->insertAction(testAction, 2000);      // TBG_MWBTB_MAP Add action as a button
-	butTest->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
-
-
-
-//!--------------------bottom-----------------------------
+//!-------------------------------------
 
     FMainMenu = new Menu(this);
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
@@ -553,40 +539,10 @@ void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 	}
 }
 // *** >>> eyeCU >>> ***
-
 #endif
-
-//!--------------------------------------------------
-#ifdef EYECU_MOBILE
-void MainWindow::onTestAction(bool St)
-{
-	int size=FCentralWidget->centralPages().size();
-qDebug()<<"MainWindow::onTestAction()/St"<<St<<size;
-
-/*
-qDebug()<<"MainWindow::onTestAction()/St"<<St<<size;
-for(int i=0; i<size; i++){
-qDebug()<<"MainWindow::onTestAction()/PageCaption="<<FCentralWidget->centralPages()[i]->centralPageCaption();
-qDebug()<<"MainWindow::onTestAction()/PageName="<<FCentralWidget->centralPages()[i]->centralPageName();
-}
-qDebug()<<"MainWindow::onTestAction()/currentCentralPage"<<FCentralWidget->currentCentralPage()->centralPageName();
-*/
-
-}
-
-void MainWindow::onIndexChange(int AIndex)
-{
-qDebug()<<"MainWindow::onIndexChange()/AIndex=" <<AIndex;
-}
-
-
-#endif
-//!--------------------------------------------------
-
 
 void MainWindow::onCurrentCentralPageChanged(IMainCentralPage *APage)
 {
-qDebug()<<"MainWindow::onCurrentCentralPageChanged------------------";
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	if (FCentralPageOpenStack.contains(APage))
@@ -597,6 +553,7 @@ qDebug()<<"MainWindow::onCurrentCentralPageChanged------------------";
 	updateWindow();
 }
 #ifndef EYECU_MOBILE
+
 void MainWindow::onCentralPageAddedOrRemoved(IMainCentralPage *APage)
 {
 	Q_UNUSED(APage);
