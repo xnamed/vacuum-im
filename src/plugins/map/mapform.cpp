@@ -247,7 +247,12 @@ QString MapForm::centralPageCaption() const
 	MapSource *source=FMapScene->mapSource();
 	return (source)?tr("Map (%1: %2)").arg(FMapScene->mapSource()->getFriendlyName())
 									  .arg(FMapScene->mapSource()->getModeNames().value(Options::node(OPV_MAP_MODE).value().toInt()))
-				   :tr("Map");
+				  :tr("Map");
+}
+
+QString MapForm::centralPageName() const
+{
+	return QString("map");
 }
 
 void MapForm::updateMapTitle()

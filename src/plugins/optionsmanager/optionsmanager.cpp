@@ -21,6 +21,7 @@
 #include <utils/filestorage.h>
 #include <utils/action.h>
 #include <utils/logger.h>
+#include <definitions/toolbargroups.h>
 
 #define DIR_PROFILES                    "profiles"
 #define DIR_BINARY                      "binary"
@@ -114,7 +115,13 @@ bool OptionsManager::initObjects()
 	if (FMainWindowPlugin)
 	{
 		FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FChangeProfileAction,AG_MMENU_OPTIONS,true);
+#ifdef EYECU_MOBILE
+        QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()       // Get toolbar changer
+								->insertAction(FShowOptionsDialogAction, TBG_MWBTB_OPTIONS);// Add action as a button
+		button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);//Expanding
+#else
 		FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FShowOptionsDialogAction,AG_MMENU_OPTIONS,true);
+#endif
 	}
 
 	if (FTrayManager)

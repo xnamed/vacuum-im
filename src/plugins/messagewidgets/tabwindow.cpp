@@ -126,6 +126,11 @@ QString TabWindow::centralPageCaption() const
 	return QString::null;
 }
 
+QString TabWindow::centralPageName() const
+{
+	return QString("tabwindow");
+}
+
 void TabWindow::showWindow()
 {
 	if (isWindow())

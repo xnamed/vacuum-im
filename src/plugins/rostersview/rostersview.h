@@ -59,6 +59,7 @@ public:
 	void showCentralPage(bool AMinimized = false);
 	QIcon centralPageIcon() const;
 	QString centralPageCaption() const;
+	QString centralPageName() const;
 #endif
 	//--IndexSelection
 	virtual bool hasMultiSelection() const;

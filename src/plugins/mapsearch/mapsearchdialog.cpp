@@ -44,7 +44,10 @@ MapSearchDialog::MapSearchDialog(QHash<QUuid, IMapSearchProvider *> AProviders, 
 #endif
 
 #ifdef EYECU_MOBILE
-	showMaximized();
+    QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MAPSEARCH));
+    ui->lblIcon->setPixmap(pixmap);
+    ui->lblTitle->setText(tr("eyeCU - Search on the Map"));
+    showMaximized();
 #endif
     //Shortcuts
     FPoi->setTreeWidgetShortcuts(ui->twFound, true);

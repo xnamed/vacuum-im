@@ -41,7 +41,8 @@ public:
 	void showCentralPage(bool AMinimized = false);
 	QIcon centralPageIcon() const;
 	QString centralPageCaption() const;
-
+	QString centralPageName() const;
+	//------
 	void setMapSource(IMapSource *AMapSource);
 	void setMapMode(qint8 AMode);
 	void setMapCenter(const QPointF &ACoords);

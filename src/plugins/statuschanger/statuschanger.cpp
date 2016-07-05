@@ -189,7 +189,11 @@ bool StatusChanger::initObjects()
 		QToolButton *button = changer->insertAction(FMainMenu->menuAction());
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		button->setPopupMode(QToolButton::InstantPopup);
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+#else	// *** <<< eyeCU <<< ***
 		button->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+#endif
 	}
 
 	if (FRostersViewPlugin)

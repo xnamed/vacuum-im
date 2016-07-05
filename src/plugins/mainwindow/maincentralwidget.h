@@ -19,10 +19,12 @@ public:
 	virtual void setCurrentCentralPage(IMainCentralPage *APage);
 	virtual void appendCentralPage(IMainCentralPage *APage);
 	virtual void removeCentralPage(IMainCentralPage *APage);
+	virtual void insertCentralPage(int AIndex, IMainCentralPage *APage);	// *** <<< eyeCU >>> ***
 signals:
 	void currentCentralPageChanged(IMainCentralPage *APage);
 	void centralPageAppended(IMainCentralPage *APage);
 	void centralPageRemoved(IMainCentralPage *APage);
+	void centralPageInserted(IMainCentralPage *APage);						// *** <<< eyeCU >>> ***
 protected slots:
 	void onCurrentIndexChanged(int AIIndex);
 	void onCentralPageShow(bool AMinimized);

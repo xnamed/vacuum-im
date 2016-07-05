@@ -36,10 +36,25 @@ void MainCentralWidget::appendCentralPage(IMainCentralPage *APage)
 		connect(APage->instance(),SIGNAL(centralPageShow(bool)),SLOT(onCentralPageShow(bool)));
 		connect(APage->instance(),SIGNAL(centralPageChanged()),SLOT(onCentralPageChanged()));
 		connect(APage->instance(),SIGNAL(centralPageDestroyed()),SLOT(onCentralPageDestroyed()));
-		emit centralPageAppended(APage);
 		addWidget(APage->instance());
+		emit centralPageAppended(APage);
 	}
 }
+
+// *** <<< eyeCU >>> ***
+void MainCentralWidget::insertCentralPage(int AIndex, IMainCentralPage *APage)
+{
+	if(AIndex>=0)
+	{
+		FCentralPages.insert(AIndex,APage);
+		connect(APage->instance(),SIGNAL(centralPageShow(bool)),SLOT(onCentralPageShow(bool)));
+		connect(APage->instance(),SIGNAL(centralPageChanged()),SLOT(onCentralPageChanged()));
+		connect(APage->instance(),SIGNAL(centralPageDestroyed()),SLOT(onCentralPageDestroyed()));
+		insertWidget(AIndex,APage->instance());
+		emit centralPageInserted(APage);
+	}
+}
+// *** <<< eyeCU >>> ***
 
 void MainCentralWidget::removeCentralPage(IMainCentralPage *APage)
 {
@@ -53,9 +68,9 @@ void MainCentralWidget::removeCentralPage(IMainCentralPage *APage)
 	}
 }
 
-void MainCentralWidget::onCurrentIndexChanged(int AIndex)
+void MainCentralWidget::onCurrentIndexChanged(int AIIndex)
 {
-	IMainCentralPage *page = qobject_cast<IMainCentralPage *>(widget(AIndex));
+	IMainCentralPage *page = qobject_cast<IMainCentralPage *>(widget(AIIndex));
 	emit currentCentralPageChanged(page);
 }
 

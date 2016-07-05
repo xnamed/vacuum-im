@@ -819,7 +819,8 @@ void MessageWidgets::onOptionsChanged(const OptionsNode &ANode)
 			{
 				window->setTabBarVisible(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool());
 				window->setAutoCloseEnabled(false);
-				FMainWindow->mainCentralWidget()->appendCentralPage(window);
+				//FMainWindow->mainCentralWidget()->appendCentralPage(window);
+				FMainWindow->mainCentralWidget()->insertCentralPage(1,window);
 			}
 			else if (Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool())
 			{

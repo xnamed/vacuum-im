@@ -20,6 +20,7 @@ public:
 	virtual void showCentralPage(bool AMinimized = false);
 	virtual QIcon centralPageIcon() const;
 	virtual QString centralPageCaption() const;
+	virtual QString centralPageName() const;
 	// IMessageTabWindow
 	virtual void showWindow();
 	virtual void showMinimizedWindow();

@@ -378,12 +378,11 @@ int Notifications::appendNotification(const INotification &ANotification)
 					AMessage=doc.toPlainText();
 				}
 			}
-
-#ifdef Q_OS_ANDROID
 			int sound = (record.notification.kinds & INotification::SoundPlay)	>0 ? 1 : 0;
 			int vibro = (record.notification.kinds & INotification::Vibrate)	>0 ? 2 : 0;
 			int light = (record.notification.kinds & INotification::Lights)		>0 ? 4 : 0;
 			int ARegim= sound + vibro + light;
+#ifdef Q_OS_ANDROID
 			updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
 #endif
 			if(!FFlagAndroidNotify){

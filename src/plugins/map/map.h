@@ -131,6 +131,7 @@ protected slots:
 
 	void showOptions();
 	void showMyLocation();
+
 #ifndef EYECU_MOBILE
 	void onCentralWidgetVisibleChanged(bool AVisible);
 #endif
@@ -185,7 +186,6 @@ private:
 
 	QHash<int, MapObjectHandlerRecord *> FObjectHandlers;
 	bool				FGestureActive;
-
 };
 
 #endif // MAP_H

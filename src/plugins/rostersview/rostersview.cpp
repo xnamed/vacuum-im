@@ -495,6 +495,12 @@ QString RostersView::centralPageCaption() const
 {
 	return QString();
 }
+
+QString RostersView::centralPageName() const
+{
+	return QString("roster");
+}
+
 #endif
 // *** >>> eyeCU >>> ***
 bool RostersView::hasMultiSelection() const

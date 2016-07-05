@@ -34,12 +34,11 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	int size=16*(iconStorage->scale()+1);
-
 	setIconSize(QSize(size,size));	//!------??????-----
 //	QString mainWindowStyle=QString("background-color:#F4F0F0;");
 	QString topToolbarStyle   ="border:0; background-color:#039702; color:white; spacing: 3px;"; // 08AC07
 	QString bottomToolbarStyle="border:0; background-color:#039702; color:white; spacing: 3px;";// 08AC07
-	QString menuMainRightStyle="background-color:#DAD9D7;";//BDBAAF  E6E4DE   C6FAC6 34C033  color:white;
+//	QString menuMainRightStyle="background-color:#DAD9D7;";//BDBAAF  E6E4DE   C6FAC6 34C033  color:white;
 //	setStyleSheet(mainWindowStyle);
 #else
 // *** >>> eyeCU >>> ***
@@ -61,7 +60,9 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 
 	FLeftWidget = new BoxWidget(this);
 	FLeftWidget->layout()->setSpacing(0);
-#ifndef EYECU_MOBILE	// *** <<< TEST---
+#ifdef EYECU_MOBILE
+    setCentralWidget(FLeftWidget);
+#else
 	FSplitter = new QSplitter(this);
 	FSplitter->installEventFilter(this);
 	FSplitter->setOrientation(Qt::Horizontal);
@@ -71,14 +72,16 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FSplitter->addWidget(FLeftWidget);
 	FSplitter->setCollapsible(0,false);
 	FSplitter->setStretchFactor(0,1);
-#else
-	setCentralWidget(FLeftWidget);
 #endif	// *** >>> TEST---
-
 	FCentralWidget = new MainCentralWidget(this,this);
 	FCentralWidget->instance()->setFrameShape(QFrame::StyledPanel);
 	connect(FCentralWidget->instance(),SIGNAL(currentCentralPageChanged(IMainCentralPage *)),SLOT(onCurrentCentralPageChanged(IMainCentralPage *)));
-#ifndef EYECU_MOBILE	// *** <<< TEST---
+
+#ifdef EYECU_MOBILE	// *** <<< TEST---
+    FCentralVisible = true;
+    FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FCentralWidget->instance(),100);
+    FCentralWidget->instance()->setVisible(true);
+#else
 	connect(FCentralWidget->instance(),SIGNAL(centralPageAppended(IMainCentralPage *)),SLOT(onCentralPageAddedOrRemoved(IMainCentralPage *)));
 	connect(FCentralWidget->instance(),SIGNAL(centralPageRemoved(IMainCentralPage *)),SLOT(onCentralPageAddedOrRemoved(IMainCentralPage *)));
 
@@ -91,10 +94,6 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 	FTabWidget->instance()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FTabWidget->instance(),100);
 	FCentralWidget->instance()->setVisible(false);
-#else
-	FCentralVisible = true;
-	FLeftWidget->insertWidget(MWW_TABPAGES_WIDGET,FCentralWidget->instance(),100);
-	FCentralWidget->instance()->setVisible(true);
 #endif	// *** >>> TEST---	
 
 	QToolBar *topToolbar = new QToolBar(this);
@@ -107,12 +106,13 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *topChanger = new ToolBarChanger(topToolbar);
-	topChanger->setSeparatorsVisible(false);
+    topChanger->setSeparatorsVisible(false);
 	insertToolBarChanger(MWW_TOP_TOOLBAR,topChanger);
 
+//!-------------------------------------
 	QToolBar *bottomToolbar =  new QToolBar(this);
 	bottomToolbar->setFloatable(false);
-	bottomToolbar->setMovable(false);
+    bottomToolbar->setMovable(false);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	bottomToolbar->setStyleSheet(bottomToolbarStyle);
@@ -120,8 +120,23 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
 #endif
 // *** >>> eyeCU >>> ***
 	ToolBarChanger *bottomChanger = new ToolBarChanger(bottomToolbar);
-	bottomChanger->setSeparatorsVisible(false);
-	insertToolBarChanger(MWW_BOTTOM_TOOLBAR,bottomChanger);
+    bottomChanger->setSeparatorsVisible(true);
+    insertToolBarChanger(MWW_BOTTOM_TOOLBAR,bottomChanger);
+
+
+	Action *testAction= new Action(this);
+	testAction->setText(tr("TEST"));
+	testAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
+	testAction->setEnabled(true);
+	testAction->setCheckable(true);
+	connect(testAction,SIGNAL(triggered(bool)),SLOT(onTestAction(bool)));
+	QToolButton *butTest = bottomToolBarChanger()       // Get toolbar changer
+				->insertAction(testAction, 2000);      // TBG_MWBTB_MAP Add action as a button
+	butTest->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+
+
+
+//!--------------------bottom-----------------------------
 
     FMainMenu = new Menu(this);
 	FMainMenu->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_MENU);
@@ -540,8 +555,38 @@ void MainWindow::tapAndHoldGesture(QTapAndHoldGesture *AGesture)
 // *** >>> eyeCU >>> ***
 
 #endif
+
+//!--------------------------------------------------
+#ifdef EYECU_MOBILE
+void MainWindow::onTestAction(bool St)
+{
+	int size=FCentralWidget->centralPages().size();
+qDebug()<<"MainWindow::onTestAction()/St"<<St<<size;
+
+/*
+qDebug()<<"MainWindow::onTestAction()/St"<<St<<size;
+for(int i=0; i<size; i++){
+qDebug()<<"MainWindow::onTestAction()/PageCaption="<<FCentralWidget->centralPages()[i]->centralPageCaption();
+qDebug()<<"MainWindow::onTestAction()/PageName="<<FCentralWidget->centralPages()[i]->centralPageName();
+}
+qDebug()<<"MainWindow::onTestAction()/currentCentralPage"<<FCentralWidget->currentCentralPage()->centralPageName();
+*/
+
+}
+
+void MainWindow::onIndexChange(int AIndex)
+{
+qDebug()<<"MainWindow::onIndexChange()/AIndex=" <<AIndex;
+}
+
+
+#endif
+//!--------------------------------------------------
+
+
 void MainWindow::onCurrentCentralPageChanged(IMainCentralPage *APage)
 {
+qDebug()<<"MainWindow::onCurrentCentralPageChanged------------------";
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
 	if (FCentralPageOpenStack.contains(APage))

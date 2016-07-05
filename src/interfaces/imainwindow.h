@@ -49,6 +49,7 @@ public:
 	virtual void showCentralPage(bool AMinimized = false) =0;
 	virtual QIcon centralPageIcon() const =0;
 	virtual QString centralPageCaption() const =0;
+        virtual QString centralPageName() const =0;       // *** <<< eyeCU >>> ***
 protected:
 	virtual void centralPageShow(bool AMinimized) =0;
 	virtual void centralPageChanged() =0;
@@ -64,10 +65,12 @@ public:
 	virtual void setCurrentCentralPage(IMainCentralPage *APage) =0;
 	virtual void appendCentralPage(IMainCentralPage *APage) =0;
 	virtual void removeCentralPage(IMainCentralPage *APage) =0;
+        virtual void insertCentralPage(int AIndex, IMainCentralPage *APage) =0;	// *** <<< eyeCU >>> ***
 protected:
 	virtual void currentCentralPageChanged(IMainCentralPage *APage) =0;
 	virtual void centralPageAppended(IMainCentralPage *APage) =0;
 	virtual void centralPageRemoved(IMainCentralPage *APage) =0;
+        virtual void centralPageInserted(IMainCentralPage *APage) =0;		// *** <<< eyeCU >>> ***
 };
 
 class IMainWindow

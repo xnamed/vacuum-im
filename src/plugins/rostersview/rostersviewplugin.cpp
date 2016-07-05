@@ -153,7 +153,8 @@ bool RostersViewPlugin::initObjects()
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
-		FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
+		//FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
+		FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(0,FRostersView);
 #else
 // *** >>> eyeCU >>> ***
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);

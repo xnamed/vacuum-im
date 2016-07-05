@@ -23,6 +23,12 @@
 
 #define TBG_MWTTB_POI                                           1700
 #define TBG_MWTTB_MMPLAYER                                      1800
+
+//MainWindow - BotToolBar
+#define TBG_MWBTB_ROSTER                                        12000
+#define TBG_MWBTB_MAP                                           13000
+#define TBG_MWBTB_CHAT                                          14000
+#define TBG_MWBTB_OPTIONS                                       15000
 // *** >>> eyeCU >>> ***
 
 //MessageWidgets - ToolBarWidget
