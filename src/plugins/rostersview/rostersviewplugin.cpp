@@ -155,6 +155,16 @@ bool RostersViewPlugin::initObjects()
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
 		//FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
 		FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(0,FRostersView);
+
+        Action *FRosterAction = new Action(this);
+        FRosterAction->setText(tr("Roster"));
+        FRosterAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAINWINDOW_SHOW_ROSTER);//
+        FRosterAction->setEnabled(true);
+//      FRosterAction->setCheckable(true);
+        connect(FRosterAction,SIGNAL(triggered(bool)),SLOT(showRoster(bool)));
+        QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()   // Get toolbar changer
+                            ->insertAction(FRosterAction, TBG_MWBTB_ROSTER);            // Add action as a button
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);           //Expanding
 #else
 // *** >>> eyeCU >>> ***
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);
@@ -179,19 +189,6 @@ bool RostersViewPlugin::initObjects()
 	registerExpandableRosterIndexKind(RIK_GROUP_NOT_IN_ROSTER,RDR_KIND);
 	registerExpandableRosterIndexKind(RIK_GROUP_MY_RESOURCES,RDR_KIND);
 	registerExpandableRosterIndexKind(RIK_GROUP_AGENTS,RDR_KIND);
-
-#ifdef EYECU_MOBILE
-	Action *FRosterAction = new Action(this);
-	FRosterAction->setText(tr("Roster"));
-//	FRosterAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
-	FRosterAction->setEnabled(true);
-//	FRosterAction->setCheckable(true);
-	connect(FRosterAction,SIGNAL(triggered(bool)),SLOT(showRoster(bool)));
-//!----test---
-	QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()               // Get toolbar changer
-							->insertAction(FRosterAction, TBG_MWBTB_ROSTER);      // Add action as a button
-	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
-#endif
 
 	return true;
 }

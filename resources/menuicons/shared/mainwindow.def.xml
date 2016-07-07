@@ -52,4 +52,12 @@
     <key>mainwindowRightMenu</key>
     <object mime="image/png">mainwindowrightmenu.png</object>
   </icon>
+  <icon>
+    <key>mainwindowShowRoster</key>
+    <object mime="image/png">mainwindowshowroster.png</object>
+  </icon>
+  <icon>
+    <key>chat</key>
+    <object mime="image/png">chat.png</object>
+  </icon>  
 </icondef>

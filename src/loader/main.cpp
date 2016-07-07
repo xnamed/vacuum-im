@@ -1,4 +1,3 @@
-
 #include <QApplication>
 
 #include "styleeyecu.h"		// *** <<< eyeCU <<< ***
@@ -22,18 +21,18 @@ int main(int argc, char *argv[])
 	app.addLibraryPath(app.applicationDirPath());
 	app.setApplicationName(CLIENT_NAME);
 
-	QLibrary utils(app.applicationDirPath()+"/utils",&app);
-	utils.load();
-
-	PluginManager pm(&app);
-	pm.restart();
-
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     StyleEyecu curStyle(&app);
     curStyle.init();
 #endif
 // *** >>> eyeCU >>> ***
+
+	QLibrary utils(app.applicationDirPath()+"/utils",&app);
+	utils.load();
+
+	PluginManager pm(&app);
+	pm.restart();
 
 	return app.exec();
 }

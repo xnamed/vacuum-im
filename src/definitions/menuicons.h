@@ -38,6 +38,7 @@
 #define MNI_CHATSTATES_PAUSED           "chatstatesPaused"
 #define MNI_CHATSTATES_INACTIVE         "chatstatesInactive"
 #define MNI_CHATSTATES_GONE             "chatstatesGone"
+#define MNI_CHAT                        "chat"
 
 //ClientInfo
 #define MNI_CLIENTINFO                  "clientinfo"

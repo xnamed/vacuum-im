@@ -44,6 +44,20 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 #endif
 //!---- delete Later-------
 
+//!--------------------test---------------
+/*
+    Dialog *dg=new Dialog(FScale,FPointSizeF);
+    if(dg->exec())
+    {
+        FScale=dg->getScale();
+        FPointSizeF=dg->getFontSize();
+    }else{
+
+    }
+*/
+//!--------------------test---------------
+
+
     FSize=16*FScale;
 	IconStorage::setScale(FScale);
     IconStorage::setFontPointSize(FPointSizeF);

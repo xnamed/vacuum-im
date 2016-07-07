@@ -129,7 +129,7 @@ protected slots:
 	void onOptionsOpened();
 	void onOptionsClosed();
 	void onOptionsChanged(const OptionsNode &ANode);
-	void showChart(bool);
+	void showChat(bool);
 private:
 	IMainWindow *FMainWindow;
 	IOptionsManager *FOptionsManager;

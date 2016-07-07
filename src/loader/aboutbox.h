@@ -4,7 +4,12 @@
 #include <QDialog>
 #include <definitions/version.h>
 #include <interfaces/ipluginmanager.h>
+
+#ifdef EYECU_MOBILE
+#include "ui_aboutbox2.h"
+#else
 #include "ui_aboutbox.h"
+#endif
 
 class AboutBox :
 	public QDialog

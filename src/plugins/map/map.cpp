@@ -169,13 +169,14 @@ bool Map::initObjects()
 	FMapAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
 	FMapAction->setEnabled(true);
 //	FMapAction->setCheckable(true);
-	connect(FMapAction,SIGNAL(triggered(bool)),SLOT(showMap(bool)));
-//	FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
-//!----test---
-	QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
-							->insertAction(FMapAction, TBG_MWBTB_MAP);      // Add action as a button
-	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
-
+    if(FMainWindowPlugin)
+    {
+        connect(FMapAction,SIGNAL(triggered()),SLOT(showMap()));
+//      FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
+        QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
+                                ->insertAction(FMapAction, TBG_MWBTB_MAP);      // Add action as a button
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+    }
 #endif
 
 //!-------------------------------------
@@ -951,7 +952,7 @@ void Map::showMap(bool AShow, bool AActivate)
 		{
 #endif
 			FMainWindow->mainCentralWidget()->appendCentralPage(FMapForm);
-			//FMainWindow->mainCentralWidget()->insertCentralPage(2,FMapForm);
+            //FMainWindow->mainCentralWidget()->insertCentralPage(2,FMapForm);
 			FMapForm->centralPageName();
 			if (AActivate)
 				FMapForm->showWindow();

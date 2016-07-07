@@ -493,18 +493,13 @@ void MainWindow::onUpdateCentralWidgetVisible()
 }
 // *** <<< eyeCU <<< ***
 #else
+
 void MainWindow::closeEvent(QCloseEvent *AEvent)
 {
 	AEvent->ignore();
-
-	if (FCentralPageOpenStack.size()>1)
-	{
-		FCentralPageOpenStack.removeLast();
-		FCentralWidget->setCurrentCentralPage(FCentralPageOpenStack.last());
-	}
-	else
-		showMinimized();
+    showMinimized();
 }
+
 bool MainWindow::event(QEvent *AEvent)
 {
 	if (AEvent->type() == QEvent::Gesture)

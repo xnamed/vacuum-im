@@ -101,16 +101,18 @@ bool MessageWidgets::initObjects()
 	insertEditContentsHandler(MECHO_MESSAGEWIDGETS_COPY_INSERT,this);
 
 #ifdef EYECU_MOBILE
-	Action *FChatAction = new Action(this);
-	FChatAction->setText(tr("Chat"));
-//	FChatAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAP);
-	FChatAction->setEnabled(true);
-//	FChatAction->setCheckable(true);
-	connect(FChatAction,SIGNAL(triggered(bool)),SLOT(showChart(bool)));
-//!----test---
-	QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
-							->insertAction(FChatAction, TBG_MWBTB_CHAT);    // Add action as a button
-	button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+    if(FMainWindow)
+    {
+        Action *FChatAction = new Action(this);
+        FChatAction->setText(tr("Chat"));
+        FChatAction->setIcon(RSR_STORAGE_MENUICONS, MNI_CHAT);
+        FChatAction->setEnabled(true);
+//      FChatAction->setCheckable(true);
+        connect(FChatAction,SIGNAL(triggered(bool)),SLOT(showChat(bool)));
+        QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
+                            ->insertAction(FChatAction, TBG_MWBTB_CHAT);        // Add action as a button
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+    }
 #endif
 
 	return true;
@@ -856,7 +858,7 @@ void MessageWidgets::onOptionsChanged(const OptionsNode &ANode)
 	}
 }
 
-void MessageWidgets::showChart(bool)
+void MessageWidgets::showChat(bool)
 {
 	FMainWindow->mainCentralWidget()->setCurrentCentralPage(FChatWindow);
 }
