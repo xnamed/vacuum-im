@@ -57,7 +57,6 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 */
 //!--------------------test---------------
 
-
     FSize=16*FScale;
 	IconStorage::setScale(FScale);
     IconStorage::setFontPointSize(FPointSizeF);

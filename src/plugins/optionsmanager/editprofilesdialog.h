@@ -4,7 +4,12 @@
 #include <QSet>
 #include <QDialog>
 #include <interfaces/ioptionsmanager.h>
+
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+#include "ui_editprofilesdialog2.h"
+#else		// *** >>> eyeCU >>> ***
 #include "ui_editprofilesdialog.h"
+#endif
 
 class EditProfilesDialog :
 	public QDialog
