@@ -20,22 +20,25 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 #include <QDir>
 
 #include "styleeyecu.h"
+#define BASE	16
 
 StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 {
 #ifdef EYECU_MOBILE
 	QScreen *screen = qApp->primaryScreen();
-	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
+//	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
-	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
+//	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
+    qreal midleDotsPerInch=physicalDotsPerInch;     // Variant - 2
 	//! PointSizeF=96
     if(midleDotsPerInch<=110)                               {FScale=1.0; FPointSizeF= 8.0;}
     else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=1.5; FPointSizeF=12.0;}
-    else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.0; FPointSizeF=18.0;}
+    else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.0; FPointSizeF=16.0;}
     else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; FPointSizeF=20.0;}
     else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; FPointSizeF=24.0;}
     else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; FPointSizeF=28.0;}
-    else if(midleDotsPerInch>640)							{FScale=4.5; FPointSizeF=36.0;}
+    else if(midleDotsPerInch>640 && midleDotsPerInch<=800)	{FScale=4.5; FPointSizeF=36.0;}
+    else if(midleDotsPerInch>800)							{FScale=5.5; FPointSizeF=40.0;}
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
@@ -57,7 +60,7 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 */
 //!--------------------test---------------
 
-    FSize=16*FScale;
+	FSize=BASE*FScale;
 	IconStorage::setScale(FScale);
     IconStorage::setFontPointSize(FPointSizeF);
 #else
@@ -66,6 +69,9 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 #endif
 }
 
+//!
+//! \brief StyleEyecu::init
+//!
 void StyleEyecu::init()
 {
 #ifdef EYECU_MOBILE
@@ -81,8 +87,11 @@ void StyleEyecu::init()
 #endif
 }
 
-//! Style modify
+
 //! Base color #039702
+//!
+//! \brief StyleEyecu::saveStyle
+//! \return
 //!
 QString StyleEyecu::saveStyle()
 {
@@ -91,47 +100,58 @@ QString StyleEyecu::saveStyle()
             .append(comboBox());
 }
 
+//!
+//! \brief StyleEyecu::spinBox
+//! \return
+//!
 QString StyleEyecu::spinBox()
 {
     QString style=QString(""
 		"QSpinBox {padding-right: %1px; padding-left: %1px; border-image: url(:spinframe.png) 3; border-width: 3;}"
-        "QSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %1px;"
+		"QSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %2px; height: %2px;"
 							 "border-image: url(:spinup.png) 1; border-width: 2px;}"
         "QSpinBox::up-button:hover {border-image: url(:spinup_hover.png) 1;}"
         "QSpinBox::up-button:pressed {border-image: url(:spinup_pressed.png) 1;}"
 		"QSpinBox::up-arrow {border-image: url(:spinup_arrow.png) 1;}"
 		"QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off {border-image: url(:spinup_arrow_disabled.png) 1;}"
-        "QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %1px;"
+		"QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %3px; height: %3px;"
 							  "border-image: url(:spindown.png) 1; border-width: 2px;}"
         "QSpinBox::down-button:hover {border-image: url(:spindown_hover.png) 1;}"
         "QSpinBox::down-button:pressed {border-image: url(:spindown_pressed.png) 1;}"
 		"QSpinBox::down-arrow {border-image: url(:spindown_arrow.png) 1;}"
 		"QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off {border-image: url(:spindown_arrow_disabled.png) 1;}")
-		.arg(FSize);
+		.arg(FSize/4).arg(FSize).arg(FSize);
 	return style;
 }
-
+//!
+//! \brief StyleEyecu::doubleSpinBox
+//! \return
+//!
 QString StyleEyecu::doubleSpinBox()
 {
 	QString style=QString(""
 		"QDoubleSpinBox {padding-right: %1px; padding-left: %1px; border-image: url(:spinframe.png) 3; border-width: 3;}"
-		"QDoubleSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %1px; height: %1px;"
+		"QDoubleSpinBox::up-button {subcontrol-origin: border; subcontrol-position: right; width: %2px; height: %2px;"
 							 "border-image: url(:spinup.png) 1; border-width: 2px;}"
 		"QDoubleSpinBox::up-button:hover {border-image: url(:spinup_hover.png) 1;}"
 		"QDoubleSpinBox::up-button:pressed {border-image: url(:spinup_pressed.png) 1;}"
 		"QDoubleSpinBox::up-arrow {border-image: url(:spinup_arrow.png) 1;}"
 		"QDoubleSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:off {border-image: url(:spinup_arrow_disabled.png) 1;}"
-		"QDoubleSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %1px; height: %1px;"
+		"QDoubleSpinBox::down-button {subcontrol-origin: border; subcontrol-position: left; width: %3px; height: %3px;"
 							  "border-image: url(:spindown.png) 1; border-width: 2px;}"
 		"QDoubleSpinBox::down-button:hover {border-image: url(:spindown_hover.png) 1;}"
 		"QDoubleSpinBox::down-button:pressed {border-image: url(:spindown_pressed.png) 1;}"
 		"QDoubleSpinBox::down-arrow {border-image: url(:spindown_arrow.png) 1;}"
 		"QDoubleSpinBox::down-arrow:disabled,QDoubleSpinBox::down-arrow:off {border-image: url(:spindown_arrow_disabled.png) 1;}")
-		.arg(FSize);
+		.arg(FSize/4).arg(FSize).arg(FSize);
 	return style;
 }
 
 /*! Base size = 16px*/
+//!
+//! \brief StyleEyecu::checkBox
+//! \return
+//!
 QString StyleEyecu::checkBox()
 {
     QString style=QString(""
@@ -148,6 +168,10 @@ QString StyleEyecu::checkBox()
 	return style;
 }
 
+//!
+//! \brief StyleEyecu::comboBox
+//! \return
+//!
 QString StyleEyecu::comboBox()
 {
 	QString style=QString(""
@@ -157,6 +181,10 @@ QString StyleEyecu::comboBox()
 	return style;
 }
 
+//!
+//! \brief StyleEyecu::radioBottom
+//! \return
+//!
 QString StyleEyecu::radioBottom()
 {
     QString style=QString("QRadioButton::indicator {width: %1px; height: %1px; spacing: %2px;}")
@@ -164,6 +192,10 @@ QString StyleEyecu::radioBottom()
     return style;
 }
 
+//!
+//! \brief StyleEyecu::slider
+//! \return
+//!
 QString StyleEyecu::slider()
 {
     QString style=QString(""
@@ -177,6 +209,10 @@ QString StyleEyecu::slider()
 //        "QSlider::add-page:horizontal {background: white;}"     //after
 //        "QSlider::sub-page:horizontal {background: #039302;}"   //befor 039702
 
+//!
+//! \brief StyleEyecu::treeWidget
+//! \return
+//!
 QString StyleEyecu::treeWidget()
 {
 	QString style=QString(""
@@ -190,6 +226,10 @@ QString StyleEyecu::treeWidget()
 	return style;
 }
 
+//!
+//! \brief StyleEyecu::treeView
+//! \return
+//!
 QString StyleEyecu::treeView()
 {
 	QString style=QString(""
@@ -203,6 +243,10 @@ QString StyleEyecu::treeView()
 	return style;
 }// image: none;
 
+//!
+//! \brief StyleEyecu::progressBar
+//! \return
+//!
 QString StyleEyecu::progressBar()
 {
     //A margin can be included to obtain more visible chunks.
@@ -211,6 +255,10 @@ QString StyleEyecu::progressBar()
 }
 
 /*! Base size = 10 px*/
+//!
+//! \brief StyleEyecu::scrollBar
+//! \return
+//!
 QString StyleEyecu::scrollBar()
 {
     QString style=QString(""
@@ -232,7 +280,6 @@ QString StyleEyecu::scrollBar()
 /* 039702  //old - 919086  C2C0B5  F6F4E9
     "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 2px solid #919086; width: 3px;height: 3px;background:white;}"
     "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: none;}"
-
 */
 
 /*

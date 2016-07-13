@@ -53,11 +53,15 @@
     <object mime="image/png">mainwindowrightmenu.png</object>
   </icon>
   <icon>
-    <key>mainwindowShowRoster</key>
-    <object mime="image/png">mainwindowshowroster.png</object>
-  </icon>
+    <key>mainwindowRoster</key>
+    <object mime="image/png">mainwindowroster.png</object>
+  </icon>  
   <icon>
-    <key>chat</key>
-    <object mime="image/png">chat.png</object>
+    <key>mainwindowChat</key>
+    <object mime="image/png">mainwindowchat.png</object>
+  </icon>
+    <icon>
+    <key>mainwindowOptions</key>
+    <object mime="image/png">mainwindowoptions.png</object>
   </icon>  
 </icondef>

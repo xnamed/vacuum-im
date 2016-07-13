@@ -38,7 +38,7 @@
 #define MNI_CHATSTATES_PAUSED           "chatstatesPaused"
 #define MNI_CHATSTATES_INACTIVE         "chatstatesInactive"
 #define MNI_CHATSTATES_GONE             "chatstatesGone"
-#define MNI_CHAT                        "chat"
+
 
 //ClientInfo
 #define MNI_CLIENTINFO                  "clientinfo"
@@ -103,6 +103,11 @@
 #define MNI_MAINWINDOW_LOGO40           "mainwindowLogo40"
 #define MNI_MAINWINDOW_SHOW_ROSTER      "mainwindowShowRoster"
 #define MNI_EYECU_LOGO                  "logo"
+
+#define MNI_MAINWINDOW_ROSTER           "mainwindowRoster"
+#define MNI_MAINWINDOW_MAP              "mainwindowMap"
+#define MNI_MAINWINDOW_CHAT             "mainwindowChat"
+#define MNI_MAINWINDOW_OPTIONS          "mainwindowOptions"
 // >>> eyeCU >>>
 
 //MessageArchiver

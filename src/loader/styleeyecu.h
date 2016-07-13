@@ -9,7 +9,7 @@
 #include <QFont>
 
 #include <utils/iconstorage.h>
-#include "dialog.h"
+//#include "dialog.h"
 
 class StyleEyecu :public QObject
 {

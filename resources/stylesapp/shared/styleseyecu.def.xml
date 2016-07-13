@@ -39,3 +39,8 @@
 	<icon><key>scale_down</key><object mime="image/png">scale_down.png</object></icon>
 	<icon><key>scale_up</key><object mime="image/png">scale_up.png</object></icon>
 </icondef>
+<scaledef>
+	<scale>2</scale><fontsize>16</fontsize>
+	<scale>2.5</scale><fontsize>20</fontsize>
+	<scale>3</scale><fontsize>24</fontsize>
+</scaledef>

@@ -105,13 +105,13 @@ bool MessageWidgets::initObjects()
     {
         Action *FChatAction = new Action(this);
         FChatAction->setText(tr("Chat"));
-        FChatAction->setIcon(RSR_STORAGE_MENUICONS, MNI_CHAT);
+        FChatAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAINWINDOW_CHAT);
         FChatAction->setEnabled(true);
 //      FChatAction->setCheckable(true);
         connect(FChatAction,SIGNAL(triggered(bool)),SLOT(showChat(bool)));
         QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
                             ->insertAction(FChatAction, TBG_MWBTB_CHAT);        // Add action as a button
-        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     }
 #endif
 
@@ -835,8 +835,8 @@ void MessageWidgets::onOptionsChanged(const OptionsNode &ANode)
 			{
 				FChatWindow->setTabBarVisible(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool());
 				FChatWindow->setAutoCloseEnabled(false);
-				//FMainWindow->mainCentralWidget()->appendCentralPage(FChatWindow);
-				FMainWindow->mainCentralWidget()->insertCentralPage(1,FChatWindow);
+				FMainWindow->mainCentralWidget()->appendCentralPage(FChatWindow);
+//				FMainWindow->mainCentralWidget()->insertCentralPage(1,FChatWindow);
 			}
 			else if (Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE).value().toBool())
 			{

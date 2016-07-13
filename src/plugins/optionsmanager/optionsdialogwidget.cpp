@@ -66,11 +66,13 @@ OptionsDialogWidget::OptionsDialogWidget(const OptionsNode &ANode, const QString
 		QLineEdit *editor = new QLineEdit(this);
 		rigisterEditor(ANode,ACaption,editor);
 	}
+// *** <<< eyeCU <<< ***
 	else if (valueType==QVariant::String || valueType==QVariant::KeySequence)
 	{
 		QTextEdit *editor = new QTextEdit(this);
 		rigisterEditor(ANode,ACaption,editor);
 	}
+// *** >>> eyeCU >>> ***
 	else
 	{
 		REPORT_ERROR(QString("Unsupported options widget node value type=%1").arg(valueType));

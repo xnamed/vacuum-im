@@ -126,6 +126,9 @@ private:
 	QPointer<LoginDialog> FLoginDialog;
 	QPointer<EditProfilesDialog> FEditProfilesDialog;
 	QMap<QString, QPointer<OptionsDialog> > FOptionDialogs;
+#ifdef EYECU_MOBILE
+	QPointer<OptionsDialog> FCurDialog;
+#endif
 private:
 	Action *FChangeProfileAction;
 	Action *FShowOptionsDialogAction;

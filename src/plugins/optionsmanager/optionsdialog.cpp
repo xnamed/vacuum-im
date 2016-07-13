@@ -34,10 +34,8 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 {
 	REPORT_VIEW;
 	ui.setupUi(this);
-	setWindowTitle(tr("Options"));
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
 
 #ifdef EYECU_MOBILE
     FNodeItemIconSize.setWidth(16*IconStorage::scale());
@@ -49,8 +47,9 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	FTrvNodesStyle=QString("background-color:#F4F0F0;");
 	FScaStyle     =QString("background-color:#F4F0F0;");
 //    if(FStyleOn)  setStyleSheet(FTrvNodesStyle);
-
 #else
+    setWindowTitle(tr("Options"));
+    IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_OPTIONS_DIALOG,0,0,"windowIcon");
     FNodeItemIconSize.setWidth(16);
     FNodeItemIconSize.setHeight(16);
     FNodeItemSizeHint.setWidth(24);
@@ -78,7 +77,6 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	ui.trvNodes->setUniformRowHeights(false);
 	ui.trvNodes->sortByColumn(0,Qt::AscendingOrder);
 #ifdef EYECU_MOBILE         // *** <<< eyeCU <<< ***
-//    ui.trvNodes->setAlternatingRowColors(true);   //--all grey--???
     connect(ui.trvNodes,SIGNAL(clicked(QModelIndex)),SLOT(onClicked(QModelIndex)));
 #else				// *** >>> eyeCU >>> ***
 	connect(ui.trvNodes->selectionModel(),SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),SLOT(onCurrentItemChanged(const QModelIndex &, const QModelIndex &)));
@@ -111,7 +109,7 @@ void OptionsDialog::showNode(const QString &ANodeId)
 {
     QStandardItem *item = FNodeItems.value(ANodeId, NULL);
 	if (item)
-		ui.trvNodes->setCurrentIndex(FProxyModel->mapFromSource(FItemsModel->indexFromItem(item)));
+        ui.trvNodes->setCurrentIndex(FProxyModel->mapFromSource(FItemsModel->indexFromItem(item)));
 }
 
 // *** <<< eyeCU <<< ---
@@ -185,6 +183,18 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 	FCleanupHandler.add(nodeWidget);
 	return nodeWidget;
 }
+//! ----CentralPage----
+void OptionsDialog::showCentralPage(bool AMinimized)
+{
+    Q_UNUSED(AMinimized)
+    emit centralPageShow(true);
+}
+
+QIcon OptionsDialog::centralPageIcon() const
+{
+	return IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MAINWINDOW_OPTIONS);
+}
+
 #else
 // *** >>> eyeCU >>> ***
 QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)

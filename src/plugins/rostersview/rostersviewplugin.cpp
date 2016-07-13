@@ -153,18 +153,18 @@ bool RostersViewPlugin::initObjects()
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
         FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FShowOfflineAction,AG_MMENU_RI_ACTIVE,true);
-		//FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
-		FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(0,FRostersView);
+		FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FRostersView);
+//		FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(0,FRostersView);
 
         Action *FRosterAction = new Action(this);
         FRosterAction->setText(tr("Roster"));
-        FRosterAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAINWINDOW_SHOW_ROSTER);//
+        FRosterAction->setIcon(RSR_STORAGE_MENUICONS, MNI_MAINWINDOW_ROSTER);
         FRosterAction->setEnabled(true);
 //      FRosterAction->setCheckable(true);
         connect(FRosterAction,SIGNAL(triggered(bool)),SLOT(showRoster(bool)));
         QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()   // Get toolbar changer
                             ->insertAction(FRosterAction, TBG_MWBTB_ROSTER);            // Add action as a button
-        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);           //Expanding
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 #else
 // *** >>> eyeCU >>> ***
         FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FShowOfflineAction,TBG_MWTTB_ROSTERSVIEW);

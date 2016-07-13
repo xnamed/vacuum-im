@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     IconStorage *iconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	int size=16*(iconStorage->scale()+1);
+    int size=16*(iconStorage->scale()+1);
 	setIconSize(QSize(size,size));	//!------??????-----
 //	QString mainWindowStyle=QString("background-color:#F4F0F0;");
 	QString topToolbarStyle   ="border:0; background-color:#039702; color:white; spacing: 3px;"; // 08AC07

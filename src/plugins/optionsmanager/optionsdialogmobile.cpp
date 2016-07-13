@@ -30,10 +30,12 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 	verticalLayout->addWidget(trvNodes);
 
 	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
-	dbbButtons->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+    dbbButtons->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
 	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
-	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
-	verticalLayout->addWidget(dbbButtons);
+//	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
+    dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Reset);
+
+    verticalLayout->addWidget(dbbButtons);
 
 //! ---for scaScroll ---- OWO_OPTION_SCRLBAR
 	scaScroll = new OptionsScrollArea;

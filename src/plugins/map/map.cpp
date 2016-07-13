@@ -172,10 +172,9 @@ bool Map::initObjects()
     if(FMainWindowPlugin)
     {
         connect(FMapAction,SIGNAL(triggered()),SLOT(showMap()));
-//      FMainWindow->mainMenuRight()->addAction(FMapAction,AG_MMENU_RI_MAP,true);
         QToolButton *button = FMainWindow->bottomToolBarChanger()               // Get toolbar changer
                                 ->insertAction(FMapAction, TBG_MWBTB_MAP);      // Add action as a button
-        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);	//Expanding
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     }
 #endif
 

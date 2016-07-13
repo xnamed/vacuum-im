@@ -1,5 +1,5 @@
 #include "optionsmanager.h"
-
+#include <QDebug>
 #include <QLocale>
 #include <QProcess>
 #include <QSettings>
@@ -108,17 +108,23 @@ bool OptionsManager::initObjects()
 
 	FShowOptionsDialogAction = new Action(this);
 	FShowOptionsDialogAction->setText(tr("Options"));
+#ifdef EYECU_MOBILE
+	FShowOptionsDialogAction->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_OPTIONS);
+#else
 	FShowOptionsDialogAction->setIcon(RSR_STORAGE_MENUICONS,MNI_OPTIONS_DIALOG);
-	FShowOptionsDialogAction->setEnabled(false);
+#endif
 	connect(FShowOptionsDialogAction,SIGNAL(triggered(bool)),SLOT(onShowOptionsDialogByAction(bool)));
 
 	if (FMainWindowPlugin)
 	{
+        FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FChangeProfileAction,AG_MMENU_OPTIONS,true);
 #ifdef EYECU_MOBILE
+        FShowOptionsDialogAction->setEnabled(true);
         QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()       // Get toolbar changer
                             ->insertAction(FShowOptionsDialogAction, TBG_MWBTB_OPTIONS);    // Add action as a button
-        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);               //Expanding
+        button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 #else
+        FShowOptionsDialogAction->setEnabled(false);
 		FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FShowOptionsDialogAction,AG_MMENU_OPTIONS,true);
 #endif
 	}
@@ -581,6 +587,36 @@ void OptionsManager::removeOptionsDialogNode(const QString &ANodeId)
 	}
 }
 
+#ifdef EYECU_MOBILE
+QDialog *OptionsManager::showOptionsDialog(const QString &ANodeId, const QString &ARootId, QWidget *AParent)
+{
+qDebug()<<"OptionsManager::showOptionsDialog/ANodeId="<<ANodeId<<"ARootId="<<ARootId;
+    if (isOpened())
+    {
+qDebug()<<"OptionsManager::showOptionsDialog/isOpened()"<<FCurDialog.data();
+		//QPointer<OptionsDialog> FCurDialog;
+		FCurDialog = FOptionDialogs[ARootId];
+        if (FCurDialog.isNull())
+        {
+qDebug()<<"OptionsManager::showOptionsDialog--1";
+            FCurDialog = new OptionsDialog(this,ARootId,AParent);
+			FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(FCurDialog);
+//            FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(2,FCurDialog);
+            FMainWindowPlugin->mainWindow()->mainCentralWidget()->setCurrentCentralPage(FCurDialog);
+            connect(FCurDialog,SIGNAL(applied()),SLOT(onOptionsDialogApplied()),Qt::QueuedConnection);
+		}else{
+qDebug()<<"OptionsManager::showOptionsDialog--2";
+			FMainWindowPlugin->mainWindow()->mainCentralWidget()->setCurrentCentralPage(FCurDialog);
+		}
+
+        FCurDialog->showNode(ANodeId.isNull() ? Options::fileValue("options.dialog.last-node",ARootId).toString() : ANodeId);
+        WidgetManager::showActivateRaiseWindow(FCurDialog);
+        return FCurDialog;
+    }
+qDebug()<<"OptionsManager::showOptionsDialog--END";
+    return NULL;
+}
+#else
 QDialog *OptionsManager::showOptionsDialog(const QString &ANodeId, const QString &ARootId, QWidget *AParent)
 {
 	if (isOpened())
@@ -597,6 +633,7 @@ QDialog *OptionsManager::showOptionsDialog(const QString &ANodeId, const QString
 	}
 	return NULL;
 }
+#endif
 
 IOptionsDialogWidget *OptionsManager::newOptionsDialogHeader(const QString &ACaption, QWidget *AParent) const
 {
