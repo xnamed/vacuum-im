@@ -83,7 +83,9 @@ protected slots:
 	void onOptionsChanged(const OptionsNode &ANode);
 	void onCopyToClipboardActionTriggered(bool);
 	void onShowOfflineContactsAction(bool AChecked);
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 	void showRoster(bool);
+#endif          // *** >>> eyeCU >>> ***
 private:
 	IStatusIcons *FStatusIcons;
 	IRostersModel *FRostersModel;

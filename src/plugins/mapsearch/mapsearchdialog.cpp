@@ -47,6 +47,7 @@ MapSearchDialog::MapSearchDialog(QHash<QUuid, IMapSearchProvider *> AProviders, 
     QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_MAPSEARCH));
     ui->lblIcon->setPixmap(pixmap);
     ui->lblTitle->setText(tr("eyeCU - Search on the Map"));
+    ui->pbSettings->setVisible(false);
     showMaximized();
 #endif
     //Shortcuts

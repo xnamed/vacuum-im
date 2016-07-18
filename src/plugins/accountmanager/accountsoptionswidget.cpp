@@ -22,7 +22,7 @@ AccountsOptionsWidget::AccountsOptionsWidget(IAccountManager *AAccountManager, i
 	FDragItem = NULL;
 
 	FAccountManager = AAccountManager;
-	FStatusIcons = PluginHelper::pluginInstance<IStatusIcons>();
+	FStatusIcons	= PluginHelper::pluginInstance<IStatusIcons>();
 	FOptionsManager = PluginHelper::pluginInstance<IOptionsManager>();
 
 	FLayout = new QVBoxLayout(ui.wdtAccounts);

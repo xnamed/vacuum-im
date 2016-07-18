@@ -493,7 +493,7 @@ QIcon RostersView::centralPageIcon() const
 
 QString RostersView::centralPageCaption() const
 {
-	return QString();
+    return QString();
 }
 
 QString RostersView::centralPageName() const

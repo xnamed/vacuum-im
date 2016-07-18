@@ -932,12 +932,16 @@ void RostersViewPlugin::onShowOfflineContactsAction(bool)
 	OptionsNode node = Options::node(OPV_ROSTER_SHOWOFFLINE);
 	node.setValue(!node.value().toBool());
 }
-
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
 void RostersViewPlugin::showRoster(bool)
 {
 	//FMainWindowPlugin->mainWindow()->mainCentralWidget()->insertCentralPage(0,FRostersView);
 	FMainWindowPlugin->mainWindow()->mainCentralWidget()->setCurrentCentralPage(FRostersView);
 }
+#endif
+// *** >>> eyeCU >>> ***
+
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_rostersview, RostersViewPlugin)
 #endif

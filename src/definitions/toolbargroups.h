@@ -24,7 +24,7 @@
 #define TBG_MWTTB_POI                                           1700
 #define TBG_MWTTB_MMPLAYER                                      1800
 
-//MainWindow - BotToolBar
+//MainWindow - BottomToolBar
 #define TBG_MWBTB_ROSTER                                        12000
 #define TBG_MWBTB_MAP                                           13000
 #define TBG_MWBTB_CHAT                                          14000

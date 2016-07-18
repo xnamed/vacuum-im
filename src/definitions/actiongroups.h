@@ -22,6 +22,7 @@
 #define AG_MMENU_RI_MAPS_MENU                                   550
 #define AG_MMENU_RI_POI                                         600
 #define AG_MMENU_RI_POI_LIST                                    600
+#define AG_MMENU_RI_LOCATE                                      600
 #define AG_MMENU_RI_MMPLAYER                                    650
 #define AG_MMENU_RI_ACTIVE                                      700
 #define AG_MMENU_RI_SOUND                                       700

@@ -2,6 +2,7 @@
 #include <utils/iconstorage.h>
 #include <definitions/shortcuts.h>
 #include <definitions/toolbargroups.h>
+#include <definitions/actiongroups.h>
 #include "positioningmethodmanual.h"
 #include "setlocation.h"
 
@@ -137,7 +138,6 @@ void PositioningMethodManual::addMenu()
             FActionHereIAm = FMap->addMenuAction(tr("Here I am!"), RSR_STORAGE_MENUICONS, MNI_GEOLOC, 0);
             FActionStopPublish = FMap->addMenuAction(tr("Stop publication"),QString(RSR_STORAGE_MENUICONS),QString(MNI_GEOLOC_OFF),0);
             connect(FActionHereIAm,SIGNAL(triggered(bool)),SLOT(hereIam()));
-            FActionStopPublish->setShortcutId(SCT_MAP_STOPLOCATIONPUBLICATION);
             connect(FActionStopPublish,SIGNAL(triggered(bool)),SLOT(retractGeoloc()));
 #else
             FActionHereIAm = FMap->addMenuAction(tr("Here I am!"), RSR_STORAGE_MENUICONS, MNI_GEOLOC, 0);
@@ -156,7 +156,11 @@ void PositioningMethodManual::addMenu()
 			FActionSetPosition->setText(tr("Set my position"));
 			FActionSetPosition->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_GEOLOC));
 			FActionSetPosition->setEnabled(true);
+#ifdef EYECU_MOBILE
+			FMainWindowPlugin->mainWindow()->mainMenuRight()->addAction(FActionSetPosition,AG_MMENU_RI_LOCATE,true);
+#else
 			FMainWindowPlugin->mainWindow()->topToolBarChanger()->insertAction(FActionSetPosition, TBG_MWTTB_MAPS);
+#endif
 			connect(FActionSetPosition,SIGNAL(triggered(bool)),SLOT(setPosition()));
 		}
 	}

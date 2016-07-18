@@ -681,7 +681,7 @@ void MapForm::updateLblScale()
 	ui->lblScale->setText(QString("%1").arg(Options::node(OPV_MAP_ZOOM).value().toInt()));
 #endif
 }
-
+#ifdef EYECU_MOBILE
 void MapForm::wdScaleVisible()
 {
 	if(Options::node(OPV_MAP_WDSCALE).value().toBool())
@@ -695,7 +695,7 @@ void MapForm::wdScaleVisible()
 		ui->lblScale->setVisible(false);
 	}
 }
-
+#endif
 void MapForm::setMapSource(IMapSource *AMapSource)
 {
 	int index = chooseMapSource(FMapSource=AMapSource);

@@ -12,7 +12,12 @@
 #include <utils/logger.h>
 
 #include "playerwindow.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_playerwindow2.h"
+#else
 #include "ui_playerwindow.h"
+#endif
 
 #define PLAY_WITH_DELETE	-1
 
@@ -34,7 +39,9 @@ PlayerWindow::PlayerWindow(QObject *APlugin, MediaStreamer *AMediaStreamer, QStr
 	LOG_DEBUG(QString("PlayerWindow(Streamer, %1").arg(AFileName));
     ui->setupUi(this);
 	ui->btnOpen->hide();
-
+#ifdef EYECU_MOBILE
+    ui->btnOptions->setVisible(false);
+#endif
 	init(APlugin);
 
 	calculate(AFileName, AFileLenth);
@@ -71,7 +78,9 @@ PlayerWindow::PlayerWindow(QObject *APlugin, QWidget *AParent):
 
 	ui->btnOpen->setIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_MMPLAYER_EJECT));
 	ui->btnOpen->setToolTip(tr("Open..."));
-
+#ifdef EYECU_MOBILE
+    ui->btnOptions->setVisible(false);
+#endif
 	init(APlugin);
 
 	ui->btnPlay->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));

@@ -33,12 +33,12 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 	//! PointSizeF=96
     if(midleDotsPerInch<=110)                               {FScale=1.0; FPointSizeF= 8.0;}
     else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=1.5; FPointSizeF=12.0;}
-    else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.0; FPointSizeF=16.0;}
-    else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; FPointSizeF=20.0;}
-    else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; FPointSizeF=24.0;}
-    else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; FPointSizeF=28.0;}
-    else if(midleDotsPerInch>640 && midleDotsPerInch<=800)	{FScale=4.5; FPointSizeF=36.0;}
-    else if(midleDotsPerInch>800)							{FScale=5.5; FPointSizeF=40.0;}
+	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.5; FPointSizeF=18.0;}
+	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; FPointSizeF=18.0;}
+	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; FPointSizeF=22.0;}
+	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; FPointSizeF=26.0;}
+	else if(midleDotsPerInch>640 && midleDotsPerInch<=800)	{FScale=4.5; FPointSizeF=28.0;}
+	else if(midleDotsPerInch>800)							{FScale=5.5; FPointSizeF=28.0;}
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
@@ -49,7 +49,7 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 
 //!--------------------test---------------
 /*
-    Dialog *dg=new Dialog(FScale,FPointSizeF);
+	Dialog *dg=new Dialog(FScale,FPointSizeF);
     if(dg->exec())
     {
         FScale=dg->getScale();

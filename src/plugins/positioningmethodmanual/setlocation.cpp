@@ -1,3 +1,4 @@
+#include <utils/iconstorage.h>		// *** <<< eyeCU <<< ***
 #include "setlocation.h"
 
 #ifdef EYECU_MOBILE
@@ -11,7 +12,15 @@ SetLocation::SetLocation(const MercatorCoordinates &ACoordinates, const QIcon &A
     ui(new Ui::SetLocation)
 {
     ui->setupUi(this);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+	//QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_CLIENTINFO));
+	QSize size(16*IconStorage::scale(),16*IconStorage::scale());
+	ui->lblIcon->setPixmap(AIcon.pixmap(size));
+	ui->verticalLayout->setMargin(16*IconStorage::scale());
+#else	// *** >>> eyeCU >>> ***
     setWindowIcon(AIcon);
+#endif
     ui->dspbLatitude->setValue(ACoordinates.latitude());
     ui->dspbLongitude->setValue(ACoordinates.longitude());
 }

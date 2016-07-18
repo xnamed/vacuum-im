@@ -49,7 +49,9 @@ Notifications::Notifications()
 
 	FNotifyId = 0;
 	FSound = NULL;
+#ifdef EYECU_MOBILE
 	FFlagAndroidNotify=false;	// *** <<< eyeCU <<< ***
+#endif
 }
 
 Notifications::~Notifications()

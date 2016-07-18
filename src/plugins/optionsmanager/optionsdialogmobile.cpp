@@ -10,7 +10,7 @@ OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
 void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 {
 	if (OptionsDialogClass->objectName().isEmpty())
-		OptionsDialogClass->setObjectName(QStringLiteral("OptionsDialogClass"));
+		OptionsDialogClass->setObjectName(QStringLiteral("MobileOptionsDialogClass"));
 
 	verticalLayout = new QVBoxLayout(OptionsDialogClass);
 	verticalLayout->setSpacing(6);

@@ -346,9 +346,7 @@ void Map::fillMenu()
 #endif
 	action->setShortcutId(SCT_MAP_NEWCENTER);
 	connect(action, SIGNAL(triggered(bool)), FMapForm, SLOT(onSetNewCenter()));
-#ifdef EYECU_MOBILE
-    action = addMenuAction(tr("Options"), RSR_STORAGE_MENUICONS, MNI_OPTIONS_DIALOG, 0);
-#else
+#ifndef EYECU_MOBILE
     action = addMenuAction(tr("Options"), RSR_STORAGE_MENUICONS, MNI_OPTIONS_DIALOG, 1);
 #endif
 	action->setShortcutId(SCT_MAP_OPTIONS);

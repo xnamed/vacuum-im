@@ -95,9 +95,7 @@ bool MapSearch::initObjects()
 	action->setIcon(RSR_STORAGE_MENUICONS, MNI_MAPSEARCH);
 	if (FMap)
 	{
-#ifdef EYECU_MOBILE
-		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_MAP);
-#else
+#ifndef EYECU_MOBILE
 		action=FMap->addMenuAction(tr("Search"), RSR_STORAGE_MENUICONS, MNI_MAPSEARCH, MENU_ALL);
 #endif
 	}
@@ -105,8 +103,8 @@ bool MapSearch::initObjects()
 	else
 #endif
 	{
-	IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
-	mainWindow->topToolBarChanger()->insertAction(action, TBG_MWTTB_MAPS); // Add action as a button
+        IMainWindow *mainWindow = FMainWindowPlugin->mainWindow();
+        mainWindow->topToolBarChanger()->insertAction(action, TBG_MWTTB_MAPS); // Add action as a button
 	}
     action->setShortcutId(SCT_MAPSEARCH_SEARCHDIALOG);
     connect(action, SIGNAL(triggered()), SLOT(onMapSearchTriggered()));

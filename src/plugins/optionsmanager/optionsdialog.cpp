@@ -197,6 +197,7 @@ QIcon OptionsDialog::centralPageIcon() const
 
 #else
 // *** >>> eyeCU >>> ***
+
 QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 {
     LOG_DEBUG(QString("Creating options dialog widgets for node=%1").arg(ANodeId));
@@ -290,28 +291,12 @@ bool OptionsDialog::canExpandVertically(const QWidget *AWidget) const
     return expanding;
 }
 
+// *** <<< eyeCU <<< ***
 bool OptionsDialog::eventFilter(QObject *AObj, QEvent *AEvent)
 {
-    bool hooked = false;
-/*
-    QMouseEvent *mEvent=static_cast<QMouseEvent *>(AEvent);
-
-    if(mEvent->type() == QMouseEvent::MouseButtonPress){
-qDebug()<<"OptionsDialog::eventFilter/Mouse______Press/objectName="<<AObj->objectName();
-//        QWidget::mousePressEvent(static_cast<QMouseEvent *>(AEvent));
-
-    }
-    else if(mEvent->type() == QMouseEvent::MouseButtonRelease)  {
-qDebug()<<"OptionsDialog::eventFilter/MouseButtonRelease/objectName="<<AObj->objectName();
-
-    }
-    else if(mEvent->type() == QMouseEvent::MouseMove){
-
-    }
-*/
     return QObject::eventFilter(AObj, AEvent);
-//    return hooked || QObject::eventFilter(AObj,AEvent);
 }
+// *** >>> eyeCU >>> ***
 
 void OptionsDialog::onOptionsWidgetModified()
 {

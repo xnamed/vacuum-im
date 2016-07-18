@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     IconStorage *iconStorage = IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    int size=16*(iconStorage->scale()+1);
+	int size=1.5*16*iconStorage->scale();
 	setIconSize(QSize(size,size));	//!------??????-----
 //	QString mainWindowStyle=QString("background-color:#F4F0F0;");
 	QString topToolbarStyle   ="border:0; background-color:#039702; color:white; spacing: 3px;"; // 08AC07
@@ -144,6 +144,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     button->setPopupMode(QToolButton::InstantPopup);
 
 	QLabel *title = new QLabel(CLIENT_NAME);
+	title->setWordWrap(true);
 	topToolBarChanger()->insertWidget(title, TBG_MWTTB_TITLE);
 #endif
 // *** >>> eyeCU >>>***
@@ -497,6 +498,14 @@ void MainWindow::onUpdateCentralWidgetVisible()
 void MainWindow::closeEvent(QCloseEvent *AEvent)
 {
 	AEvent->ignore();
+/*
+    if (FCentralPageOpenStack.size()>1)
+    {
+        FCentralPageOpenStack.removeLast();
+        FCentralWidget->setCurrentCentralPage(FCentralPageOpenStack.last());
+    }
+    else
+*/
     showMinimized();
 }
 
