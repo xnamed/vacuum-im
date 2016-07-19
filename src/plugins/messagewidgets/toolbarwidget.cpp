@@ -5,7 +5,7 @@ ToolBarWidget::ToolBarWidget(IMessageWindow *AWindow, QWidget *AParent) : QToolB
 	FWindow = AWindow;
 	FToolBarChanger = new ToolBarChanger(this);
 #ifdef EYECU_MOBILE
-    setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
+	setIconSize(QSize(IconStorage::iconSize(),IconStorage::iconSize()));
 #else
 	setIconSize(QSize(16,16));
 #endif

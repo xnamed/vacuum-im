@@ -20,9 +20,9 @@ xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
 #include <QDir>
 
 #include "styleeyecu.h"
-#define BASE	16
+#define BASE	8
 
-StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
+StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 {
 #ifdef EYECU_MOBILE
 	QScreen *screen = qApp->primaryScreen();
@@ -31,18 +31,19 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAPpl(APpl)
 //	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
     qreal midleDotsPerInch=physicalDotsPerInch;     // Variant - 2
 	//! PointSizeF=96
-    if(midleDotsPerInch<=110)                               {FScale=1.0; FPointSizeF= 8.0;}
-    else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=1.5; FPointSizeF=12.0;}
-	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=2.5; FPointSizeF=18.0;}
-	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=2.5; FPointSizeF=18.0;}
-	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=3.0; FPointSizeF=22.0;}
-	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=3.5; FPointSizeF=26.0;}
-	else if(midleDotsPerInch>640 && midleDotsPerInch<=800)	{FScale=4.5; FPointSizeF=28.0;}
-	else if(midleDotsPerInch>800)							{FScale=5.5; FPointSizeF=28.0;}
+	//! sizes <<"8"<<"16"<<"24"<<"32"<<"40"<<"48"<<"64"<<"80"<<"96"<<"128"<<"160"<<"192"<<"256"<<"320"<<"384"<<"448"<<"512";
+	if(midleDotsPerInch<=110)                               {FScale=2.0; FPointSizeF= 8.0;}	// desktop
+	else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=3.0; FPointSizeF=12.0;} // ldpi
+	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=4.0; FPointSizeF=16.0;} // mdpi
+	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=5.0; FPointSizeF=16.0;} // hdpi
+	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=6.0; FPointSizeF=16.0;} // xhdpi
+	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=6.0; FPointSizeF=16.0;} // xxhdpi
+	else if(midleDotsPerInch>640 && midleDotsPerInch<=800)	{FScale=8.0; FPointSizeF=18.0;} // xxxhdpi
+	else if(midleDotsPerInch>800)							{FScale=10.0; FPointSizeF=18.0;} // +xxxhdpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
-	 FScale=2.0;
+	 FScale=4.0;
 	 FPointSizeF=16;
 #endif
 //!---- delete Later-------
@@ -77,13 +78,14 @@ void StyleEyecu::init()
 #ifdef EYECU_MOBILE
     QStringList styles=QStyleFactory::keys();	// "Android","Windows", "Fusion"
     if(styles.contains("Fusion"))               //Qt::CaseInsensitive
-        FAPpl->setStyle(QStyleFactory::create("Fusion"));
-    FAPpl->setStyleSheet(saveStyle());
-    FAPpl->style()->setObjectName("Fusion");
+		FAppl->setStyle(QStyleFactory::create("Fusion"));
+	FAppl->setStyleSheet(saveStyle());
+	FAppl->style()->setObjectName("Fusion");
 
-    QFont font = FAPpl->font();
-    font.setPointSizeF(FPointSizeF);
-    FAPpl->setFont(font);
+	QFont font = FAppl->font();
+	font.setPointSizeF(FPointSizeF);
+	//  pixelSize = DPI * pointSize / 72
+	FAppl->setFont(font);
 #endif
 }
 
@@ -147,7 +149,7 @@ QString StyleEyecu::doubleSpinBox()
 	return style;
 }
 
-/*! Base size = 16px*/
+/*! Base size = 8px */
 //!
 //! \brief StyleEyecu::checkBox
 //! \return
@@ -274,7 +276,7 @@ QString StyleEyecu::scrollBar()
         "QScrollBar::sub-line:horizontal {width: %1px; subcontrol-position: left; subcontrol-origin: margin;}"
 		"QScrollBar::left-arrow:horizontal {border-image: url(:arrow_left.png) 1;}"
 		"QScrollBar::right-arrow:horizontal {border-image: url(:arrow_right.png) 1;}"
-		).arg(10*FScale).arg(FScale).arg(10*2*FScale).arg("919086").arg("039702").arg("F6F4E9");
+		).arg(5*FScale).arg(FScale/2).arg(FScale).arg("919086").arg("039702").arg("F6F4E9");
 	return style;
 }
 /* 039702  //old - 919086  C2C0B5  F6F4E9

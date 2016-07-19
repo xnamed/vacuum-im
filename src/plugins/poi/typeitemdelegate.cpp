@@ -10,7 +10,7 @@
 
 void TypeItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
 // Qt::UserRole contains display data
     QString userRole = index.data(Qt::UserRole).toString();
 

@@ -13,7 +13,7 @@ PoiList::PoiList(IPoi *APoi, QWidget *parent) :
 	showMaximized();
 #endif
 
-	int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
 	ui->poiList->setIconSize(QSize(size,size));
 	ui->poiList->setWordWrap(true);
 

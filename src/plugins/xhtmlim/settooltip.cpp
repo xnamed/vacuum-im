@@ -17,7 +17,7 @@ SetToolTip::SetToolTip(int AType, const QString &ATitleText, QWidget *parent) :
     ui->setupUi(this);
 
 #ifdef EYECU_MOBILE
-    int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
     ui->verLayout->setMargin(size);
     ui->lblIcon->setPixmap(IconStorage::staticStorage(RSR_STORAGE_HTML)->getIcon(XHI_SET_TOOLTIP).pixmap(QSize(size,size)));
 #else

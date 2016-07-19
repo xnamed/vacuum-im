@@ -699,7 +699,7 @@ void Notifications::removeNotificationHandler(int AOrder, INotificationHandler *
 QImage Notifications::contactAvatar(const Jid &AContactJid) const
 {
 #ifdef EYECU_MOBILE
-    return FAvatars!=NULL ? FAvatars->loadAvatarImage(FAvatars->avatarHash(AContactJid), QSize(32*IconStorage::scale(),32*IconStorage::scale())) : QImage();
+	return FAvatars!=NULL ? FAvatars->loadAvatarImage(FAvatars->avatarHash(AContactJid), QSize(2*IconStorage::iconSize(),2*IconStorage::iconSize())) : QImage();
 #else
     return FAvatars!=NULL ? FAvatars->loadAvatarImage(FAvatars->avatarHash(AContactJid), QSize(32,32)) : QImage();
 #endif

@@ -50,7 +50,7 @@ SearchDialog::SearchDialog(IJabberSearch *ASearch, const Jid &AStreamJid, const 
 	QToolBar *toolBar = new QToolBar(this);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-        toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
+		toolBar->setIconSize(QSize(IconStorage::iconSize(),IconStorage::iconSize()));
 #else
 // *** >>> eyeCU >>> ***
 		toolBar->setIconSize(QSize(16,16));

@@ -268,7 +268,7 @@ bool MessageArchiver::initSettings()
 	Options::setDefaultValue(OPV_HISTORY_ENGINE_REPLICATEREMOVE,true);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	Options::setDefaultValue(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE_MOB,10*IconStorage::scale());
+	Options::setDefaultValue(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE_MOB,IconStorage::fontPointSize());
 #else
 // *** >>> eyeCU >>> ***
 	Options::setDefaultValue(OPV_HISTORY_ARCHIVEVIEW_FONTPOINTSIZE,10);

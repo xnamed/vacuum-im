@@ -221,7 +221,7 @@ ArchiveViewWindow::ArchiveViewWindow(IMessageArchiver *AArchiver, const QMultiMa
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
     ui.trvHeaders->setIconSize(QSize(size,size));
 #else
 // *** >>> eyeCU >>> ***

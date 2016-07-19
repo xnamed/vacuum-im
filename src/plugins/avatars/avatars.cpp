@@ -65,7 +65,7 @@ Avatars::Avatars()
 	FAvatarsVisible = false;
 // *** <<< eyeCU >>> ***
 #ifdef EYECU_MOBILE
-	FAvatarSize = QSize(2*16*IconStorage::scale(),2*16*IconStorage::scale());
+	FAvatarSize = QSize(2*IconStorage::iconSize(),2*IconStorage::iconSize());
 #else
 	FAvatarSize = QSize(32,32);
 #endif

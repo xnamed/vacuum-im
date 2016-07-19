@@ -56,7 +56,7 @@ void SelectIconMenu::onAboutToShow()
 	if (!recent.isEmpty())
 	{
 		QToolBar *toolBar = new QToolBar(this);
-		toolBar->setIconSize(QSize(16*IconStorage::scale(),16*IconStorage::scale()));
+		toolBar->setIconSize(QSize(IconStorage::iconSize(),IconStorage::iconSize()));
 		FLayout->addWidget(toolBar);
 		ToolBarChanger changer(toolBar);
 		for (QStringList::ConstIterator it=recent.constBegin(); it!=recent.constEnd(); ++it)

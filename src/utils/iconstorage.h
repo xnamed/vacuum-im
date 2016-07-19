@@ -31,6 +31,9 @@ public:
     static qreal scale() {return FScale;}
     static void setFontPointSize(float AValue) {FFontPointSize = AValue;}
     static float fontPointSize() {return FFontPointSize;}
+	static void setBaseSize(int AValue) {FBaseSize=AValue;}
+	static int base() {return FBaseSize;}
+	static int iconSize() {return FScale*FBaseSize;}
 // *** >>> eyeCU >>> ***
 protected:
 	void initAnimation(QObject *AObject, IconUpdateParams *AParams);
@@ -49,8 +52,11 @@ private:
 	static QHash<QObject *, IconStorage *> FObjectStorage;
 	static QHash<QString, QHash<QString, QIcon> > FIconCache;
 	static QHash<QString, QHash<QString, QList<IconAnimateFrame> > > FAnimateCache;
-    static qreal FScale;            // *** <<< eyeCU <<< ---
-    static float FFontPointSize;    // *** <<< eyeCU <<< ---
+// *** <<< eyeCU <<< ***
+	static qreal FScale;
+	static float FFontPointSize;
+	static int FBaseSize;
+// *** >>> eyeCU >>> ***
 };
 
 #endif // ICONSTORAGE_H

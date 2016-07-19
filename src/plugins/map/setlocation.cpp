@@ -13,7 +13,7 @@ SetLocation::SetLocation(const MercatorCoordinates &ACoordinates, const QIcon &A
 {
     ui->setupUi(this);
 #ifdef EYECU_MOBILE
-	int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
 	ui->lblIcon->setPixmap(AIcon.pixmap(size,size));
 	ui->lblTitle->setText(tr("New center"));
 #else

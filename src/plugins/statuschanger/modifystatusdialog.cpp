@@ -16,7 +16,7 @@ ModifyStatusDialog::ModifyStatusDialog(IStatusChanger *AStatusChanger, int AStat
     QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_SCHANGER_MODIFY_STATUS));
     ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Modify Status for - %1").arg(AStreamJid.bare()));
-    ui.vboxLayout->setMargin(16*IconStorage::scale());
+	ui.vboxLayout->setMargin(IconStorage::iconSize());
     showMaximized();
 #else
 // *** <<< eyeCU <<< ***

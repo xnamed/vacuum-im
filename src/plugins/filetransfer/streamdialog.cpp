@@ -30,7 +30,7 @@ StreamDialog::StreamDialog(IDataStreamsManager *ADataManager, IFileStreamsManage
 	ui.pgbPrgress->setMaximum(100);
 
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-	ui.streamLayout->setMargin(16*IconStorage::scale());
+	ui.streamLayout->setMargin(IconStorage::iconSize());
 	ui.lblTitle->setText(tr("<b>File Transfer</b>"));
 #endif		// *** >>> eyeCU >>> ***
 

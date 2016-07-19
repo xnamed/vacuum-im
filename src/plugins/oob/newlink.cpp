@@ -17,7 +17,7 @@ NewLink::NewLink(const QString &ATitle, const QIcon &AIcon, QUrl AUrl, QString A
 {
     ui->setupUi(this);
 #ifdef EYECU_MOBILE
-    int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
     ui->verLayout->setMargin(size);
     ui->lblIcon->setPixmap(AIcon.pixmap(QSize(size,size)));
     ui->lblTitlel->setText(ATitle);

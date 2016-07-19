@@ -39,7 +39,7 @@ RostersView::RostersView(QWidget *AParent) : QTreeView(AParent)
 	FRostersModel = NULL;
 // ****  <<<  eyeCU  <<<  ****
 #ifdef EYECU_MOBILE		// TEMPORARY ---
-	int size=16*(IconStorage::scale()+1);
+	int size=IconStorage::iconSize();
 	setIconSize(QSize(size,size));
 #endif
 	FPressedPos = QPoint();

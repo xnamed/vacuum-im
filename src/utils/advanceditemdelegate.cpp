@@ -1051,7 +1051,7 @@ QSize AdvancedItemDelegate::itemSizeHint(const AdvancedDelegateItem &AItem, cons
 	static const QSize zeroSize = QSize(0,0);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	static const QSize branchSize = QSize(12*IconStorage::scale(),12*IconStorage::scale());
+	static const QSize branchSize = QSize(IconStorage::iconSize()*3/4,IconStorage::iconSize()*3/4);
 #else
 	static const QSize branchSize = QSize(12,12);
 #endif
@@ -1074,8 +1074,8 @@ QSize AdvancedItemDelegate::itemSizeHint(const AdvancedDelegateItem &AItem, cons
             int height = style->proxy()->pixelMetric(QStyle::PM_IndicatorHeight, &AItemOption, AItemOption.widget);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-            width*=IconStorage::scale();
-            height*=IconStorage::scale();
+			width*=IconStorage::scale()/2;
+			height*=IconStorage::scale()/2;
 #endif
 // *** >>> eyeCU >>> ***
             return QSize(width,height);

@@ -30,7 +30,7 @@ protected:
 	QString scrollBar();
 	QString treeView();
 private:
-    QApplication *FAPpl;
+    QApplication *FAppl;
     qreal   FScale;
     int     FSize;
     float   FPointSizeF;

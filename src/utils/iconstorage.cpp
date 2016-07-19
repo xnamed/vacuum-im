@@ -48,10 +48,16 @@ struct IconStorage::IconUpdateParams {
 	IconAnimateParams *animation;
 };
 
-// *** <<< eyeCU <<< ***
-qreal IconStorage::FScale(1.0);
+//!--- *** <<< eyeCU <<< *** ------
+#define SCALEBASE	8.0
+#define SCALEMIN	3.0
+#define SCALESTEP	1.0
+#define DELIM		#
+
+qreal IconStorage::FScale(2.0);
 float IconStorage::FFontPointSize(8.0);
-// *** >>> eyeCU >>> ***
+int IconStorage::FBaseSize(8);
+//!--- *** >>> eyeCU >>> *** -------
 
 IconStorage::IconStorage(const QString &AStorage, const QString &ASubStorage, QObject *AParent) : FileStorage(AStorage,ASubStorage,AParent)
 {
@@ -68,6 +74,8 @@ IconStorage::~IconStorage()
 // *** <<< eyeCU <<< ***
 QPixmap IconStorage::getStoragePixmap(const QString AFileName)
 {
+	QStringList sizes;
+	sizes <<"1"<<"8"<<"16"<<"24"<<"32"<<"40"<<"48"<<"64"<<"80"<<"96"<<"128"<<"160"<<"192"<<"256"<<"320"<<"384"<<"448"<<"512";
     QStringList partsName = AFileName.split(".");
     QString     extName   = partsName[1];   // or [partsName.size()-1]
     QString     nameName  = partsName[0];
@@ -79,11 +87,11 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
     }
     else
     {
-        if(FScale>1.5)
+		if(FScale>SCALEMIN)
         {
             //!-build new name ---
-            QString suffix=QString("%1").arg(FScale*16);
-            QString newFileName=QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
+			QString suffix		= QString("%1").arg(FScale*SCALEBASE);
+			QString newFileName	= QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
             QFile file(newFileName);
             if(file.exists())
             {
@@ -93,19 +101,20 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
             {
                 //! SEARCH NEAR NAME
                 bool result=false;
-                qreal step=FScale;
+				qreal step =FScale;
                 QPixmap pixmap;
                 do{
-                    step-=.5;
-                    suffix=QString("%1").arg(16*step);
-                    newFileName=QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
+					step		-= SCALESTEP;
+					suffix		= QString("%1").arg(SCALEBASE*step);
+					newFileName	= QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
                     file.setFileName(newFileName);
                     if(file.exists())
                     {
                         result=true;
                         break;
                      }
-                } while(step>1.5);
+				} while(step>SCALEMIN);
+
                 if(result) 	// Scale icon according to FScale
                     pixmap = QPixmap::fromImage(QImageReader(newFileName).read());
                 else{
@@ -113,9 +122,11 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
                     if(file.exists())
                         pixmap = QPixmap::fromImage(QImageReader(AFileName).read());
                 }
+
                 if (pixmap.isNull())
                     return pixmap;      //! not scaled if pixmap== NULL
-                return (pixmap.width()==pixmap.height() && pixmap.width()<FScale*16)?pixmap.scaled(FScale*16,FScale*16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap;
+
+				return (pixmap.width()==pixmap.height() && pixmap.width()<FScale*SCALEBASE)?pixmap.scaled(FScale*SCALEBASE,FScale*SCALEBASE,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap;
             }
         }
         else
@@ -127,6 +138,73 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
     }
     return QPixmap();
 }
+
+/*! ----------------------------------------------------------
+QPixmap IconStorage::getStoragePixmap(const QString AFileName)
+{
+	QStringList partsName = AFileName.split(".");
+	QString     extName   = partsName[1];   // or [partsName.size()-1]
+	QString     nameName  = partsName[0];
+	if(nameName.split("#").size()>1)        // example file name= AABBCC#32
+	{
+		QFile file(AFileName);
+		if(file.exists())
+			return QPixmap::fromImage(QImageReader(AFileName).read());
+	}
+	else
+	{
+		if(FScale>SCALEMIN)
+		{
+			//!-build new name ---
+			QString suffix=QString("%1").arg(FScale*SCALEBASE);
+			QString newFileName=QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
+			QFile file(newFileName);
+			if(file.exists())
+			{
+				return QPixmap::fromImage(QImageReader(newFileName).read());
+			}
+			else
+			{
+				//! SEARCH NEAR NAME
+				bool result=false;
+				qreal step =FScale;
+				QPixmap pixmap;
+				do{
+					step-=SCALESTEP;
+					suffix=QString("%1").arg(SCALEBASE*step);
+					newFileName=QString(nameName).append("#%1.%2").arg(suffix).arg(extName);
+					file.setFileName(newFileName);
+					if(file.exists())
+					{
+						result=true;
+						break;
+					 }
+				} while(step>SCALEMIN);
+				if(result) 	// Scale icon according to FScale
+					pixmap = QPixmap::fromImage(QImageReader(newFileName).read());
+				else{
+					QFile file(AFileName);
+					if(file.exists())
+						pixmap = QPixmap::fromImage(QImageReader(AFileName).read());
+				}
+				if (pixmap.isNull())
+					return pixmap;      //! not scaled if pixmap== NULL
+				return (pixmap.width()==pixmap.height() && pixmap.width()<FScale*SCALEBASE)?pixmap.scaled(FScale*SCALEBASE,FScale*SCALEBASE,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap;
+			}
+		}
+		else
+		{
+			QFile file(AFileName);
+			if(file.exists())
+				return QPixmap::fromImage(QImageReader(AFileName).read());
+		}
+	}
+	return QPixmap();
+}
+
+--------------------------------------------------------------- */
+
+
 // *** >>> eyeCU >>> ***
 
 QIcon IconStorage::getIcon(const QString &AKey, int AIndex) const

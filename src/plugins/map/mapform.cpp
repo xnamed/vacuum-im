@@ -61,10 +61,9 @@ MapForm::MapForm(Map *AMap, MapScene *AMapScene, QWidget *parent) :
     ui->frmJoystick->raise();
 	ui->mapScale->raise();
 #endif
-    FMapFontScale=IconStorage::scale();
 
 #ifdef EYECU_MOBILE     // OR OTHER MOBILE OS's
-	int newSize=16*FMapFontScale;
+	int newSize=IconStorage::iconSize();
 	FSizePixmap=newSize;
 	QSize size(newSize,newSize);
     ui->btnReload->setIconSize(size);

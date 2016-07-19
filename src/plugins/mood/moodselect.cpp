@@ -10,7 +10,7 @@ MoodSelect::MoodSelect(Mood *AMood, const QStringList &AMoodList, const QHash<QS
     FMoodList(AMoodList),    
     FTextList(ATextList),
     FMoodKeys(AMoodKeys),
-    FCurScale(1)
+	FCurScale(2)
 {
     ui->setupUi(this);	
     ui->listActiv->sortItems(0,Qt::AscendingOrder);
@@ -20,7 +20,7 @@ MoodSelect::MoodSelect(Mood *AMood, const QStringList &AMoodList, const QHash<QS
     ui->listActiv->setFont(fnt);
     ui->comboBox->setFont(fnt);
 #ifdef EYECU_MOBILE
-    ui->listActiv->setIconSize(QSize(16*FCurScale,16*FCurScale));
+	ui->listActiv->setIconSize(QSize(IconStorage::iconSize(),IconStorage::iconSize()));
     ui->lblIcon->setScaledContents(true);
 	showMaximized();
 #else
@@ -86,7 +86,7 @@ void MoodSelect::onEditTextChanged(const QString &ANewText)
 void MoodSelect::onCurItemChanged(QTreeWidgetItem *ANewItem, QTreeWidgetItem *AOldItem)
 {
     Q_UNUSED(AOldItem);
-    ui->lblIcon->setPixmap(ANewItem->icon(0).pixmap(16*FCurScale));
+	ui->lblIcon->setPixmap(ANewItem->icon(0).pixmap(IconStorage::iconSize()));
     if (ANewItem->text(1)=="no_mood")
         FMoodData.clear();
     else

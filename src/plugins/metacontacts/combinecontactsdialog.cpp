@@ -22,11 +22,11 @@ CombineContactsDialog::CombineContactsDialog(IMetaContacts *AMetaContacts, const
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-    QSize avatarSize(1.5*16*IconStorage::scale(),1.5*16*IconStorage::scale());
+	QSize avatarSize(1.5*IconStorage::iconSize(),1.5*IconStorage::iconSize());
     QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_METACONTACTS_COMBINE));
     ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Combine Contacts Dialog"));
-//    ui.verticalLayout->setMargin(16*IconStorage::scale());
+//    ui.verticalLayout->setMargin(IconStorage::iconSize());
 #else
 // *** >>> eyeCU >>> ***
     IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_METACONTACTS_COMBINE,0,0,"windowIcon");

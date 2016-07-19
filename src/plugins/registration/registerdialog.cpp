@@ -18,7 +18,7 @@ RegisterDialog::RegisterDialog(IRegistration *ARegistration, IDataForms *ADataFo
     QPixmap pixmap=IconStorage::getStoragePixmap(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->fileFullName(MNI_REGISTRATION));
     ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Register Dialog info - %1").arg(AStremJid.bare()));
-    ui.verticalLayout->setMargin(16*IconStorage::scale());
+	ui.verticalLayout->setMargin(IconStorage::iconSize());
 #else       // *** >>> eyeCU >>> ***
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_REGISTRATION,0,0,"windowIcon");
 #endif

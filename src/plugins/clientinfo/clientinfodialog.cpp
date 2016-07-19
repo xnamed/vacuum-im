@@ -16,7 +16,7 @@ ClientInfoDialog::ClientInfoDialog(IClientInfo *AClientInfo, const Jid &AStreamJ
     if(!pixmap.isNull())
         ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Client info - %1").arg(AContactName));
-	ui.vboxLayout->setMargin(16*IconStorage::scale());
+	ui.vboxLayout->setMargin(IconStorage::iconSize());
 #else
 // *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Client info - %1").arg(AContactName));

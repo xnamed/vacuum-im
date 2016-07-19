@@ -15,7 +15,7 @@ AddLink::AddLink(const QIcon &AIcon, const QUrl &AHref, const QString &ADescript
     ui->setupUi(this);
 
 #ifdef EYECU_MOBILE
-    int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
     ui->verLayout->setMargin(size);
     ui->lblIcon->setPixmap(AIcon.pixmap(QSize(size,size)));
 #else

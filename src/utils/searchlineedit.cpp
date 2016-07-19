@@ -21,7 +21,7 @@ SearchLineEdit::SearchLineEdit(QWidget *AParent) : QLineEdit(AParent)
 	FMenuButton->setDefaultAction(FSearchMenu->menuAction());
 	FMenuButton->setPopupMode(QToolButton::InstantPopup);
 #ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
-    int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
     FMenuButton->setIconSize(QSize(size,size));
 #endif                  // *** <<< eyeCU <<< ***
 	FClearButton = new CloseButton(this);

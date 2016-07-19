@@ -36,8 +36,8 @@ NewPoi::NewPoi(Poi *APoi, IMapLocationSelector *AMapLocationSelector, QList<IAcc
     ui->setupUi(this);
 
 #ifdef EYECU_MOBILE
-    FCurSize.setWidth(16*IconStorage::scale());
-    FCurSize.setHeight(16*IconStorage::scale());
+	FCurSize.setWidth(IconStorage::iconSize());
+	FCurSize.setHeight(IconStorage::iconSize());
     ui->pBTypeSel->setIconSize(FCurSize);
     ui->boxType->setIconSize(FCurSize);
     ui->selectLocation->setIconSize(FCurSize);

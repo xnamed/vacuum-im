@@ -738,7 +738,7 @@ void Activity::updateChatWindowInfo(IMessageChatWindow *AMessageChatWindow)
 			label->setMargin(3);
 			AMessageChatWindow->infoWidget()->infoToolBarChanger()->insertWidget(label, AG_ACTIVITY);
 		}
-		label->setPixmap(getIcon(activity).pixmap(16*IconStorage::scale()));
+		label->setPixmap(getIcon(activity).pixmap(IconStorage::iconSize()));
 		label->setToolTip(getLabel(activity));
 	}
 	else

@@ -24,7 +24,7 @@
 NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications, QWidget *AParent) : QWidget(AParent)
 {
 	FNotifications = ANotifications;
-	int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
     registrOrderedTypes();
 
 	QVBoxLayout *vblLayout = new QVBoxLayout(this);
@@ -215,7 +215,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
     tbwNotifies->horizontalHeader()->setHighlightSections(false);
     tbwNotifies->setSelectionMode(QTableWidget::NoSelection);
 	//----
-	int size=16*IconStorage::scale();
+	int size=IconStorage::iconSize();
 	tbwNotifies->setIconSize(QSize(size,size));
 	tbwNotifies->setItemDelegate(new AdvancedItemDelegate(tbwNotifies));
 	//----

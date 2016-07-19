@@ -38,10 +38,10 @@ OptionsDialog::OptionsDialog(IOptionsManager *AOptionsManager, const QString &AR
 	setAttribute(Qt::WA_DeleteOnClose,true);
 
 #ifdef EYECU_MOBILE
-    FNodeItemIconSize.setWidth(16*IconStorage::scale());
-    FNodeItemIconSize.setHeight(16*IconStorage::scale());
-    FNodeItemSizeHint.setWidth(1.5*16*IconStorage::scale());
-    FNodeItemSizeHint.setHeight(1.5*16*IconStorage::scale());
+	FNodeItemIconSize.setWidth(IconStorage::iconSize());
+	FNodeItemIconSize.setHeight(IconStorage::iconSize());
+	FNodeItemSizeHint.setWidth(1.5*IconStorage::iconSize());
+	FNodeItemSizeHint.setHeight(1.5*IconStorage::iconSize());
     //! Set styles for OptionsDialog
 	FStyleOn=true;
 	FTrvNodesStyle=QString("background-color:#F4F0F0;");
@@ -138,11 +138,12 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 				if (headerLayout == NULL)
 				{
 					headerLayout = new QVBoxLayout;
-                    headerLayout->setContentsMargins(IconStorage::scale()*2,0,0,0);
+					headerLayout->setContentsMargins(IconStorage::iconSize()/4,0,0,0);
 					nodeLayout->addLayout(headerLayout);
+					nodeLayout->setSpacing(IconStorage::iconSize()/2);	//! Spaser after widget
 				}
                 headerLayout->addWidget(widget->instance());
-                headerLayout->addWidget(new LineOnWidget);      //! add line after widget
+				headerLayout->addWidget(new LineOnWidget);				//! add line after widget
 				widget->instance()->installEventFilter(this);   // for mouse
 			}
 			else
@@ -157,7 +158,7 @@ QWidget *OptionsDialog::createNodeWidget(const QString &ANodeId)
 					delete headerWidget->instance();
 				}
                 nodeLayout->addWidget(widget->instance());
-				nodeLayout->addSpacing(10);		//! Spaser after header
+				nodeLayout->addSpacing(IconStorage::iconSize()/4);		//! Spaser after header
 				headerWidget = widget;
 			}
 

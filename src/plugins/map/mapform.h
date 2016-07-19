@@ -156,8 +156,6 @@ private:
 	float				FWorkScaleFactor;
 //	float				FRotationAngle;
 //	QPointF				FCurPoint;
-    float               FMapFontScale;
-
 	QPalette            FControlPalette;
 	QPalette            FBoxPalette;
 };

@@ -10,7 +10,7 @@ EmoticonsOptions::EmoticonsOptions(IEmoticons *AEmoticons, QWidget *AParent) : Q
 	ui.setupUi(this);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	int size=IconStorage::scale()*16;
+	int size=IconStorage::iconSize();
 	ui.lwtEmoticons->setIconSize(QSize(size,size));
 	ui.tbtUp->setVisible(false);
 	ui.tbtDown->setVisible(false);

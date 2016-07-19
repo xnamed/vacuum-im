@@ -11,10 +11,17 @@ OptionsDialogHeader::OptionsDialogHeader(const QString &ACaption, QWidget *APare
 	QString FHeaderStyle  =QString("background-color:#039702; color:white;");
 	setStyleSheet(FHeaderStyle);
     setWordWrap(true);
-	setText(QString("<h3>&nbsp;%1</h3>").arg(HTML_ESCAPE(ACaption)));
+//	setText(QString("<h3>&nbsp;%1</h3>").arg(HTML_ESCAPE(ACaption)));
+
+	QFont font=this->font();
+	font.setBold(true);
+	font.setPointSizeF(font.pointSizeF()*1.1);
+	this->setFont(font);
+	setText(QString("&nbsp;%1").arg(HTML_ESCAPE(ACaption)));
+
     setObjectName(QStringLiteral("optionsDialogHeader"));
 
-	setFixedHeight(16*(IconStorage::scale()+1));//!--??  tmp ????---
+	setFixedHeight(1.5*IconStorage::iconSize());
 //	setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 #else
     setText(QString("<h2>%1</h2>").arg(HTML_ESCAPE(ACaption)));
