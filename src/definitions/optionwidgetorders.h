@@ -4,9 +4,14 @@
 //Node = ON_COMMON
 #define OHO_COMMON_SETTINGS                       100
 // *** <<< eyeCU <<< ***
-#  define OWO_COMMON_ADVANCED                     105
-#  define OWO_SIMPLE_MENU                         107
-#  define OWO_OPTION_SCRLBAR                      108
+#  define OWO_COMMON_ADVANCED                     104
+#  define OWO_SIMPLE_MENU                         105
+#  define OWO_OPTION_SCRLBAR                      106
+
+#  define OHO_COMMON_APPLSET                      200
+#  define OWO_COMMON_YOURSET                      201
+#  define OWO_APPL_SIZE_FONT                      202
+#  define OWO_APPL_SCALE                          203
 // *** <<< eyeCU <<< ***
 #  define OWO_COMMON_AUTOSTART                    110
 #  define OWO_COMMON_SENDSTATISTICS               120

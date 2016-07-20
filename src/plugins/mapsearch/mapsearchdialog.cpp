@@ -48,7 +48,11 @@ MapSearchDialog::MapSearchDialog(QHash<QUuid, IMapSearchProvider *> AProviders, 
     ui->lblIcon->setPixmap(pixmap);
     ui->lblTitle->setText(tr("eyeCU - Search on the Map"));
     ui->pbSettings->setVisible(false);
+	connect(ui->pButGoTo,SIGNAL(clicked(bool)),SLOT(onGoto(bool)));
+	ui->pButGoTo->setVisible(false); //!---TEMP---
     showMaximized();
+#else
+	ui->pButGoTo->setVisible(false);
 #endif
     //Shortcuts
     FPoi->setTreeWidgetShortcuts(ui->twFound, true);
@@ -306,7 +310,12 @@ void MapSearchDialog::onMapSettingsChanged()
                            FLastLimitRange     == ui->chkLimitSearchRange->isChecked() &&
                            FLastSearchString   == ui->ledSearch->text() &&
                            FLastProvider       == FCurrentProvider &&
-                           FLastEast == east && FLastSouth == south && FLastWest == west && FLastNorth == north);
+						   FLastEast == east && FLastSouth == south && FLastWest == west && FLastNorth == north);
+}
+
+void MapSearchDialog::onGoto(bool)
+{
+
 }
 
 void MapSearchDialog::onPoiModified(const QString &AId, int AType)

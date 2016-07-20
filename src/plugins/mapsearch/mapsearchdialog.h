@@ -50,7 +50,7 @@ protected slots:
     void onDefaultToggled(bool AState);
     void onResultsPerPageChanged(int ANewValue);
     void onMapSettingsChanged();
-
+	void onGoto(bool);
 // public slots:
     void onOptionsOpened();
     void onOptionsChanged(const OptionsNode &ANode);

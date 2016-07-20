@@ -1,12 +1,12 @@
 /*!
 densities:--dpi--icon--koef--font-comments--------------------------
-desktop  : [96]  [16]  1.0   8	  (base)					~96dpi
-ldpi	 : [120] [24]  1,5   12   (low)						~120dpi
-mdpi	 : [160] [32]  2.0   16   (medium)(standard size)	~160dpi
-hdpi	 : [240] [40]  2.5   20   (high)					~240dpi
-xhdpi	 : [320] [48]  3.0   24   (extra-high)				~320dpi
-xxhdpi	 : [480] [56]  3.5   28   (extra-extra-high)		~480dpi
-xxxhdpi	 : [640] [72]  4.5   36   (extra-extra-extra-high)	~640dpi
+desktop  : [96]  [16]  2.0   8	  (base)					~96dpi
+ldpi	 : [120] [24]  3.0   12   (low)						~120dpi
+mdpi	 : [160] [32]  4.0   14   (medium)(standard size)	~160dpi
+hdpi	 : [240] [40]  5.0   16   (high)					~240dpi
+xhdpi	 : [320] [80]  10.0  16   (extra-high)				~320dpi
+xxhdpi	 : [480] [112] 14.0  18   (extra-extra-high)		~480dpi
+xxxhdpi	 : [640] [160] 20.0  20   (extra-extra-extra-high)	~640dpi
 --------------------------------------------------------------------
 							   [height x width]
 1. xlarge screens are at least [960dp  x 720dp]
@@ -26,20 +26,20 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 {
 #ifdef EYECU_MOBILE
 	QScreen *screen = qApp->primaryScreen();
+	//DPI = 25.4 * resY / mmHeight
+	//int DPI = 25.4*screen->physicalDotsPerInchY()/screen->size().height();
 //	qreal logicalDotsPerInch= screen->logicalDotsPerInch();
 	qreal physicalDotsPerInch= screen->physicalDotsPerInch();
 //	qreal midleDotsPerInch=(logicalDotsPerInch+physicalDotsPerInch)/2;
-    qreal midleDotsPerInch=physicalDotsPerInch;     // Variant - 2
+	qreal DPI=physicalDotsPerInch;     // Variant - 2
 	//! PointSizeF=96
-	//! sizes <<"8"<<"16"<<"24"<<"32"<<"40"<<"48"<<"64"<<"80"<<"96"<<"128"<<"160"<<"192"<<"256"<<"320"<<"384"<<"448"<<"512";
-	if(midleDotsPerInch<=110)                               {FScale=2.0; FPointSizeF= 8.0;}	// desktop
-	else if(midleDotsPerInch>110 && midleDotsPerInch<=160)	{FScale=3.0; FPointSizeF=12.0;} // ldpi
-	else if(midleDotsPerInch>160 && midleDotsPerInch<=240)	{FScale=4.0; FPointSizeF=16.0;} // mdpi
-	else if(midleDotsPerInch>240 && midleDotsPerInch<=320)	{FScale=5.0; FPointSizeF=16.0;} // hdpi
-	else if(midleDotsPerInch>320 && midleDotsPerInch<=480)	{FScale=6.0; FPointSizeF=16.0;} // xhdpi
-	else if(midleDotsPerInch>480 && midleDotsPerInch<=640)	{FScale=6.0; FPointSizeF=16.0;} // xxhdpi
-	else if(midleDotsPerInch>640 && midleDotsPerInch<=800)	{FScale=8.0; FPointSizeF=18.0;} // xxxhdpi
-	else if(midleDotsPerInch>800)							{FScale=10.0; FPointSizeF=18.0;} // +xxxhdpi
+	if(DPI<=110)                    {FScale=2.0;  FPointSizeF= 8.0;} // desktop
+	else if(DPI>110 && DPI<=160)	{FScale=3.0;  FPointSizeF=12.0;} // ldpi
+	else if(DPI>160 && DPI<=240)	{FScale=4.0;  FPointSizeF=14.0;} // mdpi
+	else if(DPI>240 && DPI<=320)	{FScale=5.0;  FPointSizeF=18.0;} // hdpi
+	else if(DPI>320 && DPI<=480)	{FScale=10.0; FPointSizeF=18.0;} // xhdpi
+	else if(DPI>480 && DPI<=640)	{FScale=14.0; FPointSizeF=18.0;} // xxhdpi
+	else if(DPI>640)				{FScale=20.0; FPointSizeF=20.0;} // xxxhdpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****

@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *AParent, Qt::WindowFlags AFlags) : QMainWindow(A
     button->setPopupMode(QToolButton::InstantPopup);
 
 	QLabel *title = new QLabel(CLIENT_NAME);
-//	title->setWordWrap(true);		//!---???---
+	title->setWordWrap(true);		//!---???---
 	title->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 	topToolBarChanger()->insertWidget(title, TBG_MWTTB_TITLE);
 #endif

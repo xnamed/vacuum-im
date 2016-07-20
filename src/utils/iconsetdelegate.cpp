@@ -56,7 +56,7 @@ void IconsetDelegate::paint(QPainter *APainter, const QStyleOptionViewItem &AOpt
 		drawBackground(APainter,indexOption);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-		int space = 2*IconStorage::scale();
+		int space = 1*IconStorage::scale();
 #else
 // *** >>> eyeCU >>> ***
 		int space = 2;
@@ -67,7 +67,7 @@ void IconsetDelegate::paint(QPainter *APainter, const QStyleOptionViewItem &AOpt
 		{
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-			QRect ceckRect(drawRect.topLeft(),checkButtonRect(indexOption,drawRect,AIndex.data(Qt::CheckStateRole)).size()*IconStorage::scale());
+			QRect ceckRect(drawRect.topLeft(),checkButtonRect(indexOption,drawRect,AIndex.data(Qt::CheckStateRole)).size()*IconStorage::scale()/2);
 #else
 // *** >>> eyeCU >>> ***
 			QRect ceckRect(drawRect.topLeft(),checkButtonRect(indexOption,drawRect,AIndex.data(Qt::CheckStateRole)).size());
@@ -199,7 +199,7 @@ bool IconsetDelegate::editorEvent(QEvent *AEvent, QAbstractItemModel *AModel, co
 		QRect drawRect = AOption.rect.adjusted(space,space,-space,-space);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-		QRect checkRect(drawRect.topLeft(),checkButtonRect(AOption, AOption.rect, Qt::Checked).size()*IconStorage::scale());
+		QRect checkRect(drawRect.topLeft(),checkButtonRect(AOption, AOption.rect, Qt::Checked).size()*IconStorage::scale()/2);
 #else
 // *** >>> eyeCU >>> ***
 		QRect checkRect(drawRect.topLeft(),checkButtonRect(AOption, AOption.rect, Qt::Checked).size());

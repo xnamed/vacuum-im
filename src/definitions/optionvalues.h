@@ -202,8 +202,13 @@
 #define OPV_COMMON_LANGUAGE                             "common.language"
 #define OPV_COMMON_ADVANCED                             "common.advanced"
 #define OPV_COMMON_AUTOSTART                            "common.autostart"
+// *** <<< eyeCU <<< ***
 #define OPV_SIMPLE_MENU                                 "common.simplemenu"
 #define OPV_OPTION_SCRLBAR                              "common.optoinscrolbar"
+#define OPV_COMMON_YOURSET                              "common.yourset"
+#define OPV_APPL_SIZE_FONT                              "common.applsizefont"
+#define OPV_APPL_SCALE                                  "common.applscale"
+// *** >>> eyeCU >>> ***
 // ClientInfo
 #define OPV_COMMON_SHAREOSVERSION                       "common.share-os-version"
 // Statistics

@@ -144,6 +144,9 @@ bool OptionsManager::initSettings()
 	Options::setDefaultValue(OPV_COMMON_LANGUAGE,QString());
 	Options::setDefaultValue(OPV_SIMPLE_MENU,false);
     Options::setDefaultValue(OPV_OPTION_SCRLBAR,true);
+	Options::setDefaultValue(OPV_COMMON_YOURSET,false);
+	Options::setDefaultValue(OPV_APPL_SIZE_FONT,IconStorage::fontPointSize());
+	Options::setDefaultValue(OPV_APPL_SCALE,IconStorage::scale());
 
 	if (profiles().count() == 0)
 		addProfile(DEFAULT_PROFILE, QString::null);
@@ -186,8 +189,24 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 #endif
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-        widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu (Need restart)"), AParent)); // *** <<< eyeCU >>> ***
-        widgets.insertMulti(OWO_OPTION_SCRLBAR, newOptionsDialogWidget(Options::node(OPV_OPTION_SCRLBAR), tr("View scrollbar if necessary"), AParent)); // *** <<< eyeCU >>> ***
+		widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu (Need restart)"), AParent));
+		widgets.insertMulti(OWO_OPTION_SCRLBAR, newOptionsDialogWidget(Options::node(OPV_OPTION_SCRLBAR), tr("View scrollbar if necessary"), AParent));
+		//!----------
+/*
+		widgets.insertMulti(OHO_COMMON_APPLSET, newOptionsDialogHeader(tr("Application settings"),AParent));
+		widgets.insertMulti(OWO_COMMON_YOURSET, newOptionsDialogWidget(Options::node(OPV_COMMON_YOURSET), tr("Use your settings"), AParent));
+
+		QComboBox *fontCombox = new QComboBox(AParent);
+		QStringList fntSizes;
+		fntSizes <<"14"<<"16"<<"18"<<"20"<<"22"<<"24"<<"26"<<"28"<<"36"<<"48";
+		fontCombox->addItems(fntSizes);
+		widgets.insertMulti(OWO_APPL_SIZE_FONT,newOptionsDialogWidget(Options::node(OPV_APPL_SIZE_FONT),tr("Application font size"),fontCombox,AParent));
+		QComboBox *scaleCombox = new QComboBox(AParent);
+		QStringList scales;
+		scales <<"2"<<"4"<<"6"<<"8"<<"10"<<"12"<<"14"<<"16"<<"18"<<"20"<<"24";
+		scaleCombox->addItems(scales);
+		widgets.insertMulti(OWO_APPL_SCALE,newOptionsDialogWidget(Options::node(OPV_APPL_SCALE),tr("Application scale"),scaleCombox,AParent));
+*/
 #endif
 // *** >>> eyeCU >>> ***
 		widgets.insertMulti(OHO_COMMON_LOCALIZATION, newOptionsDialogHeader(tr("Localization"),AParent));
@@ -868,6 +887,19 @@ void OptionsManager::onOptionsChanged(const OptionsNode &ANode)
 
         }
 	}
+	else if (ANode.path() == OPV_COMMON_YOURSET)
+	{
+		if(ANode.value().toBool()) ;
+
+	}
+	else if (ANode.path() == OPV_APPL_SIZE_FONT)
+	{
+
+	}
+	else if (ANode.path() == OPV_APPL_SCALE)
+	{
+
+	}
 // *** >>> eyeCU >>> ***
 	LOG_DEBUG(QString("Options node value changed, node=%1, value=%2").arg(ANode.path(),ANode.value().toString()));
 }
@@ -919,6 +951,8 @@ void OptionsManager::onOptionsOpened()
             qApp->setAttribute(Qt::AA_DontShowIconsInMenus);
         }
     }
+
+
 }
 
 void OptionsManager::onNewProfileOpened()
