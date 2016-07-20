@@ -15,7 +15,8 @@
 #include "notifykindoptionswidget.h"
 
 #define		CHBOXSTATE			Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
-#define		CHBOXSIZEPOLICY		QSizePolicy::Maximum,QSizePolicy::Maximum
+//#define		CHBOXSIZEPOLICY		QSizePolicy::Maximum,QSizePolicy::Maximum
+#define		CHBOXSIZEPOLICY		QSizePolicy::Preferred,QSizePolicy::Preferred
 #define		LBLSIZEPOLICY		QSizePolicy::Expanding,QSizePolicy::Preferred
 
 
@@ -48,6 +49,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 		QFormLayout *lotGeneral = new QFormLayout(tabGeneral);
 		lotGeneral->setContentsMargins(size/2,0,0,0);
 		lotGeneral->setRowWrapPolicy(QFormLayout::WrapLongRows);
+		lotGeneral->setVerticalSpacing(4);
 		//!------------------
 		QCheckBox *chBoxSound = new QCheckBox;
 		chBoxSound->setProperty("NTR_KIND",INotification::SoundPlay);
@@ -123,7 +125,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 		plugTypeId << it->typeId;
 	}
 
-	tlbNotifies->setCurrentWidget(0);
+	tlbNotifies->setCurrentWidget(0);	// not working...
 	vblLayout->addWidget(tlbNotifies);
 	vblLayout->setMargin(0);
 
