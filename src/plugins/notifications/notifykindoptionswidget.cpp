@@ -21,7 +21,7 @@
 
 
 // *** <<< eyeCU <<< ***
-//! Ð´Ð»Ñ Ð¼Ð°ÐºÐ¸Ð½Ñ‚Ð¾ÑˆÐ° Ð¿ÐµÑ€ÐµÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð¼ÐµÑÑ‚Ð°Ð¼Ð¸ Ð²Ð¸Ð´Ð¶ÐµÑ‚Ñ‹.
+//! äëÿ ìàêèíòîøà ïåðåñòàâèòü ìåñòàìè âèäæåòû.
 #ifdef EYECU_MOBILE
 NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications, QWidget *AParent) : QWidget(AParent)
 {
