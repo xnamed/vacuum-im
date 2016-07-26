@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
-    <height>515</height>
+    <width>322</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,7 +16,22 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QVBoxLayout" name="vLayout">
+  <layout class="QVBoxLayout" name="verticalLayouMain">
+   <property name="spacing">
+    <number>4</number>
+   </property>
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -61,23 +76,17 @@
      <property name="title">
       <string>Setup Default and Active Lists</string>
      </property>
-     <layout class="QVBoxLayout">
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QHBoxLayout">
         <item>
          <widget class="QLabel" name="lblDefault">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>Default:</string>
           </property>
@@ -99,8 +108,18 @@
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="lblActive">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>Active:</string>
           </property>
@@ -152,7 +171,11 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="QListWidget" name="ltwLists"/>
+       <widget class="QListWidget" name="ltwLists">
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustToContents</enum>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout">
@@ -228,7 +251,14 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="QListWidget" name="ltwRules"/>
+       <widget class="QListWidget" name="ltwRules">
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustToContents</enum>
+        </property>
+        <property name="isWrapping" stdset="0">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -294,19 +324,7 @@
      <property name="title">
       <string>Edit rule condition</string>
      </property>
-     <layout class="QVBoxLayout">
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QHBoxLayout">
         <item>
@@ -323,7 +341,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="cmbType"/>
+         <widget class="QComboBox" name="cmbType">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="lblEqual">
@@ -351,6 +376,26 @@
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QLabel" name="lblThen">
           <property name="text">
@@ -365,7 +410,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="cmbAction"/>
+         <widget class="QComboBox" name="cmbAction">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -385,6 +437,10 @@
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QCheckBox" name="chbPresenceIn">
           <property name="text">

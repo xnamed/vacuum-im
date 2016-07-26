@@ -4,10 +4,16 @@
 #include <QListWidgetItem>
 #include <definitions/optionvalues.h>
 #include <utils/jid.h>
+#include <utils/iconstorage.h>
+
+#define SPACEFACTOR		4
 
 SocksOptionsWidget::SocksOptionsWidget(ISocksStreams *ASocksStreams, IConnectionManager *AConnectionManager, const OptionsNode &ANode, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+    ui.verticalLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+#endif	// *** >>> eyeCU >>> ***
 
 	FOptionsNode = ANode;
 	FSocksStreams = ASocksStreams;

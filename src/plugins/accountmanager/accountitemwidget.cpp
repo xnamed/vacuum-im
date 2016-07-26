@@ -6,9 +6,15 @@
 #include <utils/iconstorage.h>
 #include <utils/qt4qt5compat.h>
 
+#define SPACEFACTOR		4
+
 AccountItemWidget::AccountItemWidget(const QUuid &AAccountId, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
+
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+    ui.gridLayout->setVerticalSpacing(IconStorage::iconSize()/SPACEFACTOR);
+#endif					// *** >>> eyeCU >>> ***
 
 	FAccountId = AAccountId;
 

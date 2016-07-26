@@ -58,7 +58,8 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 #ifdef EYECU_MOBILE
 	pbtEdit->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
 	lblType->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
-	lblType->setWordWrap(true);
+    lblType->setWordWrap(true);
+    QFont font=lblType->font();font.setBold(true);lblType->setFont(font);
 	cmbStyle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);//Expanding
 
 	QGridLayout *gridLayout=new QGridLayout(this);

@@ -41,6 +41,8 @@
 
 #define AUTO_SAVE_TIMEOUT               5*60*1000
 
+#define TEST	1
+
 OptionsManager::OptionsManager()
 {
 	FPluginManager = NULL;
@@ -192,7 +194,7 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 		widgets.insertMulti(OWO_SIMPLE_MENU, newOptionsDialogWidget(Options::node(OPV_SIMPLE_MENU), tr("Simple style for menu (Need restart)"), AParent));
 		widgets.insertMulti(OWO_OPTION_SCRLBAR, newOptionsDialogWidget(Options::node(OPV_OPTION_SCRLBAR), tr("View scrollbar if necessary"), AParent));
 		//!----------
-/*
+/*  zagotovka ---
 		widgets.insertMulti(OHO_COMMON_APPLSET, newOptionsDialogHeader(tr("Application settings"),AParent));
 		widgets.insertMulti(OWO_COMMON_YOURSET, newOptionsDialogWidget(Options::node(OPV_COMMON_YOURSET), tr("Use your settings"), AParent));
 
@@ -606,6 +608,7 @@ void OptionsManager::removeOptionsDialogNode(const QString &ANodeId)
 	}
 }
 
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 QDialog *OptionsManager::showOptionsDialog(const QString &ANodeId, const QString &ARootId, QWidget *AParent)
 {
 	if (isOpened())
@@ -614,23 +617,43 @@ QDialog *OptionsManager::showOptionsDialog(const QString &ANodeId, const QString
 		if (dialog.isNull())
 		{
 			dialog = new OptionsDialog(this,ARootId,AParent);
-			connect(dialog,SIGNAL(applied()),SLOT(onOptionsDialogApplied()),Qt::QueuedConnection);
-#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+            connect(dialog,SIGNAL(applied()),SLOT(onOptionsDialogApplied()),Qt::QueuedConnection);
             dialog.data()->centralPageName();
+#ifndef TEST	//!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             if(ARootId.isEmpty())
                 FMainWindowPlugin->mainWindow()->mainCentralWidget()->appendCentralPage(dialog);
-#endif          // *** >>> eyeCU >>> ***
 		}
-#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
         if(ARootId.isEmpty())
             FMainWindowPlugin->mainWindow()->mainCentralWidget()->setCurrentCentralPage(dialog);
-#endif          // *** >>> eyeCU >>> ***
-		dialog->showNode(ANodeId.isNull() ? Options::fileValue("options.dialog.last-node",ARootId).toString() : ANodeId);
-		WidgetManager::showActivateRaiseWindow(dialog);
+#else
+		}
+#endif		//!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        dialog->showNode(ANodeId.isNull() ? Options::fileValue("options.dialog.last-node",ARootId).toString() : ANodeId);
+        WidgetManager::showActivateRaiseWindow(dialog);
+
 		return dialog;
 	}
 	return NULL;
 }
+#else // *** >>> eyeCU >>> ***
+QDialog *OptionsManager::showOptionsDialog(const QString &ANodeId, const QString &ARootId, QWidget *AParent)
+{
+    if (isOpened())
+    {
+        QPointer<OptionsDialog> &dialog = FOptionDialogs[ARootId];
+        if (dialog.isNull())
+        {
+            dialog = new OptionsDialog(this,ARootId,AParent);
+            connect(dialog,SIGNAL(applied()),SLOT(onOptionsDialogApplied()),Qt::QueuedConnection);
+        }
+        dialog->showNode(ANodeId.isNull() ? Options::fileValue("options.dialog.last-node",ARootId).toString() : ANodeId);
+        WidgetManager::showActivateRaiseWindow(dialog);
+        return dialog;
+    }
+    return NULL;
+}
+#endif
 
 IOptionsDialogWidget *OptionsManager::newOptionsDialogHeader(const QString &ACaption, QWidget *AParent) const
 {
@@ -906,7 +929,7 @@ void OptionsManager::onOptionsChanged(const OptionsNode &ANode)
 
 void OptionsManager::onOptionsDialogApplied()
 {
-	saveCurrentProfileOptions();
+    saveCurrentProfileOptions();
 }
 
 void OptionsManager::onChangeProfileByAction(bool)
@@ -951,8 +974,6 @@ void OptionsManager::onOptionsOpened()
             qApp->setAttribute(Qt::AA_DontShowIconsInMenus);
         }
     }
-
-
 }
 
 void OptionsManager::onNewProfileOpened()
@@ -973,6 +994,7 @@ void OptionsManager::onNewProfileOpened()
 	emit optionsModeInitialized(FAdvanced);
 }
 // *** >>> eyeCU >>> ***
+
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_optionsmanager, OptionsManager)
 #endif

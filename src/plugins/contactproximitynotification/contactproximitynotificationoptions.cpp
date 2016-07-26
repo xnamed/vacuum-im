@@ -1,5 +1,6 @@
 #include <definitions/optionvalues.h>
 #include "contactproximitynotificationoptions.h"
+#include <utils/iconstorage.h>
 
 #ifdef EYECU_MOBILE
 #include "ui_contactproximitynotificationoptions2.h"
@@ -7,11 +8,17 @@
 #include "ui_contactproximitynotificationoptions.h"
 #endif
 
+#define SPACEFACTOR		4
+
 ContactProximityNotificationOptions::ContactProximityNotificationOptions(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ContactProximityNotificationOptions)
 {
     ui->setupUi(this);
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+	ui->gridLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+	ui->verticalLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+#endif
     reset();
     updateUnits(ui->spbDistance);
     updateUnits(ui->spbTreshold);

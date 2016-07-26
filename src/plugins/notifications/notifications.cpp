@@ -788,6 +788,9 @@ void Notifications::removeInvisibleNotification(int ANotifyId)
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+///!
+//! \brief Notifications::onDeleteAndroidNotify
+//!
 void Notifications::onDeleteAndroidNotify()
 {
 	if(!FFlagAndroidNotify)
@@ -816,7 +819,10 @@ void Notifications::onDeleteAndroidNotify()
 		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
 }
 
-
+///!
+//! \brief Notifications::destroyAndroidNotify
+//! Need delete all Notifications, When application closing
+//!
 void Notifications::destroyAndroidNotify()
 {
 	FFlagAndroidNotify=false;
@@ -998,7 +1004,7 @@ void Notifications::onSpinBoxValueChanged(int value)
 
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
 ///!
-//! \brief AndroidTimer::updateAndroidNotification
+//! \brief Notifications::updateAndroidNotification
 //! \param AMessage		-Message text
 //! \param ATitle		-The headline of the message
 //! \param AId			-The object identifier
@@ -1017,10 +1023,9 @@ void Notifications::updateAndroidNotification(QString AMessage,QString ATitle,in
 }
 
 //!
-//! \brief AndroidTimer::deleteAndroidNotification
+//! \brief Notifications::deleteAndroidNotification
 //! \param AId - The object identifier for deleting
 //!
-
 void Notifications::deleteAndroidNotification(int AId)
 {
     QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","notifydelete","(I)V",AId);

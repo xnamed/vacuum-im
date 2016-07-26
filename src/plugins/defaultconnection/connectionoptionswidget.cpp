@@ -1,11 +1,19 @@
 #include "connectionoptionswidget.h"
-
+#include <utils/iconstorage.h>      // *** <<< eyeCU <<< ***
 #include <QVBoxLayout>
 #include <utils/options.h>
+
+#define SPACEFACTOR		4
 
 ConnectionOptionsWidget::ConnectionOptionsWidget(IConnectionManager *AManager, const OptionsNode &ANode, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+    ui.verticalLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+#endif
+// *** >>> eyeCU >>>***
+
 	FManager = AManager;
 	FOptions = ANode;
 	FProxySettings = NULL;

@@ -57,7 +57,7 @@
        <number>2</number>
       </property>
       <property name="verticalSpacing">
-       <number>8</number>
+       <number>9</number>
       </property>
       <item row="0" column="0">
        <widget class="QCheckBox" name="chkEnableScale">

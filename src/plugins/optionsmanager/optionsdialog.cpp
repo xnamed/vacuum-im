@@ -102,7 +102,7 @@ OptionsDialog::~OptionsDialog()
 	Options::setFileValue(saveGeometry(),"optionsmanager.optionsdialog.geometry",FRootNodeId);
 	Options::setFileValue(ui.sprSplitter->saveState(),"optionsmanager.optionsdialog.splitter.state",FRootNodeId);
 #endif
-	FCleanupHandler.clear();
+    FCleanupHandler.clear();
 }
 
 void OptionsDialog::showNode(const QString &ANodeId)
@@ -325,12 +325,12 @@ void OptionsDialog::onOptionsDialogNodeInserted(const IOptionsDialogNode &ANode)
 
 void OptionsDialog::onOptionsDialogNodeRemoved(const IOptionsDialogNode &ANode)
 {
+qDebug()<<"OptionsDialog::onOptionsDialogNodeRemoved/ANode"<<ANode.caption;
 	if (FNodeItems.contains(ANode.nodeId))
 	{
 		QStandardItem *item = FNodeItems.take(ANode.nodeId);
 		qDeleteAll(FItemsModel->takeRow(item->row()));
 		delete FItemWidgets.take(item);
-
 		ui.trvNodes->setVisible(FItemsModel->rowCount() > 0);
 	}
 	else if (ANode.nodeId == FRootNodeId)

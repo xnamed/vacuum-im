@@ -19,7 +19,12 @@
 #include <definitions/version.h>
 #include <utils/options.h>
 #include <utils/logger.h>
-#include "statusoptionswidget.h"
+
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+#	include "statusoptionswidgetmobile.h"
+#else           // *** >>> eyeCU >>> ***
+#	include "statusoptionswidget.h"
+#endif
 
 #define MAX_TEMP_STATUS_ID                  -10
 
@@ -265,8 +270,12 @@ QMultiMap<int, IOptionsDialogWidget *> StatusChanger::optionsDialogWidgets(const
 	}
 	else if (ANodeId == OPN_STATUSITEMS)
 	{
-		widgets.insertMulti(OHO_STATUS_ITEMS, FOptionsManager->newOptionsDialogHeader(tr("Standard and users statuses"), AParent));
-		widgets.insertMulti(OWO_STATUS_ITEMS, new StatusOptionsWidget(this,AParent));
+		widgets.insertMulti(OHO_STATUS_ITEMS, FOptionsManager->newOptionsDialogHeader(tr("Standard and users statuses"), AParent));		
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+        widgets.insertMulti(OWO_STATUS_ITEMS, new StatusOptionsWidgetMobile(this,AParent));
+#else           // *** >>> eyeCU >>> ***
+        widgets.insertMulti(OWO_STATUS_ITEMS, new StatusOptionsWidget(this,AParent));
+#endif
 	}
 	return widgets;
 }

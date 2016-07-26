@@ -82,13 +82,25 @@
        <bold>true</bold>
       </font>
      </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
+     </property>
+     <property name="midLineWidth">
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="tabGeneral">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>298</width>
-        <height>311</height>
+        <width>296</width>
+        <height>309</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -186,8 +198,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>228</width>
-        <height>220</height>
+        <width>296</width>
+        <height>309</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -351,8 +363,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>298</width>
-        <height>311</height>
+        <width>296</width>
+        <height>309</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -583,8 +595,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>105</width>
-        <height>222</height>
+        <width>296</width>
+        <height>309</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -773,8 +785,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>151</width>
-        <height>154</height>
+        <width>296</width>
+        <height>309</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -1001,8 +1013,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>98</width>
-        <height>68</height>
+        <width>296</width>
+        <height>309</height>
        </rect>
       </property>
       <property name="sizePolicy">

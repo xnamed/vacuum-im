@@ -176,7 +176,7 @@ StatusOptionsWidget::StatusOptionsWidget(IStatusChanger *AStatusChanger, QWidget
 	tbwStatus->setHorizontalHeaderLabels(QStringList() << tr("Status") << tr("Name") << tr("Message") << tr("Priority"));
 	tbwStatus->horizontalHeader()->SETRESIZEMODE(STC_STATUS,QHeaderView::ResizeToContents);
 	tbwStatus->horizontalHeader()->SETRESIZEMODE(STC_NAME,QHeaderView::ResizeToContents);
-	tbwStatus->horizontalHeader()->SETRESIZEMODE(STC_MESSAGE,QHeaderView::Stretch);
+    tbwStatus->horizontalHeader()->SETRESIZEMODE(STC_MESSAGE,QHeaderView::Stretch);
 	tbwStatus->horizontalHeader()->SETRESIZEMODE(STC_PRIORITY,QHeaderView::ResizeToContents);
 
 	QHBoxLayout *hltlayout = new QHBoxLayout;
@@ -202,10 +202,9 @@ void StatusOptionsWidget::apply()
 	for (int row=0; row<tbwStatus->rowCount(); row++)
 	{
 		int statusId = tbwStatus->item(row,STC_STATUS)->data(STR_STATUSID).toInt();
-
-		int show = tbwStatus->item(row,STC_STATUS)->data(STR_VALUE).toInt();
+		int show	 = tbwStatus->item(row,STC_STATUS)->data(STR_VALUE).toInt();
 		QString name = tbwStatus->item(row,STC_NAME)->data(STR_VALUE).toString();
-		QString text = tbwStatus->item(row,STC_MESSAGE)->data(STR_VALUE).toString();
+        QString text = tbwStatus->item(row,STC_MESSAGE)->data(STR_VALUE).toString();
 		int priority = tbwStatus->item(row,STC_PRIORITY)->data(STR_VALUE).toInt();
 
 		RowData status = FStatusItems.value(statusId);

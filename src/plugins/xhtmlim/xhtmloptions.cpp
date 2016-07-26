@@ -1,7 +1,10 @@
 #include <QImageReader>
+#include <utils/iconstorage.h>
 
 #include "xhtmloptions.h"
 #include "xhtmlim.h"
+
+#define SPACEFACTOR		4
 
 XhtmlOptions::XhtmlOptions(XhtmlIm *AXhtmlIm, QWidget *AParent):
     QWidget(AParent),
@@ -9,6 +12,9 @@ XhtmlOptions::XhtmlOptions(XhtmlIm *AXhtmlIm, QWidget *AParent):
 	FXhtmlIm(AXhtmlIm)
 {
     ui->setupUi(this);
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+	ui->verticalLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+#endif
     QList<QByteArray> formats=QImageReader::supportedImageFormats();
     for (QList<QByteArray>::const_iterator it=formats.constBegin(); it!=formats.constEnd(); it++)
         ui->cmbDefImageFormat->addItem(QString(*it).toUpper(), *it);

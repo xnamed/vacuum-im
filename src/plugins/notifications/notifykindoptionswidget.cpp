@@ -15,11 +15,13 @@
 #include "notifykindoptionswidget.h"
 
 #define		CHBOXSTATE			Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
-#define		CHBOXSIZEPOLICY		QSizePolicy::Maximum,QSizePolicy::Maximum
+//#define		CHBOXSIZEPOLICY		QSizePolicy::Maximum,QSizePolicy::Maximum
+#define		CHBOXSIZEPOLICY		QSizePolicy::Preferred,QSizePolicy::Preferred
 #define		LBLSIZEPOLICY		QSizePolicy::Expanding,QSizePolicy::Preferred
 
 
 // *** <<< eyeCU <<< ***
+//! для макинтоша переставить местами виджеты.
 #ifdef EYECU_MOBILE
 NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications, QWidget *AParent) : QWidget(AParent)
 {
@@ -29,6 +31,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 
 	QVBoxLayout *vblLayout = new QVBoxLayout(this);
     tlbNotifies=new QToolBox(this);
+    tlbNotifies->setFrameStyle(QFrame::Panel | QFrame::Raised);
 	tlbNotifies->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 	connect(tlbNotifies,SIGNAL(currentChanged(int)),SLOT(onCurrentChanged(int)));
 
@@ -48,6 +51,7 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 		QFormLayout *lotGeneral = new QFormLayout(tabGeneral);
 		lotGeneral->setContentsMargins(size/2,0,0,0);
 		lotGeneral->setRowWrapPolicy(QFormLayout::WrapLongRows);
+		lotGeneral->setVerticalSpacing(4);
 		//!------------------
 		QCheckBox *chBoxSound = new QCheckBox;
 		chBoxSound->setProperty("NTR_KIND",INotification::SoundPlay);
@@ -123,7 +127,8 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 		plugTypeId << it->typeId;
 	}
 
-	tlbNotifies->setCurrentWidget(0);
+	tlbNotifies->setCurrentIndex(0);
+	//tlbNotifies->setCurrentWidget(0);	// not working...
 	vblLayout->addWidget(tlbNotifies);
 	vblLayout->setMargin(0);
 
@@ -174,6 +179,7 @@ void NotifyKindOptionsWidget::apply()
 			FNotifications->setTypeNotificationKinds(typeId,typeKinds);
 		}
 	}
+	tlbNotifies->setCurrentIndex(0);
 }
 
 //! TO DO -pass a parameter 'typeId' through the object properties

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>336</width>
-    <height>366</height>
+    <height>375</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -74,7 +74,7 @@
         <item>
          <widget class="QSpinBox" name="spbConnectTimeout">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -289,7 +289,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>4</number>
+       <number>6</number>
       </property>
       <property name="leftMargin">
        <number>2</number>

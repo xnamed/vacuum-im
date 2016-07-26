@@ -3,8 +3,10 @@ FORMS = modifystatusdialog.ui \
 
 HEADERS = statuschanger.h \
           modifystatusdialog.h \
-          statusoptionswidget.h
+          statusoptionswidget.h \
+          statusoptionswidgetmobile.h
 
 SOURCES = statuschanger.cpp \
           modifystatusdialog.cpp \
-          statusoptionswidget.cpp
+          statusoptionswidget.cpp \
+          statusoptionswidgetmobile.cpp

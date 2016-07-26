@@ -11,9 +11,13 @@
 #include <utils/pluginhelper.h>
 #include <utils/options.h>
 // *** <<< eyeCU <<< ***
+#include <utils/iconstorage.h>
 #include <utils/qt4qt5compat.h>
 // #include "createaccountwizard.h"
 // *** >>> eyeCU >>> ***
+
+#define SPACEFACTOR		4
+
 AccountsOptionsWidget::AccountsOptionsWidget(IAccountManager *AAccountManager, int AFlags, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
@@ -25,6 +29,10 @@ AccountsOptionsWidget::AccountsOptionsWidget(IAccountManager *AAccountManager, i
 	FStatusIcons	= PluginHelper::pluginInstance<IStatusIcons>();
 	FOptionsManager = PluginHelper::pluginInstance<IOptionsManager>();
 
+#ifdef EYECU_MOBILE		// *** <<< eyeCU <<< ***
+	ui.verticalLayoutM->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+	ui.verticalLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
+#endif					// *** >>> eyeCU >>> ***
 	FLayout = new QVBoxLayout(ui.wdtAccounts);
 	FLayout->setMargin(0);
  // *** <<< eyeCU <<< ***

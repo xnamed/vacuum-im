@@ -1,6 +1,8 @@
 #include "editproxydialog.h"
-
+#include <utils/iconstorage.h>      // *** <<< eyeCU <<< ***
 #include <utils/logger.h>
+
+#define SPACEFACTOR		4
 
 enum ProxyItemDataRoles {
 	PDR_UUID = Qt::UserRole,
@@ -20,6 +22,8 @@ EditProxyDialog::EditProxyDialog(IConnectionManager *AManager, QWidget *AParent)
 	setWindowModality(Qt::WindowModal);
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
+    ui.lblIcon->clear();
+    ui.verticalLayout->setSpacing(IconStorage::iconSize()/SPACEFACTOR);
     showMaximized();
 #endif
 // *** >>> eyeCU >>>***
