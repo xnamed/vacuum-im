@@ -142,7 +142,11 @@ bool BirthdayReminder::initObjects()
 		notifyType.order = NTO_BIRTHDAY_NOTIFY;
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_BIRTHDAY_NOTIFY);
 		notifyType.title = tr("When reminding of upcoming birthdays");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		notifyType.kindMask = INotification::PopupWindow|INotification::AndroidSound;
+#else	// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#endif
 		notifyType.kindDefs = notifyType.kindMask;
 		FNotifications->registerNotificationType(NNT_BIRTHDAY,notifyType);
 	}
@@ -269,7 +273,12 @@ void BirthdayReminder::onShowNotificationTimer()
 		{
 			INotification notify;
 			notify.kinds = FNotifications->enabledTypeNotificationKinds(NNT_BIRTHDAY);
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+			if ((notify.kinds & (INotification::PopupWindow|INotification::AndroidSound))>0)
+#else	// *** >>> eyeCU >>> ***
+
 			if ((notify.kinds & (INotification::PopupWindow|INotification::SoundPlay))>0)
+#endif
 			{
 				updateBirthdaysStates();
 				notify.typeId = NNT_BIRTHDAY;

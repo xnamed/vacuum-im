@@ -97,7 +97,7 @@ bool CaptchaForms::initObjects()
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CAPTCHAFORMS);
 		notifyType.title = tr("When receiving a CAPTCHA challenge");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibrate|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::AndroidVibrate|INotification::AndroidLights|INotification::AndroidSound|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif

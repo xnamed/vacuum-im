@@ -177,9 +177,10 @@ bool StatusChanger::initObjects()
 	FModifyStatus->setCheckable(true);
 	FModifyStatus->setText(tr("Modify Status"));
 	FModifyStatus->setIcon(RSR_STORAGE_MENUICONS, MNI_SCHANGER_MODIFY_STATUS);
+#ifndef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 	FMainMenu->addAction(FModifyStatus,AG_SCSM_STATUSCHANGER_ACTIONS,false);
 	connect(FModifyStatus,SIGNAL(triggered(bool)),SLOT(onModifyStatusAction(bool)));
-
+#endif      	// *** >>> eyeCU >>> ***
 	createDefaultStatus();
 	setMainStatusId(STATUS_OFFLINE);
 	updateMainMenu();

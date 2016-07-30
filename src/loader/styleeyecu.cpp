@@ -22,6 +22,16 @@ xxxhdpi	 : [640] [160] 20.0  20   (extra-extra-extra-high)	~640dpi
 #include "styleeyecu.h"
 #define BASE	8
 
+
+/*! this file in resource!!
+	QFile styleF;
+	styleF.setFileName(":/qss/style.css");
+	styleF.open(QFile::ReadOnly);
+	QString qssStr = styleF.readAll();
+	qApp->setStyleSheet(qssStr);
+*/
+
+
 StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 {
 #ifdef EYECU_MOBILE
@@ -99,7 +109,7 @@ QString StyleEyecu::saveStyle()
 {
     return QString().append(checkBox()).append(radioBottom()).append(slider()).append(scrollBar())
             .append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView())
-            .append(comboBox());
+			.append(comboBox());//.append(groupBox());
 }
 
 //!
@@ -279,6 +289,19 @@ QString StyleEyecu::scrollBar()
 		).arg(5*FScale).arg(FScale/2).arg(FScale).arg("919086").arg("039702").arg("F6F4E9");
 	return style;
 }
+
+///!
+//! \brief StyleEyecu::groupBox
+//! \return
+//!
+QString StyleEyecu::groupBox()
+{
+		QString style=QString(""
+			"QGroupBox::indicator {width: %1px; height: %1px;}").arg(FSize);
+		return style;
+}
+
+
 /* 039702  //old - 919086  C2C0B5  F6F4E9
     "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 2px solid #919086; width: 3px;height: 3px;background:white;}"
     "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {background: none;}"

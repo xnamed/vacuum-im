@@ -224,7 +224,7 @@ bool ChatMessageHandler::initObjects()
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CHATMHANDLER_MESSAGE);
 		notifyType.title = tr("When receiving new chat message");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibrate|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::AndroidVibrate|INotification::AndroidLights|INotification::AndroidSound|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif
@@ -336,8 +336,11 @@ INotification ChatMessageHandler::messageNotify(INotifications *ANotifications, 
 
 			notify.kinds = ANotifications->enabledTypeNotificationKinds(typeId);
 			if (window->isActiveTabPage())
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+				notify.kinds &= Options::node(OPV_NOTIFICATIONS_FORCESOUND).value().toBool() ? INotification::AndroidSound : 0;
+#else	// *** >>> eyeCU >>> ***
 				notify.kinds &= Options::node(OPV_NOTIFICATIONS_FORCESOUND).value().toBool() ? INotification::SoundPlay : 0;
-
+#endif
 			if (notify.kinds > 0)
 			{
 				QIcon icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CHATMHANDLER_MESSAGE);

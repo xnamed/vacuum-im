@@ -248,7 +248,11 @@ bool Activity::initObjects()
 		if (FActivityIconStorage)
 			notifyType.icon = FMenuIconStorage->getIcon(MNI_ACTIVITY);
 		notifyType.title = tr("When user activity changed");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		notifyType.kindMask = INotification::PopupWindow|INotification::AndroidSound;
+#else	// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#endif
 		notifyType.kindDefs = notifyType.kindMask;
 		FNotifications->registerNotificationType(NNT_ACTIVITY, notifyType);
 	}

@@ -114,8 +114,8 @@ bool ContactProximityNotification::initObjects()
         notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_PROXIMITY);
         notifyType.title = tr("When contact appears nearby");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibrate|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
-		notifyType.kindDefs = notifyType.kindMask&~(INotification::Vibrate|INotification::Lights);
+		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::AndroidVibrate|INotification::AndroidLights|INotification::AndroidSound|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+		notifyType.kindDefs = notifyType.kindMask&~(INotification::AndroidVibrate|INotification::AndroidLights);
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 		notifyType.kindDefs = notifyType.kindMask&~(INotification::TrayNotify|INotification::TrayAction);

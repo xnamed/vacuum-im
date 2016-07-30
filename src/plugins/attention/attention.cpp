@@ -148,9 +148,9 @@ bool Attention::initObjects()
         notifyType.title = tr("When contact attempts to attract user's attention");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 		notifyType.kindMask = INotification::RosterNotify|
-							  INotification::PopupWindow|INotification::AlertWidget|INotification::SoundPlay|
+							  INotification::PopupWindow|INotification::AlertWidget|INotification::AndroidSound|
                               INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate|
-                              INotification::Vibrate|INotification::Lights;
+							  INotification::AndroidVibrate|INotification::AndroidLights;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction|
 							  INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|
@@ -252,13 +252,21 @@ INotification Attention::messageNotify(INotifications *ANotifications, const Mes
             IMessageChatWindow *window = getWindow(AMessage.to(), AMessage.from());
             if (window)
             {
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+				if (!window->isActiveTabPage() || (kinds&INotification::AndroidSound && Options::node(OPV_ATTENTION_AYWAYSPLAYSOUND).value().toBool()))
+#else
                 if (!window->isActiveTabPage() || (kinds&INotification::SoundPlay && Options::node(OPV_ATTENTION_AYWAYSPLAYSOUND).value().toBool()))
-                {
+#endif
+				{
                     notify.typeId = NNT_ATTENTION;
                     notify.data.insert(NDR_SOUND_FILE, SDF_ATTENTION_ALARM);
 
                     if (window->isActiveTabPage())
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+						notify.kinds  = INotification::AndroidSound;
+#else	// *** >>> eyeCU >>> ***
                         notify.kinds  = INotification::SoundPlay;
+#endif
                     else
                     {
 						QIcon icon   = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_ATTENTION);
