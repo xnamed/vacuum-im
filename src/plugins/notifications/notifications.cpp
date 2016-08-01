@@ -19,6 +19,7 @@
 #include <utils/options.h>
 #include <utils/action.h>
 #include <utils/logger.h>
+#endif
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE

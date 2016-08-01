@@ -20,7 +20,6 @@ struct INotification
 #else           // *** <<< eyeCU >>> ***
                 TrayNotify            = 0x0004,
                 TrayAction            = 0x0008,
-#endif
 		SoundPlay             = 0x0010,
 		AlertWidget           = 0x0020,
 		TabPageNotify         = 0x0040,
@@ -33,6 +32,14 @@ struct INotification
 	enum NotifyFlags {
 		RemoveInvisible       = 0x0001
 	};
+#ifdef EYECU_MOBILE    // *** <<< eyeCU >>> ***
+        enum NotifyAndroidKinds {
+                AndroidSound       = 0x0001,
+                AndroidVibrate     = 0x0002,
+                AndroidLights      = 0x0004,
+                AndroidALL         = 0x0007,
+        };
+#endif
 	INotification() {
 		kinds = 0;
 		flags = RemoveInvisible;

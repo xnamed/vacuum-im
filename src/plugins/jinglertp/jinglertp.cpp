@@ -163,7 +163,8 @@ bool JingleRtp::initObjects()
         notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibration|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
-#endif        notifyType.kindDefs = notifyType.kindMask & ~(INotification::AutoActivate);
+#endif
+		notifyType.kindDefs = notifyType.kindMask & ~(INotification::AutoActivate);
         FNotifications->registerNotificationType(NNT_JINGLE_RTP_CALL, notifyType);
 
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_JINGLE)->getIcon(JNI_RTP_HANGUP);
