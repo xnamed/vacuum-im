@@ -325,7 +325,6 @@ void OptionsDialog::onOptionsDialogNodeInserted(const IOptionsDialogNode &ANode)
 
 void OptionsDialog::onOptionsDialogNodeRemoved(const IOptionsDialogNode &ANode)
 {
-qDebug()<<"OptionsDialog::onOptionsDialogNodeRemoved/ANode"<<ANode.caption;
 	if (FNodeItems.contains(ANode.nodeId))
 	{
 		QStandardItem *item = FNodeItems.take(ANode.nodeId);

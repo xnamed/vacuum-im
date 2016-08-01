@@ -19,7 +19,14 @@
 #include <utils/options.h>
 #include <utils/action.h>
 #include <utils/logger.h>
-#include "notifykindoptionswidget.h"
+
+// *** <<< eyeCU <<< ***
+#ifdef EYECU_MOBILE
+#   include "notifykindoptionswidgetm.h"
+#else
+// *** >>> eyeCU >>> ***
+#   include "notifykindoptionswidget.h"
+#endif
 
 #define FIRST_KIND         0x0001
 #define LAST_KIND          0x8000
@@ -288,7 +295,11 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 
 		widgets.insertMulti(OHO_NOTIFICATIONS_KINDS,FOptionsManager->newOptionsDialogHeader(tr("Notification kinds"),AParent));
 		widgets.insertMulti(OWO_NOTIFICATIONS_ALERTWINDOW,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_KINDENABLED_ITEM,QString::number(INotification::AlertWidget)),tr("Highlight the corresponding window in the taskbar"),AParent));
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		widgets.insertMulti(OWO_NOTIFICATIONS_KINDS, new NotifyKindOptionsWidgetMobile(this,AParent));
+#else		// *** >>> eyeCU >>> ***
 		widgets.insertMulti(OWO_NOTIFICATIONS_KINDS, new NotifyKindOptionsWidget(this,AParent));
+#endif
 	}
 	return widgets;
 }
@@ -380,12 +391,15 @@ int Notifications::appendNotification(const INotification &ANotification)
 					AMessage=doc.toPlainText();
 				}
 			}
-			int sound = (record.notification.kinds & INotification::SoundPlay)	>0 ? 1 : 0;
-			int vibro = (record.notification.kinds & INotification::Vibrate)	>0 ? 2 : 0;
-			int light = (record.notification.kinds & INotification::Lights)		>0 ? 4 : 0;
+            int sound = (record.notification.kinds & INotification::SoundPlay)	>0 ? 1 : 0;
+            int vibro = (record.notification.kinds & INotification::Vibration)	>0 ? 2 : 0;
+            int light = (record.notification.kinds & INotification::Lights)     >0 ? 4 : 0;
 			int ARegim= sound + vibro + light;
 #ifdef Q_OS_ANDROID
-			updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
+            if(1)   // for up
+                updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
+            else
+                ;// for down
 #endif
 			if(!FFlagAndroidNotify){
 				QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
@@ -786,63 +800,7 @@ void Notifications::removeInvisibleNotification(int ANotifyId)
 	}
 }
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-///!
-//! \brief Notifications::onDeleteAndroidNotify
-//!
-void Notifications::onDeleteAndroidNotify()
-{
-	if(!FFlagAndroidNotify)
-		return;
-	bool status=false;
-	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
-	while (it != FNotifyAndroid.constEnd())
-	{
-		if(it.value()>0)
-		{
-			status |= true;
-			int time=it.value()-1;
-			FNotifyAndroid.insert(it.key(),time);
-			if(time<=0)
-			{
-#ifdef Q_OS_ANDROID
-			deleteAndroidNotification(it.key());
-#endif
-			}
-		}
-		++it;
-	}
-	if(!status)
-		FFlagAndroidNotify=false;
-	if(FFlagAndroidNotify)
-		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
-}
 
-///!
-//! \brief Notifications::destroyAndroidNotify
-//! Need delete all Notifications, When application closing
-//!
-void Notifications::destroyAndroidNotify()
-{
-	FFlagAndroidNotify=false;
-	if(FNotifyAndroid.isEmpty())
-		return;
-	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
-	while (it != FNotifyAndroid.constEnd())
-	{
-		if(it.value()>0){
-#ifdef Q_OS_ANDROID
-			deleteAndroidNotification(it.key());
-#endif
-			FNotifyAndroid.insert(it.key(),0);
-		}
-		++it;
-	}
-	FNotifyAndroid.clear();
-}
-#endif
-// *** >>> eyeCU >>> ***
 
 void Notifications::onDelayedRemovals()
 {
@@ -1002,7 +960,76 @@ void Notifications::onSpinBoxValueChanged(int value)
 	qobject_cast<QSpinBox *>(sender())->setSuffix(" "+tr("second(s)", "", value));
 }
 
+
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+///!
+//! \brief Notifications::onDeleteAndroidNotify
+//!
+void Notifications::onDeleteAndroidNotify()
+{
+	if(!FFlagAndroidNotify)
+		return;
+	bool status=false;
+	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
+	while (it != FNotifyAndroid.constEnd())
+	{
+		if(it.value()>0)
+		{
+			status |= true;
+			int time=it.value()-1;
+			FNotifyAndroid.insert(it.key(),time);
+			if(time<=0)
+			{
+#ifdef Q_OS_ANDROID
+			deleteAndroidNotification(it.key());
+#endif
+			}
+		}
+		++it;
+	}
+	if(!status)
+		FFlagAndroidNotify=false;
+	if(FFlagAndroidNotify)
+		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
+}
+
+///!
+//! \brief Notifications::destroyAndroidNotify
+//! Need delete all Notifications, When application closing
+//!
+void Notifications::destroyAndroidNotify()
+{
+	FFlagAndroidNotify=false;
+	if(FNotifyAndroid.isEmpty())
+		return;
+	QMap<int, long >::const_iterator it = FNotifyAndroid.constBegin();
+	while (it != FNotifyAndroid.constEnd())
+	{
+		if(it.value()>0){
+#ifdef Q_OS_ANDROID
+			deleteAndroidNotification(it.key());
+#endif
+			FNotifyAndroid.insert(it.key(),0);
+		}
+		++it;
+	}
+	FNotifyAndroid.clear();
+}
+#endif
+
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
+///!
+//! \brief Notifications::updateAndroidNotification2
+//! \param AMessage		-Message text
+//! \param ATitle		-The headline of the message
+//! \param AId			-The object identifier
+//! \param ARegim		-Sound accompaniment (1-SOUND,2-VIBRATE,4-LIGHTS,7-ALL,0-nothing)
+//!
+void Notifications::updateAndroidNotification2(QString AMessage, QString ATitle, int AId, int ARegim)
+{
+
+}
+
 ///!
 //! \brief Notifications::updateAndroidNotification
 //! \param AMessage		-Message text
@@ -1030,8 +1057,8 @@ void Notifications::deleteAndroidNotification(int AId)
 {
     QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","notifydelete","(I)V",AId);
 }
-#endif      // *** >>> eyeCU >>> ***
-
+#endif
+// *** >>> eyeCU >>> ***
 
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(plg_notifications, Notifications)

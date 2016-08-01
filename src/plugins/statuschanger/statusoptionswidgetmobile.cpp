@@ -57,7 +57,6 @@ StatusOptionsWidgetMobile::StatusOptionsWidgetMobile(IStatusChanger *AStatusChan
     tlbStatus->setFrameStyle(QFrame::Panel | QFrame::Raised);
     tlbStatus->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 	connect(tlbStatus,SIGNAL(currentChanged(int)),SLOT(onCurrentChanged(int)));
-//    connect(tbwStatus,SIGNAL(itemChanged(QTableWidgetItem *)),SIGNAL(modified()));
     //!----------
     QHBoxLayout *hltlayout = new QHBoxLayout;
     hltlayout->setMargin(0);
@@ -89,8 +88,7 @@ void StatusOptionsWidgetMobile::apply()
         int show;
         QString nameStatus;
         QList<QComboBox *> allComboBox = wd->findChildren<QComboBox *>();
-        if(allComboBox.count() >0)
-        {
+        if(allComboBox.count() >0){
             nameStatus=allComboBox.at(0)->currentText();
             show=getCurrentStatus(allComboBox.at(0)->currentIndex());
         }
@@ -131,6 +129,10 @@ void StatusOptionsWidgetMobile::apply()
         else if (status.name!=name || status.show!=show || status.messageText!=text || status.priority!=priority)
 		{
 			FStatusChanger->updateStatusItem(statusId,name,show,text,priority);
+            if(status.name!=name)
+                tlbStatus->setItemText(row,name);
+            if(status.show!=show)
+                tlbStatus->setItemIcon(row,FStatusChanger->iconByShow(show));
 		}
 	}
 	tlbStatus->setCurrentIndex(0);
@@ -186,7 +188,6 @@ void StatusOptionsWidgetMobile::reset()
             QLabel *lblSpinBox=new QLabel(tr("Priority"));
 			QSpinBox *spinBox=getSpinBox();
 			spinBox->setValue(status.priority);
-            spinBox->setSizePolicy(WDTSIZEPOLICY);
 			connect(spinBox,SIGNAL(valueChanged(int)),SIGNAL(modified()));
             lotGeneral->insertRow(TB_PRIORITY,lblSpinBox,spinBox);
 
@@ -261,7 +262,9 @@ void StatusOptionsWidgetMobile::onAddButtonClicked()
 
     emit modified();
 }
-
+///!
+//! \brief StatusOptionsWidgetMobile::onDeleteButtonClicked
+//! Delete current row in ToolboBox
 void StatusOptionsWidgetMobile::onDeleteButtonClicked()
 {
     //for (int row=0; row<tlbStatus->count(); row++)
@@ -325,6 +328,7 @@ QSpinBox *StatusOptionsWidgetMobile::getSpinBox()
 	spinBox->setAlignment(Qt::AlignHCenter);
 	spinBox->setMinimum(-128);
 	spinBox->setMaximum(128);
+    spinBox->setSizePolicy(WDTSIZEPOLICY);
 	return spinBox;
 }
 
