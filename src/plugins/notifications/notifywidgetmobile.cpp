@@ -1,3 +1,4 @@
+#include <QDebug>
 
 #include "notifywidgetmobile.h"
 #include "ui_notifywidgetmobile.h"
@@ -11,7 +12,7 @@ NotifyWidgetMobile::NotifyWidgetMobile(ushort AKinds, QWidget *parent) :
 {
     ui->setupUi(this);
     init();
-    setValue();
+	setValue();
 
     connect(ui->rButOff,SIGNAL(clicked(bool)),SLOT(onRButOff(bool)));
     connect(ui->rButStatusBar,SIGNAL(clicked(bool)),SLOT(onRButStatusBar(bool)));
@@ -20,9 +21,13 @@ NotifyWidgetMobile::NotifyWidgetMobile(ushort AKinds, QWidget *parent) :
     connect(ui->rButOff,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->rButStatusBar,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->rButToast,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+
     connect(ui->chBoxSound,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->chBoxVibration,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->chBoxLights,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+	connect(ui->chBoxLTime,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+	connect(ui->chBoxPlace,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+
 
 }
 
@@ -49,7 +54,7 @@ void NotifyWidgetMobile::init()
     ui->iconLTime->setPixmap(pixmapMini);
     ui->iconPlace->setPixmap(pixmapMini);
 
-    //!-  for later ....
+	//!-  for later ..for simple menu..
     bool visible=true;
     ui->iconSound->setVisible(visible);
     ui->iconToast->setVisible(visible);
@@ -64,8 +69,13 @@ void NotifyWidgetMobile::init()
 
 void NotifyWidgetMobile::setValue()
 {
+
+#ifdef EYECU_MOBILE
+
+
 //    ui->chBoxPopUp->setProperty("NTR_KIND",INotification::PopupWindow);
 //    ui->chBoxMinim->setProperty("NTR_KIND",INotification::ShowMinimized);
+	ui->rButOff->setProperty("NTR_KIND",INotification::PopupWindow);
 
     ui->chBoxSound->setProperty("NTR_KIND",INotification::SoundPlay);
     if (FKinds & INotification::SoundPlay)
@@ -91,23 +101,36 @@ void NotifyWidgetMobile::setValue()
     ui->chBoxLights->setCheckState(Qt::Unchecked);
 //        lotGeneral->insertRow(NTC_LIGHTS,chBoxLights,lblBoxLights);
 
-
 /*        if (FKinds & INotification::PopupWindow)
-            ui->chBoxPopUp->setEnabled(CHBOXSTATE);
+			ui->chBoxLTime->setEnabled(CHBOXSTATE);
         else
-            ui->chBoxPopUp->setEnabled(false);
-        ui->chBoxPopUp->setCheckState(Qt::Unchecked);
-//        connect(ui->chBoxPopUp,SIGNAL(clicked(bool)),SIGNAL(modified()));
+			ui->chBoxLTime->setEnabled(false);
+		ui->chBoxLTime->setCheckState(Qt::Unchecked);
 
         if (FKinds & INotification::ShowMinimized)
-            ui->chBoxMinim->setEnabled(CHBOXSTATE);
+			ui->chBoxPlace->setEnabled(CHBOXSTATE);
         else
-            ui->chBoxMinim->setEnabled(false);
-        ui->chBoxMinim->setCheckState(Qt::Unchecked);
-//        lotGeneral->insertRow(NTC_MINIMIZED,chBoxMinim,lblBoxMinim);
-//        connect(ui->chBoxMinim,SIGNAL(clicked(bool)),SIGNAL(modified()));
+			ui->chBoxPlace->setEnabled(false);
+		ui->chBoxPlace->setCheckState(Qt::Unchecked);
+
+		//!-----
+
 */
 
+	if(FKinds & INotification::StatusBar){
+		ui->rButStatusBar->setChecked(true);
+		onRButStatusBar(true);
+	}
+	else if(FKinds & INotification::PopupWindow){
+		ui->rButToast->setChecked(true);
+		onRButToast(true);
+	}
+	else{
+		ui->rButOff->setChecked(true);
+		onRButOff(true);
+	}
+
+#endif
 }
 
 void NotifyWidgetMobile::onRButOff(bool AStatus)

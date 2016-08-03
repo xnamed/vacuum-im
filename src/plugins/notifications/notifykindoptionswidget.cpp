@@ -63,9 +63,9 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 	vblLayout->setMargin(0);
 
 	QMultiMap<int, NotificationType> orderedTypes;
-#ifdef EYECU_MOBILE    // *** <<< eyeCU >>> ***
+#ifdef EYECU_MOBILE    // *** <<< eyeCU >>> ***		Only assembly
     ushort visibleKinds = INotification::PopupWindow|INotification::Vibration|INotification::SoundPlay|INotification::ShowMinimized;
-#else    // *** <<< eyeCU >>> ***
+#else    // *** <<< eyeCU >>> ***					Only assembly
 	ushort visibleKinds = INotification::PopupWindow|INotification::TrayNotify|INotification::SoundPlay|INotification::ShowMinimized;
 #endif
     foreach(const QString &typeId, FNotifications->notificationTypes())

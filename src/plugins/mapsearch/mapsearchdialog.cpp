@@ -51,8 +51,6 @@ MapSearchDialog::MapSearchDialog(QHash<QUuid, IMapSearchProvider *> AProviders, 
 	connect(ui->pButGoTo,SIGNAL(clicked(bool)),SLOT(onGoto(bool)));
 	ui->pButGoTo->setVisible(false); //!---TEMP---
     showMaximized();
-#else
-	ui->pButGoTo->setVisible(false);
 #endif
     //Shortcuts
     FPoi->setTreeWidgetShortcuts(ui->twFound, true);
