@@ -323,6 +323,9 @@
        <property name="text">
         <string>Off Notification</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="2" column="2" colspan="2">
@@ -334,7 +337,10 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Show Notification at Status Bar</string>
+        <string>Notification in the status bar</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -348,6 +354,9 @@
        </property>
        <property name="text">
         <string>Toast Notification</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

@@ -31,6 +31,7 @@ protected:
     void setValue();
     void setEnableStatusBar(bool AStatus);
     void setEnableToast(bool AStatus);
+	void setVisStatusBar(bool AStatus);
 
 private:
     Ui::NotifyWidgetMobile *ui;

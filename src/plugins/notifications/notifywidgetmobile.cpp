@@ -28,7 +28,6 @@ NotifyWidgetMobile::NotifyWidgetMobile(ushort AKinds, QWidget *parent) :
 	connect(ui->chBoxLTime,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
 	connect(ui->chBoxPlace,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
 
-
 }
 
 NotifyWidgetMobile::~NotifyWidgetMobile()
@@ -70,12 +69,9 @@ void NotifyWidgetMobile::init()
 void NotifyWidgetMobile::setValue()
 {
 
-#ifdef EYECU_MOBILE
-
-
-//    ui->chBoxPopUp->setProperty("NTR_KIND",INotification::PopupWindow);
-//    ui->chBoxMinim->setProperty("NTR_KIND",INotification::ShowMinimized);
-	ui->rButOff->setProperty("NTR_KIND",INotification::PopupWindow);
+//	ui->rButOff->setProperty("NTR_KIND",INotification::PopupWindow);
+	ui->rButStatusBar->setProperty("NTR_KIND",INotification::StatusBar);
+	ui->rButToast->setProperty("NTR_KIND",INotification::PopupWindow);
 
     ui->chBoxSound->setProperty("NTR_KIND",INotification::SoundPlay);
     if (FKinds & INotification::SoundPlay)
@@ -101,36 +97,40 @@ void NotifyWidgetMobile::setValue()
     ui->chBoxLights->setCheckState(Qt::Unchecked);
 //        lotGeneral->insertRow(NTC_LIGHTS,chBoxLights,lblBoxLights);
 
-/*        if (FKinds & INotification::PopupWindow)
-			ui->chBoxLTime->setEnabled(CHBOXSTATE);
-        else
-			ui->chBoxLTime->setEnabled(false);
-		ui->chBoxLTime->setCheckState(Qt::Unchecked);
+	ui->chBoxLTime->setProperty("NTR_KIND",INotification::LongTime);
+	if (FKinds & INotification::LongTime)
+		ui->chBoxLTime->setEnabled(CHBOXSTATE);
+	else
+		ui->chBoxLTime->setEnabled(false);
+	ui->chBoxLTime->setCheckState(Qt::Unchecked);
 
-        if (FKinds & INotification::ShowMinimized)
-			ui->chBoxPlace->setEnabled(CHBOXSTATE);
-        else
-			ui->chBoxPlace->setEnabled(false);
-		ui->chBoxPlace->setCheckState(Qt::Unchecked);
+	ui->chBoxPlace->setProperty("NTR_KIND",INotification::PlaceView);
+	if (FKinds & INotification::PlaceView)
+		ui->chBoxPlace->setEnabled(CHBOXSTATE);
+	else
+		ui->chBoxPlace->setEnabled(false);
+	ui->chBoxPlace->setCheckState(Qt::Unchecked);
 
-		//!-----
-
-*/
-
-	if(FKinds & INotification::StatusBar){
+	//!-----
+	if(FKinds & INotification::StatusBar)
+	{
 		ui->rButStatusBar->setChecked(true);
 		onRButStatusBar(true);
 	}
-	else if(FKinds & INotification::PopupWindow){
+//	else
+	if(FKinds & INotification::PopupWindow)
+	{
 		ui->rButToast->setChecked(true);
 		onRButToast(true);
 	}
-	else{
+//	else
+	if(0)
+	{
 		ui->rButOff->setChecked(true);
 		onRButOff(true);
 	}
 
-#endif
+
 }
 
 void NotifyWidgetMobile::onRButOff(bool AStatus)
@@ -176,4 +176,23 @@ void NotifyWidgetMobile::setEnableToast(bool AStatus)
     ui->chBoxPlace->setEnabled(AStatus);
     ui->iconPlace->setEnabled(AStatus);
     ui->lblPlace->setEnabled(AStatus);
+}
+
+void NotifyWidgetMobile::setVisStatusBar(bool AStatus)
+{
+	ui->line->setVisible(AStatus);
+	ui->rButStatusBar->setVisible(AStatus);
+	ui->iconStatusBar->setVisible(AStatus);
+	ui->lblOffStatusBar->setVisible(AStatus);
+	ui->chBoxSound->setVisible(AStatus);
+	ui->iconSound->setVisible(AStatus);
+	ui->lblSound->setVisible(AStatus);
+	ui->chBoxVibration->setVisible(AStatus);
+	ui->iconVibro->setVisible(AStatus);
+	ui->lblVibro->setVisible(AStatus);
+	ui->chBoxLights->setVisible(AStatus);
+	ui->iconLights->setVisible(AStatus);
+	ui->lblLights->setVisible(AStatus);
+
+
 }

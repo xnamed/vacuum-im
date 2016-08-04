@@ -149,7 +149,7 @@ bool Attention::initObjects()
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 		notifyType.kindMask = INotification::RosterNotify|
                               INotification::PopupWindow|INotification::AlertWidget|INotification::SoundPlay|
-                              INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate|
+							  INotification::TabPageNotify|INotification::AutoActivate|
                               INotification::Vibration|INotification::Lights;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction|
