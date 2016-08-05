@@ -292,9 +292,11 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 #if defined Q_OS_X11 && 0
 		widgets.insertMulti(OWO_NOTIFICATIONS_SOUNDCOMMAND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_SOUNDCOMMAND),tr("System command to play sound:"),AParent));
 #endif
-
 		widgets.insertMulti(OHO_NOTIFICATIONS_KINDS,FOptionsManager->newOptionsDialogHeader(tr("Notification kinds"),AParent));
+#ifndef EYECU_MOBILE
 		widgets.insertMulti(OWO_NOTIFICATIONS_ALERTWINDOW,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_KINDENABLED_ITEM,QString::number(INotification::AlertWidget)),tr("Highlight the corresponding window in the taskbar"),AParent));
+#endif
+
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
 		widgets.insertMulti(OWO_NOTIFICATIONS_KINDS, new NotifyKindOptionsWidgetMobile(this,AParent));
 #else		// *** >>> eyeCU >>> ***

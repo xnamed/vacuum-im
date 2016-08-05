@@ -190,6 +190,4 @@ void NotifyWidgetMobile::setVisStatusBar(bool AStatus)
 	ui->chBoxLights->setVisible(AStatus);
 	ui->iconLights->setVisible(AStatus);
 	ui->lblLights->setVisible(AStatus);
-
-
 }

@@ -22,7 +22,7 @@ NotifyKindOptionsWidgetMobile::NotifyKindOptionsWidgetMobile(INotifications *ANo
 {
 	FNotifications = ANotifications;
 	int size=IconStorage::iconSize();
-    registrOrderedTypes();  //!----
+	registrOrderedTypes();
 
 	QVBoxLayout *vblLayout = new QVBoxLayout(this);
 	vblLayout->setSpacing(size/8);
@@ -101,23 +101,21 @@ void NotifyKindOptionsWidgetMobile::apply()
                  else
                      typeKinds &= ~kind;
              }
-             FNotifications->setTypeNotificationKinds(typeId,typeKinds);
+			 FNotifications->setTypeNotificationKinds(typeId,typeKinds);
          }
-
          QList<QRadioButton *> allRadioButtons = wd->findChildren<QRadioButton *>();
          if (allRadioButtons.count() > 0)
          {
              for (int i =0; i < allRadioButtons.count(); i++)
              {
                 ushort kind = allRadioButtons.at(i)->property("NTR_KIND").toInt();
-                if(allRadioButtons.at(i)->isChecked())  //==Qt::Checked
+				if(allRadioButtons.at(i)->isChecked())
                     typeKinds |= kind;
                 else
                     typeKinds &= ~kind;
              }
-             FNotifications->setTypeNotificationKinds(typeId,typeKinds);
+			 FNotifications->setTypeNotificationKinds(typeId,typeKinds);
          }
-//         FNotifications->setTypeNotificationKinds(typeId,typeKinds);
     }
     tlbNotifies->setCurrentIndex(0);
 }
