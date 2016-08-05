@@ -143,7 +143,8 @@ bool BirthdayReminder::initObjects()
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_BIRTHDAY_NOTIFY);
 		notifyType.title = tr("When reminding of upcoming birthdays");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-        notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+        notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
+                                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
 #else	// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
 #endif

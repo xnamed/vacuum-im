@@ -262,7 +262,12 @@ bool Mood::initObjects()
         if (FMoodIconStorage)
 			notifyType.icon = FMenuIconStorage->getIcon(MNI_MOOD);
         notifyType.title = tr("When user mood changed");
+#ifdef EYECU_MOBILE
+        notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
+                        INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+#else
         notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#endif
         notifyType.kindDefs = notifyType.kindMask;
         FNotifications->registerNotificationType(NNT_MOOD, notifyType);
     }

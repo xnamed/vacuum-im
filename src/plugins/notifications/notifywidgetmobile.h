@@ -20,6 +20,8 @@ class NotifyWidgetMobile : public QWidget
 public:
     NotifyWidgetMobile(ushort AKinds, QWidget *parent = 0);
     ~NotifyWidgetMobile();
+public slots:
+    void stress();
 protected slots:
     void onRButOff(bool AStatus);
     void onRButStatusBar(bool AStatus);

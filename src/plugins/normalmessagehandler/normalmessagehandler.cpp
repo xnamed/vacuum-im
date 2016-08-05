@@ -190,7 +190,10 @@ bool NormalMessageHandler::initObjects()
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_NORMALMHANDLER_MESSAGE);
 		notifyType.title = tr("When receiving new single message");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-        notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibration|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+        notifyType.kindMask = INotification::RosterNotify|
+                INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
+                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
+                INotification::AlertWidget|INotification::TabPageNotify|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif

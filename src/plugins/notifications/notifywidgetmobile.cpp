@@ -25,8 +25,8 @@ NotifyWidgetMobile::NotifyWidgetMobile(ushort AKinds, QWidget *parent) :
     connect(ui->chBoxSound,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->chBoxVibration,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->chBoxLights,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
-	connect(ui->chBoxLTime,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
-	connect(ui->chBoxPlace,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+    connect(ui->chBoxLTime,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+    connect(ui->chBoxPlace,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
 
 }
 
@@ -53,7 +53,7 @@ void NotifyWidgetMobile::init()
     ui->iconLTime->setPixmap(pixmapMini);
     ui->iconPlace->setPixmap(pixmapMini);
 
-	//!-  for later ..for simple menu..
+    //!-  later ..for simple menu..
     bool visible=true;
     ui->iconSound->setVisible(visible);
     ui->iconToast->setVisible(visible);
@@ -68,8 +68,7 @@ void NotifyWidgetMobile::init()
 
 void NotifyWidgetMobile::setValue()
 {
-
-//	ui->rButOff->setProperty("NTR_KIND",INotification::PopupWindow);
+    ui->rButOff->setProperty("NTR_KIND",INotification::NotifyOff);
 	ui->rButStatusBar->setProperty("NTR_KIND",INotification::StatusBar);
 	ui->rButToast->setProperty("NTR_KIND",INotification::PopupWindow);
 
@@ -79,7 +78,6 @@ void NotifyWidgetMobile::setValue()
     else
         ui->chBoxSound->setEnabled(false);
     ui->chBoxSound->setCheckState(Qt::Unchecked);
-//      lotGeneral->insertRow(NTC_SOUND,chBoxSound,lblBoxSound);
 
     ui->chBoxVibration->setProperty("NTR_KIND",INotification::Vibration);
     if (FKinds & INotification::Vibration)
@@ -87,7 +85,6 @@ void NotifyWidgetMobile::setValue()
     else
         ui->chBoxVibration->setEnabled(false);
     ui->chBoxVibration->setCheckState(Qt::Unchecked);
-//        lotGeneral->insertRow(NTC_VIBRATION,chBoxVibration,lblVibration);
 
     ui->chBoxLights->setProperty("NTR_KIND",INotification::Lights);
     if (FKinds & INotification::Lights)
@@ -95,7 +92,6 @@ void NotifyWidgetMobile::setValue()
     else
         ui->chBoxLights->setEnabled(false);
     ui->chBoxLights->setCheckState(Qt::Unchecked);
-//        lotGeneral->insertRow(NTC_LIGHTS,chBoxLights,lblBoxLights);
 
 	ui->chBoxLTime->setProperty("NTR_KIND",INotification::LongTime);
 	if (FKinds & INotification::LongTime)
@@ -111,26 +107,27 @@ void NotifyWidgetMobile::setValue()
 		ui->chBoxPlace->setEnabled(false);
 	ui->chBoxPlace->setCheckState(Qt::Unchecked);
 
-	//!-----
-	if(FKinds & INotification::StatusBar)
-	{
-		ui->rButStatusBar->setChecked(true);
-		onRButStatusBar(true);
-	}
-//	else
-	if(FKinds & INotification::PopupWindow)
-	{
-		ui->rButToast->setChecked(true);
-		onRButToast(true);
-	}
-//	else
-	if(0)
-	{
-		ui->rButOff->setChecked(true);
-		onRButOff(true);
-	}
+}
 
+void NotifyWidgetMobile::stress()
+{
+    if(ui->rButStatusBar->isChecked())
+    {
+        onRButStatusBar(true);
+    }
+    else if(ui->rButToast->isChecked())
+    {
+        onRButToast(true);
+    }
+    else if(ui->rButOff->isChecked())
+    {
+        onRButOff(true);
+    }
 
+    if (FKinds & INotification::StatusBarOff)
+    {
+        setVisStatusBar(false);
+    }
 }
 
 void NotifyWidgetMobile::onRButOff(bool AStatus)

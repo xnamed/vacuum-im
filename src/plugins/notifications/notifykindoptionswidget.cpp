@@ -63,7 +63,11 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 	vblLayout->setMargin(0);
 
 	QMultiMap<int, NotificationType> orderedTypes;
-	ushort visibleKinds = INotification::PopupWindow|INotification::TrayNotify|INotification::SoundPlay|INotification::ShowMinimized;
+    ushort visibleKinds = INotification::PopupWindow|
+#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
+                            INotification::TrayNotify|
+#endif      // *** >>> eyeCU >>> ***
+                            INotification::SoundPlay|INotification::ShowMinimized;
     foreach(const QString &typeId, FNotifications->notificationTypes())
 	{
 		NotificationType notifyType = FNotifications->notificationType(typeId);
@@ -113,12 +117,19 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 
 		tbwNotifies->verticalHeader()->SETRESIZEMODE(row,QHeaderView::ResizeToContents);
 		QTableWidgetItem *tray = new QTableWidgetItem();
+#ifdef EYECU_MOBILE    // *** <<< eyeCU >>> ***   +++ Only assembly  mobile
+        tray->setData(NTR_KIND, INotification::StatusBar);
+        if (it->kindMask & INotification::StatusBar)
+#else      // *** <<< eyeCU >>> ***   +++only assembly     mobile
 		tray->setData(NTR_KIND, INotification::TrayNotify);
         if (it->kindMask & INotification::TrayNotify)
+#endif
 			tray->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
 		else
 			tray->setFlags(Qt::ItemIsUserCheckable);
+
 		tray->setCheckState(Qt::Unchecked);
+
 		tbwNotifies->setItem(row,NTC_TRAY,tray);
 
 		tbwNotifies->verticalHeader()->SETRESIZEMODE(row,QHeaderView::ResizeToContents);

@@ -14,18 +14,23 @@ struct INotification
 	enum NotifyKinds {
 		RosterNotify          = 0x0001,
                 PopupWindow           = 0x0002,
+#ifdef EYECU_MOBILE    // *** <<< eyeCU >>> ***
+                StatusBar             = 0x0004,
+                NotifyOff             = 0x0008,
+#else       // *** <<< eyeCU >>> ***
                 TrayNotify            = 0x0004,
                 TrayAction            = 0x0008,
+#endif
 		SoundPlay             = 0x0010,
 		AlertWidget           = 0x0020,
 		TabPageNotify         = 0x0040,
 		ShowMinimized         = 0x0080,
 #ifdef EYECU_MOBILE    // *** <<< eyeCU >>> ***
-                StatusBar             = 0x0100,
-                Vibration             = 0x0200,
-                Lights                = 0x0400,
-                LongTime              = 0x0800,
-                PlaceView             = 0x1000,
+                Vibration             = 0x0100,
+                Lights                = 0x0200,
+                LongTime              = 0x0400,
+                PlaceView             = 0x0800,
+                StatusBarOff          = 0x1000,
 #endif      // *** <<< eyeCU >>> ***
 		AutoActivate          = 0x8000
 	};

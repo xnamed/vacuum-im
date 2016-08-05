@@ -249,7 +249,8 @@ bool Activity::initObjects()
 			notifyType.icon = FMenuIconStorage->getIcon(MNI_ACTIVITY);
 		notifyType.title = tr("When user activity changed");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-		notifyType.kindMask = INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+        notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
+                        INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
 #else	// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
 #endif

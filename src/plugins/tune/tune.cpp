@@ -284,7 +284,14 @@ bool Tune::initObjects()
         if (FIconStorage)
             notifyType.icon = FIconStorage->getIcon(MNI_TUNE);
         notifyType.title = tr("When user starts listening a new tune");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+        notifyType.kindMask =
+INotification::NotifyOff|INotification::StatusBarOff|
+                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+#else	// *** >>> eyeCU >>> ***
         notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#endif
+
         notifyType.kindDefs = notifyType.kindMask;
         FNotifications->registerNotificationType(NNT_TUNE, notifyType);
     }

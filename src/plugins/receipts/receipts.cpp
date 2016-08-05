@@ -124,7 +124,12 @@ bool Receipts::initObjects()
         if (FIconStorage)
             notifyType.icon = FIconStorage->getIcon(MNI_RECEIPTS);
         notifyType.title = tr("When message delivery notification recieved");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+        notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
+                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+#else	// *** >>> eyeCU >>> ***
         notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#endif
         notifyType.kindDefs = notifyType.kindMask;
         FNotifications->registerNotificationType(NNT_RECEIPTS, notifyType);
     }

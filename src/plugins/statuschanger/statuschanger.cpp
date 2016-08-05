@@ -222,7 +222,12 @@ bool StatusChanger::initObjects()
 		notifyType.order = NTO_CONNECTION_ERROR;
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_SCHANGER_CONNECTION_ERROR);
 		notifyType.title = tr("On loss of connection to the server");
-		notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+        notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
+                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+#else	// *** >>> eyeCU >>> ***
+        notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
+#endif
 		notifyType.kindDefs = notifyType.kindMask;
 		FNotifications->registerNotificationType(NNT_CONNECTION_ERROR,notifyType);
 	}

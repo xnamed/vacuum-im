@@ -321,7 +321,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Off Notification</string>
+        <string>On/Off</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

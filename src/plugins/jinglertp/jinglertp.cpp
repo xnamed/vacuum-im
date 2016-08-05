@@ -160,7 +160,10 @@ bool JingleRtp::initObjects()
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_JINGLE)->getIcon(JNI_RTP_CALL);
         notifyType.title = tr("When incoming voice or video call received");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-        notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::Vibration|INotification::Lights|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+        notifyType.kindMask = INotification::RosterNotify|
+                INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
+                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
+                INotification::AlertWidget|INotification::TabPageNotify|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif

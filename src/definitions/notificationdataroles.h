@@ -38,13 +38,6 @@ enum NotificationDataRoles {
         NDR_ATTENTION_DIALOG_AVATAR_FILE_NAME,
         // Jingle call type
         NDR_JINGLE_RTP_EVENT_TYPE,
-        // Mobile options
-        NDR_ANDR_CONTROL,       //0-off notify,1-status bar,2-Mwindow,3-only Mwindow
-        NDR_VIBRATE,
-        NDR_LIGHTS,
-        NDR_SOUND,
-        NDR_LONG_TIME,          // 2s,3.5s
-        NDR_PLACE_VIEW          // down/central/up
         // *** >>> eyeCU >>> ***
 };
 
