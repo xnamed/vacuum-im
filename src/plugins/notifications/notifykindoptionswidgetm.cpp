@@ -7,12 +7,15 @@
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QRadioButton>
+#include <QComboBox>
 
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
 #include <utils/iconstorage.h>
 #include "utils/qt4qt5compat.h"
 #include <utils/advanceditemdelegate.h>
+#include <definitions/optionvalues.h>
+#include <definitions/optionnodes.h>
 
 #include "notifykindoptionswidgetm.h"
 #include "notifywidgetmobile.h"
@@ -114,7 +117,18 @@ void NotifyKindOptionsWidgetMobile::apply()
                 else
                     typeKinds &= ~kind;
              }
-			 FNotifications->setTypeNotificationKinds(typeId,typeKinds);
+             FNotifications->setTypeNotificationKinds(typeId,typeKinds);
+         }
+
+         QList<QComboBox *> allComboBoxs = wd->findChildren<QComboBox *>();
+         if (allComboBoxs.count() > 0)
+         {
+             ushort kind = allComboBoxs.at(0)->property("NTR_KIND").toInt();
+			 if(typeKinds & kind)
+             {
+                 ushort index = allComboBoxs.at(0)->currentIndex();
+                 Options::node(OPV_NOTIFICATIONS_ANDROID_PLACE,typeId).setValue(index);
+             }
          }
     }
     tlbNotifies->setCurrentIndex(0);
@@ -123,7 +137,7 @@ void NotifyKindOptionsWidgetMobile::apply()
 //! 01.06.16-TO DO -pass a parameter 'typeId' through the object properties
 void NotifyKindOptionsWidgetMobile::reset()
 {
-    for (int cnt=0; cnt<tlbNotifies->count(); cnt++)
+    for (int cnt=0; cnt< tlbNotifies->count(); cnt++)
     {
         QString typeId = plugTypeId[cnt];
         ushort typeKinds = FNotifications->typeNotificationKinds(typeId);
@@ -147,6 +161,19 @@ void NotifyKindOptionsWidgetMobile::reset()
             {
                 ushort kind = allRadioButtons.at(i)->property("NTR_KIND").toInt();
                 allRadioButtons.at(i)->setChecked(typeKinds & kind ? Qt::Checked : Qt::Unchecked);
+            }
+        }
+
+        QList<QComboBox *> allComboBoxs = wd->findChildren<QComboBox *>();
+        if (allComboBoxs.count() > 0)
+        {
+            ushort kind = allComboBoxs.at(0)->property("NTR_KIND").toInt();
+			if(typeKinds & kind)
+            {
+                int index=Options::node(OPV_NOTIFICATIONS_ANDROID_PLACE,typeId).value().toInt();
+                if(index<0 || index>8)
+                    index=0;
+                allComboBoxs.at(0)->setCurrentIndex(index);
             }
         }
     }

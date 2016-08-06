@@ -265,8 +265,9 @@ QMultiMap<int, IOptionsDialogWidget *> Notifications::optionsDialogWidgets(const
 	{
 		widgets.insertMulti(OHO_NOTIFICATIONS,FOptionsManager->newOptionsDialogHeader(tr("Notifications"),AParent));
 		widgets.insertMulti(OWO_NOTIFICATIONS_DISABLEIFAWAY,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_SILENTIFAWAY),tr("Disable sounds and popup windows if status is 'Away'"),AParent));
-		widgets.insertMulti(OWO_NOTIFICATIONS_DISABLEIFDND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_SILENTIFDND),tr("Disable sounds and popup windows if status is 'Do not disturb'"),AParent));
-		
+#ifndef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+        widgets.insertMulti(OWO_NOTIFICATIONS_DISABLEIFDND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_SILENTIFDND),tr("Disable sounds and popup windows if status is 'Do not disturb'"),AParent));
+#endif
 		widgets.insertMulti(OWO_NOTIFICATIONS_FORCESOUND,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_FORCESOUND),tr("Play notification sound when received a message in the active window"),AParent));
 		widgets.insertMulti(OWO_NOTIFICATIONS_EXPANDGROUPS,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_NOTIFICATIONS_EXPANDGROUPS),tr("Expand contact groups in roster"),AParent));
 
@@ -372,20 +373,53 @@ int Notifications::appendNotification(const INotification &ANotification)
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-	if (!isSilent && (record.notification.kinds & INotification::PopupWindow)>0)
+    // PopupWindow,StatusBar,NotifyOff,StatusBarOff,
+    if ((record.notification.kinds & INotification::PopupWindow)>0 && (record.notification.kinds & !INotification::NotifyOff))
+    {
+qDebug()<<"Notifications::appendNotification/PopupWindow";
+        if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
+        {
+            QString ATitle    = record.notification.data.value(NDR_POPUP_TITLE).toString();
+            QString AMessage  = tr("Without text!");
+            QString htmlText  = record.notification.data.value(NDR_POPUP_HTML).toString();
+            QString plainText = record.notification.data.value(NDR_POPUP_TEXT).toString();
+            if (!plainText.isEmpty() )
+            {
+                AMessage=plainText;
+            }
+            else if(!htmlText.isEmpty())
+            {
+                QTextDocument doc;
+                if (!htmlText.isEmpty())
+                {
+                    doc.setHtml(htmlText);
+                    AMessage=doc.toPlainText();
+                }
+            }
+            int ARegim=0;
+#ifdef Q_OS_ANDROID
+            updateToastNotification(AMessage,ATitle,notifyId,ARegim);
+#endif
+        }
+    }
+
+    if ((record.notification.kinds & INotification::StatusBar)>0 && (record.notification.kinds & !INotification::NotifyOff))
 	{
-		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
+qDebug()<<"Notifications::appendNotification/StatusBar";
+        if (!showNotifyByHandler(INotification::StatusBar,notifyId,record.notification))
 		{
-			int timeout		 = Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT).value().toInt();
+            int timeout		  = Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT).value().toInt();
 			FNotifyAndroid.insert(notifyId,timeout);
-			QString ATitle   = record.notification.data.value(NDR_POPUP_TITLE).toString();
-			QString AMessage = tr("Without text!");
-			QString htmlText = record.notification.data.value(NDR_POPUP_HTML).toString();
+            QString ATitle    = record.notification.data.value(NDR_POPUP_TITLE).toString();
+            QString AMessage  = tr("Without text!");
+            QString htmlText  = record.notification.data.value(NDR_POPUP_HTML).toString();
 			QString plainText = record.notification.data.value(NDR_POPUP_TEXT).toString();
-			if (!plainText.isEmpty() ){
+            if (!plainText.isEmpty() )
+            {
 				AMessage=plainText;
 			}
-			else if(!htmlText.isEmpty()){
+            else if(!htmlText.isEmpty())
+            {
 				QTextDocument doc;
 				if (!htmlText.isEmpty())
 				{
@@ -398,12 +432,10 @@ int Notifications::appendNotification(const INotification &ANotification)
             int light = (record.notification.kinds & INotification::Lights)     >0 ? 4 : 0;
 			int ARegim= sound + vibro + light;
 #ifdef Q_OS_ANDROID
-            if(1)   // for up
                 updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
-            else
-                ;// for down
 #endif
-			if(!FFlagAndroidNotify){
+            if(!FFlagAndroidNotify) //!-- Temp -..this suto-off notification..
+            {
 				QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
 				FFlagAndroidNotify=true;
 			}
@@ -487,7 +519,6 @@ int Notifications::appendNotification(const INotification &ANotification)
 			}
 		}
 	}
-#endif
 
 	if ((record.notification.kinds & INotification::ShowMinimized)>0)
 	{
@@ -501,6 +532,7 @@ int Notifications::appendNotification(const INotification &ANotification)
 			}
 		}
 	}
+#endif
 
 	if ((record.notification.kinds & INotification::AlertWidget)>0)
 	{
@@ -1021,14 +1053,19 @@ void Notifications::destroyAndroidNotify()
 
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
 ///!
-//! \brief Notifications::updateAndroidNotification2
+//! \brief Notifications::updateToastNotification
 //! \param AMessage		-Message text
 //! \param ATitle		-The headline of the message
-//! \param AId			-The object identifier
-//! \param ARegim		-Sound accompaniment (1-SOUND,2-VIBRATE,4-LIGHTS,7-ALL,0-nothing)
+//! \param AId			-The object identifier - ???
+//! \param ARegim		- 1-LongTime,2-PlaceView center,3-ALL,0-default all)
 //!
-void Notifications::updateAndroidNotification2(QString AMessage, QString ATitle, int AId, int ARegim)
+void Notifications::updateToastNotification(QString AMessage, QString ATitle, int AId, int ARegim)
 {
+    QAndroidJniObject JTitle   = QAndroidJniObject::fromString(ATitle);
+    QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
+    QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
+    QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
+
 
 }
 

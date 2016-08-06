@@ -26,7 +26,7 @@ NotifyWidgetMobile::NotifyWidgetMobile(ushort AKinds, QWidget *parent) :
     connect(ui->chBoxVibration,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->chBoxLights,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
     connect(ui->chBoxLTime,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
-    connect(ui->chBoxPlace,SIGNAL(clicked(bool)),SIGNAL(wdModify()));
+    connect(ui->comBoxPlace,SIGNAL(currentIndexChanged(int)),SIGNAL(wdModify()));
 
 }
 
@@ -51,7 +51,7 @@ void NotifyWidgetMobile::init()
     ui->iconVibro->setPixmap(pixmapMini);
     ui->iconLights->setPixmap(pixmapMini);
     ui->iconLTime->setPixmap(pixmapMini);
-    ui->iconPlace->setPixmap(pixmapMini);
+//    ui->iconPlace->setPixmap(pixmapMini);
 
     //!-  later ..for simple menu..
     bool visible=true;
@@ -62,7 +62,6 @@ void NotifyWidgetMobile::init()
     ui->iconVibro->setVisible(visible);
     ui->iconLights->setVisible(visible);
     ui->iconLTime->setVisible(visible);
-    ui->iconPlace->setVisible(visible);
     //!- ........
 }
 
@@ -99,35 +98,26 @@ void NotifyWidgetMobile::setValue()
 	else
 		ui->chBoxLTime->setEnabled(false);
 	ui->chBoxLTime->setCheckState(Qt::Unchecked);
-
-	ui->chBoxPlace->setProperty("NTR_KIND",INotification::PlaceView);
-	if (FKinds & INotification::PlaceView)
-		ui->chBoxPlace->setEnabled(CHBOXSTATE);
-	else
-		ui->chBoxPlace->setEnabled(false);
-	ui->chBoxPlace->setCheckState(Qt::Unchecked);
-
+    //!------------------------
+    ui->comBoxPlace->setProperty("NTR_KIND",INotification::PlaceView);
+    if (FKinds & INotification::PlaceView)
+        ui->comBoxPlace->setEnabled(CHBOXSTATE);
+    else
+        ui->comBoxPlace->setEnabled(false);
+    ui->comBoxPlace->setEditable(false);
 }
 
 void NotifyWidgetMobile::stress()
 {
     if(ui->rButStatusBar->isChecked())
-    {
         onRButStatusBar(true);
-    }
     else if(ui->rButToast->isChecked())
-    {
         onRButToast(true);
-    }
     else if(ui->rButOff->isChecked())
-    {
         onRButOff(true);
-    }
 
     if (FKinds & INotification::StatusBarOff)
-    {
         setVisStatusBar(false);
-    }
 }
 
 void NotifyWidgetMobile::onRButOff(bool AStatus)
@@ -170,9 +160,8 @@ void NotifyWidgetMobile::setEnableToast(bool AStatus)
     ui->chBoxLTime->setEnabled(AStatus);
     ui->iconLTime->setEnabled(AStatus);
     ui->lblLTime->setEnabled(AStatus);
-    ui->chBoxPlace->setEnabled(AStatus);
-    ui->iconPlace->setEnabled(AStatus);
     ui->lblPlace->setEnabled(AStatus);
+    ui->comBoxPlace->setEnabled(AStatus);
 }
 
 void NotifyWidgetMobile::setVisStatusBar(bool AStatus)
