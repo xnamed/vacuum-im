@@ -8,7 +8,7 @@ ActivitySelect::ActivitySelect(Activity *AActivity, const QHash<QString, QString
     FActivityData(AActivityData),
     FActivityNames(AActivityList),
     FActivityTexts(AActivityTexts),
-	FCurScale(2),
+	FCurScale(4),
 	ui(new Ui::ActivitySelect)
 {
     ui->setupUi(this);
@@ -16,16 +16,16 @@ ActivitySelect::ActivitySelect(Activity *AActivity, const QHash<QString, QString
 
     FCurScale=IconStorage::scale();
     QFont fnt=ui->lstActivity->font();
-    fnt.setPointSizeF(1.5*FCurScale*fnt.pointSizeF());
-    ui->lstActivity->setFont(fnt);
-    ui->cmbText->setFont(fnt);
 #ifdef EYECU_MOBILE
+	fnt.setPointSizeF(IconStorage::fontPointSize());
 	ui->lstActivity->setIconSize(QSize(IconStorage::iconSize(),IconStorage::iconSize()));
     ui->lblIcon->setScaledContents(true);
 	showMaximized();
 #else
 	ui->lstActivity->setIconSize(QSize(16,16));
 #endif
+	ui->lstActivity->setFont(fnt);
+	ui->cmbText->setFont(fnt);
 	setWindowIcon(IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(QString(MNI_ACTIVITY)));
     fillActivityTree();    
     fillTextList(AActivityData.iconFileName());

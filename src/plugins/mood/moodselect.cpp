@@ -16,16 +16,16 @@ MoodSelect::MoodSelect(Mood *AMood, const QStringList &AMoodList, const QHash<QS
     ui->listActiv->sortItems(0,Qt::AscendingOrder);
     FCurScale=IconStorage::scale();
     QFont fnt=ui->listActiv->font();
-    fnt.setPointSizeF(1.5*FCurScale*fnt.pointSizeF());
-    ui->listActiv->setFont(fnt);
-    ui->comboBox->setFont(fnt);
 #ifdef EYECU_MOBILE
+	fnt.setPointSizeF(IconStorage::fontPointSize());
 	ui->listActiv->setIconSize(QSize(IconStorage::iconSize(),IconStorage::iconSize()));
     ui->lblIcon->setScaledContents(true);
 	showMaximized();
 #else
 	ui->listActiv->setIconSize(QSize(16,16));
 #endif
+	ui->listActiv->setFont(fnt);
+	ui->comboBox->setFont(fnt);
     connect(ui->listActiv,SIGNAL(itemActivated(QTreeWidgetItem*,int)),SLOT(accept()));
     connect(ui->listActiv,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),SLOT(onCurItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     connect(ui->comboBox,SIGNAL(editTextChanged(QString)),SLOT(onEditTextChanged(QString)));
