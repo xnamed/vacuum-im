@@ -1072,7 +1072,9 @@ void Notifications::updateToastNotification(QString AIcon,QString AMessage, QStr
 	QAndroidJniObject JGravity	= QAndroidJniObject::fromString(QString().setNum(AGravity));
 	QAndroidJniObject JTime		= QAndroidJniObject::fromString(QString().setNum(ATime));
 
-	//Call Java Function
+	QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationToast","toastNotify",
+		"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+		JIconName.object<jstring>(),JMessage.object<jstring>(),JTitle.object<jstring>(),JGravity.object<jstring>(),JTime.object<jstring>());
 }
 
 ///!
