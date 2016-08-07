@@ -147,15 +147,17 @@ bool Attention::initObjects()
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_ATTENTION);
         notifyType.title = tr("When contact attempts to attract user's attention");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-        notifyType.kindMask = INotification::RosterNotify|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate|
-                INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
-                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+		notifyType.kindMask = INotification::RosterNotify|
+				INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
+				INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
+				INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
+		notifyType.kindDefs = notifyType.kindMask & ~(INotification::AutoActivate);
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction|
 							  INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|
 							  INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
-#endif
 		notifyType.kindDefs = notifyType.kindMask & ~(INotification::AutoActivate|INotification::PopupWindow);
+#endif
         FNotifications->registerNotificationType(NNT_ATTENTION, notifyType);
     }
     Shortcuts::declareShortcut(SCT_MESSAGEWINDOWS_CHAT_ATTENTION, tr("Attention"), tr("Shift+Return","Attention"), Shortcuts::WindowShortcut);

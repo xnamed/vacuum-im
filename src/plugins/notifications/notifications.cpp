@@ -334,6 +334,8 @@ int Notifications::appendNotification(const INotification &ANotification)
 	QIcon icon = qvariant_cast<QIcon>(record.notification.data.value(NDR_ICON));
 	QString toolTip = record.notification.data.value(NDR_TOOLTIP).toString();
 
+qDebug()<<QString("notification, id=%1, type=%2, kinds=%3, flags=%4").arg(notifyId).arg(ANotification.typeId).arg(ANotification.kinds).arg(ANotification.flags);
+
 	if (FRostersModel && FRostersViewPlugin && (record.notification.kinds & INotification::RosterNotify)>0)
 	{
 		if (!showNotifyByHandler(INotification::RosterNotify,notifyId,record.notification))
@@ -374,39 +376,9 @@ int Notifications::appendNotification(const INotification &ANotification)
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
     // PopupWindow,StatusBar,NotifyOff,StatusBarOff,
-    if ((record.notification.kinds & INotification::PopupWindow)>0 && (record.notification.kinds & !INotification::NotifyOff))
-    {
-qDebug()<<"Notifications::appendNotification/PopupWindow";
-        if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
-        {
-            QString ATitle    = record.notification.data.value(NDR_POPUP_TITLE).toString();
-            QString AMessage  = tr("Without text!");
-            QString htmlText  = record.notification.data.value(NDR_POPUP_HTML).toString();
-            QString plainText = record.notification.data.value(NDR_POPUP_TEXT).toString();
-            if (!plainText.isEmpty() )
-            {
-                AMessage=plainText;
-            }
-            else if(!htmlText.isEmpty())
-            {
-                QTextDocument doc;
-                if (!htmlText.isEmpty())
-                {
-                    doc.setHtml(htmlText);
-                    AMessage=doc.toPlainText();
-                }
-            }
-            int ARegim=0;
-#ifdef Q_OS_ANDROID
-            updateToastNotification(AMessage,ATitle,notifyId,ARegim);
-#endif
-        }
-    }
-
-    if ((record.notification.kinds & INotification::StatusBar)>0 && (record.notification.kinds & !INotification::NotifyOff))
+	if (!isSilent && (record.notification.kinds & INotification::StatusBar)>0 )
 	{
-qDebug()<<"Notifications::appendNotification/StatusBar";
-        if (!showNotifyByHandler(INotification::StatusBar,notifyId,record.notification))
+		if (!showNotifyByHandler(INotification::StatusBar,notifyId,record.notification))
 		{
             int timeout		  = Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT).value().toInt();
 			FNotifyAndroid.insert(notifyId,timeout);
@@ -431,14 +403,46 @@ qDebug()<<"Notifications::appendNotification/StatusBar";
             int vibro = (record.notification.kinds & INotification::Vibration)	>0 ? 2 : 0;
             int light = (record.notification.kinds & INotification::Lights)     >0 ? 4 : 0;
 			int ARegim= sound + vibro + light;
+
 #ifdef Q_OS_ANDROID
-                updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
+			updateAndroidNotification(AMessage,ATitle,notifyId,ARegim);
 #endif
             if(!FFlagAndroidNotify) //!-- Temp -..this suto-off notification..
             {
 				QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
 				FFlagAndroidNotify=true;
 			}
+		}
+	}
+
+	if (!isSilent && (record.notification.kinds & INotification::PopupWindow)>0 )
+	{
+		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
+		{
+			QString ATitle    = record.notification.data.value(NDR_POPUP_TITLE).toString();
+			QString AMessage  = tr("Without text!");
+			QString htmlText  = record.notification.data.value(NDR_POPUP_HTML).toString();
+			QString plainText = record.notification.data.value(NDR_POPUP_TEXT).toString();
+			if (!plainText.isEmpty() )
+			{
+				AMessage=plainText;
+			}
+			else if(!htmlText.isEmpty())
+			{
+				QTextDocument doc;
+				if (!htmlText.isEmpty())
+				{
+					doc.setHtml(htmlText);
+					AMessage=doc.toPlainText();
+				}
+			}
+			int AGravity=Options::node(OPV_NOTIFICATIONS_ANDROID_GRAVITY,ANotification.typeId).value().toInt();
+			int ATime=0;
+			(typeNotificationKinds(ANotification.typeId) & INotification::LongTime) ? ATime=1 : ATime=0;
+			// AIcon -ANotification.typeId("Mood", "ChatMessage"... "Activity")
+#ifdef Q_OS_ANDROID
+			updateToastNotification(ANotification.typeId,AMessage,ATitle,AGravity,ATime);
+#endif
 		}
 	}
 
@@ -519,6 +523,7 @@ qDebug()<<"Notifications::appendNotification/StatusBar";
 			}
 		}
 	}
+#endif
 
 	if ((record.notification.kinds & INotification::ShowMinimized)>0)
 	{
@@ -532,7 +537,6 @@ qDebug()<<"Notifications::appendNotification/StatusBar";
 			}
 		}
 	}
-#endif
 
 	if ((record.notification.kinds & INotification::AlertWidget)>0)
 	{
@@ -1052,21 +1056,23 @@ void Notifications::destroyAndroidNotify()
 #endif
 
 #ifdef Q_OS_ANDROID		// *** <<< eyeCU <<< ***
-///!
+//!
 //! \brief Notifications::updateToastNotification
+//! \param AIcon
 //! \param AMessage		-Message text
 //! \param ATitle		-The headline of the message
-//! \param AId			-The object identifier - ???
-//! \param ARegim		- 1-LongTime,2-PlaceView center,3-ALL,0-default all)
+//! \param AGravity		-The place on Screen
+//! \param ATime		-Time -LongTime, SHortTime)
 //!
-void Notifications::updateToastNotification(QString AMessage, QString ATitle, int AId, int ARegim)
+void Notifications::updateToastNotification(QString AIcon,QString AMessage, QString ATitle, int AGravity, int ATime)
 {
-    QAndroidJniObject JTitle   = QAndroidJniObject::fromString(ATitle);
-    QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
-    QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
-    QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
+	QAndroidJniObject JIconName	= QAndroidJniObject::fromString(AIcon);
+	QAndroidJniObject JTitle	= QAndroidJniObject::fromString(ATitle);
+	QAndroidJniObject JMessage	= QAndroidJniObject::fromString(AMessage);
+	QAndroidJniObject JGravity	= QAndroidJniObject::fromString(QString().setNum(AGravity));
+	QAndroidJniObject JTime		= QAndroidJniObject::fromString(QString().setNum(ATime));
 
-
+	//Call Java Function
 }
 
 ///!

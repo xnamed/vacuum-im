@@ -167,7 +167,7 @@ bool FileTransfer::initObjects()
         notifyType.kindMask = INotification::RosterNotify|
                 INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
                 INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
-                INotification::AlertWidget|INotification::TabPageNotify|INotification::AutoActivate;
+				INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif

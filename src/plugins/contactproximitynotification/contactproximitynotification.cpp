@@ -117,7 +117,8 @@ bool ContactProximityNotification::initObjects()
 		notifyType.kindMask = INotification::RosterNotify|INotification::NotifyOff|INotification::StatusBarOff|
 				INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
 				INotification::AlertWidget|INotification::TabPageNotify|INotification::AutoActivate;
-		notifyType.kindDefs = notifyType.kindMask&~(INotification::ShowMinimized);
+//!- this str Temporary- "~(INotification::ShowMinimized)"
+		notifyType.kindDefs = notifyType.kindMask;
 #else				// *** >>> eyeCU >>> ***
         notifyType.kindMask = INotification::RosterNotify|INotification::PopupWindow|
                 INotification::TrayNotify|INotification::TrayAction|

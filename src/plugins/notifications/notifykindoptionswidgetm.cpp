@@ -127,7 +127,8 @@ void NotifyKindOptionsWidgetMobile::apply()
 			 if(typeKinds & kind)
              {
                  ushort index = allComboBoxs.at(0)->currentIndex();
-                 Options::node(OPV_NOTIFICATIONS_ANDROID_PLACE,typeId).setValue(index);
+//!--06.08.16 Temporary use "Options::node(...", later need do new function for this!
+				 Options::node(OPV_NOTIFICATIONS_ANDROID_GRAVITY,typeId).setValue(index);
              }
          }
     }
@@ -141,7 +142,6 @@ void NotifyKindOptionsWidgetMobile::reset()
     {
         QString typeId = plugTypeId[cnt];
         ushort typeKinds = FNotifications->typeNotificationKinds(typeId);
-
         tlbNotifies->setCurrentIndex(cnt);
         QWidget *wd=tlbNotifies->currentWidget();
         QList<QCheckBox *> allChecBox = wd->findChildren<QCheckBox *>();
@@ -170,7 +170,8 @@ void NotifyKindOptionsWidgetMobile::reset()
             ushort kind = allComboBoxs.at(0)->property("NTR_KIND").toInt();
 			if(typeKinds & kind)
             {
-                int index=Options::node(OPV_NOTIFICATIONS_ANDROID_PLACE,typeId).value().toInt();
+//!--06.08.16 Temporary use "Options::node(...", later need do new function for this!
+				int index=Options::node(OPV_NOTIFICATIONS_ANDROID_GRAVITY,typeId).value().toInt();
                 if(index<0 || index>8)
                     index=0;
                 allComboBoxs.at(0)->setCurrentIndex(index);

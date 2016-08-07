@@ -228,7 +228,7 @@
 #define OPV_NOTIFICATIONS_TYPEKINDS_ITEM                "notifications.type-kinds.type"
 #define OPV_NOTIFICATIONS_KINDENABLED_ITEM              "notifications.kind-enabled.kind"
 // *** <<< eyeCU <<< ***
-#define OPV_NOTIFICATIONS_ANDROID_PLACE                 "notifications.type-kinds.place"
+#define OPV_NOTIFICATIONS_ANDROID_GRAVITY               "notifications.type-kinds.gravity"
 #define OPV_NOTIFICATIONS_ANDROIDTIMEOUT                "notifications.android-timeout"
 #define OPV_NOTIFICATIONS_ANIMATIONENABLE               "notifications.animation-enable"
 // *** >>> eyeCU >>> ***

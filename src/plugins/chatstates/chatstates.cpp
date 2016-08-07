@@ -184,7 +184,12 @@ bool ChatStates::initObjects()
 		notifyType.order = NTO_CHATSTATE_NOTIFY;
 		notifyType.icon = IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->getIcon(MNI_CHATSTATES_COMPOSING);
 		notifyType.title = tr("When contact is typing the message for you");
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+		notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
+						INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|INotification::TabPageNotify;
+#else	// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::TabPageNotify;
+#endif
 		notifyType.kindDefs = notifyType.kindMask;
 		FNotifications->registerNotificationType(NNT_CHATSTATE_TYPING,notifyType);
 	}

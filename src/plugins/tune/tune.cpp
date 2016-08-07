@@ -291,7 +291,6 @@ INotification::NotifyOff|INotification::StatusBarOff|
 #else	// *** >>> eyeCU >>> ***
         notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
 #endif
-
         notifyType.kindDefs = notifyType.kindMask;
         FNotifications->registerNotificationType(NNT_TUNE, notifyType);
     }

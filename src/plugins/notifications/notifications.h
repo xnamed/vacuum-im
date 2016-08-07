@@ -106,7 +106,7 @@ protected:
 // *** <<< eyeCU <<< ***
 #ifdef Q_OS_ANDROID
     void updateAndroidNotification(QString AMessage,QString ATitle,int AId,int ARegim);
-    void updateToastNotification(QString AMessage,QString ATitle,int AId,int ARegim);
+	void updateToastNotification(QString AIcon,QString AMessage,QString ATitle,int AGravity,int ATime);
     void deleteAndroidNotification(int AId);
 #endif
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***

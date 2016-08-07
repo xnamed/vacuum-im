@@ -144,7 +144,7 @@ bool BirthdayReminder::initObjects()
 		notifyType.title = tr("When reminding of upcoming birthdays");
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
         notifyType.kindMask = INotification::NotifyOff|INotification::StatusBarOff|
-                                INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
+							  INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
 #else	// *** >>> eyeCU >>> ***
 		notifyType.kindMask = INotification::PopupWindow|INotification::SoundPlay;
 #endif
@@ -277,7 +277,6 @@ void BirthdayReminder::onShowNotificationTimer()
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
             if ((notify.kinds & (INotification::PopupWindow|INotification::SoundPlay))>0)
 #else	// *** >>> eyeCU >>> ***
-
 			if ((notify.kinds & (INotification::PopupWindow|INotification::SoundPlay))>0)
 #endif
 			{

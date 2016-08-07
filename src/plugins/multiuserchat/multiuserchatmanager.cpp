@@ -259,7 +259,7 @@ bool MultiUserChatManager::initObjects()
         privateType.kindMask = INotification::RosterNotify|
                 INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
                 INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
-                INotification::AlertWidget|INotification::TabPageNotify|INotification::AutoActivate;
+				INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		privateType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::TrayAction|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif
@@ -274,7 +274,7 @@ bool MultiUserChatManager::initObjects()
         groupchatType.kindMask = INotification::RosterNotify|
                 INotification::NotifyOff|INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
                 INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
-                INotification::AlertWidget|INotification::TabPageNotify;
+				INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized;
 #else				// *** >>> eyeCU >>> ***
 		groupchatType.kindMask = INotification::RosterNotify|INotification::TrayNotify|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized;
 #endif
@@ -289,7 +289,7 @@ bool MultiUserChatManager::initObjects()
         mentionType.kindMask = INotification::NotifyOff|
                 INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
                 INotification::PopupWindow|INotification::LongTime|INotification::PlaceView|
-                INotification::AlertWidget|INotification::TabPageNotify|INotification::AutoActivate;
+				INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #else				// *** >>> eyeCU >>> ***
 		mentionType.kindMask = INotification::TrayNotify|INotification::PopupWindow|INotification::SoundPlay|INotification::AlertWidget|INotification::TabPageNotify|INotification::ShowMinimized|INotification::AutoActivate;
 #endif
