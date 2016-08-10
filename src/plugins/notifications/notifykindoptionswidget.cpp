@@ -64,7 +64,11 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 
 	QMultiMap<int, NotificationType> orderedTypes;
     ushort visibleKinds = INotification::PopupWindow|
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***			//only to compile mobile
+							INotification::StatusBar|
+#else		// only to compile mobile
                             INotification::TrayNotify|
+#endif
                             INotification::SoundPlay|INotification::ShowMinimized;
     foreach(const QString &typeId, FNotifications->notificationTypes())
 	{
@@ -115,8 +119,13 @@ NotifyKindOptionsWidget::NotifyKindOptionsWidget(INotifications *ANotifications,
 
 		tbwNotifies->verticalHeader()->SETRESIZEMODE(row,QHeaderView::ResizeToContents);
 		QTableWidgetItem *tray = new QTableWidgetItem();
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***			//only to compile mobile
+		tray->setData(NTR_KIND, INotification::StatusBar);
+		if (it->kindMask & INotification::StatusBar)
+#else
 		tray->setData(NTR_KIND, INotification::TrayNotify);
         if (it->kindMask & INotification::TrayNotify)
+#endif			//only to compile mobile
 			tray->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
 		else
 			tray->setFlags(Qt::ItemIsUserCheckable);

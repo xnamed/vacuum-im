@@ -1,24 +1,16 @@
-FORMS   = notifywidget.ui
+FORMS   = notifywidget.ui \
+          notifywidgetmobile.ui
 
 HEADERS = notifications.h \
           notifywidget.h \
           notifytextbrowser.h \
+          notifykindoptionswidget.h \
+          notifywidgetmobile.h \
+    $$PWD/notifykindoptionswidgetmobile.h
 
 SOURCES = notifications.cpp \
           notifywidget.cpp \
           notifytextbrowser.cpp \
-
-equals(EYECU_MOBILE,"") {
-    HEADERS += notifykindoptionswidget.h
-    SOURCES += notifykindoptionswidget.cpp
-}
-
-equals(EYECU_MOBILE,true) {
-    FORMS += notifywidgetmobile.ui
-
-    HEADERS += notifykindoptionswidgetm.h
-    HEADERS += notifywidgetmobile.h
-
-    SOURCES += notifykindoptionswidgetm.cpp
-    SOURCES += notifywidgetmobile.cpp
-}
+          notifykindoptionswidget.cpp \
+          notifywidgetmobile.cpp \
+    $$PWD/notifykindoptionswidgetmobile.cpp

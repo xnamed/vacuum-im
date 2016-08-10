@@ -8,4 +8,5 @@ SOURCES = \
     tuneimagehttpquery.cpp
 
 FORMS += \
-    tuneoptions.ui
+    tuneoptions.ui \
+    tuneoptions2.ui

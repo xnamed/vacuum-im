@@ -22,10 +22,10 @@
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
-#   include "notifykindoptionswidgetm.h"
+#include "notifykindoptionswidgetmobile.h"
 #else
 // *** >>> eyeCU >>> ***
-#   include "notifykindoptionswidget.h"
+#include "notifykindoptionswidget.h"
 #endif
 
 #define FIRST_KIND         0x0001
@@ -321,7 +321,7 @@ int Notifications::appendNotification(const INotification &ANotification)
 {
 	int notifyId = ++FNotifyId;
 	LOG_INFO(QString("Appending notification, id=%1, type=%2, kinds=%3, flags=%4").arg(notifyId).arg(ANotification.typeId).arg(ANotification.kinds).arg(ANotification.flags));
-
+qDebug()<<(QString("Appending notification, id=%1, type=%2, kinds=%3, flags=%4").arg(notifyId).arg(ANotification.typeId).arg(ANotification.kinds).arg(ANotification.flags));
 	NotifyRecord record;
 	record.notification = ANotification;
 	emit notificationAppend(notifyId, record.notification);
@@ -333,8 +333,6 @@ int Notifications::appendNotification(const INotification &ANotification)
 
 	QIcon icon = qvariant_cast<QIcon>(record.notification.data.value(NDR_ICON));
 	QString toolTip = record.notification.data.value(NDR_TOOLTIP).toString();
-
-qDebug()<<QString("notification, id=%1, type=%2, kinds=%3, flags=%4").arg(notifyId).arg(ANotification.typeId).arg(ANotification.kinds).arg(ANotification.flags);
 
 	if (FRostersModel && FRostersViewPlugin && (record.notification.kinds & INotification::RosterNotify)>0)
 	{
@@ -380,6 +378,7 @@ qDebug()<<QString("notification, id=%1, type=%2, kinds=%3, flags=%4").arg(notify
 	{
 		if (!showNotifyByHandler(INotification::StatusBar,notifyId,record.notification))
 		{
+qDebug()<<"INotification::StatusBar";
             int timeout		  = Options::node(OPV_NOTIFICATIONS_ANDROIDTIMEOUT).value().toInt();
 			FNotifyAndroid.insert(notifyId,timeout);
             QString ATitle    = record.notification.data.value(NDR_POPUP_TITLE).toString();
@@ -419,6 +418,7 @@ qDebug()<<QString("notification, id=%1, type=%2, kinds=%3, flags=%4").arg(notify
 	{
 		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
 		{
+qDebug()<<"INotification::PopupWindow";
 			QString ATitle    = record.notification.data.value(NDR_POPUP_TITLE).toString();
 			QString AMessage  = tr("Without text!");
 			QString htmlText  = record.notification.data.value(NDR_POPUP_HTML).toString();
@@ -1071,8 +1071,8 @@ void Notifications::updateToastNotification(QString AIcon,QString AMessage, QStr
 	QAndroidJniObject JMessage	= QAndroidJniObject::fromString(AMessage);
 	QAndroidJniObject JGravity	= QAndroidJniObject::fromString(QString().setNum(AGravity));
 	QAndroidJniObject JTime		= QAndroidJniObject::fromString(QString().setNum(ATime));
-
-	QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationToast","toastNotify",
+qDebug()<<"updateToastNotification----------------------------";
+	QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","toast",
 		"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
 		JIconName.object<jstring>(),JMessage.object<jstring>(),JTitle.object<jstring>(),JGravity.object<jstring>(),JTime.object<jstring>());
 }
@@ -1090,7 +1090,7 @@ void Notifications::updateAndroidNotification(QString AMessage,QString ATitle,in
     QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
     QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
     QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
-
+qDebug()<<"updateAndroidNotification----------------------------";
     QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","notify",
               "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
               JMessage.object<jstring>(),JTitle.object<jstring>(),JId.object<jstring>(),JRegim.object<jstring>());

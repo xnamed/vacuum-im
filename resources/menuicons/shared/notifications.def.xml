@@ -36,4 +36,12 @@
     <key>notificationsTrayIcon</key>
     <object mime="image/png">notificationstrayicon.png</object>
   </icon>
+   <icon>
+    <key>notificationsVibro</key>
+    <object mime="image/png">notificationsVibro.png</object>
+  </icon>
+  <icon>
+    <key>notificationsLights</key>
+    <object mime="image/png">notificationsLights.png</object>
+  </icon>  
 </icondef>

@@ -74,6 +74,9 @@ IconStorage::~IconStorage()
 // *** <<< eyeCU <<< ***
 QPixmap IconStorage::getStoragePixmap(const QString AFileName)
 {
+    if(AFileName.isEmpty() || AFileName.isNull())
+        return QPixmap();   //! Later need return pixmap about not picture...
+
 	QStringList sizes;
 	sizes <<"1"<<"8"<<"16"<<"24"<<"32"<<"40"<<"48"<<"64"<<"80"<<"96"<<"128"<<"160"<<"192"<<"256"<<"320"<<"384"<<"448"<<"512";
     QStringList partsName = AFileName.split(".");
@@ -119,13 +122,12 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
                     pixmap = QPixmap::fromImage(QImageReader(newFileName).read());
                 else{
                     QFile file(AFileName);
-                    if(file.exists())
+                    if(file.exists()){
                         pixmap = QPixmap::fromImage(QImageReader(AFileName).read());
+                    }
                 }
-
                 if (pixmap.isNull())
                     return pixmap;      //! not scaled if pixmap== NULL
-
 				return (pixmap.width()==pixmap.height() && pixmap.width()<FScale*SCALEBASE)?pixmap.scaled(FScale*SCALEBASE,FScale*SCALEBASE,Qt::IgnoreAspectRatio,Qt::SmoothTransformation):pixmap;
             }
         }
@@ -136,10 +138,11 @@ QPixmap IconStorage::getStoragePixmap(const QString AFileName)
                 return QPixmap::fromImage(QImageReader(AFileName).read());
         }
     }
+
     return QPixmap();
 }
 
-/*! ----------------------------------------------------------
+/*! ----OLD VARIANT --
 QPixmap IconStorage::getStoragePixmap(const QString AFileName)
 {
 	QStringList partsName = AFileName.split(".");

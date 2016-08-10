@@ -20,6 +20,7 @@
 #include <interfaces/imainwindow.h>
 #include <interfaces/imessagewidgets.h>
 #include <interfaces/iurlprocessor.h>
+
 #include "notifywidget.h"
 
 struct NotifyRecord {

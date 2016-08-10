@@ -1,31 +1,19 @@
 #ifndef NOTIFYKINDOPTIONSWIDGETMOBILE_H
 #define NOTIFYKINDOPTIONSWIDGETMOBILE_H
 
+#include <QObject>
 #include <QWidget>
 #include <QTableWidget>
 #include <QToolBox>
 #include <interfaces/inotifications.h>
 #include <interfaces/ioptionsmanager.h>
 
-enum NotifiesTableRow {
-    NTC_TYPE,
-    NTC_SOUND,
-    NTC_POPUP,
-    NTC_MINIMIZED,
-    NTC_VIBRATION,
-    NTC_LIGHTS
-};
-
-enum NotifiesTableRoles {
-    NTR_TYPE = Qt::UserRole,
-    NTR_KIND
-};
-
 struct NotificationType :	public INotificationType
 {
-    NotificationType(const INotificationType &AType) : INotificationType(AType) {}
-    QString typeId;
+	NotificationType(const INotificationType &AType) : INotificationType(AType) {}
+	QString typeId;
 };
+
 
 class NotifyKindOptionsWidgetMobile :
 	public QWidget,
@@ -42,25 +30,18 @@ public slots:
 signals:
 	void modified();
 	void childApply();
-    void childReset();
+	void childReset();
 protected:
-    void registrOrderedTypes();
-// *** <<< eyeCU <<< ***
+	void registrOrderedTypes();
 protected slots:
 	void onCurrentChanged(int index);
-protected:
-	void mousePressEvent(QMouseEvent *AEvent){QWidget::mousePressEvent(AEvent);}
-	void mouseMoveEvent(QMouseEvent *AEvent){QWidget::mouseMoveEvent(AEvent);}
-	void mouseReleaseEvent(QMouseEvent *AEvent){QWidget::mouseReleaseEvent(AEvent);}
-// *** >>> eyeCU >>> ***
 private:
 	virtual void showEvent(QShowEvent *AEvent);
 private:
 	INotifications *FNotifications;
-private:
-    QToolBox        *tlbNotifies;
-    QMultiMap<int, NotificationType> FOrderedTypes;
-    QStringList     plugTypeId;
+	QToolBox        *tlbNotifies;
+	QMultiMap<int, NotificationType> FOrderedTypes;
+	QStringList     plugTypeId;
 };
 
 #endif // NOTIFYKINDOPTIONSWIDGETMOBILE_H

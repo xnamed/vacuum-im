@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
+    <width>301</width>
     <height>375</height>
    </rect>
   </property>
@@ -17,20 +17,17 @@
    </sizepolicy>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="spacing">
-    <number>4</number>
-   </property>
    <property name="leftMargin">
     <number>2</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>4</number>
    </property>
    <property name="rightMargin">
     <number>2</number>
    </property>
    <property name="bottomMargin">
-    <number>2</number>
+    <number>4</number>
    </property>
    <item>
     <widget class="QGroupBox" name="grbOutgoingConnections">
@@ -288,9 +285,6 @@
       <string>Stream Proxy</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>6</number>
-      </property>
       <property name="leftMargin">
        <number>2</number>
       </property>
@@ -367,27 +361,14 @@
        </layout>
       </item>
       <item>
-       <widget class="QLineEdit" name="lneStreamProxy">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QListWidget" name="ltwStreamProxy">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLineEdit" name="lneStreamProxy">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QPushButton" name="pbtAddStreamProxy">
           <property name="enabled">
@@ -404,52 +385,11 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="pbtDeleteStreamProxy">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Delete</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>6</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pbtStreamProxyUp">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Up</string>
-          </property>
-         </widget>
-        </item>
-        <item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="1">
          <widget class="QPushButton" name="pbtStreamProxyDown">
           <property name="enabled">
            <bool>false</bool>
@@ -465,6 +405,51 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pbtStreamProxyUp">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Up</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pbtDeleteStreamProxy">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" rowspan="3">
+         <widget class="QListWidget" name="ltwStreamProxy">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -476,10 +461,6 @@
  <tabstops>
   <tabstop>spbConnectTimeout</tabstop>
   <tabstop>chbUseAccountStreamProxy</tabstop>
-  <tabstop>pbtAddStreamProxy</tabstop>
-  <tabstop>pbtStreamProxyUp</tabstop>
-  <tabstop>pbtStreamProxyDown</tabstop>
-  <tabstop>pbtDeleteStreamProxy</tabstop>
  </tabstops>
  <resources/>
  <connections>

@@ -7,7 +7,9 @@
 #include <definitions/menuicons.h>
 #include <utils/iconstorage.h>
 #include <interfaces/inotifications.h>
-#include "notifykindoptionswidgetm.h"
+
+//#include "notifykindoptionswidgetmobile.h"
+#include "ui_notifywidgetmobile.h"
 
 namespace Ui {
 class NotifyWidgetMobile;

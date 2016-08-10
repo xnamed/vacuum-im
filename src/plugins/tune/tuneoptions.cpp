@@ -2,7 +2,12 @@
 #include <definitions/optionvalues.h>
 
 #include "tuneoptions.h"
+
+#ifdef EYECU_MOBILE
+#include "ui_tuneoptions2.h"
+#else
 #include "ui_tuneoptions.h"
+#endif
 
 TuneOptions::TuneOptions(QHash<QUuid, ITuneInfoRequester *> ARequesters, QWidget *parent) :
     QWidget(parent),

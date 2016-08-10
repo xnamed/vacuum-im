@@ -1,12 +1,12 @@
 /*!
 densities:--dpi--icon--koef--font-comments--------------------------
 desktop  : [96]  [16]  2.0   8	  (base)					~96dpi
-ldpi	 : [120] [24]  3.0   12   (low)						~120dpi
-mdpi	 : [160] [32]  4.0   14   (medium)(standard size)	~160dpi
-hdpi	 : [240] [40]  5.0   16   (high)					~240dpi
-xhdpi	 : [320] [80]  10.0  16   (extra-high)				~320dpi
-xxhdpi	 : [480] [112] 14.0  18   (extra-extra-high)		~480dpi
-xxxhdpi	 : [640] [160] 20.0  20   (extra-extra-extra-high)	~640dpi
+ldpi	 : [120] [24]  4.0   12   (low)						~120dpi
+mdpi	 : [160] [48]  6.0   14   (medium)(standard size)	~160dpi - 48x48 ..x6
+hdpi	 : [240] [72]  9.0   16   (high)					~240dpi - 72x72 ..x9
+xhdpi	 : [320] [96]  12.0  16   (extra-high)				~320dpi - 96x96 ..x12
+xxhdpi	 : [480] [144] 18.0  18   (extra-extra-high)		~480dpi - 144x144 ..18
+xxxhdpi	 : [640] [160] 22.0  20   (extra-extra-extra-high)	~640dpi
 --------------------------------------------------------------------
 							   [height x width]
 1. xlarge screens are at least [960dp  x 720dp]
@@ -44,12 +44,12 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 	qreal DPI=physicalDotsPerInch;     // Variant - 2
 	//! PointSizeF=96
 	if(DPI<=110)                    {FScale=2.0;  FPointSizeF= 8.0;} // desktop
-	else if(DPI>110 && DPI<=160)	{FScale=3.0;  FPointSizeF=12.0;} // ldpi
-	else if(DPI>160 && DPI<=240)	{FScale=4.0;  FPointSizeF=14.0;} // mdpi
-	else if(DPI>240 && DPI<=320)	{FScale=5.0;  FPointSizeF=18.0;} // hdpi
-	else if(DPI>320 && DPI<=480)	{FScale=10.0; FPointSizeF=18.0;} // xhdpi
-	else if(DPI>480 && DPI<=640)	{FScale=14.0; FPointSizeF=18.0;} // xxhdpi
-	else if(DPI>640)				{FScale=20.0; FPointSizeF=20.0;} // xxxhdpi
+    else if(DPI>110 && DPI<=160)	{FScale=4.0;  FPointSizeF=12.0;} // ldpi
+    else if(DPI>160 && DPI<=240)	{FScale=6.0;  FPointSizeF=14.0;} // mdpi
+    else if(DPI>240 && DPI<=320)	{FScale=9.0;  FPointSizeF=18.0;} // hdpi
+    else if(DPI>320 && DPI<=480)	{FScale=12.0; FPointSizeF=18.0;} // xhdpi
+    else if(DPI>480 && DPI<=640)	{FScale=18.0; FPointSizeF=18.0;} // xxhdpi
+    else if(DPI>640)				{FScale=22.0; FPointSizeF=20.0;} // xxxhdpi
 
 //!---- delete Later-------
 #ifdef Q_OS_WIN		//! *** To DEBUG ****
@@ -57,19 +57,6 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 	 FPointSizeF=16;
 #endif
 //!---- delete Later-------
-
-//!--------------------test---------------
-/*
-	Dialog *dg=new Dialog(FScale,FPointSizeF);
-    if(dg->exec())
-    {
-        FScale=dg->getScale();
-        FPointSizeF=dg->getFontSize();
-    }else{
-
-    }
-*/
-//!--------------------test---------------
 
 	FSize=BASE*FScale;
 	IconStorage::setScale(FScale);

@@ -1,7 +1,5 @@
-#include <QDebug>
 
 #include "notifywidgetmobile.h"
-#include "ui_notifywidgetmobile.h"
 
 #define		CHBOXSTATE			Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
 
@@ -38,20 +36,24 @@ NotifyWidgetMobile::~NotifyWidgetMobile()
 void NotifyWidgetMobile::init()
 {
     IconStorage	*AIconStorage=IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
+
     QPixmap pixmapSound=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_SOUNDPLAY));
+    QPixmap pixmapVibro=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_VIBRO));
+    QPixmap pixmapLights=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_LIGHTS));
+
     QPixmap pixmapPopUp=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_PUPUPWINDOW));
     QPixmap pixmapMini=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_SHOWMINIMIZED));
-    QPixmap pixmapSi=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_TRAYICON));
+    QPixmap pixmapStBar=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_TRAYICON));
     QPixmap pixmapOff=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_SCHANGER_CONNECTION_ERROR));
 
+    ui->iconVibro->setPixmap(pixmapVibro);
     ui->iconSound->setPixmap(pixmapSound);
-    ui->iconToast->setPixmap(pixmapPopUp);
-    ui->iconStatusBar->setPixmap(pixmapSi);
-    ui->iconOff->setPixmap(pixmapOff);
-    ui->iconVibro->setPixmap(pixmapMini);
-    ui->iconLights->setPixmap(pixmapMini);
+    ui->iconLights->setPixmap(pixmapLights);
     ui->iconLTime->setPixmap(pixmapMini);
-//    ui->iconPlace->setPixmap(pixmapMini);
+
+    ui->iconToast->setPixmap(pixmapPopUp);
+    ui->iconStatusBar->setPixmap(pixmapStBar);
+    ui->iconOff->setPixmap(pixmapOff);
 
     //!-  later ..for simple menu..
     bool visible=true;
