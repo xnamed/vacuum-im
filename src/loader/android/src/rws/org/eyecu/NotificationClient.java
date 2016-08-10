@@ -9,6 +9,25 @@ import android.app.NotificationManager;
 import android.content.Context;
 import org.qtproject.qt5.android.bindings.QtActivity;
 
+import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.Toast;
+
+/*
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+*/
+
+
+
 /*
 #define rws_org_eyecu_NotificationClient_NO         0x00000000
 #define rws_org_eyecu_NotificationClient_SOUND      0x00000001
@@ -72,5 +91,34 @@ public class NotificationClient extends QtActivity
             ANotificationManager = (NotificationManager)AInstance.getSystemService(Context.NOTIFICATION_SERVICE);
             ANotificationManager.cancel(AId);
         }
+    }
+
+
+    public static void toast(String AIcon,String AMessage,String ATitle,String AGravity,String ATime)
+    {
+        int duration;
+        switch (Integer.parseInt(ATime))
+        {
+            case 0: duration = Toast.LENGTH_SHORT;  break;
+            case 1: duration = Toast.LENGTH_LONG;   break;
+            default:duration = Toast.LENGTH_SHORT;
+        }
+        Toast toast = Toast.makeText(AInstance.getApplicationContext(),AMessage,duration);
+
+        switch (Integer.parseInt(AGravity))
+        {
+            case 0:     toast.setGravity(Gravity.LEFT | Gravity.TOP, 0, 0); break;
+            case 1:     toast.setGravity(Gravity.TOP, 0, 0); break;
+            case 2:     toast.setGravity(Gravity.RIGHT | Gravity.TOP, 0, 0); break;
+            case 3:     toast.setGravity(Gravity.LEFT+Gravity.CENTER, 0, 0); break;
+            case 4:     toast.setGravity(Gravity.CENTER, 0, 0); break;
+            case 5:     toast.setGravity(Gravity.RIGHT | Gravity.CENTER, 0, 0); break;
+            case 6:     toast.setGravity(Gravity.LEFT | Gravity.BOTTOM, 0, 0); break;
+            case 7:     toast.setGravity(Gravity.BOTTOM, 0, 0); break;
+            case 8:     toast.setGravity(Gravity.RIGHT | Gravity.BOTTOM, 0, 0); break;
+
+            default:    toast.setGravity(Gravity.CENTER, 0, 0); break;
+        }
+        toast.show();
     }
 }
