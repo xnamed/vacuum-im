@@ -100,7 +100,7 @@ bool MessageWidgets::initObjects()
 	insertViewUrlHandler(MVUHO_MESSAGEWIDGETS_DEFAULT,this);
 	insertEditContentsHandler(MECHO_MESSAGEWIDGETS_COPY_INSERT,this);
 
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
     if(FMainWindow)
     {
         Action *FChatAction = new Action(this);
@@ -113,7 +113,7 @@ bool MessageWidgets::initObjects()
                             ->insertAction(FChatAction, TBG_MWBTB_CHAT);        // Add action as a button
         button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     }
-#endif
+#endif      // *** >>> eyeCU >>> ***
 
 	return true;
 }

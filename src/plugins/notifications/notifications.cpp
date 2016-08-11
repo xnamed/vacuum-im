@@ -234,11 +234,11 @@ bool Notifications::initSettings()
 	Options::setDefaultValue(OPV_NOTIFICATIONS_FORCESOUND,false);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_HIDEMESSAGE,false);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_POPUPTIMEOUT,8);
-	Options::setDefaultValue(OPV_NOTIFICATIONS_ANDROIDTIMEOUT,10);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_SOUNDCOMMAND,QString("aplay"));
 	Options::setDefaultValue(OPV_NOTIFICATIONS_TYPEKINDS_ITEM,0);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_KINDENABLED_ITEM,true);
 // *** <<< eyeCU <<< ***
+    Options::setDefaultValue(OPV_NOTIFICATIONS_ANDROIDTIMEOUT,10);
 	Options::setDefaultValue(OPV_NOTIFICATIONS_ANIMATIONENABLE,true);
 // *** >>> eyeCU >>> ***
 	if (FOptionsManager)
@@ -338,6 +338,7 @@ qDebug()<<(QString("Appending notification, id=%1, type=%2, kinds=%3, flags=%4")
 	{
 		if (!showNotifyByHandler(INotification::RosterNotify,notifyId,record.notification))
 		{
+qDebug()<<"INotification::RosterNotify";
 			QList<IRosterIndex *> indexes;
 			QMap<QString,QVariant> searchData = record.notification.data.value(NDR_ROSTER_SEARCH_DATA).toMap();
 			if (searchData.isEmpty())
@@ -453,6 +454,7 @@ qDebug()<<"INotification::PopupWindow";
 	{
 		if (!showNotifyByHandler(INotification::PopupWindow,notifyId,record.notification))
 		{
+qDebug()<<"INotification::PopupWindow/PC Variant";
 			if (Options::node(OPV_NOTIFICATIONS_NATIVEPOPUPS).value().toBool() && FTrayManager && FTrayManager->isMessagesSupported())
 			{
 				QString title = record.notification.data.value(NDR_POPUP_TITLE).toString();
@@ -481,6 +483,7 @@ qDebug()<<"INotification::PopupWindow";
 	{
 		if (!showNotifyByHandler(INotification::TrayNotify,notifyId,record.notification))
 		{
+qDebug()<<"INotification::TrayNotify/PC Variant";
 			ITrayNotify notify;
 			notify.blink = true;
 			notify.icon = icon;
@@ -496,6 +499,7 @@ qDebug()<<"INotification::PopupWindow";
 	{
 		if (!showNotifyByHandler(INotification::TrayAction,notifyId,record.notification))
 		{
+qDebug()<<"INotification::TrayAction/PC Variant";
 			record.trayAction = new Action(FNotifyMenu);
 			record.trayAction->setIcon(icon);
 			record.trayAction->setText(toolTip);
@@ -505,10 +509,12 @@ qDebug()<<"INotification::PopupWindow";
 		}
 	}
 
+
 	if (!isSilent && (record.notification.kinds & INotification::SoundPlay)>0)
 	{
 		if (!showNotifyByHandler(INotification::SoundPlay,notifyId,record.notification))
 		{
+qDebug()<<"INotification::SoundPlay/PC Variant";
 			QString soundName = record.notification.data.value(NDR_SOUND_FILE).toString();
 			QString soundFile = FileStorage::staticStorage(RSR_STORAGE_SOUNDS)->fileFullName(soundName);
 			if (!soundFile.isEmpty())
@@ -529,6 +535,7 @@ qDebug()<<"INotification::PopupWindow";
 	{
 		if (!showNotifyByHandler(INotification::ShowMinimized,notifyId,record.notification))
 		{
+qDebug()<<"INotification::ShowMinimized";
 			QWidget *widget = qobject_cast<QWidget *>((QWidget *)record.notification.data.value(NDR_SHOWMINIMIZED_WIDGET).toLongLong());
 			if (widget)
 			{
@@ -542,6 +549,7 @@ qDebug()<<"INotification::PopupWindow";
 	{
 		if (!showNotifyByHandler(INotification::AlertWidget,notifyId,record.notification))
 		{
+qDebug()<<"INotification::AlertWidget";
 			QWidget *widget = qobject_cast<QWidget *>((QWidget *)record.notification.data.value(NDR_ALERT_WIDGET).toLongLong());
 			if (widget)
 				WidgetManager::alertWidget(widget);
@@ -552,6 +560,7 @@ qDebug()<<"INotification::PopupWindow";
 	{
 		if (!showNotifyByHandler(INotification::TabPageNotify,notifyId,record.notification))
 		{
+qDebug()<<"INotification::TabPageNotify";
 			IMessageTabPage *page = qobject_cast<IMessageTabPage *>((QWidget *)record.notification.data.value(NDR_TABPAGE_WIDGET).toLongLong());
 			if (page && page->tabPageNotifier())
 			{
@@ -568,14 +577,15 @@ qDebug()<<"INotification::PopupWindow";
 		
 	if ((record.notification.kinds & INotification::AutoActivate)>0)
 	{
+qDebug()<<"INotification::AutoActivate";
 		FDelayedActivations.append(notifyId);
 		QTimer::singleShot(0,this,SLOT(onDelayedActivations()));
 	}
 
-#ifndef EYECU_MOBILE
+#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
 	FRemoveAll->setVisible(!FNotifyMenu->isEmpty());
 	FNotifyMenu->menuAction()->setVisible(!FNotifyMenu->isEmpty());
-#endif
+#endif              // *** >>> eyeCU >>> ***
 	FDelayedRemovals.append(notifyId);
 	QTimer::singleShot(0,this,SLOT(onDelayedRemovals()));
 
@@ -1000,7 +1010,7 @@ void Notifications::onSpinBoxValueChanged(int value)
 
 
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-///!
+//!
 //! \brief Notifications::onDeleteAndroidNotify
 //!
 void Notifications::onDeleteAndroidNotify()
@@ -1031,7 +1041,7 @@ void Notifications::onDeleteAndroidNotify()
 		QTimer::singleShot(1000,this,SLOT(onDeleteAndroidNotify()));
 }
 
-///!
+//!
 //! \brief Notifications::destroyAndroidNotify
 //! Need delete all Notifications, When application closing
 //!
@@ -1062,7 +1072,7 @@ void Notifications::destroyAndroidNotify()
 //! \param AMessage		-Message text
 //! \param ATitle		-The headline of the message
 //! \param AGravity		-The place on Screen
-//! \param ATime		-Time -LongTime, SHortTime)
+//! \param ATime		-Time -Long, SHort)
 //!
 void Notifications::updateToastNotification(QString AIcon,QString AMessage, QString ATitle, int AGravity, int ATime)
 {
@@ -1071,7 +1081,7 @@ void Notifications::updateToastNotification(QString AIcon,QString AMessage, QStr
 	QAndroidJniObject JMessage	= QAndroidJniObject::fromString(AMessage);
 	QAndroidJniObject JGravity	= QAndroidJniObject::fromString(QString().setNum(AGravity));
 	QAndroidJniObject JTime		= QAndroidJniObject::fromString(QString().setNum(ATime));
-qDebug()<<"updateToastNotification----------------------------";
+qDebug()<<"updateToastNotification+++++++++++++++++++++++++";
 	QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","toast",
 		"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
 		JIconName.object<jstring>(),JMessage.object<jstring>(),JTitle.object<jstring>(),JGravity.object<jstring>(),JTime.object<jstring>());

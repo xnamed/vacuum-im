@@ -43,5 +43,17 @@
   <icon>
     <key>notificationsLights</key>
     <object mime="image/png">notificationsLights.png</object>
+  </icon>
+   <icon>
+    <key>notificationsTime</key>
+    <object mime="image/png">notificationsTime.png</object>
+  </icon>
+  <icon>
+    <key>notificationsSound</key>
+    <object mime="image/png">notificationsSound.png</object>
   </icon>  
+  <icon>
+    <key>notificationsstatusbar</key>
+    <object mime="image/png">notificationsstatusbar.png</object>
+  </icon> 
 </icondef>

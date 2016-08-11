@@ -162,6 +162,10 @@
 // <<< *** eyeCU *** <<<
 #define MNI_NOTIFICATIONS_VIBRO         "notificationsVibro"
 #define MNI_NOTIFICATIONS_LIGHTS        "notificationsLights"
+#define MNI_NOTIFICATIONS_TIME          "notificationsTime"
+#define MNI_NOTIFICATIONS_SOUND         "notificationsSound"
+#define MNI_NOTIFICATIONS_TOAST         "notificationsPopupWindow"
+#define MNI_NOTIFICATIONS_STBAR         "notificationsstatusbar"
 // >>> *** eyeCU *** >>>
 #define MNI_NOTIFICATIONS_REMOVE_ALL    "notificationsRemoveAll"
 #define MNI_NOTIFICATIONS_ACTIVATE_ALL  "notificationsActivateAll"
