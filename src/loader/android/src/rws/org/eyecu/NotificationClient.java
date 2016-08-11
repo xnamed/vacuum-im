@@ -107,17 +107,16 @@ public class NotificationClient extends QtActivity
 
         switch (Integer.parseInt(AGravity))
         {
-            case 0:     toast.setGravity(Gravity.LEFT | Gravity.TOP, 0, 0); break;
-            case 1:     toast.setGravity(Gravity.TOP, 0, 0); break;
-            case 2:     toast.setGravity(Gravity.RIGHT | Gravity.TOP, 0, 0); break;
-            case 3:     toast.setGravity(Gravity.LEFT+Gravity.CENTER, 0, 0); break;
-            case 4:     toast.setGravity(Gravity.CENTER, 0, 0); break;
-            case 5:     toast.setGravity(Gravity.RIGHT | Gravity.CENTER, 0, 0); break;
-            case 6:     toast.setGravity(Gravity.LEFT | Gravity.BOTTOM, 0, 0); break;
-            case 7:     toast.setGravity(Gravity.BOTTOM, 0, 0); break;
-            case 8:     toast.setGravity(Gravity.RIGHT | Gravity.BOTTOM, 0, 0); break;
-
-            default:    toast.setGravity(Gravity.CENTER, 0, 0); break;
+            case 0: toast.setGravity(Gravity.LEFT  | Gravity.TOP, 0, 0); break;
+            case 1: toast.setGravity(Gravity.TOP, 0, 0);                break;
+            case 2: toast.setGravity(Gravity.RIGHT | Gravity.TOP, 0, 0);break;
+            case 3: toast.setGravity(Gravity.LEFT  | Gravity.CENTER, 0, 0);break;
+            case 4: toast.setGravity(Gravity.CENTER, 0, 0);             break;
+            case 5: toast.setGravity(Gravity.RIGHT | Gravity.CENTER, 0, 0); break;
+            case 6: toast.setGravity(Gravity.LEFT  | Gravity.BOTTOM, 0, 0); break;
+            case 7: toast.setGravity(Gravity.BOTTOM, 0, 0);             break;
+            case 8: toast.setGravity(Gravity.RIGHT | Gravity.BOTTOM, 0, 0); break;
+            default: toast.setGravity(Gravity.CENTER, 0, 0); break;
         }
         toast.show();
     }
