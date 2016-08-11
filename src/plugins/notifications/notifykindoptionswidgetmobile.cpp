@@ -170,14 +170,14 @@ void NotifyKindOptionsWidgetMobile::reset()
 
 void NotifyKindOptionsWidgetMobile::registrOrderedTypes()
 {
+     ushort visibleKinds = INotification::PopupWindow|
 #ifdef EYECU_MOBILE
-	 ushort visibleKinds = INotification::NotifyOff|
-			 INotification::StatusBar|INotification::SoundPlay|INotification::Vibration|INotification::Lights|
-			 INotification::PopupWindow|INotification::LongTime|INotification::PlaceView;
-#else		// Only assembly
-	 ushort visibleKinds = INotification::PopupWindow|INotification::TrayNotify|INotification::TrayAction|
-			 INotification::SoundPlay|INotification::ShowMinimized;
-#endif		// Only assembly
+             INotification::NotifyOff|
+             INotification::StatusBar|INotification::Vibration|INotification::Lights|
+             INotification::LongTime|INotification::PlaceView|
+#endif
+             INotification::SoundPlay;//INotification::ShowMinimized;
+
 	 foreach(const QString &typeId, FNotifications->notificationTypes())
 	 {
 		 NotificationType notifyType = FNotifications->notificationType(typeId);

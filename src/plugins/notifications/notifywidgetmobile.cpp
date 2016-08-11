@@ -37,21 +37,19 @@ void NotifyWidgetMobile::init()
 {
     IconStorage	*AIconStorage=IconStorage::staticStorage(RSR_STORAGE_MENUICONS);
 
-    QPixmap pixmapSound=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_SOUNDPLAY));
+    QPixmap pixmapSound=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_SOUND));
     QPixmap pixmapVibro=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_VIBRO));
     QPixmap pixmapLights=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_LIGHTS));
-
-    QPixmap pixmapPopUp=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_PUPUPWINDOW));
-    QPixmap pixmapMini=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_SHOWMINIMIZED));
-    QPixmap pixmapStBar=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_TRAYICON));
+    QPixmap pixmapTime=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_TIME));
+    QPixmap pixmapToast=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_TOAST));
+    QPixmap pixmapStBar=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_NOTIFICATIONS_STBAR));
     QPixmap pixmapOff=AIconStorage->getStoragePixmap(AIconStorage->fileFullName(MNI_SCHANGER_CONNECTION_ERROR));
 
     ui->iconVibro->setPixmap(pixmapVibro);
     ui->iconSound->setPixmap(pixmapSound);
     ui->iconLights->setPixmap(pixmapLights);
-    ui->iconLTime->setPixmap(pixmapMini);
-
-    ui->iconToast->setPixmap(pixmapPopUp);
+    ui->iconLTime->setPixmap(pixmapTime);
+    ui->iconToast->setPixmap(pixmapToast);
     ui->iconStatusBar->setPixmap(pixmapStBar);
     ui->iconOff->setPixmap(pixmapOff);
 
