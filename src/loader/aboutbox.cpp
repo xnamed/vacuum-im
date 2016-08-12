@@ -28,7 +28,7 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 								"Screen's resolution: [%9x%10]pixel<br>"
 								"Pixel in mm: x=%11,&nbsp;y=%12<br>"
 								"Pixel in mm2: %13<br>"
-								"Application font point size: %14")
+								"App font size: %14, scale: %15")
         .arg(screen->logicalDotsPerInch())
             .arg(screen->logicalDotsPerInchX()).arg(screen->logicalDotsPerInchY())
         .arg(screen->physicalDotsPerInch())
@@ -38,7 +38,8 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
         .arg(screen->size().width()/screen->physicalSize().width())
         .arg(screen->size().height()/screen->physicalSize().height())
         .arg(screen->size().width()/screen->physicalSize().width()*screen->size().height()/screen->physicalSize().height())
-        .arg(qApp->font().pointSizeF());
+		.arg(qApp->font().pointSizeF())
+		.arg(IconStorage::scale());
 
     ui.lblDevice->setText(aboutDevice);
 

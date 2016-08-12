@@ -10,16 +10,16 @@ OptionsDialogMobile::~OptionsDialogMobile(){delete scaScroll;}
 void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 {
 	if (OptionsDialogClass->objectName().isEmpty())
-		OptionsDialogClass->setObjectName(QStringLiteral("MobileOptionsDialogClass"));
+		OptionsDialogClass->setObjectName(QString("MobileOptionsDialogClass"));
 
 	verticalLayout = new QVBoxLayout(OptionsDialogClass);
 	verticalLayout->setSpacing(6);
 	verticalLayout->setContentsMargins(5, 5, 5, 5);
-	verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+	verticalLayout->setObjectName(QString("verticalLayout"));
 
 //    trvNodes = new QTreeView;
     trvNodes = new OptionsTreeView;       //! -- New Variant with mouse ---
-	trvNodes->setObjectName(QStringLiteral("trvNodes"));
+	trvNodes->setObjectName(QString("trvNodes"));
 	trvNodes->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	trvNodes->setTextElideMode(Qt::ElideNone);
     trvNodes->setIndentation(12);
@@ -31,17 +31,17 @@ void OptionsDialogMobile::setupUi(QDialog *OptionsDialogClass)
 
 	dbbButtons = new QDialogButtonBox(OptionsDialogClass);
     dbbButtons->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-	dbbButtons->setObjectName(QStringLiteral("dbbButtons"));
-//    dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
-    dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Reset);
+	dbbButtons->setObjectName(QString("dbbButtons"));
+	dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset);
+//    dbbButtons->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Reset);
     verticalLayout->addWidget(dbbButtons);
 
 //! ---for scaScroll ---- OWO_OPTION_SCRLBAR
 	scaScroll = new OptionsScrollArea;
-	scaScroll->setObjectName(QStringLiteral("scaScroll"));
+	scaScroll->setObjectName(QString("scaScroll"));
 
     QWidget *scrollAreaWidgetContents = new QWidget();
-	scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
+	scrollAreaWidgetContents->setObjectName(QString("scrollAreaWidgetContents"));
     scaScroll->setWidget(scrollAreaWidgetContents);
 
 	QWidget::setTabOrder(trvNodes, dbbButtons);

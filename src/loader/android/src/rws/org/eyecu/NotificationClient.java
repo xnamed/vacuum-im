@@ -96,6 +96,10 @@ public class NotificationClient extends QtActivity
 
     public static void toast(String AIcon,String AMessage,String ATitle,String AGravity,String ATime)
     {
+        Toast toast = Toast.makeText(AInstance.getApplicationContext(),AMessage,Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+/*
         int duration;
         switch (Integer.parseInt(ATime))
         {
@@ -119,5 +123,6 @@ public class NotificationClient extends QtActivity
             default: toast.setGravity(Gravity.CENTER, 0, 0); break;
         }
         toast.show();
+*/
     }
 }

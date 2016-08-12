@@ -442,7 +442,8 @@ qDebug()<<"INotification::PopupWindow";
 			(typeNotificationKinds(ANotification.typeId) & INotification::LongTime) ? ATime=1 : ATime=0;
 			// AIcon -ANotification.typeId("Mood", "ChatMessage"... "Activity")
 #ifdef Q_OS_ANDROID
-			updateToastNotification(ANotification.typeId,AMessage,ATitle,AGravity,ATime);
+updateAndroidNotification(AMessage,ATitle,notifyId,7);
+			//updateToastNotification(ANotification.typeId,AMessage,ATitle,AGravity,ATime);
 #endif
 		}
 	}
