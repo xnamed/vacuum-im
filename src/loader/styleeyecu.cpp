@@ -46,9 +46,9 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 	if(DPI<=110)                    {FScale=2.0;  FPointSizeF= 8.0;} // desktop
 	else if(DPI>110 && DPI<=160)	{FScale=3.0;  FPointSizeF=12.0;} // ldpi
 	else if(DPI>160 && DPI<=240)	{FScale=4.0;  FPointSizeF=16.0;} // mdpi
-	else if(DPI>240 && DPI<=320)	{FScale=6.0;  FPointSizeF=18.0;} // hdpi
+	else if(DPI>240 && DPI<=320)	{FScale=5.0;  FPointSizeF=18.0;} // hdpi
     else if(DPI>320 && DPI<=480)	{FScale=12.0; FPointSizeF=18.0;} // xhdpi
-    else if(DPI>480 && DPI<=640)	{FScale=18.0; FPointSizeF=18.0;} // xxhdpi
+	else if(DPI>480 && DPI<=640)	{FScale=16.0; FPointSizeF=18.0;} // xxhdpi
     else if(DPI>640)				{FScale=22.0; FPointSizeF=20.0;} // xxxhdpi
 
 //!---- delete Later-------
@@ -62,7 +62,7 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 	IconStorage::setScale(FScale);
     IconStorage::setFontPointSize(FPointSizeF);
 #else
-	IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
+	IconStorage::setScale(2.0);         //!---For Q_OS_WIN OR DECKTOP---
 	IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---
 #endif
 }

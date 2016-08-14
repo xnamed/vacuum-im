@@ -67,6 +67,7 @@ void NotifyWidgetMobile::init()
 
 void NotifyWidgetMobile::setValue()
 {
+#ifdef EYECU_MOBILE		// for onle assembly
     ui->rButOff->setProperty("NTR_KIND",INotification::NotifyOff);
 	ui->rButStatusBar->setProperty("NTR_KIND",INotification::StatusBar);
 	ui->rButToast->setProperty("NTR_KIND",INotification::PopupWindow);
@@ -105,6 +106,7 @@ void NotifyWidgetMobile::setValue()
     else
         ui->comBoxPlace->setEnabled(false);
     ui->comBoxPlace->setEditable(false);
+#endif	// for onle assembly
 }
 
 void NotifyWidgetMobile::stress()
@@ -115,9 +117,10 @@ void NotifyWidgetMobile::stress()
         onRButToast(true);
     else if(ui->rButOff->isChecked())
         onRButOff(true);
-
+#ifdef EYECU_MOBILE		// for onle assembly
     if (FKinds & INotification::StatusBarOff)
         setVisStatusBar(false);
+#endif	// for onle assembly
 }
 
 void NotifyWidgetMobile::onRButOff(bool AStatus)
