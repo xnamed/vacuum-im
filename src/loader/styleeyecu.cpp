@@ -46,9 +46,9 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 	if(DPI<=110)                    {FScale=2.0;  FPointSizeF= 8.0;} // desktop
 	else if(DPI>110 && DPI<=160)	{FScale=3.0;  FPointSizeF=12.0;} // ldpi
 	else if(DPI>160 && DPI<=240)	{FScale=4.0;  FPointSizeF=16.0;} // mdpi
-	else if(DPI>240 && DPI<=320)	{FScale=6.0;  FPointSizeF=18.0;} // hdpi
+	else if(DPI>240 && DPI<=320)	{FScale=5.0;  FPointSizeF=18.0;} // hdpi
     else if(DPI>320 && DPI<=480)	{FScale=12.0; FPointSizeF=18.0;} // xhdpi
-    else if(DPI>480 && DPI<=640)	{FScale=18.0; FPointSizeF=18.0;} // xxhdpi
+	else if(DPI>480 && DPI<=640)	{FScale=16.0; FPointSizeF=18.0;} // xxhdpi
     else if(DPI>640)				{FScale=22.0; FPointSizeF=20.0;} // xxxhdpi
 
 //!---- delete Later-------
@@ -62,7 +62,7 @@ StyleEyecu::StyleEyecu(QApplication *APpl): FAppl(APpl)
 	IconStorage::setScale(FScale);
     IconStorage::setFontPointSize(FPointSizeF);
 #else
-	IconStorage::setScale(1.0);         //!---For Q_OS_WIN OR DECKTOP---
+	IconStorage::setScale(2.0);         //!---For Q_OS_WIN OR DECKTOP---
 	IconStorage::setFontPointSize(8.0); //!---For Q_OS_WIN OR DECKTOP---
 #endif
 }
@@ -96,7 +96,7 @@ QString StyleEyecu::saveStyle()
 {
     return QString().append(checkBox()).append(radioBottom()).append(slider()).append(scrollBar())
             .append(spinBox()).append(doubleSpinBox()).append(treeWidget()).append(treeView())
-            .append(comboBox()).append(groupBox());
+            .append(comboBox()).append(groupBox()).append(toolBox());
 }
 
 //!
@@ -297,6 +297,22 @@ QString StyleEyecu::scrollBar()
 		).arg(5*FScale).arg(FScale/2).arg(FScale).arg("919086").arg("039702").arg("F6F4E9");
 	return style;
 }
+
+//!
+//! \brief StyleEyecu::toolBox
+//! \return
+//!
+QString StyleEyecu::toolBox()
+{
+    QString style=QString(""
+        "QToolBox::tab:selected {font: italic; color: #039702;}"
+    );
+
+    return style;
+}
+
+
+
 
 /* 039702  //old - 919086  C2C0B5  F6F4E9
     "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 2px solid #919086; width: 3px;height: 3px;background:white;}"

@@ -33,7 +33,7 @@
     <number>5</number>
    </property>
    <item row="2" column="0" colspan="2">
-    <widget class="QGroupBox" name="gpbDiagnostics">
+    <widget class="MGroupBox" name="gpbDiagnostics">
      <property name="title">
       <string>Diagnostics</string>
      </property>
@@ -169,7 +169,7 @@
        </spacer>
       </item>
       <item row="0" column="3" rowspan="2" colspan="3">
-       <widget class="QGroupBox" name="gpbSatellites">
+       <widget class="MGroupBox" name="gpbSatellites">
         <property name="title">
          <string>Satellites</string>
         </property>
@@ -187,12 +187,7 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="gpbSerialPort">
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
+    <widget class="MGroupBox" name="gpbSerialPort">
      <property name="title">
       <string>Port selection</string>
      </property>
@@ -229,12 +224,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QGroupBox" name="gpbPortSettings">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
+       <widget class="MGroupBox" name="gpbPortSettings">
         <property name="title">
          <string>Port settings</string>
         </property>
@@ -309,7 +299,7 @@
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QGroupBox" name="gpbParserSettings">
+       <widget class="MGroupBox" name="gpbParserSettings">
         <property name="title">
          <string>NMEA parser settings</string>
         </property>
@@ -464,12 +454,7 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
+    <widget class="MGroupBox" name="groupBox">
      <property name="title">
       <string>Information</string>
      </property>
@@ -502,6 +487,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>SatelliteStatus</class>
    <extends>QWidget</extends>

@@ -1,6 +1,5 @@
 #include <QDebug>
 
-
 #include <utils/qt4qt5compat.h>
 #include <utils/iconstorage.h>
 
@@ -53,7 +52,7 @@ StatusOptionsWidgetMobile::StatusOptionsWidgetMobile(IStatusChanger *AStatusChan
     pbtDelete->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     connect(pbtDelete,SIGNAL(clicked(bool)),SLOT(onDeleteButtonClicked()));
     //!----------
-	tlbStatus = new QToolBox(this);
+    tlbStatus = new QToolBox(this);
     tlbStatus->setFrameStyle(QFrame::Panel | QFrame::Raised);
     tlbStatus->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 	connect(tlbStatus,SIGNAL(currentChanged(int)),SLOT(onCurrentChanged(int)));
@@ -154,13 +153,14 @@ void StatusOptionsWidgetMobile::reset()
             tabGeneral->setProperty(STR_STATUSID,statusId);
 
             RowData2 status;
-            status.show = FStatusChanger->statusItemShow(statusId);
-            status.name = FStatusChanger->statusItemName(statusId);
-            status.messageText = FStatusChanger->statusItemText(statusId);
-            status.priority = FStatusChanger->statusItemPriority(statusId);
+            status.show         = FStatusChanger->statusItemShow(statusId);
+            status.name         = FStatusChanger->statusItemName(statusId);
+            status.messageText  = FStatusChanger->statusItemText(statusId);
+            status.priority     = FStatusChanger->statusItemPriority(statusId);
+            status.fullFileName="";
             FStatusItems.insert(statusId,status);
 
-			QIcon icon=FStatusChanger->iconByShow(status.show);
+            QIcon icon=FStatusChanger->iconByShow(status.show);
 			QString itemText=status.name;
 
 			QFormLayout *lotGeneral = new QFormLayout(tabGeneral);
@@ -262,6 +262,7 @@ void StatusOptionsWidgetMobile::onAddButtonClicked()
 
     emit modified();
 }
+
 ///!
 //! \brief StatusOptionsWidgetMobile::onDeleteButtonClicked
 //! Delete current row in ToolboBox

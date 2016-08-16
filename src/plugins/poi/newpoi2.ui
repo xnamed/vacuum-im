@@ -42,7 +42,7 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="gpbAccount">
+    <widget class="MGroupBox" name="gpbAccount">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -171,7 +171,7 @@
         <number>2</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
+        <widget class="MGroupBox" name="groupBoxPoi">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -373,7 +373,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="MGroupBox" name="groupBoxLoc">
          <property name="title">
           <string>Location</string>
          </property>
@@ -484,7 +484,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_4">
+        <widget class="MGroupBox" name="groupBoxDescr">
          <property name="title">
           <string>Description</string>
          </property>
@@ -530,7 +530,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="gpbAddress">
+        <widget class="MGroupBox" name="gpbAddress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -835,7 +835,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="grpBoxTimeStamp">
+        <widget class="MGroupBox" name="grpBoxTimeStamp">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -910,7 +910,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="grpBoxURI">
+        <widget class="MGroupBox" name="grpBoxURI">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -1089,6 +1089,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>QSvgWidget</class>
    <extends>QWidget</extends>

@@ -11,7 +11,6 @@ OptionsDialogHeader::OptionsDialogHeader(const QString &ACaption, QWidget *APare
 	QString FHeaderStyle  =QString("background-color:#039702; color:white;");
 	setStyleSheet(FHeaderStyle);
     setWordWrap(true);
-//	setText(QString("<h3>&nbsp;%1</h3>").arg(HTML_ESCAPE(ACaption)));
 
 	QFont font=this->font();
 	font.setBold(true);

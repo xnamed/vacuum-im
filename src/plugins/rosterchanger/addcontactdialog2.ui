@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>209</width>
-    <height>241</height>
+    <height>247</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -108,7 +108,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="grbSubscription">
+    <widget class="MGroupBox" name="grbSubscription">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -208,6 +208,14 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>lneContact</tabstop>
   <tabstop>lneNickName</tabstop>

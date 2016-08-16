@@ -1101,7 +1101,7 @@ void Notifications::updateAndroidNotification(QString AMessage,QString ATitle,in
     QAndroidJniObject JMessage = QAndroidJniObject::fromString(AMessage);
     QAndroidJniObject JId      = QAndroidJniObject::fromString(QString().setNum(AId));
     QAndroidJniObject JRegim   = QAndroidJniObject::fromString(QString().setNum(ARegim));
-qDebug()<<"updateAndroidNotification----------------------------";
+
     QAndroidJniObject::callStaticMethod<void>("rws/org/eyecu/NotificationClient","notify",
               "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
               JMessage.object<jstring>(),JTitle.object<jstring>(),JId.object<jstring>(),JRegim.object<jstring>());

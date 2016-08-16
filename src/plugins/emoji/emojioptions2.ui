@@ -30,7 +30,7 @@
     <number>4</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="MGroupBox" name="groupBox">
      <property name="title">
       <string>Emoji</string>
      </property>
@@ -145,6 +145,12 @@
    <class>IconSizeSpinBox</class>
    <extends>QSpinBox</extends>
    <header>iconsizespinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -7,11 +7,10 @@
 #include <interfaces/ioptionsmanager.h>
 #include <utils/options.h>
 
-// *** <<< eyeCU <<< ***
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+#include <utils/mgroupbox.h>
 #include "ui_advancedsocksoptionswidget2.h"
-#else
-// *** >>> eyeCU >>> ***
+#else               // *** >>> eyeCU >>> ***
 #include "ui_advancedsocksoptionswidget.h"
 #endif
 
@@ -32,6 +31,12 @@ signals:
 	void modified();
 	void childApply();
 	void childReset();
+
+protected:
+    virtual void mousePressEvent(QMouseEvent *AEvent){QWidget::mousePressEvent(AEvent);}
+    virtual void mouseMoveEvent(QMouseEvent *AEvent){QWidget::mouseMoveEvent(AEvent);}
+    virtual void mouseReleaseEvent(QMouseEvent *AEvent){QWidget::mouseReleaseEvent(AEvent);}
+
 protected slots:
 	void onAddStreamProxyClicked(bool);
 	void onStreamProxyUpClicked(bool);

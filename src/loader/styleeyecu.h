@@ -29,7 +29,8 @@ protected:
 	QString progressBar();
 	QString scrollBar();
 	QString treeView();
-	QString groupBox();
+    QString groupBox();
+    QString toolBox();
 private:
     QApplication *FAppl;
     qreal   FScale;

@@ -108,7 +108,7 @@
         <number>1</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="MGroupBox" name="groupBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -226,7 +226,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="MGroupBox" name="groupBox_2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -338,7 +338,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="grBoxAlt">
+        <widget class="MGroupBox" name="grBoxAlt">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -371,7 +371,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_4">
+        <widget class="MGroupBox" name="groupBox_4">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -459,7 +459,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="gpbImageFormat">
+        <widget class="MGroupBox" name="gpbImageFormat">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -719,6 +719,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

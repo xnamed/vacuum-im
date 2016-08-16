@@ -32,6 +32,7 @@
 struct RowData2 {
     int show;
     QString name;
+    QString fullFileName;
     QString messageText;
     int priority;
 };
@@ -64,7 +65,6 @@ protected:
 private:
     IStatusChanger *FStatusChanger;
 private:
-	//QVBoxLayout *vltLayout;
     QPushButton *pbtAdd;
     QPushButton *pbtDelete;
     QToolBox *tlbStatus;

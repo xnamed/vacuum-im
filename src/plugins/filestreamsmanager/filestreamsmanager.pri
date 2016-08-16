@@ -7,7 +7,7 @@ HEADERS = transferthread.h \
           filestream.h \
           filestreamswindow.h \
           filestreamsoptionswidget.h \
-          filestreamsmanager.h 
+          filestreamsmanager.h  
 
 SOURCES = transferthread.cpp \
           filestream.cpp \

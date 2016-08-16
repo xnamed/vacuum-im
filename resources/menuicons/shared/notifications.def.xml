@@ -38,22 +38,22 @@
   </icon>
    <icon>
     <key>notificationsVibro</key>
-    <object mime="image/png">notificationsVibro.png</object>
+    <object mime="image/png">notificationsvibro.png</object>
   </icon>
   <icon>
     <key>notificationsLights</key>
-    <object mime="image/png">notificationsLights.png</object>
+    <object mime="image/png">notificationslights.png</object>
   </icon>
    <icon>
     <key>notificationsTime</key>
-    <object mime="image/png">notificationsTime.png</object>
+    <object mime="image/png">notificationstime.png</object>
   </icon>
   <icon>
     <key>notificationsSound</key>
-    <object mime="image/png">notificationsSound.png</object>
+    <object mime="image/png">notificationssound.png</object>
   </icon>  
   <icon>
-    <key>notificationsstatusbar</key>
+    <key>notificationsStatusBar</key>
     <object mime="image/png">notificationsstatusbar.png</object>
   </icon> 
 </icondef>

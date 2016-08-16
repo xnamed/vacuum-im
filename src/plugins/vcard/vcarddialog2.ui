@@ -393,7 +393,7 @@
         <number>4</number>
        </property>
        <item row="0" column="0">
-        <widget class="QGroupBox" name="grbHomeAdress">
+        <widget class="MGroupBox" name="grbHomeAdress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -491,7 +491,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QGroupBox" name="grbWorkAdress">
+        <widget class="MGroupBox" name="grbWorkAdress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -625,7 +625,7 @@
         <number>2</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="grbEmail">
+        <widget class="MGroupBox" name="grbEmail">
          <property name="title">
           <string>E-Mail</string>
          </property>
@@ -702,7 +702,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="grbPhone">
+        <widget class="MGroupBox" name="grbPhone">
          <property name="title">
           <string>Phone</string>
          </property>
@@ -815,7 +815,7 @@
         <number>4</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="grbPhoto">
+        <widget class="MGroupBox" name="grbPhoto">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -911,7 +911,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="grbLogo">
+        <widget class="MGroupBox" name="grbLogo">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -1060,6 +1060,12 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>PrixmapFrame</class>
    <extends>QFrame</extends>

@@ -50,11 +50,6 @@ AboutBox::AboutBox(IPluginManager *APluginManager, QWidget *AParent) : QDialog(A
 			.arg(qApp->style()->objectName()).arg(allStyles);
 	ui.lblStyles->setText(aboutStyles);
     connect(ui.lblPosv,SIGNAL(linkActivated(const QString &)),SLOT(onLinkActivated()));
-
-#else
-    ui.lblDevice->setVisible(false);
-	ui.lblStyles->setVisible(false);
-    ui.lblPosv->setVisible(false);
 #endif
 // *** >>> eyeCU >>> ****
 	connect(ui.lblHomePage,SIGNAL(linkActivated(const QString &)),SLOT(onLabelLinkActivated(const QString &)));

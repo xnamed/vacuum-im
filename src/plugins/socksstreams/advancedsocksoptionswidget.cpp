@@ -87,7 +87,7 @@ void AdvancedSocksOptionsWidget::reset()
 	ui.chbUseAccountNetworkProxy->setChecked(FOptionsNode.value("use-account-network-proxy").toBool());
 	if (FProxySettings)
 		FProxySettings->reset();
-	emit childReset();
+    emit childReset();
 }
 
 void AdvancedSocksOptionsWidget::onAddStreamProxyClicked(bool)

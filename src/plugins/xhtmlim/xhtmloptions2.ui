@@ -36,7 +36,7 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="MGroupBox" name="groupBox">
      <property name="title">
       <string>Maximum age</string>
      </property>
@@ -151,7 +151,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="MGroupBox" name="groupBox_2">
      <property name="title">
       <string>Maximum embedded data size </string>
      </property>
@@ -253,6 +253,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

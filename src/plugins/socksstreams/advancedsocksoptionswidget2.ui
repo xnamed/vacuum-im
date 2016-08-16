@@ -30,7 +30,7 @@
     <number>4</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="grbOutgoingConnections">
+    <widget class="MGroupBox" name="grbOutgoingConnections">
      <property name="title">
       <string>Outgoing Connections</string>
      </property>
@@ -133,7 +133,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="grbIncomingConnections">
+    <widget class="MGroupBox" name="grbIncomingConnections">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -274,7 +274,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="grbStreamProxy">
+    <widget class="MGroupBox" name="grbStreamProxy">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -458,6 +458,14 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>spbConnectTimeout</tabstop>
   <tabstop>chbUseAccountStreamProxy</tabstop>

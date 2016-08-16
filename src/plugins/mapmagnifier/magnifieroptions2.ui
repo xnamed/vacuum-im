@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>190</width>
-    <height>717</height>
+    <height>722</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,7 +33,7 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="gpbMagnifier">
+    <widget class="MGroupBox" name="gpbMagnifier">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -362,7 +362,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="gpbShadow">
+    <widget class="MGroupBox" name="gpbShadow">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -768,7 +768,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="gpbZoomFactor">
+    <widget class="MGroupBox" name="gpbZoomFactor">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -988,6 +988,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

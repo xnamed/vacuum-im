@@ -150,7 +150,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="grbConference">
+    <widget class="MGroupBox" name="grbConference">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -280,6 +280,14 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>utils/mgroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>lneRoom</tabstop>
   <tabstop>lneService</tabstop>
