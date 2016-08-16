@@ -16,7 +16,7 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayouMain">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <property name="leftMargin">
     <number>2</number>
    </property>
@@ -78,7 +78,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="MGroupBox" name="grbDefaults">
+        <widget class="QGroupBox" name="grbDefaults">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -167,7 +167,7 @@
         </widget>
        </item>
        <item>
-        <widget class="MGroupBox" name="grbLists">
+        <widget class="QGroupBox" name="grbLists">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>2</horstretch>
@@ -247,7 +247,7 @@
         </widget>
        </item>
        <item>
-        <widget class="MGroupBox" name="grbRulesList">
+        <widget class="QGroupBox" name="grbRulesList">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>5</horstretch>
@@ -340,7 +340,7 @@
         </widget>
        </item>
        <item>
-        <widget class="MGroupBox" name="grbRuleCondition">
+        <widget class="QGroupBox" name="grbRuleCondition">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -451,19 +451,6 @@
            <layout class="QHBoxLayout">
             <item>
              <widget class="QCheckBox" name="chbMessage">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label">
               <property name="text">
                <string>messages</string>
               </property>
@@ -471,19 +458,6 @@
             </item>
             <item>
              <widget class="QCheckBox" name="chbQueries">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
               <property name="text">
                <string>queries</string>
               </property>
@@ -495,19 +469,6 @@
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QCheckBox" name="chbPresenceIn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_3">
               <property name="text">
                <string>pres-in</string>
               </property>
@@ -515,19 +476,6 @@
             </item>
             <item>
              <widget class="QCheckBox" name="chbPresenceOut">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_4">
               <property name="text">
                <string>pres-out</string>
               </property>
@@ -552,14 +500,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>MGroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>utils/mgroupbox.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
