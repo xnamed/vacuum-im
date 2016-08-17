@@ -278,7 +278,7 @@ QMultiMap<int, IOptionsDialogWidget *> StatusChanger::optionsDialogWidgets(const
 	{
 		widgets.insertMulti(OHO_STATUS_ITEMS, FOptionsManager->newOptionsDialogHeader(tr("Standard and users statuses"), AParent));		
 #ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
-        widgets.insertMulti(OWO_STATUS_ITEMS, new StatusOptionsWidgetMobile(this,AParent));
+		widgets.insertMulti(OWO_STATUS_ITEMS, new StatusOptionsWidgetMobile(this,AParent));
 #else           // *** >>> eyeCU >>> ***
         widgets.insertMulti(OWO_STATUS_ITEMS, new StatusOptionsWidget(this,AParent));
 #endif

@@ -1,4 +1,3 @@
-#include <QDebug>
 
 #include <utils/qt4qt5compat.h>
 #include <utils/iconstorage.h>
@@ -30,6 +29,7 @@ enum StatusTableRoles {
 #define		WIDGETSTATE			Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable
 #define		WIDGETSTATEOFF		Qt::ItemIsSelectable | Qt::ItemIsEnabled
 #define     STR_STATUSID        "STR_STATUSID"
+#define     STR_PROPERTY        "STR_PROPERTY"
 ///! ---------------------------------------------------------
 //! \brief StatusOptionsWidgetMobile::StatusOptionsWidgetMobile
 //! \param AStatusChanger
@@ -85,26 +85,22 @@ void StatusOptionsWidgetMobile::apply()
         int statusId =wd->property(STR_STATUSID).toInt();
 
         int show;
-        QString nameStatus;
         QList<QComboBox *> allComboBox = wd->findChildren<QComboBox *>();
-        if(allComboBox.count() >0){
-            nameStatus=allComboBox.at(0)->currentText();
+		if(allComboBox.count() >0)
             show=getCurrentStatus(allComboBox.at(0)->currentIndex());
-        }
 
 		QString name;
         QString text;
 		QList<QLineEdit *> allLineEdit = wd->findChildren<QLineEdit *>();
 		if(allLineEdit.count() >0){
 			name=allLineEdit.at(0)->text();
-            text=allLineEdit.at(1)->text();
+			text=allLineEdit.at(1)->text();
 		}
 
 		int priority;
 		QList<QSpinBox *> allSpinBox = wd->findChildren<QSpinBox *>();
-		if(allSpinBox.count() >0){
+		if(allSpinBox.count() >0)
 			priority=allSpinBox.at(0)->value();
-		}
 
 		RowData2 status = FStatusItems.value(statusId);
 		if (statusId <= STATUS_NULL_ID)
@@ -124,18 +120,20 @@ void StatusOptionsWidgetMobile::apply()
 			statusId = FStatusChanger->addStatusItem(name,show,text,priority);
             allComboBox.at(0)->setCurrentText(QString().setNum(statusId));
 			FStatusItems.insert(statusId,status);
+			wd->setProperty(STR_STATUSID,statusId);
 		}
         else if (status.name!=name || status.show!=show || status.messageText!=text || status.priority!=priority)
 		{
 			FStatusChanger->updateStatusItem(statusId,name,show,text,priority);
-            if(status.name!=name)
-                tlbStatus->setItemText(row,name);
-            if(status.show!=show)
-                tlbStatus->setItemIcon(row,FStatusChanger->iconByShow(show));
+			if(status.name!=name)
+				tlbStatus->setItemText(row,name);
+			if(status.show!=show)
+				tlbStatus->setItemIcon(row,FStatusChanger->iconByShow(show));
 		}
 	}
+
 	tlbStatus->setCurrentIndex(0);
-    emit childApply();
+	emit childApply();
 }
 
 void StatusOptionsWidgetMobile::reset()
@@ -157,7 +155,7 @@ void StatusOptionsWidgetMobile::reset()
             status.name         = FStatusChanger->statusItemName(statusId);
             status.messageText  = FStatusChanger->statusItemText(statusId);
             status.priority     = FStatusChanger->statusItemPriority(statusId);
-            status.fullFileName="";
+
             FStatusItems.insert(statusId,status);
 
             QIcon icon=FStatusChanger->iconByShow(status.show);
@@ -169,17 +167,20 @@ void StatusOptionsWidgetMobile::reset()
 
 			QLabel *lblStatus=new QLabel(tr("Status"));
 			QComboBox *show = getComboBox();
+			show->setProperty(STR_PROPERTY,STC_STATUS);
 			show->setCurrentText(FStatusChanger->nameByShow(status.show));
 			lotGeneral->insertRow(TB_STATUS,lblStatus,show);
 
 			QLabel *lblName=new QLabel(tr("Name"));
             QLineEdit *name= new QLineEdit;
+			name->setProperty(STR_PROPERTY,STC_NAME);
             name->setText(status.name);
             name->setSizePolicy(WDTSIZEPOLICY);
 			lotGeneral->insertRow(TB_NAME,lblName,name);
 
             QLabel *lblMessage=new QLabel(tr("Message"));
 			QLineEdit *txtMessage= new QLineEdit;
+			txtMessage->setProperty(STR_PROPERTY,STC_MESSAGE);
             txtMessage->setSizePolicy(WDTSIZEPOLICY);
             txtMessage->setText(status.messageText);
 			connect(txtMessage,SIGNAL(textChanged(QString)),SIGNAL(modified()));
@@ -187,6 +188,7 @@ void StatusOptionsWidgetMobile::reset()
 
             QLabel *lblSpinBox=new QLabel(tr("Priority"));
 			QSpinBox *spinBox=getSpinBox();
+			spinBox->setProperty(STR_PROPERTY,STC_PRIORITY);
 			spinBox->setValue(status.priority);
 			connect(spinBox,SIGNAL(valueChanged(int)),SIGNAL(modified()));
             lotGeneral->insertRow(TB_PRIORITY,lblSpinBox,spinBox);
@@ -217,10 +219,12 @@ void StatusOptionsWidgetMobile::reset()
 				txtMessage->setProperty("FLAG",QString().setNum(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable));
 				spinBox->setProperty("FLAG",QString().setNum(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable));
 			}
+
             //!----------need scale  icon !!!
 			tlbStatus->addItem(tabGeneral,icon,itemText);
         }
     }
+
 	tlbStatus->setCurrentIndex(0);
 	onCurrentChanged(0);
     emit childReset();
@@ -238,28 +242,31 @@ void StatusOptionsWidgetMobile::onAddButtonClicked()
 	QFormLayout *lotGeneral = new QFormLayout(tabGeneral);
 	lotGeneral->setRowWrapPolicy(QFormLayout::WrapLongRows);
 
+	QLabel *lblStatus=new QLabel(tr("Status"));
+	QComboBox *show = getComboBox();
+	show->setProperty(STR_PROPERTY,STC_STATUS);
+	show->setCurrentIndex(0);
+	lotGeneral->insertRow(TB_STATUS,lblStatus,show);
+
     QLabel *lblName=new QLabel(tr("Name"));
 	QLineEdit *name= new QLineEdit;
+	name->setProperty(STR_PROPERTY,STC_NAME);
     name->setText(tr("New Name"));
     lotGeneral->insertRow(TB_NAME,lblName,name);
 
-    QLabel *lblStatus=new QLabel(tr("Status"));
-    QComboBox *show = getComboBox();
-    show->setCurrentIndex(0);
-    lotGeneral->insertRow(TB_STATUS,lblStatus,show);
-
     QLabel *lblMessage=new QLabel(tr("Message"));
     QLineEdit *txtMessage= new QLineEdit;
+	txtMessage->setProperty(STR_PROPERTY,STC_MESSAGE);
     txtMessage->setText(tr("New Message"));
     lotGeneral->insertRow(TB_MESSAGE,lblMessage,txtMessage);
 
     QLabel *lblSpinBox=new QLabel(tr("Priority"));
     QSpinBox *spinBox=getSpinBox();
+	spinBox->setProperty(STR_PROPERTY,STC_PRIORITY);
     spinBox->setValue(30);
     lotGeneral->insertRow(TB_PRIORITY,lblSpinBox,spinBox);
 
-    tlbStatus->addItem(tabGeneral,tr("New Status"));
-
+	tlbStatus->addItem(tabGeneral,tr("New Status"));
     emit modified();
 }
 
