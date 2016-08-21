@@ -4,6 +4,10 @@
 #include <definitions/optionvalues.h>
 #include "autorulesoptionsdialog.h"
 
+#ifdef EYECU_MOBILE
+#include "autostatustoolbox.h"
+#endif
+
 AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStatusChanger *AStatusChanger, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
@@ -29,8 +33,20 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 #else
         connect(ui.lneAwayText,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
 #endif
-
 	connect(ui.chbOfflineEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
+
+#ifdef EYECU_MOBILE
+	ui.lblShowRules->setVisible(false);
+	QLabel *lblRules= new QLabel(tr("Rules for the automatic change of status"));
+	lblRules->setStyleSheet(QString("background-color:#039702; color:white;"));
+	QFont font=lblRules->font();
+	font.setBold(true);
+	font.setPointSizeF(font.pointSizeF()*1.1);
+	lblRules->setFont(font);
+	lblRules->setWordWrap(true);
+	ui.vLayout->addWidget(lblRules);
+	ui.vLayout->addWidget(new AutoStatusToolBox(FAutoStatus,FStatusChanger,this));
+#endif
 
 	reset();
 }

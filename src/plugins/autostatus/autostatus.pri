@@ -1,10 +1,12 @@
 FORMS = autostatusoptionswidget.ui \
-    $$PWD/autostatusoptionswidget2.ui
+        autostatusoptionswidget2.ui
 
 HEADERS = autostatus.h \
           autostatusoptionswidget.h \
-          autorulesoptionsdialog.h
+          autorulesoptionsdialog.h \
+    $$PWD/autostatustoolbox.h
 
 SOURCES = autostatus.cpp \
           autostatusoptionswidget.cpp \
-          autorulesoptionsdialog.cpp
+          autorulesoptionsdialog.cpp \
+    $$PWD/autostatustoolbox.cpp
