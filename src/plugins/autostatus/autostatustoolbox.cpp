@@ -1,3 +1,4 @@
+#include <QDebug>
 
 #include "autostatustoolbox.h"
 
@@ -14,6 +15,7 @@ enum RulesTableRoles {
 	SDR_VALUE = Qt::UserRole+1
 };
 
+#define     STR_PROPERTY        "SDR_VALUE"
 
 AutoStatusToolBox::AutoStatusToolBox(IAutoStatus *AAutoStatus, IStatusChanger *AStatusChanger, QWidget *AParent) :
 	QWidget(AParent)
@@ -38,45 +40,10 @@ void AutoStatusToolBox::setupUi()
 
 	toolBox = new QToolBox(this);
 	toolBox->setFrameStyle(QFrame::Panel | QFrame::Raised);
-//	toolBox->setFrameShape(QFrame::Box);
-//	toolBox->setFrameShadow(QFrame::Sunken);
-
-	for(int i=0;i<3;i++)
-	{
-		QWidget *page = new QWidget(toolBox);
-		QFormLayout *formLayout = new QFormLayout(page);
-		formLayout->setContentsMargins(2, 2, 2, 2);
-
-		QCheckBox *chBoxEnabled = new QCheckBox(page);
-		formLayout->setWidget(RTC_ENABLED, QFormLayout::LabelRole,chBoxEnabled);
-		QLabel *label = new QLabel(tr("Enabled"),page);
-		formLayout->setWidget(RTC_ENABLED, QFormLayout::FieldRole,label);
-
-		QLabel *lblTime = new QLabel(tr("Time"),page);
-		formLayout->setWidget(RTC_TIME, QFormLayout::LabelRole,lblTime);
-//		QTimeEdit *timeEdit = new QTimeEdit(page);
-//		formLayout->setWidget(RTC_TIME, QFormLayout::FieldRole,timeEdit);
-		QSpinBox *spinBoxTime = new QSpinBox(page);
-		formLayout->setWidget(RTC_TIME, QFormLayout::FieldRole,spinBoxTime);
-
-		QLabel *lblStatus = new QLabel(tr("Status"),page);
-		formLayout->setWidget(RTC_SHOW, QFormLayout::LabelRole,lblStatus);
-		QComboBox *comboBox = getComboBox();
-		formLayout->setWidget(RTC_SHOW, QFormLayout::FieldRole,comboBox);
-
-		QLabel *lblPriority = new QLabel(tr("Priority"),page);
-		formLayout->setWidget(RTC_PRIORITY, QFormLayout::LabelRole,lblPriority);
-		QSpinBox *spinBox = getSpinBox();//new QSpinBox(page);
-		formLayout->setWidget(RTC_PRIORITY, QFormLayout::FieldRole,spinBox);
-
-		QLabel *lblText = new QLabel(tr("Text"),page);
-		formLayout->setWidget(RTC_TEXT, QFormLayout::LabelRole,lblText);
-		QPlainTextEdit *plainTextEdit = new QPlainTextEdit(page);
-		formLayout->setWidget(RTC_TEXT, QFormLayout::FieldRole,plainTextEdit);
-
-		toolBox->addItem(page, QString("Page %1").arg(QString().setNum(i)));
-
-	}
+	//!---
+	foreach(const QUuid &ruleId, FAutoStatus->rules())
+		appendTableRow(ruleId, FAutoStatus->ruleValue(ruleId));
+	//!---
 	verticalLayout->addWidget(toolBox);
 	toolBox->setCurrentIndex(0);
 	//------------------
@@ -87,12 +54,74 @@ void AutoStatusToolBox::setupUi()
 	horLayoutPbutt->addWidget(pbtDelete);
 	QSpacerItem *horizontalSpacer = new QSpacerItem(20,20,QSizePolicy::Expanding, QSizePolicy::Minimum);
 	horLayoutPbutt->addItem(horizontalSpacer);
+
 	dbbButtonBox = new QDialogButtonBox(this);
 	dbbButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+	connect(dbbButtonBox,SIGNAL(clicked(QAbstractButton *)),SLOT(onDialogButtonBoxClicked(QAbstractButton *)));
 	horLayoutPbutt->addWidget(dbbButtonBox);
 	verticalLayout->addLayout(horLayoutPbutt);
 }
 
+void AutoStatusToolBox::appendTableRow(const QUuid &ARuleId, const IAutoStatusRule &ARule)
+{
+	{
+		QWidget *page = new QWidget(toolBox);
+		QFormLayout *formLayout = new QFormLayout(page);
+		formLayout->setContentsMargins(2, 2, 2, 2);
+
+		QLabel *label = new QLabel(tr("Enabled"),page);
+		formLayout->setWidget(RTC_ENABLED, QFormLayout::FieldRole,label);
+		QCheckBox *chBoxEnabled = new QCheckBox(page);
+		chBoxEnabled->setCheckState(FAutoStatus->isRuleEnabled(ARuleId) ? Qt::Checked : Qt::Unchecked);
+		chBoxEnabled->setProperty(STR_PROPERTY,ARuleId.toString());
+		formLayout->setWidget(RTC_ENABLED, QFormLayout::LabelRole,chBoxEnabled);
+
+		QLabel *lblTime = new QLabel(tr("Time"),page);
+		formLayout->setWidget(RTC_TIME, QFormLayout::LabelRole,lblTime);
+		QSpinBox *spinBoxTime = new QSpinBox(page);
+		spinBoxTime->setSuffix(tr(" minutes"));
+		spinBoxTime->setMinimum(0);
+		spinBoxTime->setMaximum(24*60);
+		spinBoxTime->setValue(ARule.time/60);
+		spinBoxTime->setProperty(STR_PROPERTY,ARule.time/60);
+		formLayout->setWidget(RTC_TIME, QFormLayout::FieldRole,spinBoxTime);
+
+		QLabel *lblStatus = new QLabel(tr("Status"),page);
+		formLayout->setWidget(RTC_SHOW, QFormLayout::LabelRole,lblStatus);
+		QComboBox *show = getComboBox();
+		show->setCurrentText(FStatusChanger->nameByShow(ARule.show));
+		formLayout->setWidget(RTC_SHOW, QFormLayout::FieldRole,show);
+
+		QLabel *lblPriority = new QLabel(tr("Priority"),page);
+		formLayout->setWidget(RTC_PRIORITY, QFormLayout::LabelRole,lblPriority);
+		QSpinBox *spinBox = getSpinBox();
+		spinBox->setValue(ARule.priority);
+		spinBox->setProperty(STR_PROPERTY,ARule.priority);
+		formLayout->setWidget(RTC_PRIORITY, QFormLayout::FieldRole,spinBox);
+
+		QLabel *lblText = new QLabel(tr("Text"),page);
+		formLayout->setWidget(RTC_TEXT, QFormLayout::LabelRole,lblText);
+		QTextEdit *textEdit = new QTextEdit(page);
+		formLayout->setWidget(RTC_TEXT, QFormLayout::FieldRole,textEdit);
+		textEdit->setText(ARule.text);
+		textEdit->setProperty(STR_PROPERTY,ARule.text);
+
+		QString statusName=FStatusChanger->nameByShow(ARule.show);
+		QIcon icon=FStatusChanger->iconByShow(ARule.show);
+		toolBox->addItem(page,icon,statusName);
+
+	}
+}
+
+void AutoStatusToolBox::onRuledItemSelectionChanged()
+{
+
+}
+
+void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
+{
+
+}
 
 QComboBox *AutoStatusToolBox::getComboBox()
 {
@@ -137,4 +166,5 @@ int AutoStatusToolBox::getCurrentStatus(int AIndex)
 	}
 	return 0;
 }
+
 

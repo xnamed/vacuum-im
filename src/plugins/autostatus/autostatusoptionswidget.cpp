@@ -37,7 +37,7 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 
 #ifdef EYECU_MOBILE
 	ui.lblShowRules->setVisible(false);
-	QLabel *lblRules= new QLabel(tr("Rules for the automatic change of status"));
+	QLabel *lblRules= new QLabel(tr("Auto Status Rules"));
 	lblRules->setStyleSheet(QString("background-color:#039702; color:white;"));
 	QFont font=lblRules->font();
 	font.setBold(true);

@@ -40,6 +40,11 @@ protected:
 	QSpinBox *getSpinBox();
 	QTimeEdit *getTimeEdit();
 	int getCurrentStatus(int AIndex);
+protected:
+	void appendTableRow(const QUuid &ARuleId, const IAutoStatusRule &ARule);
+protected slots:
+	void onRuledItemSelectionChanged();
+	void onDialogButtonBoxClicked(QAbstractButton *AButton);
 private:
 	IAutoStatus *FAutoStatus;
 	IStatusChanger *FStatusChanger;
