@@ -76,6 +76,9 @@
           <property name="text">
            <string>Change status to</string>
           </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item row="1" column="1">
@@ -120,6 +123,9 @@
            <widget class="QLabel" name="label_3">
             <property name="text">
              <string> of inactivity </string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -235,6 +241,9 @@
          <widget class="QLabel" name="label">
           <property name="text">
            <string>Automatically disconnect</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

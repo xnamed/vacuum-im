@@ -45,7 +45,9 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	lblRules->setFont(font);
 	lblRules->setWordWrap(true);
 	ui.vLayout->addWidget(lblRules);
-	ui.vLayout->addWidget(new AutoStatusToolBox(FAutoStatus,FStatusChanger,this));
+	AutoStatusToolBox *dialog=new AutoStatusToolBox(FAutoStatus,FStatusChanger,this);
+	connect(dialog,SIGNAL(m_accepted()),SLOT(reset()));
+	ui.vLayout->addWidget(dialog);
 #endif
 
 	reset();

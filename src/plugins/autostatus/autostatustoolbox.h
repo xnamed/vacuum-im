@@ -34,16 +34,19 @@ class AutoStatusToolBox : public QWidget
 public:
 	explicit AutoStatusToolBox(IAutoStatus *AAutoStatus, IStatusChanger *AStatusChanger, QWidget *AParent = NULL);
 	~AutoStatusToolBox();
-	void setupUi();
+signals:
+	void m_accepted();
 protected:
-	QComboBox *getComboBox();
-	QSpinBox *getSpinBox();
+	QComboBox *getComboBox(QWidget *page=0);
+	QSpinBox *getSpinBox(QWidget *page=0);
+	QSpinBox *getSpinBoxTime(QWidget *page=0);
 	QTimeEdit *getTimeEdit();
 	int getCurrentStatus(int AIndex);
 protected:
-	void appendTableRow(const QUuid &ARuleId, const IAutoStatusRule &ARule);
+	void appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule);
+	void appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule,bool AEn);
 protected slots:
-	void onRuledItemSelectionChanged();
+	void onRuledItemSelectionChanged(int);
 	void onDialogButtonBoxClicked(QAbstractButton *AButton);
 private:
 	IAutoStatus *FAutoStatus;
