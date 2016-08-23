@@ -33,11 +33,8 @@ AutoStatusToolBox::AutoStatusToolBox(IAutoStatus *AAutoStatus, IStatusChanger *A
 	toolBox->setFrameStyle(QFrame::Panel | QFrame::Raised);
 	toolBox->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
-qDebug()<<"AutoStatusToolBox/FAutoStatus->rules()"<<FAutoStatus->rules().size();
-
 	foreach(const QUuid &ruleId, FAutoStatus->rules())
 		appendTableCol(ruleId, FAutoStatus->ruleValue(ruleId));
-
 	verticalLayout->addWidget(toolBox);
 	toolBox->setCurrentIndex(0);
 	//---
@@ -107,7 +104,7 @@ void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRu
 	QString statusName=FStatusChanger->nameByShow(ARule.show);
 	QIcon icon=FStatusChanger->iconByShow(ARule.show);
 	toolBox->addItem(page,icon,statusName);
-qDebug()<<"appendTableCol/toolBox->count()"<<toolBox->count();
+
 }
 
 void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule, bool AEn)
@@ -152,7 +149,7 @@ void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRu
 	QString statusName=FStatusChanger->nameByShow(ARule.show);
 	QIcon icon=FStatusChanger->iconByShow(ARule.show);
 	toolBox->addItem(page,icon,statusName);
-qDebug()<<"appendTableCol-2/toolBox->count()"<<toolBox->count();
+
 }
 
 void AutoStatusToolBox::onRuledItemSelectionChanged(int)
@@ -205,9 +202,6 @@ void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
 			rule.text	  = allTextEdit.at(0)->toPlainText();
 			rule.priority = allSpinBox.at(1)->value();
 
-qDebug()<<"onDialogButtonBoxClicked/checkState"<<row<<allCheckBox.at(0)->checkState()<<"Time"<<rule.time<<rule.priority<<"status"<<rule.show;
-
-			//QUuid ruleId = tbwRules->item(row,RTC_ENABLED)->data(SDR_VALUE).toString();
 			QUuid ruleId = allCheckBox.at(0)->property(SDR_VALUE).toString();
 			if (!ruleId.isNull())
 			{
@@ -218,23 +212,20 @@ qDebug()<<"onDialogButtonBoxClicked/checkState"<<row<<allCheckBox.at(0)->checkSt
 			}
 			else
 			{
-//tbwRules->item(row,RTC_ENABLED)->setData(SDR_VALUE,ruleId.toString());
 				ruleId = FAutoStatus->insertRule(rule);
 				allCheckBox.at(0)->setProperty(SDR_VALUE,ruleId.toString());
 			}
 			bool st=allCheckBox.at(0)->checkState()==Qt::Checked;
 			FAutoStatus->setRuleEnabled(ruleId,st);
-//			FAutoStatus->setRuleEnabled(ruleId,tbwRules->item(row,RTC_ENABLED)->checkState()==Qt::Checked);
 		}
 		toolBox->setCurrentIndex(0);
 		foreach(const QUuid &ruleId, oldRules)
 			FAutoStatus->removeRule(ruleId);
-
 		emit m_accepted(); //accept();
 	}
 	else if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::RejectRole)
 	{
-		//reject();
+		//reject();-???
 	}
 }
 
@@ -272,7 +263,7 @@ QSpinBox *AutoStatusToolBox::getSpinBoxTime(QWidget *page)
 
 QTimeEdit *AutoStatusToolBox::getTimeEdit()
 {
-	QTimeEdit *timeEdit = new QTimeEdit;//AParent
+	QTimeEdit *timeEdit = new QTimeEdit;
 	timeEdit->setDisplayFormat("HH:mm:ss");
 	return timeEdit;
 }

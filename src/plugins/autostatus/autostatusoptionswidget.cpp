@@ -19,12 +19,13 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::DoNotDisturb),FStatusChanger->nameByShow(IPresence::DoNotDisturb),IPresence::DoNotDisturb);
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::ExtendedAway),FStatusChanger->nameByShow(IPresence::ExtendedAway),IPresence::ExtendedAway);
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::Invisible),FStatusChanger->nameByShow(IPresence::Invisible),IPresence::Invisible);
-
+#ifdef EYECU_MOBILE
+	ui.lblShowRules->setVisible(false);
+#else
 	ui.lblShowRules->setText(QString("<a href='show-rules'>%1</a>").arg(tr("Show all rules for the automatic change of status...")));
 	connect(ui.lblShowRules,SIGNAL(linkActivated(const QString &)),SLOT(onShowRulesLinkActivayed()));
-
+#endif
 	connect(ui.tlbAwayHelp,SIGNAL(clicked(bool)),SLOT(onHelpButtonClicked()));
-
 	connect(ui.chbAwayEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
 	connect(ui.cmbAwayStatus,SIGNAL(currentIndexChanged(int)),SIGNAL(modified()));
 	connect(ui.spbAwayTime,SIGNAL(valueChanged(int)),SIGNAL(modified()));
@@ -36,8 +37,6 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	connect(ui.chbOfflineEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
 
 #ifdef EYECU_MOBILE
-	ui.lblShowRules->setVisible(false);
-
 	QLabel *lblRules= new QLabel(tr("Auto Status Rules"));
 	lblRules->setStyleSheet(QString("background-color:#039702; color:white;"));
 	QFont font=lblRules->font();
