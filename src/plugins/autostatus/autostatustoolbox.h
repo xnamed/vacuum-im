@@ -46,16 +46,17 @@ protected:
 	void appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule);
 	void appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule,bool AEn);
 protected slots:
-	void onRuledItemSelectionChanged(int);
+    void onRuledItemSelectionChanged(int AIndex);
 	void onDialogButtonBoxClicked(QAbstractButton *AButton);
 private:
-	IAutoStatus *FAutoStatus;
-	IStatusChanger *FStatusChanger;
+    IAutoStatus     *FAutoStatus;
+    IStatusChanger  *FStatusChanger;
 private:
-	QToolBox *toolBox;
-	QPushButton *pbtAdd;
-	QPushButton *pbtDelete;
+    QToolBox        *toolBox;
+    QPushButton     *pbtAdd;
+    QPushButton     *pbtDelete;
 	QDialogButtonBox *dbbButtonBox;
+    bool            FlagAddDel;
 
 };
 

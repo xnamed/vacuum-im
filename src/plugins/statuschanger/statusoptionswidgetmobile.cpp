@@ -267,6 +267,8 @@ void StatusOptionsWidgetMobile::onAddButtonClicked()
     lotGeneral->insertRow(TB_PRIORITY,lblSpinBox,spinBox);
 
 	tlbStatus->addItem(tabGeneral,tr("New Status"));
+    tlbStatus->setCurrentIndex(row);
+    onCurrentChanged(row);
     emit modified();
 }
 
@@ -278,7 +280,7 @@ void StatusOptionsWidgetMobile::onDeleteButtonClicked()
     //for (int row=0; row<tlbStatus->count(); row++)
     {
         int row=tlbStatus->currentIndex();
-//        tlbStatus->setCurrentIndex(row);
+        //tlbStatus->setCurrentIndex(row);
         QWidget *wd=tlbStatus->currentWidget();
         if (wd->property(STR_STATUSID).isValid())
         {
@@ -306,11 +308,12 @@ void StatusOptionsWidgetMobile::onDeleteButtonClicked()
     }
 }
 
-void StatusOptionsWidgetMobile::onCurrentChanged(int)
+void StatusOptionsWidgetMobile::onCurrentChanged(int AIndex)
 {
+    tlbStatus->setCurrentIndex(AIndex);
 	QWidget *wd=tlbStatus->currentWidget();
-	int statusId =wd->property(STR_STATUSID).toInt();
-	if(statusId>STATUS_MAX_STANDART_ID)
+    int statusId =wd->property(STR_STATUSID).toInt();
+    if(statusId>STATUS_MAX_STANDART_ID || statusId==STATUS_NULL_ID)
 		pbtDelete->setEnabled(true);
 	else
 		pbtDelete->setEnabled(false);

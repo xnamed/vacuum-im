@@ -57,7 +57,7 @@ signals:
 protected slots:
     void onAddButtonClicked();
     void onDeleteButtonClicked();
-	void onCurrentChanged(int);
+    void onCurrentChanged(int AIndex);
 protected:
 	QComboBox *getComboBox();
     QSpinBox *getSpinBox();

@@ -4,9 +4,9 @@
 #include <definitions/optionvalues.h>
 #include "autorulesoptionsdialog.h"
 
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE  // *** <<< eyeCU <<< ***
 #include "autostatustoolbox.h"
-#endif
+#endif      // *** >>> eyeCU >>> ***
 
 AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStatusChanger *AStatusChanger, QWidget *AParent) : QWidget(AParent)
 {
@@ -19,9 +19,9 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::DoNotDisturb),FStatusChanger->nameByShow(IPresence::DoNotDisturb),IPresence::DoNotDisturb);
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::ExtendedAway),FStatusChanger->nameByShow(IPresence::ExtendedAway),IPresence::ExtendedAway);
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::Invisible),FStatusChanger->nameByShow(IPresence::Invisible),IPresence::Invisible);
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 	ui.lblShowRules->setVisible(false);
-#else
+#else           // *** >>> eyeCU >>> ***
 	ui.lblShowRules->setText(QString("<a href='show-rules'>%1</a>").arg(tr("Show all rules for the automatic change of status...")));
 	connect(ui.lblShowRules,SIGNAL(linkActivated(const QString &)),SLOT(onShowRulesLinkActivayed()));
 #endif
@@ -29,26 +29,26 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	connect(ui.chbAwayEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
 	connect(ui.cmbAwayStatus,SIGNAL(currentIndexChanged(int)),SIGNAL(modified()));
 	connect(ui.spbAwayTime,SIGNAL(valueChanged(int)),SIGNAL(modified()));
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
         connect(ui.lneAwayText,SIGNAL(textChanged()),SIGNAL(modified()));
-#else
+#else       // *** >>> eyeCU >>> ***
         connect(ui.lneAwayText,SIGNAL(textChanged(const QString &)),SIGNAL(modified()));
 #endif
 	connect(ui.chbOfflineEnable,SIGNAL(stateChanged(int)),SIGNAL(modified()));
 
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 	QLabel *lblRules= new QLabel(tr("Auto Status Rules"));
 	lblRules->setStyleSheet(QString("background-color:#039702; color:white;"));
 	QFont font=lblRules->font();
 	font.setBold(true);
-	font.setPointSizeF(font.pointSizeF()*1.1);
-	lblRules->setFont(font);
+    //font.setPointSizeF(font.pointSizeF()*1.1);
+    lblRules->setFont(font);
 	lblRules->setWordWrap(true);
 	ui.vLayout->addWidget(lblRules);
 	AutoStatusToolBox *dialog=new AutoStatusToolBox(FAutoStatus,FStatusChanger,this);
 	connect(dialog,SIGNAL(m_accepted()),SLOT(reset()));
 	ui.vLayout->addWidget(dialog);
-#endif
+#endif      // *** >>> eyeCU >>> ***
 
 	reset();
 }
@@ -59,9 +59,9 @@ void AutoStatusOptionsWidget::apply()
 	IAutoStatusRule awayRule = FAutoStatus->ruleValue(awayId);
 	awayRule.time = ui.spbAwayTime->value() * 60;
         awayRule.show = ui.cmbAwayStatus->itemData(ui.cmbAwayStatus->currentIndex()).toInt();
-#ifdef EYECU_MOBILE
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
         awayRule.text = ui.lneAwayText->toPlainText();
-#else
+#else       // *** >>> eyeCU >>> ***
         awayRule.text = ui.lneAwayText->text();
 #endif
 	FAutoStatus->updateRule(awayId,awayRule);

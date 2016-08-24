@@ -18,16 +18,19 @@ enum RulesTableRoles {
 
 #define		FLAG			"STR_FLAG"
 #define     SDR_VALUE		"SDR_VALUE"
+#define     AGE_OLD         "AGE_OLD"
+#define     MINTABL         2
 
 AutoStatusToolBox::AutoStatusToolBox(IAutoStatus *AAutoStatus, IStatusChanger *AStatusChanger, QWidget *AParent) :
 	QWidget(AParent)
 {
-	FAutoStatus = AAutoStatus;
-	FStatusChanger = AStatusChanger;
+    FAutoStatus     = AAutoStatus;
+    FStatusChanger  = AStatusChanger;
+    FlagAddDel      = false;
 
 	QVBoxLayout *verticalLayout;
 	verticalLayout = new QVBoxLayout(this);
-	verticalLayout->setContentsMargins(2, 2, 4, 2);
+    verticalLayout->setMargin(0);
 	//!---
 	toolBox = new QToolBox(this);
 	toolBox->setFrameStyle(QFrame::Panel | QFrame::Raised);
@@ -39,19 +42,19 @@ AutoStatusToolBox::AutoStatusToolBox(IAutoStatus *AAutoStatus, IStatusChanger *A
 	toolBox->setCurrentIndex(0);
 	//---
 	dbbButtonBox = new QDialogButtonBox(this);
-	dbbButtonBox->addButton(QDialogButtonBox::Ok);
-	dbbButtonBox->addButton(QDialogButtonBox::Cancel);
+    dbbButtonBox->addButton(QDialogButtonBox::Apply);//  :Ok
 	pbtAdd = dbbButtonBox->addButton(tr("Add"),QDialogButtonBox::ActionRole);
 	pbtDelete = dbbButtonBox->addButton(tr("Delete"),QDialogButtonBox::ActionRole);
 
 	QHBoxLayout *hblButtons = new QHBoxLayout;
-	//hblButtons->addWidget(pbtAdd);
-	//hblButtons->addWidget(pbtDelete);
-	//hblButtons->addStretch();
+    hblButtons->addWidget(pbtAdd);
+    hblButtons->addWidget(pbtDelete);
+    hblButtons->addStretch();
 	hblButtons->addWidget(dbbButtonBox);
 	verticalLayout->addLayout(hblButtons);
 
 	onRuledItemSelectionChanged(0);
+    pbtDelete->setEnabled(false);
 
 	connect(toolBox,SIGNAL(currentChanged(int)),SLOT(onRuledItemSelectionChanged(int)));
 	connect(dbbButtonBox,SIGNAL(clicked(QAbstractButton *)),SLOT(onDialogButtonBoxClicked(QAbstractButton *)));
@@ -65,8 +68,12 @@ AutoStatusToolBox::~AutoStatusToolBox()
 void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule)
 {
 	QWidget *page = new QWidget(toolBox);
+    page->setProperty(AGE_OLD,false);
+
+    int size=IconStorage::iconSize();
 	QFormLayout *formLayout = new QFormLayout(page);
-	formLayout->setContentsMargins(2, 2, 2, 2);
+    formLayout->setRowWrapPolicy(QFormLayout::WrapLongRows);
+    formLayout->setVerticalSpacing(size/4);
 
 	QCheckBox *chBoxEnabled = new QCheckBox(page);
 	chBoxEnabled->setCheckState(FAutoStatus->isRuleEnabled(ARuleId) ? Qt::Checked : Qt::Unchecked);
@@ -104,14 +111,17 @@ void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRu
 	QString statusName=FStatusChanger->nameByShow(ARule.show);
 	QIcon icon=FStatusChanger->iconByShow(ARule.show);
 	toolBox->addItem(page,icon,statusName);
-
 }
 
 void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule, bool AEn)
 {
 	QWidget *page = new QWidget(toolBox);
-	QFormLayout *formLayout = new QFormLayout(page);
-	formLayout->setContentsMargins(2, 2, 2, 2);
+    page->setProperty(AGE_OLD,true);
+
+    int size=IconStorage::iconSize();
+    QFormLayout *formLayout = new QFormLayout(page);
+    formLayout->setRowWrapPolicy(QFormLayout::WrapLongRows);
+    formLayout->setVerticalSpacing(size/4);
 
 	QCheckBox *chBoxEnabled = new QCheckBox(page);
 	chBoxEnabled->setCheckState(AEn ? Qt::Checked : Qt::Unchecked);
@@ -146,16 +156,14 @@ void AutoStatusToolBox::appendTableCol(const QUuid &ARuleId, const IAutoStatusRu
 	formLayout->setWidget(RTC_TEXT, QFormLayout::LabelRole,new QLabel(tr("Text"),page));
 	formLayout->setWidget(RTC_TEXT, QFormLayout::FieldRole,textEdit);
 
-	QString statusName=FStatusChanger->nameByShow(ARule.show);
-	QIcon icon=FStatusChanger->iconByShow(ARule.show);
-	toolBox->addItem(page,icon,statusName);
-
+    QString statusName=tr("New Auto Status");
+    toolBox->addItem(page,statusName);
 }
 
-void AutoStatusToolBox::onRuledItemSelectionChanged(int)
+void AutoStatusToolBox::onRuledItemSelectionChanged(int AIndex)
 {
-	bool st=toolBox->count()>1 ? true : false;
-	pbtDelete->setEnabled(st);
+    toolBox->setCurrentIndex(AIndex);
+    pbtDelete->setEnabled(toolBox->count()>MINTABL ? true : false);
 }
 
 void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
@@ -175,16 +183,24 @@ void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
 		rule.priority = 20;
 		rule.show = IPresence::Away;
 		rule.text = tr("Auto status");
+
+        int row=toolBox->count();
 		appendTableCol(QUuid(),rule,RTC_ENABLED);
+        toolBox->setCurrentIndex(row);
+
+        pbtDelete->setEnabled(toolBox->count()>MINTABL ? true : false);
 	}
 	else if (AButton == pbtDelete)
 	{
-		int row=toolBox->currentIndex();
-		if(row>0)
+        int row=toolBox->currentIndex();
+        if(row>1)    //! minimun 1 or 2 status
+        {
 			toolBox->removeItem(row);
-		toolBox->setCurrentIndex(0);
+            toolBox->setCurrentIndex(0);
+        }
+        pbtDelete->setEnabled(toolBox->count()>MINTABL ? true : false);
 	}
-	else if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::AcceptRole)
+    else if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::ApplyRole)//  AcceptRole
 	{
 		QList<QUuid> oldRules = FAutoStatus->rules();
 		for (int row = 0; row<toolBox->count(); row++)
@@ -217,15 +233,16 @@ void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
 			}
 			bool st=allCheckBox.at(0)->checkState()==Qt::Checked;
 			FAutoStatus->setRuleEnabled(ruleId,st);
+
+            toolBox->setItemIcon(row,FStatusChanger->iconByShow(rule.show));
+            toolBox->setItemText(row,FStatusChanger->nameByShow(rule.show));
 		}
-		toolBox->setCurrentIndex(0);
+
 		foreach(const QUuid &ruleId, oldRules)
 			FAutoStatus->removeRule(ruleId);
+//        toolBox->setCurrentIndex(0);
+
 		emit m_accepted(); //accept();
-	}
-	else if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::RejectRole)
-	{
-		//reject();-???
 	}
 }
 
