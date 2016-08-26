@@ -28,6 +28,13 @@
 #include "utils/qt4qt5compat.h"
 
 
+struct AutoStatusRuleExt
+{
+	IAutoStatusRule rule;
+	QUuid uidId;
+	bool enable;
+};
+
 class AutoStatusToolBox : public QWidget
 {
 	Q_OBJECT
@@ -40,11 +47,10 @@ protected:
 	QComboBox *getComboBox(QWidget *page=0);
 	QSpinBox *getSpinBox(QWidget *page=0);
 	QSpinBox *getSpinBoxTime(QWidget *page=0);
-	QTimeEdit *getTimeEdit();
 	int getCurrentStatus(int AIndex);
 protected:
-	void appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule);
-	void appendTableCol(const QUuid &ARuleId, const IAutoStatusRule &ARule,bool AEn);
+	void getStatusTable(const AutoStatusRuleExt ARuleExt, int ARow);
+	QList<AutoStatusRuleExt> setAutoRules();
 protected slots:
     void onRuledItemSelectionChanged(int AIndex);
 	void onDialogButtonBoxClicked(QAbstractButton *AButton);
@@ -53,11 +59,8 @@ private:
     IStatusChanger  *FStatusChanger;
 private:
     QToolBox        *toolBox;
-    QPushButton     *pbtAdd;
-    QPushButton     *pbtDelete;
+//    QPushButton     *pbtHelp;
 	QDialogButtonBox *dbbButtonBox;
-    bool            FlagAddDel;
-
 };
 
 #endif // AUTOSTATUSTOOLBOX_H

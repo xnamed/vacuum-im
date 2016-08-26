@@ -306,12 +306,11 @@ QString StyleEyecu::toolBox()
 {
     QString style=QString(""
         "QToolBox::tab:selected {font: italic; color: #039702;}"
-    );
+		"QToolBox {icon-size: %1px;}"
+		).arg(FSize);
 
     return style;
 }
-
-
 
 
 /* 039702  //old - 919086  C2C0B5  F6F4E9

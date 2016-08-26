@@ -21,6 +21,8 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	ui.cmbAwayStatus->addItem(FStatusChanger->iconByShow(IPresence::Invisible),FStatusChanger->nameByShow(IPresence::Invisible),IPresence::Invisible);
 #ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 	ui.lblShowRules->setVisible(false);
+	ui.frmChangeStatus->setVisible(false);
+	ui.frmAutoStatus->setVisible(false);
 #else           // *** >>> eyeCU >>> ***
 	ui.lblShowRules->setText(QString("<a href='show-rules'>%1</a>").arg(tr("Show all rules for the automatic change of status...")));
 	connect(ui.lblShowRules,SIGNAL(linkActivated(const QString &)),SLOT(onShowRulesLinkActivayed()));
@@ -38,10 +40,9 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 
 #ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
 	QLabel *lblRules= new QLabel(tr("Auto Status Rules"));
-	lblRules->setStyleSheet(QString("background-color:#039702; color:white;"));
+	//lblRules->setStyleSheet(QString("background-color:#039702; color:white;"));
 	QFont font=lblRules->font();
 	font.setBold(true);
-    //font.setPointSizeF(font.pointSizeF()*1.1);
     lblRules->setFont(font);
 	lblRules->setWordWrap(true);
 	ui.vLayout->addWidget(lblRules);
