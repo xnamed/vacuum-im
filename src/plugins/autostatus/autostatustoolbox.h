@@ -43,6 +43,7 @@ public:
 	~AutoStatusToolBox();
 signals:
 	void m_accepted();
+	void helpButtonClicked();
 protected:
 	QComboBox *getComboBox(QWidget *page=0);
 	QSpinBox *getSpinBox(QWidget *page=0);

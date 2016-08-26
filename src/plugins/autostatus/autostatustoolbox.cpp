@@ -59,8 +59,9 @@ AutoStatusToolBox::AutoStatusToolBox(IAutoStatus *AAutoStatus, IStatusChanger *A
 	toolBox->setCurrentIndex(0);
 	//---
 	dbbButtonBox = new QDialogButtonBox(this);
-    dbbButtonBox->addButton(QDialogButtonBox::Apply);//  :Ok
-//	pbtHelp = dbbButtonBox->addButton(tr("Add"),QDialogButtonBox::ActionRole);
+	dbbButtonBox->addButton(QDialogButtonBox::Apply);//  :Ok
+	dbbButtonBox->addButton(QDialogButtonBox::Help);
+//	pbtHelp = dbbButtonBox->addButton(tr("Add"),QDialogButtonBox::ActionRole);//tlbAwayHelp
 
 	QHBoxLayout *hblButtons = new QHBoxLayout;
 //    hblButtons->addWidget(pbtAdd);
@@ -149,13 +150,11 @@ void AutoStatusToolBox::onRuledItemSelectionChanged(int AIndex)
 
 void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
 {
-/*	if (AButton == pbtHelp)
+	if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::HelpRole)
 	{
-
+		emit helpButtonClicked();
 	}
-	else
-*/
-	if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::ApplyRole)//  AcceptRole
+	else if (dbbButtonBox->buttonRole(AButton) == QDialogButtonBox::ApplyRole)//  AcceptRole
 	{
 		QList<QUuid> oldRules = FAutoStatus->rules();
 		for (int row = 0; row<toolBox->count(); row++)
@@ -194,7 +193,6 @@ void AutoStatusToolBox::onDialogButtonBoxClicked(QAbstractButton *AButton)
 				allCheckBox.at(0)->setProperty(SDR_VALUE,ruleId.toString());
 			}
 			bool st=allCheckBox.at(0)->checkState()==Qt::Checked;
-
 			FAutoStatus->setRuleEnabled(ruleId,st);
 
             toolBox->setItemIcon(row,FStatusChanger->iconByShow(rule.show));

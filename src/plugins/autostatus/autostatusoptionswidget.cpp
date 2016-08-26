@@ -48,6 +48,7 @@ AutoStatusOptionsWidget::AutoStatusOptionsWidget(IAutoStatus *AAutoStatus, IStat
 	ui.vLayout->addWidget(lblRules);
 	AutoStatusToolBox *dialog=new AutoStatusToolBox(FAutoStatus,FStatusChanger,this);
 	connect(dialog,SIGNAL(m_accepted()),SLOT(reset()));
+	connect(dialog,SIGNAL(helpButtonClicked()),SLOT(onHelpButtonClicked()));
 	ui.vLayout->addWidget(dialog);
 #endif      // *** >>> eyeCU >>> ***
 
