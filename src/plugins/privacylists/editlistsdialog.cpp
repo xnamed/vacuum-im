@@ -26,6 +26,8 @@ EditListsDialog::EditListsDialog(IPrivacyLists *APrivacyLists, IRoster *ARoster,
     ui.lblIcon->setPixmap(pixmap);
     ui.lblTitle->setText(tr("Edit Privacy Lists - %1").arg(AStreamJid.uBare()));
 	ui.verticalLayouMain->setSpacing(IconStorage::iconSize()/4);
+	ui.ltwLists->setWordWrap(true);
+	ui.ltwRules->setWordWrap(true);
 #else               // *** >>> eyeCU >>> ***
 	setWindowTitle(tr("Edit Privacy Lists - %1").arg(AStreamJid.uBare()));
 	IconStorage::staticStorage(RSR_STORAGE_MENUICONS)->insertAutoIcon(this,MNI_PRIVACYLISTS,0,0,"windowIcon");
