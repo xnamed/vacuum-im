@@ -99,10 +99,10 @@ MultiUserChatWindow::MultiUserChatWindow(IMultiUserChatManager *AChatPlugin, IMu
 	ui.ltvUsers->setModel(FUsersProxy);
 	ui.ltvUsers->viewport()->installEventFilter(this);
 	connect(ui.ltvUsers,SIGNAL(doubleClicked(const QModelIndex &)),SLOT(onMultiChatUserItemDoubleClicked(const QModelIndex &)));
-
+#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
 	ui.sprHSplitter->installEventFilter(this);
 	connect(ui.sprHSplitter,SIGNAL(splitterMoved(int,int)),SLOT(onMultiChatHorizontalSplitterMoved(int,int)));
-
+#endif  // *** >>> eyeCU >>> ***
 	FStatusIcons = PluginHelper::pluginInstance<IStatusIcons>();
 	if (FStatusIcons)
 	{
@@ -1800,7 +1800,7 @@ void MultiUserChatWindow::showEvent(QShowEvent *AEvent)
 	}
 
 	QMainWindow::showEvent(AEvent);
-	
+#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
 	QList<int> splitterSizes = ui.sprHSplitter->sizes();
 	int usersListIndex = ui.sprHSplitter->indexOf(ui.ltvUsers);
 	if (FUsersListWidth>0 && usersListIndex>0 && splitterSizes.value(usersListIndex)!=FUsersListWidth)
@@ -1809,7 +1809,7 @@ void MultiUserChatWindow::showEvent(QShowEvent *AEvent)
 		splitterSizes[usersListIndex] = FUsersListWidth;
 		ui.sprHSplitter->setSizes(splitterSizes);
 	}
-	
+#endif  // *** >>> eyeCU >>> ***
 	if (FEditWidget)
 		FEditWidget->textEdit()->setFocus();
 	
@@ -1897,6 +1897,7 @@ bool MultiUserChatWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 			}
 		}
 	}
+#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
 	else if (AObject == ui.sprHSplitter)
 	{
 		if (AEvent->type() == QEvent::Resize)
@@ -1918,6 +1919,7 @@ bool MultiUserChatWindow::eventFilter(QObject *AObject, QEvent *AEvent)
 			}
 		}
 	}
+#endif  // *** >>> eyeCU >>> ***
 	return QMainWindow::eventFilter(AObject,AEvent);
 }
 // *** <<< eyeCU <<< ***
@@ -2328,7 +2330,9 @@ void MultiUserChatWindow::onMultiChatEditWidgetKeyEvent(QKeyEvent *AKeyEvent, bo
 void MultiUserChatWindow::onMultiChatHorizontalSplitterMoved(int APos, int AIndex)
 {
 	Q_UNUSED(APos); Q_UNUSED(AIndex);
+#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
 	FUsersListWidth = ui.sprHSplitter->sizes().value(ui.sprHSplitter->indexOf(ui.ltvUsers));
+#endif
 }
 
 void MultiUserChatWindow::onMultiChatUserItemDoubleClicked(const QModelIndex &AIndex)

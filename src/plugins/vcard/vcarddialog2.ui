@@ -94,13 +94,16 @@
      <property name="midLineWidth">
       <number>0</number>
      </property>
+     <property name="tabSpacing">
+      <number>6</number>
+     </property>
      <widget class="QWidget" name="tabGeneral">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>296</width>
-        <height>309</height>
+        <height>291</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -199,7 +202,7 @@
         <x>0</x>
         <y>0</y>
         <width>296</width>
-        <height>309</height>
+        <height>291</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -364,7 +367,7 @@
         <x>0</x>
         <y>0</y>
         <width>296</width>
-        <height>309</height>
+        <height>291</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -374,7 +377,7 @@
        </sizepolicy>
       </property>
       <attribute name="label">
-       <string>Address</string>
+       <string>Address Home</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <property name="leftMargin">
@@ -490,7 +493,22 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="0">
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabAdressWork">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>296</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Address Work</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
         <widget class="MGroupBox" name="grbWorkAdress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -504,7 +522,7 @@
          <property name="flat">
           <bool>true</bool>
          </property>
-         <layout class="QFormLayout" name="lotAdressWork">
+         <layout class="QFormLayout" name="lotAdressWork_2">
           <property name="verticalSpacing">
            <number>6</number>
           </property>
@@ -596,7 +614,7 @@
         <x>0</x>
         <y>0</y>
         <width>296</width>
-        <height>309</height>
+        <height>291</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -786,7 +804,7 @@
         <x>0</x>
         <y>0</y>
         <width>296</width>
-        <height>309</height>
+        <height>291</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -1014,7 +1032,7 @@
         <x>0</x>
         <y>0</y>
         <width>296</width>
-        <height>309</height>
+        <height>291</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -1044,13 +1062,6 @@
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
     </widget>
    </item>
    <item>
@@ -1086,11 +1097,6 @@
   <tabstop>lneHomeState</tabstop>
   <tabstop>lneHomeZip</tabstop>
   <tabstop>lneHomeCountry</tabstop>
-  <tabstop>lneWorkStreet</tabstop>
-  <tabstop>lneWorkCity</tabstop>
-  <tabstop>lneWorkState</tabstop>
-  <tabstop>lneWorkZip</tabstop>
-  <tabstop>lneWorkCountry</tabstop>
   <tabstop>ltwEmails</tabstop>
   <tabstop>ltwPhones</tabstop>
   <tabstop>tlbEmailAdd</tabstop>

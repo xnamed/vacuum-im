@@ -13,7 +13,12 @@ StyleEditOptionsDialog::StyleEditOptionsDialog(IMessageStyleManager *AMessageSty
 	ui.setupUi(this);
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
-	ui.lblPreview->setText(QString("<h2>%1</h2>").arg(tr("Preview")));
+
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    ui.lblPreview->setText(QString("<b>%1</b>").arg(tr("Preview")));
+#else   // *** >>> eyeCU >>> ***
+    ui.lblPreview->setText(QString("<h2>%1</h2>").arg(tr("Preview")));
+#endif
 
 	FUpdateStarted = false;
 	FMessageStyleManager = AMessageStyles;

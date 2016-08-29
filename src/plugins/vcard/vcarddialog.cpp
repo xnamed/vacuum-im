@@ -27,10 +27,11 @@ VCardDialog::VCardDialog(IVCardManager *AVCardPlugin, const Jid &AStreamJid, con
     QIcon icon(iconStorage->getStoragePixmap(iconStorage->fileFullName(MNI_BOOKMARKS)));//temp icon-
     ui.twtVCard->setItemIcon(0,icon);//tabGeneral
 	ui.twtVCard->setItemIcon(1,icon);//tabPersonal
-	ui.twtVCard->setItemIcon(2,icon);//tabAdress
-	ui.twtVCard->setItemIcon(3,icon);//tabContacts
-	ui.twtVCard->setItemIcon(4,icon);//tabPhoto
-	ui.twtVCard->setItemIcon(5,icon);//tabComments
+    ui.twtVCard->setItemIcon(2,icon);//tabAdress home
+    ui.twtVCard->setItemIcon(3,icon);//tabAdress work
+    ui.twtVCard->setItemIcon(4,icon);//tabContacts
+    ui.twtVCard->setItemIcon(5,icon);//tabPhoto
+    ui.twtVCard->setItemIcon(6,icon);//tabComments
     ui.twtVCard->adjustSize();
 #else
 	setWindowTitle(tr("Profile - %1").arg(AContactJid.uFull()));

@@ -9,9 +9,14 @@
 AdiumOptionsWidget::AdiumOptionsWidget(AdiumMessageStyleEngine *AEngine, const OptionsNode &ANode, QWidget *AParent) : QWidget(AParent)
 {
 	ui.setupUi(this);
+
+#ifdef EYECU_MOBILE     // *** <<< eyeCU <<< ***
+    ui.lblParameters->setText(QString("<b>%1</b>").arg(tr("Parameters")));
+    ui.lblBackground->setText(QString("<b>%1</b>").arg(tr("Background")));
+#else       // *** >>> eyeCU >>> ***
 	ui.lblParameters->setText(QString("<h2>%1</h2>").arg(tr("Parameters")));
 	ui.lblBackground->setText(QString("<h2>%1</h2>").arg(tr("Background")));
-
+#endif
 	FStyleNode = ANode;
 	FStyleEngine = AEngine;
 

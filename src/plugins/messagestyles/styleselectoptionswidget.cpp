@@ -5,6 +5,8 @@
 #include <QGroupBox>
 #include <definitions/optionvalues.h>
 #include <utils/widgetmanager.h>
+#include <utils/iconstorage.h>
+
 #include "styleeditoptionsdialog.h"
 
 #define SEPARATOR  "=||="
@@ -56,16 +58,18 @@ StyleSelectOptionsWidget::StyleSelectOptionsWidget(IMessageStyleManager *AMessag
 
 // *** <<< eyeCU <<< ***
 #ifdef EYECU_MOBILE
+    int size=IconStorage::scale()*8;
 	pbtEdit->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
 	lblType->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     lblType->setWordWrap(true);
     QFont font=lblType->font();font.setBold(true);lblType->setFont(font);
-	cmbStyle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);//Expanding
+    cmbStyle->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);
 
 	QGridLayout *gridLayout=new QGridLayout(this);
-	gridLayout->setMargin(0);
+//    gridLayout->setMargin(4);
+    gridLayout->setVerticalSpacing(size/2);
 	gridLayout->addWidget(lblType,0,0,Qt::AlignLeft);
-	gridLayout->addWidget(pbtEdit,0,1,Qt::AlignRight);
+    gridLayout->addWidget(pbtEdit,0,1,Qt::AlignRight);
 	gridLayout->addWidget(cmbStyle,1,0,1,2,Qt::AlignRight);
 #else
 // *** >>> eyeCU >>> ***

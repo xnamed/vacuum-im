@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>612</height>
+    <width>329</width>
+    <height>533</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -64,6 +64,9 @@
    </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::AdjustToContents</enum>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -72,8 +75,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>316</width>
-        <height>556</height>
+        <width>323</width>
+        <height>477</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -179,21 +182,24 @@
          </property>
          <layout class="QVBoxLayout">
           <property name="leftMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="rightMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QListWidget" name="ltwLists">
             <property name="sizeAdjustPolicy">
              <enum>QAbstractScrollArea::AdjustToContents</enum>
+            </property>
+            <property name="isWrapping" stdset="0">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -259,16 +265,16 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <property name="leftMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="rightMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>4</number>
           </property>
           <item>
            <widget class="QListWidget" name="ltwRules">
@@ -361,11 +367,11 @@
            <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>2</number>
+           <number>4</number>
           </property>
           <item>
-           <layout class="QHBoxLayout">
-            <item>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
              <widget class="QLabel" name="lblType">
               <property name="text">
                <string>if</string>
@@ -378,7 +384,7 @@
               </property>
              </widget>
             </item>
-            <item>
+            <item row="0" column="1">
              <widget class="QComboBox" name="cmbType">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -388,11 +394,7 @@
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
+            <item row="1" column="0">
              <widget class="QLabel" name="lblEqual">
               <property name="text">
                <string>=</string>
@@ -405,7 +407,7 @@
               </property>
              </widget>
             </item>
-            <item>
+            <item row="1" column="1">
              <widget class="QComboBox" name="cmbValue">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -418,11 +420,7 @@
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
+            <item row="2" column="0">
              <widget class="QLabel" name="lblThen">
               <property name="text">
                <string>then</string>
@@ -435,7 +433,7 @@
               </property>
              </widget>
             </item>
-            <item>
+            <item row="2" column="1">
              <widget class="QComboBox" name="cmbAction">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
