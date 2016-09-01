@@ -215,6 +215,10 @@ protected slots:
 	void onDataFormMessageDialogAccepted();
 	void onAffiliationListDialogAccepted();
 	void onConfigFormDialogAccepted();
+#ifdef EYECU_MOBILE // *** <<< eyeCU <<< ***
+    void onUsersListActionTriggered(bool AStatus);
+	void onInfoActionTriggered(bool AStatus);
+#endif    // *** >>> eyeCU >>> ***
 protected slots:
 	void onStatusIconsChanged();
 	void onAutoRejoinAfterKick();
@@ -249,6 +253,10 @@ private:
 	Action *FClearChat;
 	Action *FEnterRoom;
 	Action *FExitRoom;
+#ifdef EYECU_MOBILE // *** <<< eyeCU <<< ***
+    Action *FViewUsersList;
+	Action *FVievInfoWdt;
+#endif    // *** >>> eyeCU >>> ***
 private:
 	Action *FChangeNick;
 	Action *FInviteContact;
@@ -290,6 +298,7 @@ private:
 	QList<QString> FCompleteNicks;
 	QList<QString>::const_iterator FCompleteIt;
 	bool FTemporaryNick; // *** <<< eyeCU >>> ***
+	QString FInfoRoom;	 // *** <<< eyeCU >>> ***
 };
 
 #endif // MULTIUSERCHATWINDOW_H

@@ -127,8 +127,11 @@ bool MessageWidgets::initSettings()
 
 	Options::setDefaultValue(OPV_MESSAGES_SHOWSTATUS,true);
 	Options::setDefaultValue(OPV_MESSAGES_ARCHIVESTATUS,false);
-
+#ifdef EYECU_MOBILE        // *** <<< eyeCU <<< ***
+	Options::setDefaultValue(OPV_MESSAGES_TABWINDOWS_ENABLE,true);
+#else
 	Options::setDefaultValue(OPV_MESSAGES_TABWINDOWS_ENABLE,false);
+#endif
 	Options::setDefaultValue(OPV_MESSAGES_TABWINDOW_NAME,tr("Tab Window"));
 	Options::setDefaultValue(OPV_MESSAGES_TABWINDOW_TABSCLOSABLE,true);
 	Options::setDefaultValue(OPV_MESSAGES_TABWINDOW_TABSBOTTOM,false);
@@ -152,8 +155,8 @@ QMultiMap<int, IOptionsDialogWidget *> MessageWidgets::optionsDialogWidgets(cons
 		widgets.insertMulti(OWO_MESSAGES_LOADHISTORY,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_LOADHISTORY),tr("Load last messages from history"),AParent));
 #ifndef EYECU_MOBILE        // *** <<< eyeCU <<< ***
         widgets.insertMulti(OWO_MESSAGES_COMBINEWITHROSTER,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_COMBINEWITHROSTER),tr("Show message windows together with contacts list"),AParent));
-#endif                      // *** <<< eyeCU <<< ***
-        widgets.insertMulti(OWO_MESSAGES_TABWINDOWSENABLE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE),tr("Show message windows in tab window"),AParent));
+		widgets.insertMulti(OWO_MESSAGES_TABWINDOWSENABLE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_TABWINDOWS_ENABLE),tr("Show message windows in tab window"),AParent));
+#endif					  // *** <<< eyeCU <<< ***
 		widgets.insertMulti(OWO_MESSAGES_EDITORAUTORESIZE,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_EDITORAUTORESIZE),tr("Automatically resize messages input field"),AParent));
 		widgets.insertMulti(OWO_MESSAGES_EDITORMINIMUMLINES,FOptionsManager->newOptionsDialogWidget(Options::node(OPV_MESSAGES_EDITORMINIMUMLINES),tr("Minimum number of lines in messages input field:"),AParent));
 

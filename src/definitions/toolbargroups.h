@@ -62,6 +62,10 @@
 
 //MultiChatWindow - ToolBarWidget
 #define TBG_MCWTBW_BOOKMARKS                                    10200
+// *** <<< eyeCU <<< ***
+#define TBG_MCWTBW_USERSLIST                                    10300
+#define TBG_MCWTBW_INFOCHAT                                     10350
+// *** >>> eyeCU >>> ***
 #define TBG_MCWTBW_ROOM_ENTER                                   10990
 #define TBG_MCWTBW_ROOM_EXIT                                    11000
 

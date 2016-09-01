@@ -119,6 +119,7 @@ void AutoStatusToolBox::getStatusTable(const AutoStatusRuleExt ARuleExt,int ARow
 	QTextEdit *textEdit = new QTextEdit(page);
 	textEdit->setText(ARule.text);
 	textEdit->setProperty(SDR_VALUE,ARule.text);
+    textEdit->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);//textEdit->update();
 
 	QLabel *lblEn;
 	if(ARule.show)

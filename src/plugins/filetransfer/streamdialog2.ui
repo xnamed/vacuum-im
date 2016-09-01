@@ -182,6 +182,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
           </widget>
          </item>
         </layout>

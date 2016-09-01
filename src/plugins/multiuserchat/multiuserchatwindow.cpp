@@ -1,5 +1,5 @@
 #include "multiuserchatwindow.h"
-
+#include <QDebug>	//!----------------
 #include <QPair>
 #include <QTimer>
 #include <QToolTip>
@@ -99,8 +99,10 @@ MultiUserChatWindow::MultiUserChatWindow(IMultiUserChatManager *AChatPlugin, IMu
 	ui.ltvUsers->setModel(FUsersProxy);
 	ui.ltvUsers->viewport()->installEventFilter(this);
 	connect(ui.ltvUsers,SIGNAL(doubleClicked(const QModelIndex &)),SLOT(onMultiChatUserItemDoubleClicked(const QModelIndex &)));
-#ifndef EYECU_MOBILE    // *** <<< eyeCU <<< ***
-	ui.sprHSplitter->installEventFilter(this);
+#ifdef EYECU_MOBILE    // *** <<< eyeCU <<< ***
+	ui.ltvUsers->setVisible(false);
+#else
+    ui.sprHSplitter->installEventFilter(this);
 	connect(ui.sprHSplitter,SIGNAL(splitterMoved(int,int)),SLOT(onMultiChatHorizontalSplitterMoved(int,int)));
 #endif  // *** >>> eyeCU >>> ***
 	FStatusIcons = PluginHelper::pluginInstance<IStatusIcons>();
@@ -949,7 +951,6 @@ void MultiUserChatWindow::createMessageWidgets()
 		ui.wdtInfo->layout()->setMargin(0);
 		FInfoWidget = FMessageWidgets->newInfoWidget(this,ui.wdtInfo);
 		ui.wdtInfo->layout()->addWidget(FInfoWidget->instance());
-
 		ui.wdtView->setLayout(new QVBoxLayout);
 		ui.wdtView->layout()->setMargin(0);
 		FViewWidget = FMessageWidgets->newViewWidget(this,ui.wdtView);
@@ -1061,6 +1062,29 @@ void MultiUserChatWindow::createStaticRoomActions()
 	connect(FExitRoom,SIGNAL(triggered(bool)),SLOT(onRoomActionTriggered(bool)));
 	QToolButton *exitButton = FToolBarWidget->toolBarChanger()->insertAction(FExitRoom, TBG_MCWTBW_ROOM_EXIT);
 	exitButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+#ifdef EYECU_MOBILE // *** <<< eyeCU <<< ***
+    FViewUsersList = new Action(this);
+    FViewUsersList->setText(tr("Users List"));
+	FViewUsersList->setToolTip(tr("Users List"));
+	FViewUsersList->setCheckable(true);
+	FViewUsersList->setChecked(false);
+//	FViewUsersList->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_ENTER_ROOM);//!------------
+	connect(FViewUsersList,SIGNAL(triggered(bool)),SLOT(onUsersListActionTriggered(bool)));
+	QToolButton *usListButton = FToolBarWidget->toolBarChanger()->insertAction(FViewUsersList, TBG_MCWTBW_USERSLIST);
+    usListButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+	FVievInfoWdt= new Action(this);
+	FVievInfoWdt->setText(tr("Info"));
+	FVievInfoWdt->setToolTip(tr("Info"));
+//	FVievInfoWdt->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_ENTER_ROOM);//!------------
+	connect(FVievInfoWdt,SIGNAL(triggered(bool)),SLOT(onInfoActionTriggered(bool)));
+	QToolButton *infoChat = FToolBarWidget->toolBarChanger()->insertAction(FVievInfoWdt,TBG_MCWTBW_INFOCHAT);
+	infoChat->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+
+#endif    // *** >>> eyeCU >>> ***
+
 }
 
 void MultiUserChatWindow::saveWindowState()
@@ -1548,8 +1572,11 @@ void MultiUserChatWindow::updateMultiChatWindow()
 
 	QIcon statusIcon = FStatusIcons!=NULL ? FStatusIcons->iconByJidStatus(contactJid(),FMultiChat->show(),SUBSCRIPTION_BOTH,false) : QIcon();
 	infoWidget()->setFieldValue(IMessageInfoWidget::StatusIcon,statusIcon);
+#ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
+	FInfoRoom=FMultiChat->subject();	// m.b. need do hash<jid,FInfoRoom> ?
+#else		// *** >>> eyeCU >>> ***
 	infoWidget()->setFieldValue(IMessageInfoWidget::StatusText,FMultiChat->subject());
-
+#endif
 	QIcon tabIcon = statusIcon;
 	if (tabPageNotifier() && tabPageNotifier()->activeNotify()>0)
 		tabIcon = tabPageNotifier()->notifyById(tabPageNotifier()->activeNotify()).icon;
@@ -2646,8 +2673,21 @@ void MultiUserChatWindow::onConfigFormDialogAccepted()
 {
 	IDataDialogWidget *dialog = qobject_cast<IDataDialogWidget *>(sender());
 	if (dialog)
-		FMultiChat->sendConfigForm(FDataForms->dataSubmit(dialog->formWidget()->userDataForm()));
+        FMultiChat->sendConfigForm(FDataForms->dataSubmit(dialog->formWidget()->userDataForm()));
 }
+
+#ifdef EYECU_MOBILE // *** <<< eyeCU <<< ***
+void MultiUserChatWindow::onUsersListActionTriggered(bool AStatus)
+{
+	ui.ltvUsers->setVisible(AStatus);
+	FViewUsersList->setChecked(AStatus);
+}
+
+void MultiUserChatWindow::onInfoActionTriggered(bool AStatus)
+{
+
+}
+#endif    // *** >>> eyeCU >>> ***
 
 void MultiUserChatWindow::onStatusIconsChanged()
 {
