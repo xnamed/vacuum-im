@@ -217,7 +217,7 @@ protected slots:
 	void onConfigFormDialogAccepted();
 #ifdef EYECU_MOBILE // *** <<< eyeCU <<< ***
     void onUsersListActionTriggered(bool AStatus);
-	void onInfoActionTriggered(bool AStatus);
+	void onInfoActionTriggered(bool);
 #endif    // *** >>> eyeCU >>> ***
 protected slots:
 	void onStatusIconsChanged();

@@ -5,6 +5,10 @@
     <object mime="image/png">mucconference.png</object>
   </icon>
   <icon>
+    <key>mucConference1</key>
+    <object mime="image/png">mucconference1.png</object>
+  </icon>  
+  <icon>
     <key>mucShowAllRooms</key>
     <object mime="image/png">mucconference.png</object>
   </icon>

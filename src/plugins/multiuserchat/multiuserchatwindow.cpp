@@ -8,6 +8,7 @@
 #include <QInputDialog>
 #include <QCoreApplication>
 #include <QContextMenuEvent>
+#include <QMessageBox>		//---eyeCU---
 #include <definitions/namespaces.h>
 #include <definitions/resources.h>
 #include <definitions/menuicons.h>
@@ -1065,24 +1066,20 @@ void MultiUserChatWindow::createStaticRoomActions()
 
 #ifdef EYECU_MOBILE // *** <<< eyeCU <<< ***
     FViewUsersList = new Action(this);
-    FViewUsersList->setText(tr("Users List"));
 	FViewUsersList->setToolTip(tr("Users List"));
 	FViewUsersList->setCheckable(true);
 	FViewUsersList->setChecked(false);
-//	FViewUsersList->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_ENTER_ROOM);//!------------
+	FViewUsersList->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_CONFERENCE1);//!------------
 	connect(FViewUsersList,SIGNAL(triggered(bool)),SLOT(onUsersListActionTriggered(bool)));
 	QToolButton *usListButton = FToolBarWidget->toolBarChanger()->insertAction(FViewUsersList, TBG_MCWTBW_USERSLIST);
     usListButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 	FVievInfoWdt= new Action(this);
-	FVievInfoWdt->setText(tr("Info"));
-	FVievInfoWdt->setToolTip(tr("Info"));
-//	FVievInfoWdt->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_ENTER_ROOM);//!------------
+	FVievInfoWdt->setToolTip(tr("Information"));
+	FVievInfoWdt->setIcon(RSR_STORAGE_MENUICONS,MNI_CLIENTINFO);
 	connect(FVievInfoWdt,SIGNAL(triggered(bool)),SLOT(onInfoActionTriggered(bool)));
 	QToolButton *infoChat = FToolBarWidget->toolBarChanger()->insertAction(FVievInfoWdt,TBG_MCWTBW_INFOCHAT);
 	infoChat->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-
-
 #endif    // *** >>> eyeCU >>> ***
 
 }
@@ -1573,7 +1570,11 @@ void MultiUserChatWindow::updateMultiChatWindow()
 	QIcon statusIcon = FStatusIcons!=NULL ? FStatusIcons->iconByJidStatus(contactJid(),FMultiChat->show(),SUBSCRIPTION_BOTH,false) : QIcon();
 	infoWidget()->setFieldValue(IMessageInfoWidget::StatusIcon,statusIcon);
 #ifdef EYECU_MOBILE	// *** <<< eyeCU <<< ***
-	FInfoRoom=FMultiChat->subject();	// m.b. need do hash<jid,FInfoRoom> ?
+	FInfoRoom=FMultiChat->subject();
+	if(FInfoRoom.isNull())
+		FVievInfoWdt->setEnabled(false);
+	else
+		FVievInfoWdt->setEnabled(true);
 #else		// *** >>> eyeCU >>> ***
 	infoWidget()->setFieldValue(IMessageInfoWidget::StatusText,FMultiChat->subject());
 #endif
@@ -2683,8 +2684,16 @@ void MultiUserChatWindow::onUsersListActionTriggered(bool AStatus)
 	FViewUsersList->setChecked(AStatus);
 }
 
-void MultiUserChatWindow::onInfoActionTriggered(bool AStatus)
+void MultiUserChatWindow::onInfoActionTriggered(bool)
 {
+	//QMessageBox::information(0,"Information", FInfoRoom);
+	QMessageBox msgBox;
+	msgBox.setIcon(QMessageBox::Information);
+	msgBox.setWindowTitle("Information");
+	msgBox.setTextFormat(Qt::RichText);
+	msgBox.setInformativeText(FInfoRoom);
+	msgBox.exec();
+	msgBox.deleteLater();
 
 }
 #endif    // *** >>> eyeCU >>> ***
