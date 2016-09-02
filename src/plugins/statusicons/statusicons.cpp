@@ -550,7 +550,7 @@ void StatusIcons::onMultiUserContextMenu(IMultiUserChatWindow *AWindow, IMultiUs
 	QString pattern = QString(".*@%1/%2").arg(QRegExp::escape(AUser->contactJid().pDomain())).arg(QRegExp::escape(AUser->nickName()));
 	updateCustomIconMenu(QStringList() << pattern);
 	FCustomIconMenu->setIcon(iconByJidStatus(AUser->contactJid(),IPresence::Online,SUBSCRIPTION_BOTH,false));
-	AMenu->addAction(FCustomIconMenu->menuAction(),AG_MUCM_STATUSICONS,true);
+	AMenu->addAction(FCustomIconMenu->menuAction(),AG_MUCM_STATUSICONS_CUSTOM,true);
 }
 
 void StatusIcons::onOptionsOpened()

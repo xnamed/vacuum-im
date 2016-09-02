@@ -119,7 +119,7 @@ bool OptionsManager::initObjects()
 
 	if (FMainWindowPlugin)
 	{
-        FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FChangeProfileAction,AG_MMENU_OPTIONS,true);
+		FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FChangeProfileAction,AG_MMENU_OPTIONS_OPTIONS,true);
 #ifdef EYECU_MOBILE
         FShowOptionsDialogAction->setEnabled(true);
         QToolButton *button = FMainWindowPlugin->mainWindow()->bottomToolBarChanger()       // Get toolbar changer

@@ -2688,7 +2688,7 @@ void MessageArchiver::onMultiUserContextMenu(IMultiUserChatWindow *AWindow, IMul
 {
 	Menu *menu = createContextMenu(QStringList()<<AWindow->streamJid().pFull(),QStringList()<<AUser->contactJid().pFull(),AMenu);
 	if (!menu->isEmpty())
-		AMenu->addAction(menu->menuAction(),AG_MUCM_ARCHIVER,true);
+		AMenu->addAction(menu->menuAction(),AG_MUCM_ARCHIVER_OPTIONS,true);
 	else
 		delete menu;
 }

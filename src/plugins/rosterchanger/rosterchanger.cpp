@@ -2003,7 +2003,7 @@ void RosterChanger::onMultiUserContextMenu(IMultiUserChatWindow *AWindow, IMulti
 			action->setData(ADR_NAME,AUser->data(MUDR_NICK_NAME));
 			action->setIcon(RSR_STORAGE_MENUICONS,MNI_RCHANGER_ADD_CONTACT);
 			connect(action,SIGNAL(triggered(bool)),SLOT(onShowAddContactDialog(bool)));
-			AMenu->addAction(action,AG_MUCM_ROSTERCHANGER,true);
+			AMenu->addAction(action,AG_MUCM_ROSTERCHANGER_ADD,true);
 		}
 	}
 }

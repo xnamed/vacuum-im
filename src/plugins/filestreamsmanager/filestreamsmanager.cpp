@@ -107,7 +107,7 @@ bool FileStreamsManager::initObjects()
 		connect(action,SIGNAL(triggered(bool)),SLOT(onShowFileStreamsWindow(bool)));
 	
 		if (FMainWindowPlugin)
-			FMainWindowPlugin->mainWindow()->mainMenu()->addAction(action,AG_MMENU_FILESTREAMSMANAGER,true);
+			FMainWindowPlugin->mainWindow()->mainMenu()->addAction(action,AG_MMENU_FILESTREAMS_TRANSFER,true);
 		
 		if (FTrayManager)
 			FTrayManager->contextMenu()->addAction(action, AG_TMTM_FILESTREAMSMANAGER, true);

@@ -81,7 +81,7 @@ bool MainWindowPlugin::initObjects()
 	quitAction->setText(tr("Quit"));
 	quitAction->setIcon(RSR_STORAGE_MENUICONS,MNI_MAINWINDOW_QUIT);
 	connect(quitAction,SIGNAL(triggered()),FPluginManager->instance(),SLOT(quit()));
-	FMainWindow->mainMenu()->addAction(quitAction,AG_MMENU_MAINWINDOW,true);
+	FMainWindow->mainMenu()->addAction(quitAction,AG_MMENU_MAINWINDOW_QUIT,true);
 #ifndef EYECU_MOBILE    // *** <<< eyeCU >>> ***
 	if (FTrayManager)
 	{

@@ -6,14 +6,16 @@
 #define AG_BBM_BOOKMARKS_ITEMS                                  700
 
 //MainWindow  - MainMenu
-#define AG_MMENU_OPTIONS                                        500
+#define AG_MMENU_MULTIUSERCHAT_JOIN                             500
 #define AG_MMENU_ACCOUNTMANAGER                                 500
 #define AG_MMENU_SKINMANAGER                                    500
-#define AG_MMENU_CONSOLE                                        500
-#define AG_MMENU_FILESTREAMSMANAGER                             500
-#define AG_MMENU_PLUGINMANAGER_SETUP                            500
+#define AG_MMENU_FILESTREAMS_TRANSFER                           500
+#define AG_MMENU_CONSOLE_XML                                    700
+#define AG_MMENU_OPTIONS_PROFILE                                700
+#define AG_MMENU_OPTIONS_OPTIONS                                700
+#define AG_MMENU_PLUGINMANAGER_SETUP                            700
 #define AG_MMENU_PLUGINMANAGER_ABOUT                            900
-#define AG_MMENU_MAINWINDOW                                     1000
+#define AG_MMENU_MAINWINDOW_QUIT                                1000
 // <<< eyeCU <<<
 //MainWindow  - MainMenuRight
 #define AG_MMENU_RI_MAP                                         450
@@ -62,15 +64,28 @@
 #define AG_MWTWTM_MWIDGETS_TAB_ACTIONS                          500
 
 //MultiuserChat - MultiUserContextMenu
-#define AG_MUCM_MULTIUSERCHAT_UTILS                             100
 #define AG_MUCM_MULTIUSERCHAT_PRIVATE                           200
 #define AG_MUCM_DISCOVERY_FEATURES                              400
-#define AG_MUCM_ROSTERCHANGER                                   500
+#define AG_MUCM_ROSTERCHANGER_ADD                               500
 #define AG_MUCM_CLIENTINFO                                      500
-#define AG_MUCM_STATUSICONS                                     500
-#define AG_MUCM_ARCHIVER                                        500
+#define AG_MUCM_STATUSICONS_CUSTOM                              500
+#define AG_MUCM_ARCHIVER_OPTIONS                                500
 #define AG_MUCM_DISCOVERY                                       500
-#define AG_MUCM_VCARD                                           900
+#define AG_MUCM_MULTIUSERCHAT_UTILS                             700
+#define AG_MUCM_VCARD_SHOW                                      900
+
+//MultiuserChat - ToolsMenu
+#define AG_MUTM_BOOKMARKS_AUTOJOIN                              400
+#define AG_MUTM_MULTIUSERCHAT_NOTIFYSILENCE                     400
+#define AG_MUTM_MULTIUSERCHAT_CHANGENICK                        600
+#define AG_MUTM_MULTIUSERCHAT_CHANGETOPIC                       600
+#define AG_MUTM_MULTIUSERCHAT_CHANGEPASSWORD                    600
+#define AG_MUTM_MULTIUSERCHAT_REQUESTVOICE                      600
+#define AG_MUTM_MULTIUSERCHAT_AFFILIATIONS                      800
+#define AG_MUTM_MULTIUSERCHAT_CONFIGROOM                        800
+#define AG_MUTM_MULTIUSERCHAT_DESTROYROOM                       800
+#define AG_MUTM_MULTIUSERCHAT_ENTERROOM                         1000
+#define AG_MUTM_MULTIUSERCHAT_EXITROOM                          1000
 
 //RostersView - ContextMenu
 #define AG_RVCM_ROSTERSVIEW_STREAMS                             100
@@ -105,13 +120,13 @@
 #define AG_RVCM_RCHANGER                                        700
 #define AG_RVCM_MULTIUSERCHAT_TOOLS                             700
 #define AG_RVCM_RECENT_OPTIONS                                  700
-#define AG_RVCM_METACONTACTS                                    700
+#define AG_RVCM_METACONTACTS_EDIT                               700
 #define AG_RVCM_GATEWAYS_LOGIN                                  800
 #define AG_RVCM_GATEWAYS_RESOLVE                                800
 // *** <<< eyeCU <<< ***
 #define AG_RVCM_GATEWAYS_REMOVE                                 800
 // *** >>> eyeCU >>> ***
-#define AG_RVCM_VCARD                                           900
+#define AG_RVCM_VCARD_SHOW                                      900
 #define AG_RVCM_MULTIUSERCHAT_EXIT                              1000
 
 //RostersView - ClipboardMenu
