@@ -79,10 +79,10 @@ Jid::Jid(const QString &AJidStr)
 	registerJidStreamOperators();
 }
 
-Jid::Jid(const QString &ANode, const QString &ADomane, const QString &AResource)
+Jid::Jid(const QString &ANode, const QString &ADomain, const QString &AResource)
 {
 	d = NULL;
-	parseFromString(ANode+CharDog+ADomane+CharSlash+AResource);
+	parseFromString(ANode+CharDog+ADomain+CharSlash+AResource);
 	registerJidStreamOperators();
 }
 
@@ -99,6 +99,11 @@ bool Jid::isValid() const
 bool Jid::isEmpty() const
 {
 	return d->FNode.isEmpty() && d->FDomain.isEmpty() && d->FResource.isEmpty();
+}
+
+bool Jid::hasNode() const
+{
+	return !d->FNode.isEmpty();
 }
 
 QString Jid::node() const
@@ -134,6 +139,11 @@ QString Jid::pDomain() const
 void Jid::setDomain(const QString &ADomain)
 {
 	parseFromString(node()+CharDog+ADomain+CharSlash+resource());
+}
+
+bool Jid::hasResource() const
+{
+	return !d->FResource.isEmpty();
 }
 
 QString Jid::resource() const
@@ -192,6 +202,11 @@ QString Jid::uFull() const
 		ufull += d->FResource.toString();
 	}
 	return ufull;
+}
+
+bool Jid::isBareEqual(const Jid &AJid) const
+{
+	return (d->FPrepBare == AJid.d->FPrepBare);
 }
 
 Jid &Jid::operator=(const QString &AJidStr)
