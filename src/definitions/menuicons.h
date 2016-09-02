@@ -128,7 +128,7 @@
 //MultiUserChat
 #define MNI_MUC_CONFERENCE              "mucConference"
 // <<< *** eyeCU *** <<<
-#define MNI_MUC_CONFERENCE1             "mucConference1"
+#define MNI_MUC_USERSLIST               "mucUsersList"
 // >>> *** eyeCU *** >>>
 #define MNI_MUC_JOIN                    "mucJoin"
 #define MNI_MUC_SHOW_ALL_ROOMS          "mucShowAllRooms"

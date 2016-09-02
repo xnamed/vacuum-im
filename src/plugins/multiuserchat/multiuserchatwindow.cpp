@@ -952,10 +952,12 @@ void MultiUserChatWindow::createMessageWidgets()
 		ui.wdtInfo->layout()->setMargin(0);
 		FInfoWidget = FMessageWidgets->newInfoWidget(this,ui.wdtInfo);
 		ui.wdtInfo->layout()->addWidget(FInfoWidget->instance());
+
 		ui.wdtView->setLayout(new QVBoxLayout);
 		ui.wdtView->layout()->setMargin(0);
 		FViewWidget = FMessageWidgets->newViewWidget(this,ui.wdtView);
 		ui.wdtView->layout()->addWidget(FViewWidget->instance());
+
 		connect(FViewWidget->instance(),SIGNAL(contentAppended(const QString &, const IMessageStyleContentOptions &)),
 			SLOT(onMultiChatContentAppended(const QString &, const IMessageStyleContentOptions &)));
 		connect(FViewWidget->instance(),SIGNAL(messageStyleOptionsChanged(const IMessageStyleOptions &, bool)),
@@ -1069,7 +1071,7 @@ void MultiUserChatWindow::createStaticRoomActions()
 	FViewUsersList->setToolTip(tr("Users List"));
 	FViewUsersList->setCheckable(true);
 	FViewUsersList->setChecked(false);
-	FViewUsersList->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_CONFERENCE1);//!------------
+	FViewUsersList->setIcon(RSR_STORAGE_MENUICONS,MNI_MUC_USERSLIST);
 	connect(FViewUsersList,SIGNAL(triggered(bool)),SLOT(onUsersListActionTriggered(bool)));
 	QToolButton *usListButton = FToolBarWidget->toolBarChanger()->insertAction(FViewUsersList, TBG_MCWTBW_USERSLIST);
     usListButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -2686,15 +2688,15 @@ void MultiUserChatWindow::onUsersListActionTriggered(bool AStatus)
 
 void MultiUserChatWindow::onInfoActionTriggered(bool)
 {
-	//QMessageBox::information(0,"Information", FInfoRoom);
 	QMessageBox msgBox;
 	msgBox.setIcon(QMessageBox::Information);
 	msgBox.setWindowTitle("Information");
 	msgBox.setTextFormat(Qt::RichText);
 	msgBox.setInformativeText(FInfoRoom);
+	msgBox.setStandardButtons(QMessageBox::Ok);
+
 	msgBox.exec();
 	msgBox.deleteLater();
-
 }
 #endif    // *** >>> eyeCU >>> ***
 
