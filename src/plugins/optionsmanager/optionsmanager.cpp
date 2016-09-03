@@ -127,7 +127,7 @@ bool OptionsManager::initObjects()
         button->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 #else
         FShowOptionsDialogAction->setEnabled(false);
-		FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FShowOptionsDialogAction,AG_MMENU_OPTIONS,true);
+        FMainWindowPlugin->mainWindow()->mainMenu()->addAction(FShowOptionsDialogAction,AG_MMENU_OPTIONS_OPTIONS,true);
 #endif
 	}
 
