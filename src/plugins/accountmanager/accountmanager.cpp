@@ -131,7 +131,6 @@ QMultiMap<int, IOptionsDialogWidget *> AccountManager::optionsDialogWidgets(cons
 				flags|=AccountsOptionsWidget::NoWizrd;
 			AccountsOptionsWidget *widget = new AccountsOptionsWidget(this, flags, AParent);
 			widgets.insertMulti(OWO_ACCOUNTS_ACCOUNTS, widget);
-
 			connect(widget, SIGNAL(addAccountLinkActivated(const QString &)), SLOT(onAddAccountLinkActivated(const QString &)));
 			connect(this, SIGNAL(showAccountSettings(QUuid)), widget, SLOT(onSettingsButtonClicked(QUuid)));
 // *** >>> eyeCU >>> ***
@@ -143,6 +142,7 @@ QMultiMap<int, IOptionsDialogWidget *> AccountManager::optionsDialogWidgets(cons
 		else if (nodeTree.count()==3 && nodeTree.at(0)==OPN_ACCOUNTS && nodeTree.at(2)=="Parameters")
 		{
 			OptionsNode options = Options::node(OPV_ACCOUNT_ITEM,nodeTree.at(1));
+
 			widgets.insertMulti(OHO_ACCOUNTS_PARAMS_ACCOUNT,FOptionsManager->newOptionsDialogHeader(tr("Account"),AParent));
 			widgets.insertMulti(OWO_ACCOUNTS_PARAMS_NAME,FOptionsManager->newOptionsDialogWidget(options.node("name"),tr("Name:"),AParent));
 // *** <<< eyeCU <<< ***
@@ -191,7 +191,7 @@ IAccount *AccountManager::findAccountByStream(const Jid &AStreamJid) const
 
 IAccount *AccountManager::createAccount(const Jid &AAccountJid, const QString &AName)
 {
-	if (AAccountJid.isValid() && !AAccountJid.node().isEmpty() && findAccountByStream(AAccountJid)==NULL)
+    if (AAccountJid.isValid() && AAccountJid.hasNode() && findAccountByStream(AAccountJid)==NULL)
 	{
 		QUuid accountId = QUuid::createUuid();
 		LOG_DEBUG(QString("Creating account, stream=%1, id=%2").arg(AAccountJid.pFull(), accountId.toString()));
@@ -203,7 +203,7 @@ IAccount *AccountManager::createAccount(const Jid &AAccountJid, const QString &A
 
 		return insertAccount(options);
 	}
-	else if (!AAccountJid.isValid() || AAccountJid.node().isEmpty())
+    else if (!AAccountJid.isValid() || !AAccountJid.hasNode())
 	{
 		REPORT_ERROR("Failed to create account: Invalid parameters");
 	}
@@ -235,7 +235,7 @@ void AccountManager::destroyAccount(const QUuid &AAccountId)
 IAccount *AccountManager::insertAccount(const OptionsNode &AOptions)
 {
 	Jid streamJid = AOptions.value("streamJid").toString();
-	if (streamJid.isValid() && !streamJid.node().isEmpty() && findAccountByStream(streamJid)==NULL)
+    if (streamJid.isValid() && streamJid.hasNode() && findAccountByStream(streamJid)==NULL)
 	{
 		Account *account = new Account(FXmppStreamManager,AOptions,this);
 		connect(account,SIGNAL(activeChanged(bool)),SLOT(onAccountActiveChanged(bool)));
@@ -248,7 +248,7 @@ IAccount *AccountManager::insertAccount(const OptionsNode &AOptions)
 
 		return account;
 	}
-	else if (!streamJid.isValid() || streamJid.node().isEmpty())
+    else if (!streamJid.isValid() || !streamJid.hasNode())
 	{
 		REPORT_ERROR("Failed to insert account: Invalid parameters");
 	}
@@ -472,7 +472,7 @@ void AccountManager::onRostersViewIndexContextMenu(const QList<IRosterIndex *> &
 			action->setText(tr("Modify account"));
 			action->setData(ADR_ACCOUNT_ID,account->accountId().toString());
 			connect(action,SIGNAL(triggered(bool)),SLOT(onShowAccountOptions(bool)));
-			AMenu->addAction(action,AG_RVCM_ACCOUNTMANAGER,true);
+            AMenu->addAction(action,AG_RVCM_ACCOUNTMANAGER_EDIT,true);
 		}
 	}
 }

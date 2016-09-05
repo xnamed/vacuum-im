@@ -1471,7 +1471,7 @@ void MultiUserChatManager::onRostersViewClipboardMenu(const QList<IRosterIndex *
 					subjectAction->setText(TextManager::getElidedString(subject,Qt::ElideRight,50));
 					subjectAction->setData(ADR_CLIPBOARD_DATA,subject);
 					connect(subjectAction,SIGNAL(triggered(bool)),SLOT(onCopyToClipboardActionTriggered(bool)));
-					AMenu->addAction(subjectAction, AG_RVCBM_MUC_SUBJECT, true);
+                    AMenu->addAction(subjectAction, AG_RVCBM_MULTIUSERCHAT_SUBJECT, true);
 				}
 			}
 		}

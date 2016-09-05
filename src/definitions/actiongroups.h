@@ -7,8 +7,8 @@
 
 //MainWindow  - MainMenu
 #define AG_MMENU_MULTIUSERCHAT_JOIN                             500
-#define AG_MMENU_ACCOUNTMANAGER                                 500
-#define AG_MMENU_SKINMANAGER                                    500
+#define AG_MMENU_ACCOUNTMANAGER                                 500 //deletelater
+#define AG_MMENU_SKINMANAGER                                    500 //deletelater
 #define AG_MMENU_FILESTREAMS_TRANSFER                           500
 #define AG_MMENU_CONSOLE_XML                                    700
 #define AG_MMENU_OPTIONS_PROFILE                                700
@@ -67,10 +67,10 @@
 #define AG_MUCM_MULTIUSERCHAT_PRIVATE                           200
 #define AG_MUCM_DISCOVERY_FEATURES                              400
 #define AG_MUCM_ROSTERCHANGER_ADD                               500
-#define AG_MUCM_CLIENTINFO                                      500
+#define AG_MUCM_CLIENTINFO                                      500 //not used
 #define AG_MUCM_STATUSICONS_CUSTOM                              500
 #define AG_MUCM_ARCHIVER_OPTIONS                                500
-#define AG_MUCM_DISCOVERY                                       500
+#define AG_MUCM_DISCOVERY                                       500 //not used
 #define AG_MUCM_MULTIUSERCHAT_UTILS                             700
 #define AG_MUCM_VCARD_SHOW                                      900
 
@@ -89,21 +89,30 @@
 
 //RostersView - ContextMenu
 #define AG_RVCM_ROSTERSVIEW_STREAMS                             100
-#define AG_RVCM_CHATMESSAGEHANDLER                              200
-#define AG_RVCM_NORMALMESSAGEHANDLER                            200
+#define AG_RVCM_CHATMHANDLER_OPEN                               200
+#define AG_RVCM_NORMALMHANDLER_OPEN                             200
 #define AG_RVCM_MULTIUSERCHAT_OPEN                              200
-#define AG_RVCM_STATUSCHANGER                                   300
+#define AG_RVCM_STATUSCHANGER                                   300 //deletelater
+#define AG_RVCM_STATUSCHANGER_STATUS                            300
 #define AG_RVCM_RCHANGER_ADD_CONTACT                            300
 #define AG_RVCM_GATEWAYS_ADD_LEGACY_USER                        300
-#define AG_RVCM_BOOKMARS_MENU                                   350
-#define AG_RVCM_CLIENTINFO                                      400
+#define AG_RVCM_MULTIUSERCHAT_JOIN                              300
+#define AG_RVCM_BOOKMARS_MENU                                   350 //deletelater
+#define AG_RVCM_BOOKMARS_LIST                                   350
+#define AG_RVCM_BOOKMARS_EDIT                                   350
+#define AG_RVCM_CLIENTINFO_SHOW                                 400
+#define AG_RVCM_MULTIUSERCHAT_INVITE                            400
 #define AG_RVCM_DISCOVERY_FEATURES                              400
-#define AG_RVCM_MULTIUSERCHAT_JOIN                              500
-#define AG_RVCM_AVATARS                                         500
-#define AG_RVCM_ANNOTATIONS                                     500
-#define AG_RVCM_ARCHIVER                                        500
-#define AG_RVCM_DISCOVERY                                       500
+#define AG_RVCM_AVATARS                                         500 //deletelater
+#define AG_RVCM_AVATARS_CHANGE                                  500
+#define AG_RVCM_AVATARS_CUSTOM                                  500
+#define AG_RVCM_ANNOTATIONS_SHOW                                500
+#define AG_RVCM_ARCHIVER_OPTIONS                                500
+#define AG_RVCM_DISCOVERY_ITEMS                                 500
 #define AG_RVCM_ROSTERSVIEW_CLIPBOARD                           500
+#define AG_RVCM_PRIVACYLISTS_OPTIONS                            500
+#define AG_RVCM_STATUSICONS_CUSTOM                              500
+
 // <<< eyeCU <<<
 #define AG_RVCM_ACTIVITY                                        550
 #define AG_RVCM_MOODS                                           550
@@ -116,9 +125,10 @@
 #define AG_RVCM_RECENT_FAVORITES                                600
 #define AG_RVCM_BOOKMARS_TOOLS                                  600
 #define AG_RVCM_MULTIUSERCHAT_COMMON                            650
-#define AG_RVCM_ACCOUNTMANAGER                                  700
-#define AG_RVCM_RCHANGER                                        700
-#define AG_RVCM_MULTIUSERCHAT_TOOLS                             700
+#define AG_RVCM_ACCOUNTMANAGER_EDIT                             700
+#define AG_RVCM_RCHANGER                                        700 //verry very many...
+#define AG_RVCM_RCHANGER_EDIT                                   700
+#define AG_RVCM_MULTIUSERCHAT_TOOLS                             700 //verry very many...
 #define AG_RVCM_RECENT_OPTIONS                                  700
 #define AG_RVCM_METACONTACTS_EDIT                               700
 #define AG_RVCM_GATEWAYS_LOGIN                                  800
@@ -138,6 +148,7 @@
 // *** >>> eyeCU >>> ***
 #define AG_RVCBM_ANNOTATION                                     400
 #define AG_RVCBM_MUC_SUBJECT                                    500
+#define AG_RVCBM_MULTIUSERCHAT_SUBJECT                          500
 #define AG_RVCBM_VCARD_COMMON                                   600
 #define AG_RVCBM_VCARD_EMAIL                                    610
 #define AG_RVCBM_VCARD_PHONE                                    620
@@ -156,7 +167,7 @@
 #define AG_TMTM_OPTIONS                                         500
 #define AG_TMTM_DISCOVERY                                       500
 #define AG_TMTM_FILESTREAMSMANAGER                              500
-#define AG_TMTM_TRAYMANAGER                                     1000
+#define AG_TMTM_TRAYMANAGER_QUIT                                1000
 
 // <<< eyeCU <<<
 // Maps - menu

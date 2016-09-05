@@ -6,28 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
-    <height>71</height>
+    <width>412</width>
+    <height>59</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
+   <property name="margin">
     <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>6</number>
-   </property>
-   <property name="rightMargin">
-    <number>6</number>
-   </property>
-   <property name="bottomMargin">
-    <number>6</number>
    </property>
    <item>
     <widget class="QFrame" name="wdtAccounts"/>
@@ -51,9 +36,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="lblAddAccount">
+      <widget class="QLabel" name="lblHideShowInactive">
        <property name="text">
-        <string notr="true">Add Account...</string>
+        <string notr="true">Hide/Show inactive accounts</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
@@ -74,9 +59,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="lblHideShowInactive">
+      <widget class="QLabel" name="lblAddAccount">
        <property name="text">
-        <string notr="true">Hide/Show inactive accounts</string>
+        <string notr="true">Add Account...</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>

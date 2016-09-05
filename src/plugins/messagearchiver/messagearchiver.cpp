@@ -2678,7 +2678,7 @@ void MessageArchiver::onRostersViewIndexContextMenu(const QList<IRosterIndex *> 
 			menu = createContextMenu(rolesMap.value(RDR_STREAM_JID),rolesMap.value(RDR_PREP_BARE_JID),AMenu);
 
 		if (!menu->isEmpty())
-			AMenu->addAction(menu->menuAction(),AG_RVCM_ARCHIVER,true);
+            AMenu->addAction(menu->menuAction(),AG_RVCM_ARCHIVER_OPTIONS,true);
 		else
 			delete menu;
 	}
