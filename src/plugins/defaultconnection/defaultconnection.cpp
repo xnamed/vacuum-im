@@ -1,5 +1,8 @@
 #include "defaultconnection.h"
 
+#if QT_VERSION >= 0x040800
+#include <QSslKey>
+#endif
 #include <QNetworkProxy>
 #include <QAuthenticator>
 #include <definitions/internalerrors.h>
