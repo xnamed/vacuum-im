@@ -16,6 +16,7 @@ class AdiumMessageStyleEngine :
 {
 	Q_OBJECT;
 	Q_INTERFACES(IPlugin IMessageStyleEngine);
+	Q_PLUGIN_METADATA(IID "org.vacuum-im.plugins.AdiumMessageStyle");
 public:
 	AdiumMessageStyleEngine();
 	~AdiumMessageStyleEngine();

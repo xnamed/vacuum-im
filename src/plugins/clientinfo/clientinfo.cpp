@@ -232,11 +232,11 @@ bool ClientInfo::stanzaReadWrite(int AHandlerId, const Jid &AStreamJid, Stanza &
 		if (FPluginManager->revisionDate().isValid())
 		{
 			QString rev = FPluginManager->revisionDate().date().toString("yyyyMMdd");
-			elem.appendChild(result.createElement("version")).appendChild(result.createTextNode(QString("%1.%2 %3").arg(FPluginManager->version(),rev,CLIENT_VERSION_SUFIX)));
+			elem.appendChild(result.createElement("version")).appendChild(result.createTextNode(QString("%1.%2 %3").arg(FPluginManager->version(),rev,CLIENT_VERSION_SUFFIX)));
 		}
 		else
 		{
-			elem.appendChild(result.createElement("version")).appendChild(result.createTextNode(QString("%1 %2").arg(FPluginManager->version(),CLIENT_VERSION_SUFIX)));
+			elem.appendChild(result.createElement("version")).appendChild(result.createTextNode(QString("%1 %2").arg(FPluginManager->version(),CLIENT_VERSION_SUFFIX)));
 		}
 		if (Options::node(OPV_COMMON_SHAREOSVERSION).value().toBool())
 			elem.appendChild(result.createElement("os")).appendChild(result.createTextNode(osVersion()));
@@ -786,5 +786,3 @@ void ClientInfo::onOptionsChanged(const OptionsNode &ANode)
 		FDiscovery->updateSelfEntityCapabilities();
 	}
 }
-
-Q_EXPORT_PLUGIN2(plg_clientinfo, ClientInfo)

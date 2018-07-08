@@ -296,5 +296,3 @@ void AdiumMessageStyleEngine::onClearEmptyStyles()
 		}
 	}
 }
-
-Q_EXPORT_PLUGIN2(plg_adiummessagestyle, AdiumMessageStyleEngine)

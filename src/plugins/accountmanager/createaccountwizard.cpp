@@ -125,7 +125,7 @@ CreateAccountWizard::CreateAccountWizard(QWidget *AParent) : QWizard(AParent)
 	setWindowModality(Qt::WindowModal);
 	setAttribute(Qt::WA_DeleteOnClose,true);
 	setWindowTitle(tr("Create Account Wizard"));
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MACOS
 	setWizardStyle(QWizard::ModernStyle);
 #endif
 
@@ -466,7 +466,7 @@ bool AppendSettingsPage::validatePage()
 	IAccountManager *accountManager = PluginHelper::pluginInstance<IAccountManager>();
 	if (accountManager!=NULL && accountManager->findAccountByStream(streamJid())!=NULL)
 	{
-		QMessageBox::warning(this,tr("Duplicate Account"),tr("Account with Jabber ID <b>%1</b> already exists.").arg(Qt::escape(streamJid().uBare())));
+		QMessageBox::warning(this,tr("Duplicate Account"),tr("Account with Jabber ID <b>%1</b> already exists.").arg(streamJid().uBare().toHtmlEscaped()));
 		return false;
 	}
 	

@@ -1,13 +1,16 @@
 #################
 ## Vacuum-IM
 #################
+*.dll
+*.exe
 /VacuumIM/
 /plugins/*
 /src/libs/*
 gitinfo.h
 vacuum
-txprepare
+vacuum.vc.*
 autotranslate
+txprepare
 
 
 #################
@@ -25,6 +28,7 @@ moc_*.cpp
 Makefile
 Makefile.Debug
 Makefile.Release
+.qmake.stash
 
 
 #################
@@ -91,6 +95,9 @@ build/
 *.pidb
 *.log
 *.scc
+*.embed.manifest
+*_manifest.rc
+*_manifest.res
 
 # Visual C++ cache files
 ipch/
@@ -180,6 +187,7 @@ UpgradeLog*.htm
 App_Data/*.mdf
 App_Data/*.ldf
 
+
 #############
 ## Windows detritus
 #############
@@ -198,3 +206,8 @@ $RECYCLE.BIN/
 .DS_Store
 !/src/packages/macosx/DS_Store
 *.xcodeproj
+
+# Microsoft Visual Code and Studio 2017
+.vscode
+.vs
+CMakeSettings.json

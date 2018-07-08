@@ -42,18 +42,18 @@
 
 
 static const int StandardLocationsCount = 11;
-static const struct { QDesktopServices::StandardLocation location; QString key; } StandardLocations[StandardLocationsCount] = {
-	{ QDesktopServices::DesktopLocation,        "%DesktopLocation%"      },
-	{ QDesktopServices::DocumentsLocation,      "%DocumentsLocation%"    },
-	{ QDesktopServices::FontsLocation,          "%FontsLocation%"        },
-	{ QDesktopServices::ApplicationsLocation,   "%ApplicationsLocation%" },
-	{ QDesktopServices::MusicLocation,          "%MusicLocation%"        },
-	{ QDesktopServices::MoviesLocation,         "%MoviesLocation%"       },
-	{ QDesktopServices::PicturesLocation,       "%PicturesLocation%"     },
-	{ QDesktopServices::TempLocation,           "%TempLocation%"         },
-	{ QDesktopServices::HomeLocation,           "%HomeLocation%"         },
-	{ QDesktopServices::DataLocation,           "%DataLocation%"         },
-	{ QDesktopServices::CacheLocation,          "%CacheLocation%"        },
+static const struct { QStandardPaths::StandardLocation location; QString key; } StandardLocations[StandardLocationsCount] = {
+	{ QStandardPaths::DesktopLocation,        "%DesktopLocation%"      },
+	{ QStandardPaths::DocumentsLocation,      "%DocumentsLocation%"    },
+	{ QStandardPaths::FontsLocation,          "%FontsLocation%"        },
+	{ QStandardPaths::ApplicationsLocation,   "%ApplicationsLocation%" },
+	{ QStandardPaths::MusicLocation,          "%MusicLocation%"        },
+	{ QStandardPaths::MoviesLocation,         "%MoviesLocation%"       },
+	{ QStandardPaths::PicturesLocation,       "%PicturesLocation%"     },
+	{ QStandardPaths::TempLocation,           "%TempLocation%"         },
+	{ QStandardPaths::HomeLocation,           "%HomeLocation%"         },
+	{ QStandardPaths::DataLocation,           "%DataLocation%"         },
+	{ QStandardPaths::CacheLocation,          "%CacheLocation%"        },
 };
 
 
@@ -181,7 +181,7 @@ QMultiMap<int, IOptionsDialogWidget *> OptionsManager::optionsDialogWidgets(cons
 	if (ANodeId == OPN_COMMON)
 	{
 		widgets.insertMulti(OHO_COMMON_SETTINGS, newOptionsDialogHeader(tr("Common settings"),AParent));
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 		widgets.insertMulti(OWO_COMMON_AUTOSTART, newOptionsDialogWidget(Options::node(OPV_COMMON_AUTOSTART), tr("Auto run application on system startup"), AParent));
 #else
 		Q_UNUSED(AParent);
@@ -764,7 +764,7 @@ QMap<QString, QVariant> OptionsManager::loadOptionValues(const QString &AFilePat
 		// Replace standard storage locations variables
 		for(int i=0; i<StandardLocationsCount; i++)
 		{
-			data.replace(StandardLocations[i].key.toUtf8(), QDesktopServices::storageLocation(StandardLocations[i].location).toUtf8());
+			data.replace(StandardLocations[i].key.toUtf8(), QString(QStandardPaths::standardLocations(StandardLocations[i].location).at(0)).toUtf8());
 		}
 
 		QString xmlError;
@@ -825,7 +825,7 @@ void OptionsManager::onOptionsChanged(const OptionsNode &ANode)
 {
 	if (ANode.path() == OPV_COMMON_AUTOSTART)
 	{
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 		QSettings reg("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
 		if (ANode.value().toBool())
 			reg.setValue(CLIENT_NAME, QApplication::arguments().join(" "));
@@ -872,5 +872,3 @@ void OptionsManager::onApplicationAboutToQuit()
 {
 	closeProfile();
 }
-
-Q_EXPORT_PLUGIN2(plg_optionsmanager, OptionsManager)

@@ -1,7 +1,5 @@
 #include "adiummessagestyle.h"
 
-#include <QtDebug>
-
 #include <QUrl>
 #include <QDir>
 #include <QFile>
@@ -29,9 +27,9 @@
 
 #define CONSECUTIVE_TIMEOUT                 2*60
 
-#define SHARED_STYLE_PATH                   RESOURCES_DIR"/"RSR_STORAGE_ADIUMMESSAGESTYLES"/"FILE_STORAGE_SHARED_DIR
+#define SHARED_STYLE_PATH                   RESOURCES_DIR "/" RSR_STORAGE_ADIUMMESSAGESTYLES "/" FILE_STORAGE_SHARED_DIR
 #define STYLE_CONTENTS_PATH                 "Contents"
-#define STYLE_RESOURCES_PATH                STYLE_CONTENTS_PATH"/Resources"
+#define STYLE_RESOURCES_PATH                STYLE_CONTENTS_PATH "/Resources"
 
 #define APPEND_MESSAGE_WITH_SCROLL          "checkIfScrollToBottomIsNeeded(); appendMessage(\"%1\"); scrollToBottomIfNeeded();"
 #define APPEND_NEXT_MESSAGE_WITH_SCROLL     "checkIfScrollToBottomIsNeeded(); appendNextMessage(\"%1\"); scrollToBottomIfNeeded();"
@@ -64,14 +62,14 @@ AdiumMessageStyle::AdiumMessageStyle(const QString &AStylePath, QNetworkAccessMa
 	if (FSharedPath.isEmpty())
 	{
 		if (QDir::isRelativePath(SHARED_STYLE_PATH))
-			FSharedPath = qApp->applicationDirPath()+"/"SHARED_STYLE_PATH;
+			FSharedPath = qApp->applicationDirPath() + "/" SHARED_STYLE_PATH;
 		else
 			FSharedPath = SHARED_STYLE_PATH;
 	}
 
 	FInfo = styleInfo(AStylePath);
 	FVariants = styleVariants(AStylePath);
-	FResourcePath = AStylePath+"/"STYLE_RESOURCES_PATH;
+	FResourcePath = AStylePath + "/" STYLE_RESOURCES_PATH;
 	FNetworkAccessManager = ANetworkAccessManager;
 
 	FScrollTimer.setSingleShot(true);
@@ -127,16 +125,8 @@ QString AdiumMessageStyle::senderColorById(const QString &ASenderId) const
 QTextDocumentFragment AdiumMessageStyle::selection(QWidget *AWidget) const
 {
 	StyleViewer *view = qobject_cast<StyleViewer *>(AWidget);
-#if QT_VERSION >= 0x040800
 	if (view && view->hasSelection())
 		return QTextDocumentFragment::fromHtml(view->selectedHtml());
-#else
-	if (view && !view->page()->selectedText().isEmpty())
-	{
-		view->page()->triggerAction(QWebPage::Copy);
-		return QTextDocumentFragment::fromHtml(QApplication::clipboard()->mimeData()->html());
-	}
-#endif
 	return QTextDocumentFragment();
 }
 
@@ -280,7 +270,7 @@ QList<QString> AdiumMessageStyle::styleVariants(const QString &AStylePath)
 	QList<QString> files;
 	if (!AStylePath.isEmpty())
 	{
-		QDir dir(AStylePath+"/"STYLE_RESOURCES_PATH"/Variants");
+		QDir dir(AStylePath + "/" STYLE_RESOURCES_PATH "/Variants");
 		files = dir.entryList(QStringList("*.css"),QDir::Files,QDir::Name);
 		for (int i=0; i<files.count();i++)
 			files[i].chop(4);
@@ -295,7 +285,7 @@ QList<QString> AdiumMessageStyle::styleVariants(const QString &AStylePath)
 QMap<QString, QVariant> AdiumMessageStyle::styleInfo(const QString &AStylePath)
 {
 	QMap<QString, QVariant> info;
-	QFile file(AStylePath+"/"STYLE_CONTENTS_PATH"/Info.plist");
+	QFile file(AStylePath + "/" STYLE_CONTENTS_PATH "/Info.plist");
 	if (!AStylePath.isEmpty() && file.open(QFile::ReadOnly))
 	{
 		QString xmlError;
@@ -434,8 +424,8 @@ QString AdiumMessageStyle::makeStyleTemplate(const IMessageStyleOptions &AOption
 void AdiumMessageStyle::fillStyleKeywords(QString &AHtml, const IMessageStyleOptions &AOptions) const
 {
 	AHtml.replace("%chatName%",AOptions.extended.value(MSO_CHAT_NAME).toString());
-	AHtml.replace("%timeOpened%",Qt::escape(AOptions.extended.value(MSO_START_DATE_TIME).toDateTime().time().toString()));
-	AHtml.replace("%dateOpened%",Qt::escape(AOptions.extended.value(MSO_START_DATE_TIME).toDateTime().date().toString()));
+	AHtml.replace("%timeOpened%",AOptions.extended.value(MSO_START_DATE_TIME).toDateTime().time().toString().toHtmlEscaped());
+	AHtml.replace("%dateOpened%",AOptions.extended.value(MSO_START_DATE_TIME).toDateTime().date().toString().toHtmlEscaped());
 	AHtml.replace("%sourceName%",AOptions.extended.value(MSO_ACCOUNT_NAME).toString());
 	AHtml.replace("%destinationName%",AOptions.extended.value(MSO_CHAT_NAME).toString());
 	AHtml.replace("%destinationDisplayName%",AOptions.extended.value(MSO_CHAT_NAME).toString());
@@ -624,7 +614,7 @@ void AdiumMessageStyle::fillContentKeywords(QString &AHtml, const IMessageStyleC
 
 	//AHtml.replace("%messageDirection%", AOptions.isAlignLTR ? "ltr" : "rtl" );
 	AHtml.replace("%senderStatusIcon%",AOptions.senderIcon);
-	AHtml.replace("%shortTime%", Qt::escape(AOptions.time.toString(tr("hh:mm"))));
+	AHtml.replace("%shortTime%", AOptions.time.toString(tr("hh:mm")).toHtmlEscaped());
 	AHtml.replace("%service%",QString::null);
 
 	QString avatar = AOptions.senderAvatar;
@@ -634,10 +624,10 @@ void AdiumMessageStyle::fillContentKeywords(QString &AHtml, const IMessageStyleC
 		if (!isDirectionIn && !QFile::exists(FResourcePath+"/"+avatar))
 			avatar = "Incoming/buddy_icon.png";
 	}
-	AHtml.replace("%userIconPath%",avatar);
+	AHtml.replace("%userIconPath%",QUrl::fromLocalFile(avatar).toString());
 
 	QString timeFormat = !AOptions.timeFormat.isEmpty() ? AOptions.timeFormat : tr("hh:mm:ss");
-	QString time = Qt::escape(AOptions.time.toString(timeFormat));
+	QString time = AOptions.time.toString(timeFormat).toHtmlEscaped();
 	AHtml.replace("%time%", time);
 
 	QRegExp timeRegExp("%time\\{([^}]*)\\}%");

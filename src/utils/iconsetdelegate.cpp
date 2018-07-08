@@ -3,7 +3,6 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QApplication>
-#include <QWindowsVistaStyle>
 
 #define DEFAULT_ICON_ROW_COUNT 1
 
@@ -32,7 +31,7 @@ void IconsetDelegate::paint(QPainter *APainter, const QStyleOptionViewItem &AOpt
 
 	if (storage != NULL)
 	{
-		QStyleOptionViewItemV4 indexOption = indexStyleOption(AOption,AIndex);
+		QStyleOptionViewItem indexOption = indexStyleOption(AOption,AIndex);
 
 #if defined(Q_WS_WIN) && !defined(QT_NO_STYLE_WINDOWSVISTA)
 		QStyle *style = indexOption.widget ? indexOption.widget->style() : QApplication::style();
@@ -129,7 +128,7 @@ QSize IconsetDelegate::sizeHint(const QStyleOptionViewItem &AOption, const QMode
 		int space = 2;
 		QSize size(0,0);
 
-		QStyleOptionViewItemV4 indexOption = indexStyleOption(AOption,AIndex);
+		QStyleOptionViewItem indexOption = indexStyleOption(AOption,AIndex);
 
 		if (!AIndex.data(IDR_HIDE_STORAGE_NAME).toBool())
 		{
@@ -189,13 +188,13 @@ bool IconsetDelegate::editorEvent(QEvent *AEvent, QAbstractItemModel *AModel, co
 	return AModel->setData(AIndex, state, Qt::CheckStateRole);
 }
 
-void IconsetDelegate::drawBackground(QPainter *APainter, const QStyleOptionViewItemV4 &AIndexOption) const
+void IconsetDelegate::drawBackground(QPainter *APainter, const QStyleOptionViewItem &AIndexOption) const
 {
 	QStyle *style = AIndexOption.widget ? AIndexOption.widget->style() : QApplication::style();
 	style->proxy()->drawPrimitive(QStyle::PE_PanelItemViewItem,&AIndexOption,APainter,AIndexOption.widget);
 }
 
-void IconsetDelegate::drawFocusRect(QPainter *APainter, const QStyleOptionViewItemV4 &AIndexOption, const QRect &ARect) const
+void IconsetDelegate::drawFocusRect(QPainter *APainter, const QStyleOptionViewItem &AIndexOption, const QRect &ARect) const
 {
 	if ((AIndexOption.state & QStyle::State_HasFocus) > 0)
 	{
@@ -214,7 +213,7 @@ void IconsetDelegate::drawFocusRect(QPainter *APainter, const QStyleOptionViewIt
 	}
 }
 
-QRect IconsetDelegate::checkButtonRect(const QStyleOptionViewItemV4 &AIndexOption, const QRect &ABounding, const QVariant &AValue) const
+QRect IconsetDelegate::checkButtonRect(const QStyleOptionViewItem &AIndexOption, const QRect &ABounding, const QVariant &AValue) const
 {
 	if (AValue.isValid())
 	{
@@ -228,7 +227,7 @@ QRect IconsetDelegate::checkButtonRect(const QStyleOptionViewItemV4 &AIndexOptio
 	return QRect();
 }
 
-void IconsetDelegate::drawCheckButton(QPainter *APainter, const QStyleOptionViewItemV4 &AIndexOption, const QRect &ARect, Qt::CheckState AState) const
+void IconsetDelegate::drawCheckButton(QPainter *APainter, const QStyleOptionViewItem &AIndexOption, const QRect &ARect, Qt::CheckState AState) const
 {
 	if (ARect.isValid())
 	{
@@ -254,9 +253,9 @@ void IconsetDelegate::drawCheckButton(QPainter *APainter, const QStyleOptionView
 	}
 }
 
-QStyleOptionViewItemV4 IconsetDelegate::indexStyleOption(const QStyleOptionViewItem &AOption, const QModelIndex &AIndex) const
+QStyleOptionViewItem IconsetDelegate::indexStyleOption(const QStyleOptionViewItem &AOption, const QModelIndex &AIndex) const
 {
-	QStyleOptionViewItemV4 indexOption = AOption;
+	QStyleOptionViewItem indexOption = AOption;
 
 	indexOption.index = AIndex;
 
@@ -277,15 +276,15 @@ QStyleOptionViewItemV4 IconsetDelegate::indexStyleOption(const QStyleOptionViewI
 
 	value = AIndex.data(Qt::CheckStateRole);
 	if (value.isValid() && !value.isNull()) 
-		indexOption.features |= QStyleOptionViewItemV2::HasCheckIndicator;
+		indexOption.features |= QStyleOptionViewItem::HasCheckIndicator;
 
 	value = AIndex.data(Qt::DecorationRole);
 	if (value.isValid() && !value.isNull()) 
-		indexOption.features |= QStyleOptionViewItemV2::HasDecoration;
+		indexOption.features |= QStyleOptionViewItem::HasDecoration;
 
 	value = AIndex.data(Qt::DisplayRole);
 	if (value.isValid() && !value.isNull()) 
-		indexOption.features |= QStyleOptionViewItemV2::HasDisplay;
+		indexOption.features |= QStyleOptionViewItem::HasDisplay;
 
 	indexOption.backgroundBrush = qvariant_cast<QBrush>(AIndex.data(Qt::BackgroundRole));
 

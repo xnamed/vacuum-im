@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-contains(QT_CONFIG, webkit) {
+qtHaveModule(webkit): !CONFIG(no_webkit) {
   SUBDIRS += adiummessagestyle
 }
 
